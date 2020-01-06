@@ -1,3 +1,3 @@
 # SWM Distributor App
 
-Web App form SWM Distributor
+Web App for SWM Distributor

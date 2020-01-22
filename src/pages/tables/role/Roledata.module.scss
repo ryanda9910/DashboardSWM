@@ -1,0 +1,30 @@
+@import "../../../styles/app";
+
+// CUSTOM
+.rowWhite {
+  background-color: #fff;
+}
+
+.root {
+  font-size: 14px;
+  font-style: initial;
+  font-weight: $font-weight-normal;
+}
+
+// .mainTableWidget {
+//   :global {
+//     .table td {
+//       border: none;
+//     }
+//   }
+// }
+
+th,
+td {
+  font-family: "Assitant" sans-serif;
+  text-transform: lowercase;
+  border: 2 px solid black !important;
+}
+table {
+  overflow-x: scroll;
+}

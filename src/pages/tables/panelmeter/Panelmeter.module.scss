@@ -1,0 +1,33 @@
+@import "../../../styles/app";
+
+// CUSTOM
+.rowWhite {
+  background-color: #fff;
+}
+.rowTable {
+  overflow-x: scroll;
+}
+
+.root {
+  font-size: 14px;
+  // overflow-x: scroll;
+}
+td {
+  min-width: 135px;
+  // display:inline-block;
+}
+
+// .mainTableWidget {
+//   :global {
+//     .table td {
+//       border: none;
+//     }
+//   }
+// }
+
+th,
+td,
+table {
+  font-family: "Assistant", sans-serif !important ;
+  // text-transform: lowercase !important ;
+}

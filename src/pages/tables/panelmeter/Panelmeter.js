@@ -137,7 +137,7 @@ class Panelmeter extends React.Component {
             <Row className={s.rowTable}>
               <Col lg={12}>
                 <div>
-                  <Table className="table-hover table-responsive-lg">
+                  <Table className="table-hover table-responsive">
                     <thead>
                       <tr>
                         <th>Kode</th>
@@ -185,7 +185,7 @@ class Panelmeter extends React.Component {
                                 </Link>
                                 <a href="#" className="ml-1">
                                   <span className="text-danger">
-                                    <i class="fas fa-trash"></i>
+                                    <i className="fas fa-trash"></i>
                                     Hapus
                                   </span>
                                 </a>
@@ -193,7 +193,7 @@ class Panelmeter extends React.Component {
                               <td>
                                 <a href="#" className="ml-1">
                                   <span className="text-primary">
-                                    <i class="fas fa-globe pl-3"></i>
+                                    <i className="fas fa-globe pl-3"></i>
                                   </span>
                                 </a>
                               </td>

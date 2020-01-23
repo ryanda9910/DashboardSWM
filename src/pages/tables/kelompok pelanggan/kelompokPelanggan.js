@@ -1,24 +1,5 @@
 import React, { Component } from "react";
-import {
-  Row,
-  Col,
-  Table,
-  Progress,
-  UncontrolledButtonDropdown,
-  DropdownMenu,
-  DropdownToggle,
-  DropdownItem,
-  Badge,
-  Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Input,
-  Label,
-  Form,
-  FormGroup
-} from "reactstrap";
+import { Row, Col, Table, Badge } from "reactstrap";
 import {
   BrowserRouter as Router,
   Switch,

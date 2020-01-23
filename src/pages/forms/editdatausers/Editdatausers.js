@@ -25,7 +25,7 @@ class Editdatausers extends React.Component {
                   <input
                     className="form-control"
                     id="inputlg"
-                    placeholder="Search"
+                    placeholder="Masukkan Nama"
                     aria-label="Search"
                     type="text"
                     style={{ color: "#FFF" }}
@@ -40,7 +40,7 @@ class Editdatausers extends React.Component {
                   <input
                     className="form-control"
                     id="inputlg"
-                    placeholder="Search"
+                    placeholder="Masukkkan Email"
                     aria-label="Search"
                     type="text"
                     style={{ color: "#FFF" }}
@@ -55,7 +55,7 @@ class Editdatausers extends React.Component {
                   <input
                     className="form-control"
                     id="inputlg"
-                    placeholder="Search"
+                    placeholder="Masukkan Username"
                     aria-label="Search"
                     type="text"
                     style={{ color: "#FFF" }}
@@ -70,7 +70,7 @@ class Editdatausers extends React.Component {
                   <input
                     className="form-control"
                     id="inputlg"
-                    placeholder="Search"
+                    placeholder="Masukkan Password"
                     aria-label="Search"
                     type="text"
                     style={{ color: "#FFF" }}
@@ -85,7 +85,7 @@ class Editdatausers extends React.Component {
                   <input
                     className="form-control"
                     id="inputlg"
-                    placeholder="Search"
+                    placeholder="Masukkan Role"
                     aria-label="Search"
                     type="text"
                     style={{ color: "#FFF" }}
@@ -100,7 +100,7 @@ class Editdatausers extends React.Component {
                   <input
                     className="form-control"
                     id="inputlg"
-                    placeholder="Search"
+                    placeholder="Masukkan Status"
                     aria-label="Search"
                     type="text"
                     style={{ color: "#FFF" }}
@@ -109,13 +109,13 @@ class Editdatausers extends React.Component {
               </FormGroup>
               <FormGroup row>
                 <Label md={3} xs={12} for="note-input">
-                  Note
+                  Catatan
                 </Label>
                 <Col md={9} xs={12}>
                   <input
                     className="form-control"
                     id="inputlg"
-                    placeholder="Search"
+                    placeholder="Masukkan Data"
                     aria-label="Search"
                     type="text"
                     style={{ color: "#FFF" }}
@@ -130,7 +130,7 @@ class Editdatausers extends React.Component {
                   <input
                     className="form-control"
                     id="inputlg"
-                    placeholder="Search"
+                    placeholder="Masukkan Data"
                     aria-label="Search"
                     type="text"
                     style={{ color: "#FFF" }}

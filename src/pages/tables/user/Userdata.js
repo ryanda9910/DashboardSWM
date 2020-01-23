@@ -140,13 +140,13 @@ class Userdata extends React.Component {
                                 <Link to="/app/forms/editdatausers">
                                   <a href="#" className="mr-1">
                                     <span className="text-success">
-                                      <i class="far fa-edit"></i>
+                                      <i className="far fa-edit"></i>
                                       Ubah
                                     </span>
                                   </a>
                                   <a href="#" className="ml-1">
                                     <span className="text-danger">
-                                      <i class="fas fa-trash"></i>
+                                      <i className="fas fa-trash"></i>
                                       Hapus
                                     </span>
                                   </a>

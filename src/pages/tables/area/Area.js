@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Col, Table, Badge } from "reactstrap";
+import { Row, Col, Table } from "reactstrap";
 import s from "./Area.module.scss";
 import {
   BrowserRouter as Router,
@@ -146,7 +146,7 @@ class Area extends React.Component {
                                   to={"/app/forms/editdataarea/" + item._id}
                                 >
                                   <span className="text-success">
-                                    <i class="far fa-edit"></i>
+                                    <i className="far fa-edit"></i>
                                     Ubah
                                   </span>
                                 </Link>
@@ -155,7 +155,7 @@ class Area extends React.Component {
                                   className="ml-1"
                                 >
                                   <span className="text-danger">
-                                    <i class="fas fa-trash"></i>
+                                    <i className="fas fa-trash"></i>
                                     Hapus
                                   </span>
                                 </a>

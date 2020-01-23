@@ -12,7 +12,7 @@ class Editdatacostumerbilling extends React.Component {
       <div className={s.root}>
         <Row className="py-5 px-5">
           <h2 className="page-title">Costumer Billing</h2>
-          <Col lg={6}>
+          <Col lg={12} className="py-5 mx-5 my-5">
             <h5 className="py-5 fw-semi-bold mt-5">
               Informasi Profile Pelanggan
             </h5>
@@ -21,11 +21,11 @@ class Editdatacostumerbilling extends React.Component {
                 <Label lg={3} xs={12} for="nama-input">
                   Kode
                 </Label>
-                <Col md={9} xs={12}>
+                <Col lg={6} xs={12}>
                   <input
                     className="form-control"
                     id="inputlg"
-                    placeholder="Search"
+                    placeholder="Masukkan Kode"
                     aria-label="Search"
                     type="text"
                     style={{ color: "#FFF" }}
@@ -36,11 +36,11 @@ class Editdatacostumerbilling extends React.Component {
                 <Label md={3} xs={12} for="email-input">
                   Nama Pelanggan
                 </Label>
-                <Col md={9} xs={12}>
+                <Col lg={6} xs={12}>
                   <input
                     className="form-control"
                     id="inputlg"
-                    placeholder="Search"
+                    placeholder="Masukkan Nama Pelanggan"
                     aria-label="Search"
                     type="text"
                     style={{ color: "#FFF" }}
@@ -51,11 +51,11 @@ class Editdatacostumerbilling extends React.Component {
                 <Label md={3} xs={12} for="username-input">
                   Batas Melakukan Pembayaran
                 </Label>
-                <Col md={9} xs={12}>
+                <Col lg={6} xs={12}>
                   <input
                     className="form-control"
                     id="inputlg"
-                    placeholder="Search"
+                    placeholder="Masukkan Data"
                     aria-label="Search"
                     type="text"
                     style={{ color: "#FFF" }}
@@ -66,11 +66,11 @@ class Editdatacostumerbilling extends React.Component {
                 <Label md={3} xs={12} for="password-input">
                   Kategori
                 </Label>
-                <Col md={9} xs={12}>
+                <Col lg={6} xs={12}>
                   <input
                     className="form-control"
                     id="inputlg"
-                    placeholder="Search"
+                    placeholder="Masukkan Kategori"
                     aria-label="Search"
                     type="text"
                     style={{ color: "#FFF" }}
@@ -81,11 +81,11 @@ class Editdatacostumerbilling extends React.Component {
                 <Label md={3} xs={12} for="role-input">
                   Kelompok Pelanggan
                 </Label>
-                <Col md={9} xs={12}>
+                <Col lg={6} xs={12}>
                   <input
                     className="form-control"
                     id="inputlg"
-                    placeholder="Search"
+                    placeholder="Masukkan Kelompok Pelanggan"
                     aria-label="Search"
                     type="text"
                     style={{ color: "#FFF" }}
@@ -98,11 +98,11 @@ class Editdatacostumerbilling extends React.Component {
                   <Label md={3} xs={12} for="nama-input">
                     Pemabayaran bulan ke -
                   </Label>
-                  <Col md={9} xs={12}>
+                  <Col lg={6} xs={12}>
                     <input
                       className="form-control"
                       id="inputlg"
-                      placeholder="Search"
+                      placeholder="Masukkan Data "
                       aria-label="Search"
                       type="text"
                       style={{ color: "#FFF" }}
@@ -113,11 +113,11 @@ class Editdatacostumerbilling extends React.Component {
                   <Label md={3} xs={12} for="email-input">
                     Pemakaian
                   </Label>
-                  <Col md={9} xs={12}>
+                  <Col lg={6} xs={12}>
                     <input
                       className="form-control"
                       id="inputlg"
-                      placeholder="Search"
+                      placeholder="Masukkan Data "
                       aria-label="Search"
                       type="text"
                       style={{ color: "#FFF" }}
@@ -128,11 +128,11 @@ class Editdatacostumerbilling extends React.Component {
                   <Label md={3} xs={12} for="username-input">
                     Tarif Subsidi
                   </Label>
-                  <Col md={9} xs={12}>
+                  <Col lg={6} xs={12}>
                     <input
                       className="form-control"
                       id="inputlg"
-                      placeholder="Search"
+                      placeholder="Masukkan Data"
                       aria-label="Search"
                       type="text"
                       style={{ color: "#FFF" }}
@@ -143,11 +143,11 @@ class Editdatacostumerbilling extends React.Component {
                   <Label md={3} xs={12} for="password-input">
                     Tarif Progresive
                   </Label>
-                  <Col md={9} xs={12}>
+                  <Col lg={6} xs={12}>
                     <input
                       className="form-control"
                       id="inputlg"
-                      placeholder="Search"
+                      placeholder="Masukkan Jumlah"
                       aria-label="Search"
                       type="text"
                       style={{ color: "#FFF" }}
@@ -158,11 +158,11 @@ class Editdatacostumerbilling extends React.Component {
                   <Label md={3} xs={12} for="role-input">
                     Biaya Langganan
                   </Label>
-                  <Col md={9} xs={12}>
+                  <Col lg={6} xs={12}>
                     <input
                       className="form-control"
                       id="inputlg"
-                      placeholder="Search"
+                      placeholder="Masukkan Jumlah"
                       aria-label="Search"
                       type="text"
                       style={{ color: "#FFF" }}
@@ -173,11 +173,11 @@ class Editdatacostumerbilling extends React.Component {
                   <Label md={3} xs={12} for="status-input">
                     Jumlah Pembayaran
                   </Label>
-                  <Col md={9} xs={12}>
+                  <Col lg={6} xs={12}>
                     <input
                       className="form-control"
                       id="inputlg"
-                      placeholder="Search"
+                      placeholder="Masukkan Jumlah"
                       aria-label="Search"
                       type="text"
                       style={{ color: "#FFF" }}
@@ -186,13 +186,13 @@ class Editdatacostumerbilling extends React.Component {
                 </FormGroup>
                 <FormGroup row>
                   <Label md={3} xs={12} for="note-input">
-                    Note
+                    Catatan
                   </Label>
-                  <Col md={9} xs={12}>
+                  <Col lg={6} xs={12}>
                     <input
                       className="form-control"
                       id="inputlg"
-                      placeholder="Search"
+                      placeholder="Masukkan Data"
                       aria-label="Search"
                       type="text"
                       style={{ color: "#FFF" }}

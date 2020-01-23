@@ -4,12 +4,9 @@
 .rowWhite {
   background-color: #fff;
 }
-.rowTable {
-  overflow-x: scroll;
-  ::-webkit-scrollbar-track {
-    background-color: #474d84;
-  }
-}
+// .rowTable ::webkit-overflow-scrolling {
+//   color: royalblue;
+// }
 
 .root {
   font-size: 14px;
@@ -30,7 +27,7 @@ td {
 
 th,
 td,
-table {
+table ::webkit-overflow-scrolling {
   font-family: "Assistant", sans-serif !important ;
   // text-transform: lowercase !important ;
 }

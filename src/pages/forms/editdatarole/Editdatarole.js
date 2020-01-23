@@ -24,7 +24,7 @@ class Editdatarole extends React.Component {
                   <input
                     className="form-control"
                     id="inputlg"
-                    placeholder="Search"
+                    placeholder="Masukkan Kode"
                     aria-label="Search"
                     type="text"
                     style={{ color: "#FFF" }}
@@ -39,7 +39,7 @@ class Editdatarole extends React.Component {
                   <input
                     className="form-control"
                     id="inputlg"
-                    placeholder="Search"
+                    placeholder="Masukkan Nama"
                     aria-label="Search"
                     type="text"
                     style={{ color: "#FFF" }}
@@ -54,7 +54,7 @@ class Editdatarole extends React.Component {
                   <input
                     className="form-control"
                     id="inputlg"
-                    placeholder="Search"
+                    placeholder="Masukkan Data"
                     aria-label="Search"
                     type="text"
                     style={{ color: "#FFF" }}
@@ -94,7 +94,7 @@ class Editdatarole extends React.Component {
                   <input
                     className="form-control"
                     id="inputlg"
-                    placeholder="Search"
+                    placeholder="Masukkan Data"
                     aria-label="Search"
                     type="text"
                     style={{ color: "#FFF" }}

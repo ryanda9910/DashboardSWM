@@ -24,7 +24,7 @@ class EditdatakelompokPelanggan extends React.Component {
                   <input
                     className="form-control"
                     id="inputlg"
-                    placeholder="Search"
+                    placeholder="Masukkan Kode"
                     aria-label="Search"
                     type="text"
                     style={{ color: "#FFF" }}
@@ -39,7 +39,7 @@ class EditdatakelompokPelanggan extends React.Component {
                   <input
                     className="form-control"
                     id="inputlg"
-                    placeholder="Search"
+                    placeholder="Masukkan Nama"
                     aria-label="Search"
                     type="text"
                     style={{ color: "#FFF" }}
@@ -83,7 +83,7 @@ class EditdatakelompokPelanggan extends React.Component {
                   <input
                     class="form-control"
                     id="inputlg"
-                    placeholder="Search"
+                    placeholder="Masukkan Jumlah"
                     aria-label="Search"
                     type="text"
                     style={{ color: "#FFF" }}
@@ -98,7 +98,7 @@ class EditdatakelompokPelanggan extends React.Component {
                   <input
                     class="form-control"
                     id="inputlg"
-                    placeholder="Search"
+                    placeholder="Masukkan Data"
                     aria-label="Search"
                     type="text"
                     style={{ color: "#FFF" }}
@@ -113,7 +113,7 @@ class EditdatakelompokPelanggan extends React.Component {
                   <input
                     class="form-control"
                     id="inputlg"
-                    placeholder="Search"
+                    placeholder="Masukkan Data"
                     aria-label="Search"
                     type="text"
                     style={{ color: "#FFF" }}
@@ -128,7 +128,7 @@ class EditdatakelompokPelanggan extends React.Component {
                   <input
                     class="form-control"
                     id="inputlg"
-                    placeholder="Search"
+                    placeholder="Masukkan Deskripsi"
                     aria-label="Search"
                     type="text"
                     style={{ color: "#FFF" }}
@@ -143,7 +143,7 @@ class EditdatakelompokPelanggan extends React.Component {
                   <input
                     class="form-control"
                     id="inputlg"
-                    placeholder="Search"
+                    placeholder="Masukkan Data"
                     aria-label="Search"
                     type="text"
                     style={{ color: "#FFF" }}

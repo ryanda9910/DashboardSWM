@@ -57,7 +57,7 @@ class Area extends React.Component {
     console.log(confirm);
     if (confirm) {
       axios
-        .delete("http://swm-apis.herokuapp.com/api/area/" + id)
+        .delete("/api/area/" + id)
         .then(res => {
           console.log(res);
           alert(res.data.status);

@@ -5,6 +5,8 @@ import alerts from './alerts';
 import products from './products';
 import register from './register';
 import analytics from './analytics';
+// tables
+import reducerTarifPelanggan from './reducerTarifPelanggan';
 
 export default combineReducers({
   alerts,
@@ -13,4 +15,5 @@ export default combineReducers({
   products,
   register,
   analytics,
+  reducerTarifPelanggan,
 });

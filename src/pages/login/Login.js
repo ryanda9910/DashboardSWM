@@ -6,8 +6,9 @@ import { Container, Alert, Button, FormGroup, Label, InputGroup, InputGroupAddon
 import Widget from '../../components/Widget';
 import { loginUser, receiveToken } from '../../actions/user';
 import jwt from "jsonwebtoken";
-import microsoft from '../../images/microsoft.png';
-import config from "../../config";
+
+// import microsoft from '../../images/microsoft.png';
+// import config from "../../config";
 
 class Login extends React.Component {
     static propTypes = {
@@ -86,16 +87,6 @@ class Login extends React.Component {
             <div className="auth-page">
                 <Container>
                     <Widget className="widget-auth mx-auto" title={<h3 className="mt-0">Login to your Web App</h3>}>
-                        {/* <p className="widget-auth-info">
-                            Use your email to sign in.
-                        </p>
-                        <Alert className="alert-sm text-center mt-2 widget-middle-overflow rounded-0" color="secondary">
-                            This is a real app with Node.js backend - use
-                            <br/>
-                            <span className="font-weight-bold">"admin@flatlogic.com / password"</span>
-                            <br/>
-                            to login!
-                        </Alert> */}
                         <form onSubmit={this.doLogin}>
                             {
                                 this.props.errorMessage && (

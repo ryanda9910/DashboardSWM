@@ -135,14 +135,14 @@ class Pelanggan extends React.Component {
                                 <Link to="/app/forms/editdatapelanggan">
                                   <a href="#" className="mr-1">
                                     <span className="text-success">
-                                      <i class="far fa-edit"></i>
+                                      <i className="far fa-edit"></i>
                                       Ubah
                                     </span>
                                   </a>
                                 </Link>
                                 <a href="#" className="ml-1">
                                   <span className="text-danger">
-                                    <i class="fas fa-trash"></i>
+                                    <i className="fas fa-trash"></i>
                                     Hapus
                                   </span>
                                 </a>

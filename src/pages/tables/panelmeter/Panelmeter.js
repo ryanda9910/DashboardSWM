@@ -137,7 +137,7 @@ class Panelmeter extends React.Component {
             <Row className={s.rowTable}>
               <Col lg={12}>
                 <div>
-                  <Table className="table-hover table-responsive-lg">
+                  <Table className="table-hover table-responsive">
                     <thead>
                       <tr>
                         <th>Kode</th>

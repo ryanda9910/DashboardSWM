@@ -43,24 +43,24 @@ export function receiveLogout() {
 // Logs the user out
 export function logoutUser() {
     // 
-    const token = localStorage.getItem('token');
-    if(token){
+    return (dispatch) => {
       // POST LOGOUT
       axios.post('/api/superuser/logout').then(res => {
-        console.log(res);
-        return (dispatch) => {
-            dispatch(requestLogout());
-            localStorage.removeItem('token');
-            // localStorage.removeItem('user');
-            document.cookie = 'token=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-            axios.defaults.headers.common['Authorization'] = "";
-            dispatch(receiveLogout());
-        };
+        if(res.status === 200){
+          console.log(res);
+          dispatch(requestLogout());
+          localStorage.removeItem('token');
+          // localStorage.removeItem('user');
+          // modify session
+          document.cookie = 'token=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+          axios.defaults.headers.common['Authorization'] = "";
+          return dispatch(receiveLogout());
+        }
       }).catch(err => {
         console.log(err);
         console.log(err.response);
       })
-    }
+    };
 }
 
 export function receiveToken(token) {
@@ -101,10 +101,10 @@ export function loginUser(creds) {
               console.log(res);
               const token = res.data.data.token;
               console.log(token);
-              dispatch(receiveToken(token));
+              return dispatch(receiveToken(token));
             }).catch(err => {
               console.log(err.response)
-              // dispatch(loginError(err.response.data));
+              dispatch(loginError(err.response.data.message));
             })
 
           } else {

@@ -15,7 +15,6 @@
 // };
 
 // CUSTOM
-import jwt from 'jsonwebtoken';
 
 const hostApi = "http://swm-apis.herokuapp.com";
 // const portApi = 5000;
@@ -23,14 +22,17 @@ const portApi = "";
 const baseURLApi = `${hostApi}${portApi ? `:${portApi}` : ``}`;
 const baseURLApp = window.location.origin;
 const token = localStorage.getItem('token');
-const userName = jwt.decode(token).user_name;
+// const userName='';
+// if(token){
+//   userName = jwt.decode(token).user_name;
+// }
 const axiosConfig = {
   headers: {
-      'Content-Type': 'application/json;charset=UTF-8',
+      'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': '*',
-      'Authorization': token,
+      'Accept' : 'application/json',
+    }
   }
-}
 
 export default {
   hostApi,
@@ -45,7 +47,6 @@ export default {
 
   // CUSTOM
   baseURLApp,
+  token,
   axiosConfig,
-  userName,
-
 };

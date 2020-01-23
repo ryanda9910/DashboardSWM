@@ -11,19 +11,11 @@ import {
   DropdownItem,
   Input,
   Label,
-  Badge
+  Badge,
+  Alert,
 } from "reactstrap";
 import axios from "axios";
 import $ from "jquery";
-// import 'popper.js/dist/popper.min.js';
-// import 'bootstrap/js/dist/modal';
-
-import config from "../../../config";
-// MODAL CREATE
-
-// import CreateModal from './CreateModal';
-// import Widget from "../../../components/Widget";
-import s from "./TarifPelanggan.module.scss";
 import {
   BrowserRouter as Router,
   Switch,
@@ -32,62 +24,69 @@ import {
   useRouteMatch,
   useParams
 } from "react-router-dom";
+// import 'popper.js/dist/popper.min.js';
+// import 'bootstrap/js/dist/modal';
+
+// MODAL CREATE
+// import CreateModal from './CreateModal';
+// import Widget from "../../../components/Widget";
+import config from "../../../config";
+import Loader from '../../../components/Loader/Loader';
+import s from "./TarifPelanggan.module.scss";
+import cx from 'classnames';
 
 class TarifPelanggan extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       dataTarifPelanggan: [
-        {
-          code: "SOSA",
-          name: "Anggun Prayitno",
-          volfrom1: "10M",
-          price1: "Rp.2100,00",
-          price2: "Rp.2600,00",
-          volfrom2: "20M"
-        },
-        {
-          code: "SOSA",
-          name: "Anggun Prayitno",
-          volfrom1: "10M",
-          price1: "Rp.2100,00",
-          price2: "Rp.2600,00",
-          volfrom2: "20M"
-        },
-        {
-          code: "SOSA",
-          name: "Anggun Prayitno",
-          volfrom1: "10M",
-          price1: "Rp.2100,00",
-          price2: "Rp.2600,00",
-          volfrom2: "20M"
-        }
-      ]
+        // {
+        //   code: "SOSA",
+        //   name: "Anggun Prayitno",
+        //   volfrom1: "10M",
+        //   price1: "Rp.2100,00",
+        //   price2: "Rp.2600,00",
+        //   volfrom2: "20M"
+        // },
+        // {
+        //   code: "SOSA",
+        //   name: "Anggun Prayitno",
+        //   volfrom1: "10M",
+        //   price1: "Rp.2100,00",
+        //   price2: "Rp.2600,00",
+        //   volfrom2: "20M"
+        // },
+        // {
+        //   code: "SOSA",
+        //   name: "Anggun Prayitno",
+        //   volfrom1: "10M",
+        //   price1: "Rp.2100,00",
+        //   price2: "Rp.2600,00",
+        //   volfrom2: "20M"
+        // }
+      ],
+      isCreated: false,
+      showAlert: false,
     };
   }
-  //     this.state = {
-  //       dataTarifPelanggan: []
-  //     };
-  //   }
 
   componentDidMount() {
-    // get data
-    if (localStorage.getItem("token")) {
-      axios
-        .get(config.remote + "/api/tarif", {
-          headers: { Authorization: config.auth }
-        })
-        // axios.get('http://swm-apis.herokuapp.com/api/tarif')
-        .then(res => {
-          console.log(res);
-          this.setState({
-            dataTarifPelanggan: res.data.message.data
-          });
-        })
-        .catch(err => {
-          console.log(err);
+    // GET data
+    axios
+      .get('/api/tarif', config.axiosConfig)
+      // axios.get('http://swm-apis.herokuapp.com/api/tarif')
+      .then(res => {
+        console.log(res);
+        this.setState({
+          dataTarifPelanggan: res.data.message.data
         });
-    }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    // ALERT
+    return localStorage.getItem('isCreated') ? this.onShowAlert() : null
+    
   }
 
   // DELETE
@@ -107,10 +106,21 @@ class TarifPelanggan extends React.Component {
     }
   }
 
-  // UPDATE
-  // handleUpdate(id){
-  //   alert('ok: '+id);
-  // }
+
+  onShowAlert = ()=>{
+    this.setState({
+      showAlert:true,
+    },
+    ()=>{
+      window.setTimeout(()=>{
+        this.setState({
+          showAlert:false,
+        })
+      },2000)     
+    });
+    localStorage.removeItem('isCreated')
+  }
+
 
   render() {
     // search
@@ -129,6 +139,8 @@ class TarifPelanggan extends React.Component {
         });
       });
     });
+
+    
     return (
       <div className={s.root}>
         <Row className="pt-3">
@@ -141,6 +153,13 @@ class TarifPelanggan extends React.Component {
                     Tarif <span>Pelanggan</span>
                   </li>
                 </ol>
+                {/* alert */}
+                <Alert
+                  color="success"
+                  className={cx(s.promoAlert, {[s.showAlert]: this.state.showAlert})}
+                >
+                  {localStorage.getItem('isCreated') || 'Data has been created'}
+                </Alert>
               </Col>
             </Row>
             <Row className="align-items-center justify-content-between">
@@ -164,7 +183,7 @@ class TarifPelanggan extends React.Component {
                 {/* <CreateModal /> */}
                 <Link
                   to="/app/forms/createdatatarifpelanggan"
-                  className="btn bg-primary text-white"
+                  className="btn bg-warning text-white"
                 >
                   Tambah Data
                 </Link>
@@ -189,7 +208,7 @@ class TarifPelanggan extends React.Component {
                         <th>Aksi</th>
                       </tr>
                     </thead>
-                    <tbody id="myTable">
+                    <tbody id="myTable" className="position-relative">
                       {/* eslint-disable */}
                       {this.state.dataTarifPelanggan.length !== 0 ? (
                         this.state.dataTarifPelanggan.map(item => {
@@ -242,12 +261,10 @@ class TarifPelanggan extends React.Component {
                           );
                         })
                       ) : (
-                        <div className="w-100 text-center pt-3">
-                          <h2 className="rotating">Loading..</h2>
-                        </div>
+                        <Loader size={35} className="pt-5 position-absolute" />
                       )}
-                      {/* eslint-enable */}
                     </tbody>
+                      {/* eslint-enable */}
                   </Table>
                 </div>
               </Col>

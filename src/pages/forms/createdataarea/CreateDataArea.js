@@ -14,23 +14,27 @@ class CreateDataArea extends React.Component {
   state = {
     code: "",
     name: "",
-    createStatus: "",
+    createStatus: null,
     createError: null
   };
   // CREATE
   doCreateDataArea = e => {
     e.preventDefault();
-    let token = localStorage.getItem("token");
-    if (token) {
+    if (config.token) {
       const data = {
         code: this.state.code,
         name: this.state.name
       };
       axios
-        .post(config.remote + "/api/area", data)
+        .post("/api/area", data, config.axiosConfig)
         .then(res => {
-          console.log(res);
-          window.location = "http://localhost:3000/#/app/tables/area";
+          if(res.status === 200 || res.status === 201){
+            console.log(res);
+            alert(res.data.status);
+            this.setState({
+              createStatus: res.status
+            });
+          }
         })
         .catch(err => {
           console.log(err);

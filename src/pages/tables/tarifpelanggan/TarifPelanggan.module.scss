@@ -1,10 +1,18 @@
 @import "../../../styles/app";
 
 // CUSTOM
-// .rowWhite {
-//   background-color: #fff;
-// }
-// loading
+.promoAlert {
+  transition: 0.6s;
+  transition-timing-function: ease;
+  transform: translateX(-130vw);
+}
+
+.showAlert {
+  transform: translateX(0);
+}
+
+
+
 
 @-webkit-keyframes rotating /* Safari and Chrome */ {
   from {

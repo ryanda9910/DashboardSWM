@@ -16,7 +16,7 @@ class Login extends React.Component {
 
     static isAuthenticated(token) {
         // We check if app runs with backend mode
-        if (!config.isBackend && token) return true;
+        // if (!config.isBackend && token) return true;
         if (!token) return;
         const date = new Date().getTime() / 1000;
         const data = jwt.decode(token);
@@ -27,8 +27,8 @@ class Login extends React.Component {
         super(props);
 
         this.state = {
-            email: 'admin@flatlogic.com',
-            password: 'password',
+            email: '',
+            password: '',
         };
 
         this.doLogin = this.doLogin.bind(this);
@@ -86,7 +86,7 @@ class Login extends React.Component {
             <div className="auth-page">
                 <Container>
                     <Widget className="widget-auth mx-auto" title={<h3 className="mt-0">Login to your Web App</h3>}>
-                        <p className="widget-auth-info">
+                        {/* <p className="widget-auth-info">
                             Use your email to sign in.
                         </p>
                         <Alert className="alert-sm text-center mt-2 widget-middle-overflow rounded-0" color="secondary">
@@ -95,11 +95,11 @@ class Login extends React.Component {
                             <span className="font-weight-bold">"admin@flatlogic.com / password"</span>
                             <br/>
                             to login!
-                        </Alert>
+                        </Alert> */}
                         <form onSubmit={this.doLogin}>
                             {
                                 this.props.errorMessage && (
-                                    <Alert className="alert-sm widget-middle-overflow rounded-0" color="danger">
+                                    <Alert className="text-center alert-sm widget-middle-overflow rounded-0" color="danger">
                                         {this.props.errorMessage}
                                     </Alert>
                                 )
@@ -137,7 +137,7 @@ class Login extends React.Component {
                                   </span>
                                   {this.props.isFetching ? 'Loading...' : 'Login'}
                                 </Button>
-                                <p className="widget-auth-info mt-4">
+                                {/* <p className="widget-auth-info mt-4">
                                     Don't have an account? Sign up now!
                                 </p>
                                 <Link className="d-block text-center mb-4" to="register">Create an Account</Link>
@@ -151,7 +151,7 @@ class Login extends React.Component {
                                            style={{backgroundImage: `url(${microsoft})`}}/>
                                         <p className="social-text">MICROSOFT</p>
                                     </Button>
-                                </div>
+                                </div> */}
                             </div>
                         </form>
                     </Widget>

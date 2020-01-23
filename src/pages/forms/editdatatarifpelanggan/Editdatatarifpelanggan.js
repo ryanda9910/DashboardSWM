@@ -115,19 +115,12 @@ class Editdatatarifpelanggan extends React.Component {
 
     console.log(postData);
 
-    let axiosConfig = {
-      headers: {
-        "Content-Type": "application/json;charset=UTF-8",
-        "Access-Control-Allow-Origin": "*"
-      }
-    };
-
     const id = this.props.match.params.id;
     axios
       .put(
         "http://swm-apis.herokuapp.com/api/tarif/" + id,
         postData,
-        axiosConfig
+        config.axiosConfig
       )
       .then(res => {
         console.log(res);
@@ -156,7 +149,8 @@ class Editdatatarifpelanggan extends React.Component {
   };
 
   goBack = () => {
-    this.props.history.goBack();
+    this.props.history.goBack();   
+    // window.location = config.baseURLApp+'/';
   };
 
   render() {
@@ -171,7 +165,7 @@ class Editdatatarifpelanggan extends React.Component {
     // update error
     const updateError =
       this.state.updateError === null ? null : (
-        <div className="text-center w-100 py-2">
+        <div className="bg-danger text-center w-100 py-2">
           <small className="text-white">{this.state.updateError}</small>
         </div>
       );
@@ -186,7 +180,7 @@ class Editdatatarifpelanggan extends React.Component {
           </Col>
           <Col lg={7} className="pb-3">
             <a
-              onClick={this.handlePrevous}
+              onClick={this.goBack}
               className="btn btn-light text-dark"
               type="submit"
             >
@@ -393,7 +387,7 @@ class Editdatatarifpelanggan extends React.Component {
               </FormGroup>
 
               {/* show ERROR */}
-              <FormGroup row color="bg-danger">
+              <FormGroup row>
                 {updateError}
               </FormGroup>
 

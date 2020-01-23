@@ -59,7 +59,18 @@ import KelompokPelanggan from "../../pages/tables/kelompok pelanggan/kelompokPel
 import RoleData from "../../pages/tables/role/Roledata";
 import UserData from "../../pages/tables/user/Userdata";
 import CostumerBilling from "../../pages/tables/costumer/CostumerBilling";
-
+//EDIT TABLES DATA
+import EditDataKelompokPelanggan from "../../pages/forms/editdatakelompokpelanggan/EditdatakelompokPelanggan";
+import EditdataCostumerBilling from "../../pages/forms/editdatacostumerbilling/Editdatacostumerbilling";
+import EditDataTarifPelanggan from "../../pages/forms/editdatatarifpelanggan/Editdatatarifpelanggan";
+import EditDataUsers from "../../pages/forms/editdatausers/Editdatausers";
+import EditDataRole from "../../pages/forms/editdatarole/Editdatarole";
+import EditDataPelanggan from "../../pages/forms/editdatapelanggan/Editdatapelanggan";
+import EditDataPerangkat from "../../pages/forms/editdataperangkat/Editdataperangkat";
+import EditDataArea from "../../pages/forms/editdataarea/Editdataarea";
+//CREATE DATA TABLES
+import CreateDataTarifPelanggan from "../../pages/forms/createdatatarifpelanggan/CreateDataTarifPelanggan";
+import CreateDataArea from "../../pages/forms/createdataarea/CreateDataArea";
 import Header from "../Header";
 import Sidebar from "../Sidebar";
 import { openSidebar, closeSidebar } from "../../actions/navigation";
@@ -168,6 +179,59 @@ class Layout extends React.Component {
                       path="/app/tables/costumerbilling"
                       exact
                       component={CostumerBilling}
+                    />
+
+                    <Route
+                      path="/app/forms/editdatakelompokpelanggan"
+                      exact
+                      component={EditDataKelompokPelanggan}
+                    />
+                    <Route
+                      path="/app/forms/editdatacostumerbilling"
+                      exact
+                      component={EditdataCostumerBilling}
+                    />
+                    <Route
+                      path="/app/forms/editdatatarifpelanggan/:id"
+                      exact
+                      component={EditDataTarifPelanggan}
+                    />
+
+                    <Route
+                      path="/app/forms/editdatausers"
+                      exact
+                      component={EditDataUsers}
+                    />
+                    <Route
+                      path="/app/forms/editroledata"
+                      exact
+                      component={EditDataRole}
+                    />
+                    <Route
+                      path="/app/forms/editdatapelanggan"
+                      exact
+                      component={EditDataPelanggan}
+                    />
+                    <Route
+                      path="/app/forms/editdataperangkat"
+                      exact
+                      component={EditDataPerangkat}
+                    />
+                    <Route
+                      path="/app/forms/editdataarea/:id"
+                      exact
+                      component={EditDataArea}
+                    />
+                    {/* ROUTES CREATE DATA */}
+                    <Route
+                      path="/app/forms/createdatatarifpelanggan"
+                      exact
+                      component={CreateDataTarifPelanggan}
+                    />
+                    <Route
+                      path="/app/forms/createdataarea"
+                      exact
+                      component={CreateDataArea}
                     />
                     {/* <Route
                       path="/app/tables/pelanggan"

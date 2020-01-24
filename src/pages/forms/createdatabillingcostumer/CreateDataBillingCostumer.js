@@ -1,21 +1,23 @@
 import React from "react";
 import { Row, Col, Button, FormGroup, Label, Form, Input } from "reactstrap";
 // import Formsy from "formsy-react";
-import s from "./editdatacostumerbilling.module.scss";
+import s from "./createdatabillingcostumer.module.scss";
 import { Link } from "react-router-dom";
 
 import Widget from "../../../components/Widget";
 // import InputValidation from "../../../components/InputValidation";
 // import Widget from "../../../components/Widget";
 
-class Editdatacostumerbilling extends React.Component {
+class CreateDataBillingCostumer extends React.Component {
   render() {
     return (
       <div className={s.root}>
         <Row className="py-5 px-5">
-          <h2 className="page-title">Costumer Billing</h2>
           <Col lg={12}>
             <Widget refresh collapse close className="px-5">
+              <h2 className="page-title justify-content-center">
+                Create Costumer Billing
+              </h2>
               <h5 className="py-5 fw-semi-bold ">
                 Informasi Profile Pelanggan
               </h5>
@@ -230,4 +232,4 @@ class Editdatacostumerbilling extends React.Component {
   }
 }
 
-export default Editdatacostumerbilling;
+export default CreateDataBillingCostumer;

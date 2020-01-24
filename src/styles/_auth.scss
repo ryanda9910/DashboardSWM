@@ -1,10 +1,13 @@
 .auth-page {
   padding-top: 10vh;
   height: 100vh;
-  background-image: url('../images/login/bg-login-1.jpg');
+  background-image: url("../images/login/bg-login-1.jpg");
   background-size: cover;
 }
 
+::placeholder {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
 .widget-auth {
   max-width: 385px;
 
@@ -70,7 +73,7 @@
       width: 26px;
       height: 26px;
       padding: 0;
-      transition: all .2s ease-in-out;
+      transition: all 0.2s ease-in-out;
       background-color: $white;
     }
 
@@ -94,7 +97,6 @@
       background-position-x: 50%;
       background-position-y: 50%;
     }
-
   }
 }
 
@@ -111,5 +113,3 @@
     right: 0;
   }
 }
-
-

@@ -16,6 +16,7 @@ import { Link, Redirect } from "react-router-dom";
 import axios from "axios";
 // import Formsy from "formsy-react";
 import s from "./createdatatarifpelanggan.module.scss";
+import Widget from "../../../components/Widget/Widget";
 // import InputValidation from "../../../components/InputValidation";
 // import Widget from "../../../components/Widget";
 
@@ -79,7 +80,7 @@ class CreateDataTarifPelanggan extends React.Component {
         if (res.status === 200 || res.status === 201) {
           // alert(res.data.status);
           // untuk alert pada table
-          localStorage.setItem('isCreated', res.data.status);
+          localStorage.setItem("isCreated", res.data.status);
           this.setState({
             createStatus: res.status
           });
@@ -126,18 +127,18 @@ class CreateDataTarifPelanggan extends React.Component {
 
     return (
       <div className={s.root}>
-        <Row className={s.rowWhite + " py-5"}>
-          <Col lg={12}>
-            <h1 className="page-title">
-              Create <span className="fw-semi-bold">Tarif Pelanggan</span>
-            </h1>
-          </Col>
+        <Col lg={12}>
+          <h1 className="page-title">
+            Create <span className="fw-semi-bold">Tarif Pelanggan</span>
+          </h1>
+        </Col>
+        <Widget refresh collapse className="px-5">
           <Col lg={7} className="pb-3">
             <a onClick={this.goBack} className=" text-dark btn btn-light px-5">
               Kembali
             </a>
           </Col>
-          <Col lg={7}>
+          <Col lg={12}>
             <Form id="formCreateDataTarif" onSubmit={this.doCreateTarif}>
               {/* tidak ditampilkan saat add */}
               {/* volto1 */}
@@ -333,7 +334,7 @@ class CreateDataTarifPelanggan extends React.Component {
               </Button>
             </Form>
           </Col>
-        </Row>
+        </Widget>
       </div>
     );
   }

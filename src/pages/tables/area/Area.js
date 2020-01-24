@@ -16,6 +16,7 @@ import config from "../../../config";
 import Loader from "../../../components/Loader";
 import cx from "classnames";
 import s from "./Area.module.scss";
+import Widget from "../../../components/Widget";
 
 class Area extends React.Component {
   constructor(props) {
@@ -50,6 +51,8 @@ class Area extends React.Component {
       .catch(err => {
         console.log(err);
       });
+    // ALERT
+    return localStorage.getItem("isCreated") ? this.onShowAlert() : null;
   }
 
   // DELETE
@@ -58,7 +61,7 @@ class Area extends React.Component {
     console.log(confirm);
     if (confirm) {
       axios
-        .delete("http://swm-apis.herokuapp.com/api/area/" + id)
+        .delete("/api/area/" + id)
         .then(res => {
           console.log(res);
           alert(res.data.status);
@@ -71,8 +74,6 @@ class Area extends React.Component {
           alert(err.data.status);
         });
     }
-    // ALERT
-    return localStorage.getItem("isCreated") ? this.onShowAlert() : null;
   }
 
   onShowAlert = () => {
@@ -161,52 +162,57 @@ class Area extends React.Component {
             </Row>
             <Row>
               <Col lg={12}>
-                <div className="table-responsive">
-                  <Table className="table-hover border-0">
-                    <thead>
-                      <tr>
-                        <th>Kode</th>
-                        <th>Nama</th>
-                        <th>Aksi</th>
-                      </tr>
-                    </thead>
-                    {/* eslint-disable */}
-                    <tbody id="myTable">
-                      {this.state.dataArea.length > 0 ? (
-                        this.state.dataArea.map(item => {
-                          return (
-                            <tr>
-                              <td>{item.code}</td>
-                              <td>{item.name}</td>
-                              <td>
-                                <Link
-                                  to={"/app/forms/editdataarea/" + item._id}
-                                >
-                                  <span className="text-success">
-                                    <i className="far fa-edit"></i>
-                                    Ubah
-                                  </span>
-                                </Link>
-                                <a
-                                  onClick={() => this.handleDelete(item._id)}
-                                  className="ml-1"
-                                >
-                                  <span className="text-danger">
-                                    <i className="fas fa-trash"></i>
-                                    Hapus
-                                  </span>
-                                </a>
-                              </td>
-                            </tr>
-                          );
-                        })
-                      ) : (
-                        <Loader size={35} className="pt-5 position-absolute" />
-                      )}
-                    </tbody>
-                    {/* eslint-enable */}
-                  </Table>
-                </div>
+                <Widget refresh collapse close className="px-2">
+                  <div className="table-responsive">
+                    <Table className="table-hover border-0">
+                      <thead>
+                        <tr>
+                          <th>Kode</th>
+                          <th>Nama</th>
+                          <th>Aksi</th>
+                        </tr>
+                      </thead>
+                      {/* eslint-disable */}
+                      <tbody id="myTable">
+                        {this.state.dataArea.length > 0 ? (
+                          this.state.dataArea.map(item => {
+                            return (
+                              <tr>
+                                <td>{item.code}</td>
+                                <td>{item.name}</td>
+                                <td>
+                                  <Link
+                                    to={"/app/forms/editdataarea/" + item._id}
+                                  >
+                                    <span className="text-success">
+                                      <i className="far fa-edit"></i>
+                                      Ubah
+                                    </span>
+                                  </Link>
+                                  <a
+                                    onClick={() => this.handleDelete(item._id)}
+                                    className="ml-1"
+                                  >
+                                    <span className="text-danger">
+                                      <i className="fas fa-trash"></i>
+                                      Hapus
+                                    </span>
+                                  </a>
+                                </td>
+                              </tr>
+                            );
+                          })
+                        ) : (
+                          <Loader
+                            size={35}
+                            className="pt-5 position-absolute"
+                          />
+                        )}
+                      </tbody>
+                      {/* eslint-enable */}
+                    </Table>
+                  </div>
+                </Widget>
               </Col>
             </Row>
           </Col>

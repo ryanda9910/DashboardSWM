@@ -1,84 +1,49 @@
 import React from "react";
 import { Row, Col, Button, FormGroup, Label, Form, Input } from "reactstrap";
 // import Formsy from "formsy-react";
-import s from "./editdataarea.module.scss";
+import s from "./createdatarole.module.scss";
 import { Link, Redirect } from "react-router-dom";
 import axios from "axios";
 
 import config from "../../../config";
+
 // import InputValidation from "../../../components/InputValidation";
 import Widget from "../../../components/Widget";
 
-class Editdataarea extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      code: "",
-      name: "",
-      updateStatus: null,
-      updateError: null
-    };
-    //
-    this.goBack = this.goBack.bind(this);
-  }
-
-  // GET data
-  componentDidMount() {
-    const token = localStorage.getItem("token");
-    if (token) {
-      // id
-      const id = this.props.match.params.id;
+class CreateDataRole extends React.Component {
+  state = {
+    code: "",
+    name: "",
+    createStatus: null,
+    createError: null
+  };
+  // CREATE
+  doCreateDataArea = e => {
+    e.preventDefault();
+    if (config.token) {
+      const data = {
+        code: this.state.code,
+        name: this.state.name
+      };
       axios
-        .get(config.remote + "/api/area/" + id)
+        .post("/api/area", data, config.axiosConfig)
         .then(res => {
-          console.log(res);
-          //
-          this.setState({
-            code: res.data.data.code,
-            name: res.data.data.name
-          });
+          if (res.status === 200 || res.status === 201) {
+            console.log(res);
+            // alert(res.data.status);
+            localStorage.setItem("isCreated", res.data.status);
+            this.setState({
+              createStatus: res.status
+            });
+          }
         })
         .catch(err => {
           console.log(err);
+          this.setState({
+            createError: "Kode Sudah Digunakan "
+          });
         });
     }
-  }
-
-  // UPDATE
-  doUpdateDataArea = e => {
-    e.preventDefault();
-    const data = {
-      code: this.state.code,
-      name: this.state.name
-    };
-
-    let axiosConfig = {
-      headers: {
-        "Content-Type": "application/json;charset=UTF-8",
-        "Access-Control-Allow-Origin": "*"
-      }
-    };
-
-    // PUT
-    const id = this.props.match.params.id;
-    axios
-      .put(config.remote + "/api/area/" + id, data, axiosConfig)
-      .then(res => {
-        console.log(res);
-        //
-        if (res.status === 200) {
-          alert(res.data.status);
-          this.setState({
-            updateStatus: res.status
-          });
-        }
-      })
-      .catch(err => {
-        console.log(err);
-        this.setState({
-          updateError: "Something Wrong"
-        });
-      });
   };
 
   handleChange = e => {
@@ -94,20 +59,18 @@ class Editdataarea extends React.Component {
   };
 
   render() {
-    // id
-    console.log(this.props);
     console.log(this.state);
 
-    // redirect jika succes update
-    if (this.state.updateStatus === 200) {
+    // redirect jika succes create
+    if (this.state.createStatus === 200 || this.state.createStatus === 201) {
       return <Redirect to="/app/tables/area" />;
     }
 
     // update error
     const updateError =
-      this.state.updateError === null ? null : (
+      this.state.createError === null ? null : (
         <div className="text-center w-100 py-2">
-          <small className="text-white">{this.state.updateError}</small>
+          <small className="text-white">{this.state.createError}</small>
         </div>
       );
 
@@ -116,20 +79,19 @@ class Editdataarea extends React.Component {
         <Row className="py-5 justify-content-center">
           <Col lg={12} className="text-center">
             <h1 className="page-title">
-              Edit Data <span className="fw-semi-bold"> Area</span>
+              Create Data <span className="fw-semi-bold"> Role</span>
             </h1>
           </Col>
-          <Col lg={12}>
+          <Col lg={7}>
             <Widget refresh collapse className="px-5">
-              <Form onSubmit={this.doUpdateDataArea} className="mt-4">
+              <Form onSubmit={this.doCreateDataArea} className="mt-4">
                 {/* show ERROR */}
                 <FormGroup row className="bg-danger">
                   {updateError}
                 </FormGroup>
                 <FormGroup row>
-                  <Label for="nama-input">Kode</Label>
+                  <Label for="code-input">Kode</Label>
                   <input
-                    value={this.state.code}
                     name="code"
                     onChange={this.handleChange}
                     className="form-control"
@@ -140,10 +102,9 @@ class Editdataarea extends React.Component {
                   />
                 </FormGroup>
                 <FormGroup row>
-                  <Label for="email-input">Nama</Label>
+                  <Label for="nama-input">Nama</Label>
                   <input
-                    value={this.state.name}
-                    name="name"
+                    name="nama"
                     onChange={this.handleChange}
                     className="form-control"
                     id="inputlg"
@@ -152,15 +113,36 @@ class Editdataarea extends React.Component {
                     style={{ color: "#FFF" }}
                   />
                 </FormGroup>
+                <FormGroup row>
+                  <Label for="status-input">Status</Label>
+                  <Label check>
+                    <input
+                      type="radio"
+                      name="radio2"
+                      className="radiobtn  ml-5"
+                      style={{ color: "orange" }}
+                    />
+                    Online
+                  </Label>
+                  <Label check>
+                    <input
+                      type="radio"
+                      name="radio2"
+                      className="radiobtn  ml-5"
+                      style={{ color: "orange" }}
+                    />
+                    Offline
+                  </Label>
+                </FormGroup>
                 <div>
-                  <a
-                    onClick={this.goBack}
-                    className="text-dark btn btn-light px-5"
+                  <Link
+                    to="/app/tables/roledata"
+                    className="btn btn-light px-5"
                   >
                     Kembali
-                  </a>
+                  </Link>
                   <Button className="px-5 ml-3" color="primary" type="submit">
-                    Update
+                    Simpan
                   </Button>
                 </div>
               </Form>
@@ -172,4 +154,4 @@ class Editdataarea extends React.Component {
   }
 }
 
-export default Editdataarea;
+export default CreateDataRole;

@@ -16,6 +16,7 @@ import {
 import Widget from "../../components/Widget";
 import { loginUser, receiveToken } from "../../actions/user";
 import jwt from "jsonwebtoken";
+
 // import microsoft from '../../images/microsoft.png';
 // import config from "../../config";// assets
 import logoMuzli from "../../images/Muzli-logo-1.svg";
@@ -132,7 +133,7 @@ class Login extends React.Component {
                   </InputGroupAddon>
                   <Input
                     id="email"
-                    className="input-transparent pl-3"
+                    className="bg-widget pl-3"
                     value={this.state.email}
                     onChange={this.changeEmail}
                     type="email"
@@ -154,7 +155,7 @@ class Login extends React.Component {
                   <Input
                     autoComplete="on"
                     id="password"
-                    className="input-transparent pl-3"
+                    className="bg-widget pl-3"
                     value={this.state.password}
                     onChange={this.changePassword}
                     type="password"

@@ -17,7 +17,7 @@ import $ from "jquery";
 
 import { Link } from "react-router-dom";
 
-// import Widget from "../../../components/Widget";
+import Widget from "../../../components/Widget";
 import s from "./Roledata.module.scss";
 
 //LOADER
@@ -94,66 +94,74 @@ class Roledata extends React.Component {
                 />
               </Col>
               <Col lg={4} className="text-right">
-                <button className="btn bg-warning text-white">
+                <Link
+                  to="/app/forms/createdatarole"
+                  className="btn text-white bg-warning"
+                >
                   Tambah Data
-                </button>
+                </Link>
               </Col>
             </Row>
             <Row>
               <Col lg={12}>
-                <div className="table-hover table-responsive">
-                  <Table className="table-hover">
-                    <thead>
-                      <tr>
-                        <th>Kode</th>
-                        <th>Nama</th>
-                        <th>Status</th>
-                        <th>Aksi</th>
-                      </tr>
-                    </thead>
-                    {/* eslint-disable */}
-                    <tbody id="myTable">
-                      {this.state.dataRole ? (
-                        this.state.dataRole.map(item => {
-                          return (
-                            <tr>
-                              <td>{item.kode}</td>
-                              <td>{item.nama}</td>
-                              <td>
-                                <Badge
-                                  color="success"
-                                  className="text-secondary"
-                                  pill
-                                >
-                                  AKTIF
-                                </Badge>
-                              </td>
-                              <td>
-                                <Link to="/app/forms/editroledata">
-                                  <a href="#" className="mr-1">
-                                    <span className="text-success">
-                                      <i className="far fa-edit"></i>
-                                      Ubah
+                <Widget refresh collapse close className="px-2">
+                  <div className="table-hover table-responsive">
+                    <Table className="table-hover">
+                      <thead>
+                        <tr>
+                          <th>Kode</th>
+                          <th>Nama</th>
+                          <th>Status</th>
+                          <th>Aksi</th>
+                        </tr>
+                      </thead>
+                      {/* eslint-disable */}
+                      <tbody id="myTable">
+                        {this.state.dataRole ? (
+                          this.state.dataRole.map(item => {
+                            return (
+                              <tr>
+                                <td>{item.kode}</td>
+                                <td>{item.nama}</td>
+                                <td>
+                                  <Badge
+                                    color="success"
+                                    className="text-secondary"
+                                    pill
+                                  >
+                                    AKTIF
+                                  </Badge>
+                                </td>
+                                <td>
+                                  <Link to="/app/forms/editroledata">
+                                    <a href="#" className="mr-1">
+                                      <span className="text-success">
+                                        <i className="far fa-edit"></i>
+                                        Ubah
+                                      </span>
+                                    </a>
+                                  </Link>
+                                  <a href="#" className="ml-1">
+                                    <span className="text-danger">
+                                      <i className="fas fa-trash"></i>
+                                      Hapus
                                     </span>
                                   </a>
-                                </Link>
-                                <a href="#" className="ml-1">
-                                  <span className="text-danger">
-                                    <i className="fas fa-trash"></i>
-                                    Hapus
-                                  </span>
-                                </a>
-                              </td>
-                            </tr>
-                          );
-                        })
-                      ) : (
-                        <Loader size={35} className="pt-5 position-absolute" />
-                      )}
-                    </tbody>
-                    {/* eslint-enable */}
-                  </Table>
-                </div>
+                                </td>
+                              </tr>
+                            );
+                          })
+                        ) : (
+                          <Loader
+                            size={35}
+                            className="pt-5 position-absolute"
+                          />
+                        )}
+                      </tbody>
+                      {/* eslint-enable */}
+                    </Table>
+                  </div>
+                </Widget>
               </Col>
             </Row>
           </Col>

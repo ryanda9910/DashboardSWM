@@ -20,7 +20,7 @@ import config from "../../../config";
 import { Redirect } from "react-router-dom";
 
 // import InputValidation from "../../../components/InputValidation";
-// import Widget from "../../../components/Widget";
+import Widget from "../../../components/Widget";
 
 class Editdatatarifpelanggan extends React.Component {
   constructor(props) {
@@ -149,7 +149,7 @@ class Editdatatarifpelanggan extends React.Component {
   };
 
   goBack = () => {
-    this.props.history.goBack();   
+    this.props.history.goBack();
     // window.location = config.baseURLApp+'/';
   };
 
@@ -178,222 +178,222 @@ class Editdatatarifpelanggan extends React.Component {
               Edit <span className="fw-semi-bold">Tarif Pelanggan</span>
             </h1>
           </Col>
-          <Col lg={7} className="pb-3">
-            <a
-              onClick={this.goBack}
-              className="btn btn-light text-dark"
-              type="submit"
-            >
-              Kembali
-            </a>
-          </Col>
           <Col lg={7}>
-            <Form onSubmit={this.doUpdateTarif}>
-              {/* tidak ditampilkan saat add */}
-              {/* volto1 */}
-              <FormGroup>
-                <Label for="exampleVolto1">Volume to 1</Label>
-                <Input
-                  value={this.state.volto1}
-                  onChange={this.handleChange}
-                  type="text"
-                  name="volto1"
-                  id="exampleVolto1"
-                  placeholder="Volume to 1"
-                />
-              </FormGroup>
-              {/* volto2 */}
-              <FormGroup>
-                <Label for="exampleVolto2">Volume to 2</Label>
-                <Input
-                  value={this.state.volto2}
-                  onChange={this.handleChange}
-                  type="text"
-                  name="volto2"
-                  id="exampleVolto2"
-                  placeholder="Volume to 2"
-                />
-              </FormGroup>
-              {/* volto3 */}
-              <FormGroup>
-                <Label for="exampleVolto3">Volume to 3</Label>
-                <Input
-                  value={this.state.volto3}
-                  onChange={this.handleChange}
-                  type="text"
-                  name="volto3"
-                  id="exampleVolto3"
-                  placeholder="Volume to 3"
-                />
-              </FormGroup>
-              {/* volfrom3 */}
-              <FormGroup>
-                <Label for="exampleVolfrom3">Volume from 3</Label>
-                <Input
-                  value={this.state.volfrom3}
-                  onChange={this.handleChange}
-                  type="text"
-                  name="volfrom3"
-                  id="exampleVolfrom3"
-                  placeholder="Volume from 3"
-                />
-              </FormGroup>
-              {/* price3 */}
-              <FormGroup>
-                <Label for="price3">Price 3</Label>
-                <Input
-                  value={this.state.price3}
-                  onChange={this.handleChange}
-                  type="text"
-                  name="price3"
-                  id="price3"
-                  placeholder="Price 3"
-                />
-              </FormGroup>
-
-              <hr />
-
-              {/* code */}
-              <FormGroup>
-                <Label for="exampleKode">Kode</Label>
-                <Input
-                  value={this.state.code}
-                  onChange={this.handleChange}
-                  type="text"
-                  name="code"
-                  id="exampleKode"
-                  placeholder="Kode"
-                />
-              </FormGroup>
-              {/* isactive */}
-              <FormGroup>
-                <Label for="exampleIsActive">is Active</Label>
-                <CustomInput
-                  checked={this.state.isactive}
-                  onChange={this.handleChange}
-                  type="switch"
-                  id="exampleIsActive"
-                  name="isactive"
-                  label="Turn on this if True"
-                />
-              </FormGroup>
-              {/* name */}
-              <FormGroup>
-                <Label for="exampleNama">Nama</Label>
-                <Input
-                  value={this.state.name}
-                  onChange={this.handleChange}
-                  type="text"
-                  name="name"
-                  id="exampleNama"
-                  placeholder="Nama"
-                />
-              </FormGroup>
-              {/* description */}
-              <FormGroup>
-                <Label for="exampleDescription">Description</Label>
-                <Input
-                  value={this.state.description}
-                  onChange={this.handleChange}
-                  type="textarea"
-                  name="description"
-                  id="exampleDescription"
-                  placeholder="Description"
-                />
-              </FormGroup>
-              {/* isprogressive */}
-              <FormGroup>
-                <Label for="exampleIsProgressive">is Progressive</Label>
-                <CustomInput
-                  checked={this.state.isprogressive}
-                  onChange={this.handleChange}
-                  type="switch"
-                  id="exampleIsProgressive"
-                  name="isprogressive"
-                  label="Turn on this if True"
-                />
-              </FormGroup>
-              {/* volfrom1 */}
-              <FormGroup>
-                <Label for="exampleVolume1">Volume 1</Label>
-                <InputGroup>
-                  <InputGroupAddon addonType="prepend">
-                    <InputGroupText className="bg-blue-design">
-                      <i className="glyphicon glyphicon-tint"></i>
-                    </InputGroupText>
-                  </InputGroupAddon>
+            <Widget refresh collapse close className="px-5">
+              <Col lg={7} className="px-1 pb-3">
+                <a
+                  onClick={this.goBack}
+                  className="btn btn-light text-dark"
+                  type="submit"
+                >
+                  Kembali
+                </a>
+              </Col>
+              <Form onSubmit={this.doUpdateTarif}>
+                {/* tidak ditampilkan saat add */}
+                {/* volto1 */}
+                <FormGroup>
+                  <Label for="exampleVolto1">Volume to 1</Label>
                   <Input
-                    value={this.state.volfrom1}
+                    value={this.state.volto1}
+                    onChange={this.handleChange}
+                    type="text"
+                    name="volto1"
+                    id="exampleVolto1"
+                    placeholder="Volume to 1"
+                  />
+                </FormGroup>
+                {/* volto2 */}
+                <FormGroup>
+                  <Label for="exampleVolto2">Volume to 2</Label>
+                  <Input
+                    value={this.state.volto2}
+                    onChange={this.handleChange}
+                    type="text"
+                    name="volto2"
+                    id="exampleVolto2"
+                    placeholder="Volume to 2"
+                  />
+                </FormGroup>
+                {/* volto3 */}
+                <FormGroup>
+                  <Label for="exampleVolto3">Volume to 3</Label>
+                  <Input
+                    value={this.state.volto3}
+                    onChange={this.handleChange}
+                    type="text"
+                    name="volto3"
+                    id="exampleVolto3"
+                    placeholder="Volume to 3"
+                  />
+                </FormGroup>
+                {/* volfrom3 */}
+                <FormGroup>
+                  <Label for="exampleVolfrom3">Volume from 3</Label>
+                  <Input
+                    value={this.state.volfrom3}
+                    onChange={this.handleChange}
+                    type="text"
+                    name="volfrom3"
+                    id="exampleVolfrom3"
+                    placeholder="Volume from 3"
+                  />
+                </FormGroup>
+                {/* price3 */}
+                <FormGroup>
+                  <Label for="price3">Price 3</Label>
+                  <Input
+                    value={this.state.price3}
+                    onChange={this.handleChange}
+                    type="text"
+                    name="price3"
+                    id="price3"
+                    placeholder="Price 3"
+                  />
+                </FormGroup>
+
+                <hr />
+
+                {/* code */}
+                <FormGroup>
+                  <Label for="exampleKode">Kode</Label>
+                  <Input
+                    value={this.state.code}
+                    onChange={this.handleChange}
+                    type="text"
+                    name="code"
+                    id="exampleKode"
+                    placeholder="Kode"
+                  />
+                </FormGroup>
+                {/* isactive */}
+                <FormGroup>
+                  <Label for="exampleIsActive">is Active</Label>
+                  <CustomInput
+                    checked={this.state.isactive}
+                    onChange={this.handleChange}
+                    type="switch"
+                    id="exampleIsActive"
+                    name="isactive"
+                    label="Turn on this if True"
+                  />
+                </FormGroup>
+                {/* name */}
+                <FormGroup>
+                  <Label for="exampleNama">Nama</Label>
+                  <Input
+                    value={this.state.name}
+                    onChange={this.handleChange}
+                    type="text"
+                    name="name"
+                    id="exampleNama"
+                    placeholder="Nama"
+                  />
+                </FormGroup>
+                {/* description */}
+                <FormGroup>
+                  <Label for="exampleDescription">Description</Label>
+                  <Input
+                    value={this.state.description}
+                    onChange={this.handleChange}
+                    type="textarea"
+                    name="description"
+                    id="exampleDescription"
+                    placeholder="Description"
+                  />
+                </FormGroup>
+                {/* isprogressive */}
+                <FormGroup>
+                  <Label for="exampleIsProgressive">is Progressive</Label>
+                  <CustomInput
+                    checked={this.state.isprogressive}
+                    onChange={this.handleChange}
+                    type="switch"
+                    id="exampleIsProgressive"
+                    name="isprogressive"
+                    label="Turn on this if True"
+                  />
+                </FormGroup>
+                {/* volfrom1 */}
+                <FormGroup>
+                  <Label for="exampleVolume1">Volume 1</Label>
+                  <InputGroup>
+                    <InputGroupAddon addonType="prepend">
+                      <InputGroupText className="bg-blue-design">
+                        <i className="glyphicon glyphicon-tint"></i>
+                      </InputGroupText>
+                    </InputGroupAddon>
+                    <Input
+                      value={this.state.volfrom1}
+                      onChange={this.handleChange}
+                      type="number"
+                      name="volfrom1"
+                      id="exampleVolume1"
+                      placeholder="Volume 1"
+                    />
+                    <InputGroupAddon addonType="append">
+                      <InputGroupText className="bg-blue-design">
+                        M<sup>3</sup>
+                      </InputGroupText>
+                    </InputGroupAddon>
+                  </InputGroup>
+                </FormGroup>
+                {/* price1 */}
+                <FormGroup>
+                  <Label for="examplePrice1">Harga 1</Label>
+                  <Input
+                    value={this.state.price1}
                     onChange={this.handleChange}
                     type="number"
-                    name="volfrom1"
+                    name="price1"
                     id="exampleVolume1"
-                    placeholder="Volume 1"
+                    placeholder="Harga 1"
                   />
-                  <InputGroupAddon addonType="append">
-                    <InputGroupText className="bg-blue-design">
-                      M<sup>3</sup>
-                    </InputGroupText>
-                  </InputGroupAddon>
-                </InputGroup>
-              </FormGroup>
-              {/* price1 */}
-              <FormGroup>
-                <Label for="examplePrice1">Harga 1</Label>
-                <Input
-                  value={this.state.price1}
-                  onChange={this.handleChange}
-                  type="number"
-                  name="price1"
-                  id="exampleVolume1"
-                  placeholder="Harga 1"
-                />
-              </FormGroup>
-              {/* volfrom2 */}
-              <FormGroup>
-                <Label for="exampleVolume2">Volume 2</Label>
-                <InputGroup>
-                  <InputGroupAddon addonType="prepend">
-                    <InputGroupText className="bg-blue-design">
-                      <i className="glyphicon glyphicon-tint"></i>
-                    </InputGroupText>
-                  </InputGroupAddon>
+                </FormGroup>
+                {/* volfrom2 */}
+                <FormGroup>
+                  <Label for="exampleVolume2">Volume 2</Label>
+                  <InputGroup>
+                    <InputGroupAddon addonType="prepend">
+                      <InputGroupText className="bg-blue-design">
+                        <i className="glyphicon glyphicon-tint"></i>
+                      </InputGroupText>
+                    </InputGroupAddon>
+                    <Input
+                      value={this.state.volfrom2}
+                      onChange={this.handleChange}
+                      type="number"
+                      name="volfrom2"
+                      id="exampleVolume2"
+                      placeholder="Volume 2"
+                    />
+                    <InputGroupAddon addonType="append">
+                      <InputGroupText className="bg-blue-design">
+                        M<sup>3</sup>
+                      </InputGroupText>
+                    </InputGroupAddon>
+                  </InputGroup>
+                </FormGroup>
+                {/* price2 */}
+                <FormGroup>
+                  <Label for="examplePrice2">Harga 2</Label>
                   <Input
-                    value={this.state.volfrom2}
+                    value={this.state.price2}
                     onChange={this.handleChange}
                     type="number"
-                    name="volfrom2"
-                    id="exampleVolume2"
-                    placeholder="Volume 2"
+                    name="price2"
+                    id="examplePrice2"
+                    placeholder="Harga 2"
                   />
-                  <InputGroupAddon addonType="append">
-                    <InputGroupText className="bg-blue-design">
-                      M<sup>3</sup>
-                    </InputGroupText>
-                  </InputGroupAddon>
-                </InputGroup>
-              </FormGroup>
-              {/* price2 */}
-              <FormGroup>
-                <Label for="examplePrice2">Harga 2</Label>
-                <Input
-                  value={this.state.price2}
-                  onChange={this.handleChange}
-                  type="number"
-                  name="price2"
-                  id="examplePrice2"
-                  placeholder="Harga 2"
-                />
-              </FormGroup>
+                </FormGroup>
 
-              {/* show ERROR */}
-              <FormGroup row>
-                {updateError}
-              </FormGroup>
+                {/* show ERROR */}
+                <FormGroup row>{updateError}</FormGroup>
 
-              {/* button */}
-              <Button color="primary">Update</Button>
-            </Form>
+                {/* button */}
+                <Button color="primary">Update</Button>
+              </Form>
+            </Widget>
           </Col>
         </Row>
       </div>

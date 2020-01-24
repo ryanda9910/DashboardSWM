@@ -154,14 +154,14 @@ $input-btn-padding-y: 0.5rem;
 $input-btn-padding-x: 0.75rem;
 
 $input-color: $white;
-$input-border-color: $white !default;
+$input-border-color: #000 !default;
 $input-focus-border-color: #66afe9 !default;
 
 $input-btn-padding-y-sm: 0.4rem;
 $input-btn-padding-x-sm: 0.8rem;
 
 $input-group-addon-bg: $bg-addition;
-$input-group-addon-border-color: transparent;
+$input-group-addon-border-color: transperant;
 
 //== Navbar
 //
@@ -193,7 +193,7 @@ $nav-tabs-active-link-hover-color: $gray-700 !default;
 
 //== Forms
 //
-$input-focus-border-color: #4d90fe !default; //webkit focus color
+$input-focus-border-color: $bg-addition; //webkit focus color
 
 //*  Popover  */
 $popover-bg: #ebeff1 !default;

@@ -71,10 +71,18 @@ import EditDataArea from "../../pages/forms/editdataarea/Editdataarea";
 //CREATE DATA TABLES
 import CreateDataTarifPelanggan from "../../pages/forms/createdatatarifpelanggan/CreateDataTarifPelanggan";
 import CreateDataArea from "../../pages/forms/createdataarea/CreateDataArea";
+import CreateDataKelompokPelanggan from "../../pages/forms/createdatakelompokpelanggan/CreateDataKelompokPelanggan";
+import CreateDataBillingCostumer from "../../pages/forms/createdatabillingcostumer/CreateDataBillingCostumer";
+import CreateDataRole from "../../pages/forms/createdatarole/CreateDataRole";
+import CreateDataUsers from "../../pages/forms/createdatauser/CreateDataUser";
+import CreateDataPerangkat from "../../pages/forms/createdataperangkat/CreateDataPerangkat";
+import CreateDataPelanggan from "../../pages/forms/createdatapelanggan/CreateDataPelanggan";
+
 import Header from "../Header";
 import Sidebar from "../Sidebar";
 import { openSidebar, closeSidebar } from "../../actions/navigation";
 import s from "./Layout.module.scss";
+// import CreateDataUser from "../../pages/forms/createdatauser/CreateDataUser";
 // import ProductEdit from "../../pages/management/components/productEdit";
 
 class Layout extends React.Component {
@@ -232,6 +240,36 @@ class Layout extends React.Component {
                       path="/app/forms/createdataarea"
                       exact
                       component={CreateDataArea}
+                    />
+                    <Route
+                      path="/app/forms/createdatapelanggan"
+                      exact
+                      component={CreateDataPelanggan}
+                    />
+                    <Route
+                      path="/app/forms/createdatabillingcostumer"
+                      exact
+                      component={CreateDataBillingCostumer}
+                    />
+                    <Route
+                      path="/app/forms/createdatarole"
+                      exact
+                      component={CreateDataRole}
+                    />
+                    <Route
+                      path="/app/forms/createdatauser"
+                      exact
+                      component={CreateDataUsers}
+                    />
+                    <Route
+                      path="/app/forms/createdatakelompokpelanggan"
+                      exact
+                      component={CreateDataKelompokPelanggan}
+                    />
+                    <Route
+                      path="/app/forms/createdataperangkat"
+                      exact
+                      component={CreateDataPerangkat}
                     />
                     {/* <Route
                       path="/app/tables/pelanggan"

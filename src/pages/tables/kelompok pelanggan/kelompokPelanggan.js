@@ -13,7 +13,7 @@ import {
 
 import $ from "jquery";
 
-// import Widget from "../../../components/Widget/Widget";
+import Widget from "../../../components/Widget/Widget";
 import s from "./kelompokPelanggan.module.scss";
 // import { useState } from "react";
 
@@ -125,71 +125,79 @@ class kelompokPelanggan extends React.Component {
                 />
               </Col>
               <Col lg={4} className="text-right">
-                <button className="btn bg-warning text-white">
-                  Tambah Data{" "}
-                </button>
+                <Link
+                  to="/app/forms/createdatakelompokpelanggan"
+                  className="btn text-white bg-warning"
+                >
+                  Tambah Data
+                </Link>
               </Col>
             </Row>
             <Row>
               <Col lg={12}>
-                <div className="table-responsive">
-                  <Table className="table-hover">
-                    <thead>
-                      <tr>
-                        <th>Kode</th>
-                        <th>Nama</th>
-                        <th>Tarif</th>
-                        <th>Grup</th>
-                        <th>Status</th>
-                        <th>Aksi</th>
-                      </tr>
-                    </thead>
-                    {/* eslint-disable */}
-                    <tbody id="myTable">
-                      {this.state.datakelompokPelanggan ? (
-                        this.state.datakelompokPelanggan.map(item => {
-                          return (
-                            <tr>
-                              <td>{item.kode}</td>
-                              <td>{item.nama}</td>
-                              <td>{item.tarif}</td>
-                              <td>{item.grup}</td>
-                              <td>
-                                <Badge
-                                  color="success"
-                                  className="text-secondary"
-                                  pill
-                                >
-                                  AKTIF
-                                </Badge>
-                              </td>
-                              <td>
-                                <Link
-                                  to="/app/forms/editdatakelompokpelanggan/"
-                                  className="mr-1"
-                                >
-                                  <span className="text-success">
-                                    <i class="far fa-edit"></i>
-                                    Ubah
-                                  </span>
-                                </Link>
-                                <Link to="#" className="ml-1">
-                                  <span className="text-danger">
-                                    <i class="fas fa-trash"></i>
-                                    Hapus
-                                  </span>
-                                </Link>
-                              </td>
-                            </tr>
-                          );
-                        })
-                      ) : (
-                        <Loader size={35} className="pt-5 position-absolute" />
-                      )}
-                    </tbody>
-                    {/* eslint-enable */}
-                  </Table>
-                </div>
+                <Widget refresh collapse close className="px-2">
+                  <div className="table-responsive">
+                    <Table className="table-hover">
+                      <thead>
+                        <tr>
+                          <th>Kode</th>
+                          <th>Nama</th>
+                          <th>Tarif</th>
+                          <th>Grup</th>
+                          <th>Status</th>
+                          <th>Aksi</th>
+                        </tr>
+                      </thead>
+                      {/* eslint-disable */}
+                      <tbody id="myTable">
+                        {this.state.datakelompokPelanggan ? (
+                          this.state.datakelompokPelanggan.map(item => {
+                            return (
+                              <tr>
+                                <td>{item.kode}</td>
+                                <td>{item.nama}</td>
+                                <td>{item.tarif}</td>
+                                <td>{item.grup}</td>
+                                <td>
+                                  <Badge
+                                    color="success"
+                                    className="text-secondary"
+                                    pill
+                                  >
+                                    AKTIF
+                                  </Badge>
+                                </td>
+                                <td>
+                                  <Link
+                                    to="/app/forms/editdatakelompokpelanggan/"
+                                    className="mr-1"
+                                  >
+                                    <span className="text-success">
+                                      <i class="far fa-edit"></i>
+                                      Ubah
+                                    </span>
+                                  </Link>
+                                  <Link to="#" className="ml-1">
+                                    <span className="text-danger">
+                                      <i class="fas fa-trash"></i>
+                                      Hapus
+                                    </span>
+                                  </Link>
+                                </td>
+                              </tr>
+                            );
+                          })
+                        ) : (
+                          <Loader
+                            size={35}
+                            className="pt-5 position-absolute"
+                          />
+                        )}
+                      </tbody>
+                      {/* eslint-enable */}
+                    </Table>
+                  </div>
+                </Widget>
               </Col>
             </Row>
           </Col>

@@ -28,9 +28,10 @@ class CreateDataArea extends React.Component {
       axios
         .post("/api/area", data, config.axiosConfig)
         .then(res => {
-          if(res.status === 200 || res.status === 201){
+          if (res.status === 200 || res.status === 201) {
             console.log(res);
-            alert(res.data.status);
+            // alert(res.data.status);
+            localStorage.setItem("isCreated", res.data.status);
             this.setState({
               createStatus: res.status
             });

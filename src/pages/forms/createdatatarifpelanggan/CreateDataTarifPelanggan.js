@@ -19,6 +19,7 @@ import { connect } from 'react-redux';
 
 import { Link, Redirect } from "react-router-dom";
 // 
+import Widget from "../../../components/Widget";
 import { createData } from '../../../actions/tables/tarifpelanggan';
 import s from "./createdatatarifpelanggan.module.scss";
 
@@ -114,18 +115,18 @@ class CreateDataTarifPelanggan extends React.Component {
 
     return (
       <div className={s.root}>
-        <Row className={s.rowWhite + " py-5"}>
-          <Col lg={12}>
-            <h1 className="page-title">
-              Create <span className="fw-semi-bold">Tarif Pelanggan</span>
-            </h1>
-          </Col>
+        <Col lg={12}>
+          <h1 className="page-title">
+            Create <span className="fw-semi-bold">Tarif Pelanggan</span>
+          </h1>
+        </Col>
+        <Widget refresh collapse className="px-5">
           <Col lg={7} className="pb-3">
             <a onClick={this.goBack} className=" text-dark btn btn-light px-5">
               Kembali
             </a>
           </Col>
-          <Col lg={7}>
+          <Col lg={12}>
             <Form id="formCreateDataTarif" onSubmit={this.doCreateTarif}>
               {/* tidak ditampilkan saat add */}
               {/* volto1 */}
@@ -323,7 +324,7 @@ class CreateDataTarifPelanggan extends React.Component {
               </Button>
             </Form>
           </Col>
-        </Row>
+        </Widget>
       </div>
     );
   }

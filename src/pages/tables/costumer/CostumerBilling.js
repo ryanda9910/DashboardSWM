@@ -11,6 +11,11 @@ import {
   useParams
 } from "react-router-dom";
 
+//LOADER
+import Loader from "../../../components/Loader/Loader";
+
+import Widget from "../../../components/Widget/Widget";
+
 class CostumerBilling extends React.Component {
   constructor(props) {
     super(props);
@@ -84,64 +89,72 @@ class CostumerBilling extends React.Component {
                 />
               </Col>
               <Col lg={4} className="text-right">
-                <button className="btn btn-primary">Tambah Data </button>
+                <Link
+                  to="/app/forms/createdatabillingcostumer"
+                  className="btn text-white bg-warning"
+                >
+                  Tambah Data
+                </Link>
               </Col>
             </Row>
             <Row>
               <Col lg={12}>
-                <div className="table-hover table-responsive">
-                  <Table className="table-hover">
-                    <thead>
-                      <tr>
-                        <th>Kode</th>
-                        <th>Nama Pelanggan</th>
-                        <th>Batas Pembayaran</th>
-                        <th>Kategori</th>
-                        <th>Kelompok Pelanggan</th>
-                        <th>Status Pembayaran</th>
-                        <th>Aksi</th>
-                      </tr>
-                    </thead>
-                    {/* eslint-disable */}
-                    <tbody id="myTable">
-                      {this.state.dataUser ? (
-                        this.state.dataUser.map(item => {
-                          return (
-                            <tr>
-                              <td>{item.kode}</td>
-                              <td>{item.nama}</td>
-                              <td>{item.batasPembayaran}</td>
-                              <td>{item.kategori}</td>
-                              <td>{item.kelompokPelanggan}</td>
-                              <td>{item.statusPembayaran}</td>
-                              <td>
-                                <Link to="/app/forms/editdatacostumerbilling">
-                                  <a href="#" className="mr-1">
-                                    <span className="text-success">
-                                      <i class="far fa-edit"></i>
-                                      Ubah
+                <Widget refresh collapse close className="px-2">
+                  <div className="table-hover table-responsive">
+                    <Table className="table-hover">
+                      <thead>
+                        <tr>
+                          <th>Kode</th>
+                          <th>Nama Pelanggan</th>
+                          <th>Batas Pembayaran</th>
+                          <th>Kategori</th>
+                          <th>Kelompok Pelanggan</th>
+                          <th>Status Pembayaran</th>
+                          <th>Aksi</th>
+                        </tr>
+                      </thead>
+                      {/* eslint-disable */}
+                      <tbody id="myTable">
+                        {this.state.dataUser ? (
+                          this.state.dataUser.map(item => {
+                            return (
+                              <tr>
+                                <td>{item.kode}</td>
+                                <td>{item.nama}</td>
+                                <td>{item.batasPembayaran}</td>
+                                <td>{item.kategori}</td>
+                                <td>{item.kelompokPelanggan}</td>
+                                <td>{item.statusPembayaran}</td>
+                                <td>
+                                  <Link to="/app/forms/editdatacostumerbilling">
+                                    <a href="#" className="mr-1">
+                                      <span className="text-success">
+                                        <i className="far fa-edit"></i>
+                                        Ubah
+                                      </span>
+                                    </a>
+                                  </Link>
+                                  <a href="#" className="ml-1">
+                                    <span className="text-danger">
+                                      <i className="fas fa-trash"></i>
+                                      Hapus
                                     </span>
                                   </a>
-                                </Link>
-                                <a href="#" className="ml-1">
-                                  <span className="text-danger">
-                                    <i class="fas fa-trash"></i>
-                                    Hapus
-                                  </span>
-                                </a>
-                              </td>
-                            </tr>
-                          );
-                        })
-                      ) : (
-                        <div>
-                          <h2>Loading..</h2>
-                        </div>
-                      )}
-                    </tbody>
-                    {/* eslint-enable */}
-                  </Table>
-                </div>
+                                </td>
+                              </tr>
+                            );
+                          })
+                        ) : (
+                          <Loader
+                            size={35}
+                            className="pt-5 position-absolute"
+                          />
+                        )}
+                      </tbody>
+                      {/* eslint-enable */}
+                    </Table>
+                  </div>
+                </Widget>
               </Col>
             </Row>
           </Col>

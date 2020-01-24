@@ -12,7 +12,7 @@ import {
   Input,
   Label,
   Badge,
-  Alert,
+  Alert
 } from "reactstrap";
 import axios from "axios";
 import $ from "jquery";
@@ -24,16 +24,18 @@ import {
   useRouteMatch,
   useParams,
   withRouter,
-  Redirect,
+  Redirect
 } from "react-router-dom";
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import jwt from 'jsonwebtoken';
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import jwt from "jsonwebtoken";
 // MODAL CREATE
-import cx from 'classnames';
+import cx from "classnames";
 import config from "../../../config";
-import Loader from '../../../components/Loader/Loader';
+import Loader from "../../../components/Loader/Loader";
 import s from "./TarifPelanggan.module.scss";
+
+import Widget from "../../../components/Widget";
 // actions
 import { 
   getData, 
@@ -41,18 +43,17 @@ import {
   deleteData, } from '../../../actions/tables/tarifpelanggan';
 
 class TarifPelanggan extends React.Component {
-
   static propTypes = {
-    dispatch: PropTypes.func.isRequired,
+    dispatch: PropTypes.func.isRequired
   };
 
   static isAuthenticated(token) {
-      // We check if app runs with backend mode
-      // if (!config.isBackend && token) return true;
-      if (!token) return;
-      const date = new Date().getTime() / 1000;
-      const data = jwt.decode(token);
-      return date < data.exp;
+    // We check if app runs with backend mode
+    // if (!config.isBackend && token) return true;
+    if (!token) return;
+    const date = new Date().getTime() / 1000;
+    const data = jwt.decode(token);
+    return date < data.exp;
   }
 
   constructor(props) {
@@ -70,10 +71,10 @@ class TarifPelanggan extends React.Component {
 
   componentDidMount() {
     // GET data
-    this.props.dispatch(getData())
+    this.props.dispatch(getData());
 
     // ALERT
-    return this.state.deleteSuccess ? this.onShowAlert() : null
+    return this.props.alertMessage ? this.onShowAlert() : null;
   }
 
   // DELETE
@@ -109,9 +110,9 @@ class TarifPelanggan extends React.Component {
     // console.log(this.props);
 
     // jika error karena 401 atau lainnya, tendang user dengan hapus cookie
-    if(this.props.getError){
-      return document.cookie = 'token=;expires=Thu, 01 Jan 1970 00:00:01 GMT;'
-    }
+    // if(this.props.getError){
+    //   return document.cookie = 'token=;expires=Thu, 01 Jan 1970 00:00:01 GMT;'
+    // }
 
     // search
     $("#myInput").on("keyup", function() {
@@ -131,59 +132,54 @@ class TarifPelanggan extends React.Component {
     });
 
     // table data
-    const tableData = this.props.dataTarifPelanggan.length > 0 ? (
-      this.props.dataTarifPelanggan.map(item => {
-        console.log(item);
-        const isactive = item.isactive ? (
-          <span className="badge btn-success">TRUE</span>
-        ) : (
-          <span className="badge btn-danger">FALSE</span>
-        );
-        const isprogressive = item.isprogressive ? (
-          <span className="badge btn-success">TRUE</span>
-        ) : (
-          <span className="badge btn-danger">FALSE</span>
-        );
-        return (
-          <tr>
-            <td>{item.code}</td>
-            <td>{item.name}</td>
-            <td>{item.description}</td>
-            <td>{isactive}</td>
-            <td>{isprogressive}</td>
-            <td>{item.volfrom1}</td>
-            <td>{item.price1}</td>
-            <td>{item.volfrom2}</td>
-            <td>{item.price2}</td>
-            <td>
-              <Link
-                to={
-                  "/app/forms/editdatatarifpelanggan/" +
-                  item._id
-                }
-                className="mr-1"
-              >
-                <span className="text-success">
-                  <i class="far fa-edit"></i>
-                  Ubah
-                </span>
-              </Link>
-              <a
-                onClick={() => this.handleDelete(item._id)}
-                className="ml-1"
-              >
-                <span className="text-danger">
-                  <i class="fas fa-trash"></i>
-                  Hapus
-                </span>
-              </a>
-            </td>
-          </tr>
-        );
-      })
-    ) : (
-      <Loader size={35} className="pt-5 position-absolute" />
-    );
+    const tableData =
+      this.props.dataTarifPelanggan.length > 0 ? (
+        this.props.dataTarifPelanggan.map(item => {
+          console.log(item);
+          const isactive = item.isactive ? (
+            <span className="badge btn-success">TRUE</span>
+          ) : (
+            <span className="badge btn-danger">FALSE</span>
+          );
+          const isprogressive = item.isprogressive ? (
+            <span className="badge btn-success">TRUE</span>
+          ) : (
+            <span className="badge btn-danger">FALSE</span>
+          );
+          return (
+            <tr>
+              <td>{item.code}</td>
+              <td>{item.name}</td>
+              <td>{item.description}</td>
+              <td>{isactive}</td>
+              <td>{isprogressive}</td>
+              <td>{item.volfrom1}</td>
+              <td>{item.price1}</td>
+              <td>{item.volfrom2}</td>
+              <td>{item.price2}</td>
+              <td>
+                <Link
+                  to={"/app/forms/editdatatarifpelanggan/" + item._id}
+                  className="mr-1"
+                >
+                  <span className="text-success">
+                    <i class="far fa-edit"></i>
+                    Ubah
+                  </span>
+                </Link>
+                <a onClick={() => this.handleDelete(item._id)} className="ml-1">
+                  <span className="text-danger">
+                    <i class="fas fa-trash"></i>
+                    Hapus
+                  </span>
+                </a>
+              </td>
+            </tr>
+          );
+        })
+      ) : (
+        <Loader size={35} className="pt-5 position-absolute" />
+      );
 
     return (
       <div className={s.root}>
@@ -200,7 +196,9 @@ class TarifPelanggan extends React.Component {
                 {/* alert */}
                 <Alert
                   color="success"
-                  className={cx(s.promoAlert, {[s.showAlert]: this.state.showAlert})}
+                  className={cx(s.promoAlert, {
+                    [s.showAlert]: this.state.showAlert
+                  })}
                 >
                   {this.props.alertMessage || 'Data get actions'}
                 </Alert>
@@ -237,32 +235,32 @@ class TarifPelanggan extends React.Component {
             </Row>
             <Row>
               <Col lg={12}>
-                <div className="table-responsive">
-                  <Table className="table-hover">
-                    <thead>
-                      <tr>
-                        <th>Kode</th>
-                        <th>Nama</th>
-                        <th>Description</th>
-                        <th>is Active</th>
-                        <th>is Progressive</th>
-                        <th>Volume 1</th>
-                        <th>Harga 1</th>
-                        <th>Volume 2</th>
-                        <th>Harga 2 </th>
-                        {/* <th>Status</th> */}
-                        <th>Aksi</th>
-                      </tr>
-                    </thead>
-                    <tbody id="myTable" className="position-relative">
-                      {/* eslint-disable */}
-                      {
-                        this.props.dataTarifPelanggan ? tableData : null
-                      }
-                    </tbody>
+                <Widget refresh collapse close className="px-2">
+                  <div className="table-responsive">
+                    <Table className="table-hover">
+                      <thead>
+                        <tr>
+                          <th>Kode</th>
+                          <th>Nama</th>
+                          <th>Description</th>
+                          <th>is Active</th>
+                          <th>is Progressive</th>
+                          <th>Volume 1</th>
+                          <th>Harga 1</th>
+                          <th>Volume 2</th>
+                          <th>Harga 2 </th>
+                          {/* <th>Status</th> */}
+                          <th>Aksi</th>
+                        </tr>
+                      </thead>
+                      <tbody id="myTable" className="position-relative">
+                        {/* eslint-disable */}
+                        {this.props.dataTarifPelanggan ? tableData : null}
+                      </tbody>
                       {/* eslint-enable */}
-                  </Table>
-                </div>
+                    </Table>
+                  </div>
+                </Widget>
               </Col>
             </Row>
           </Col>
@@ -271,7 +269,6 @@ class TarifPelanggan extends React.Component {
     );
   }
 }
-
 
 function mapStateToProps(state) {
   return {
@@ -284,6 +281,9 @@ function mapStateToProps(state) {
     // CREATE
     createSuccess: state.reducerTarifPelanggan.createSuccess,
     createError: state.reducerTarifPelanggan.createError,
+    // UPDATE
+    updateSuccess: state.reducerTarifPelanggan.updateSuccess,
+    updateError: state.reducerTarifPelanggan.updateError,
     // DELETE
     deleteSuccess: state.reducerTarifPelanggan.deleteSuccess,
     deleteError: state.reducerTarifPelanggan.deleteError,

@@ -1,21 +1,22 @@
 import React from "react";
-import { Row, Col, Table, Badge } from "reactstrap";
-import s from "./Area.module.scss";
+import { Row, Col, Table, Alert } from "reactstrap";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Link,
   useRouteMatch,
-  useParams,
-  Redirect
+  useParams
 } from "react-router-dom";
 import axios from "axios";
 import $ from "jquery";
 
 // CUSTOM
 import config from "../../../config";
-import Loader from '../../../components/Loader';
+import Loader from "../../../components/Loader";
+import cx from "classnames";
+import s from "./Area.module.scss";
+import Widget from "../../../components/Widget";
 
 class Area extends React.Component {
   constructor(props) {
@@ -31,8 +32,8 @@ class Area extends React.Component {
         //   name: "Aldo"
         // }
       ],
-      status: "",
-      successDelete: false,
+      isCreated: false,
+      showAlert: false
     };
   }
 
@@ -49,6 +50,8 @@ class Area extends React.Component {
       .catch(err => {
         console.log(err);
       });
+    // ALERT
+    return localStorage.getItem("isCreated") ? this.onShowAlert() : null;
   }
 
   // DELETE
@@ -63,14 +66,30 @@ class Area extends React.Component {
           alert(res.data.status);
           window.location.reload();
           this.setState({
-            succesDelete: true,
-          })
+            succesDelete: true
+          });
         })
         .catch(err => {
           alert(err.data.status);
         });
     }
   }
+
+  onShowAlert = () => {
+    this.setState(
+      {
+        showAlert: true
+      },
+      () => {
+        window.setTimeout(() => {
+          this.setState({
+            showAlert: false
+          });
+        }, 2000);
+      }
+    );
+    localStorage.removeItem("isCreated");
+  };
 
   render() {
     // search
@@ -90,9 +109,9 @@ class Area extends React.Component {
       });
     });
 
-    if(this.state.successDelete === true){
-      return <Redirect to="/app/tables/area" />
-    }
+    // if (this.state.successDelete === true) {
+    //   return <Redirect to="/app/tables/area" />;
+    // }
 
     return (
       <div className={s.root}>
@@ -106,12 +125,21 @@ class Area extends React.Component {
                 </ol>
               </Col>
             </Row>
+            <Alert
+              color="success"
+              className={cx(s.promoAlert, {
+                [s.showAlert]: this.state.showAlert
+              })}
+            >
+              {localStorage.getItem("isCreated") || "Data has been created"}
+            </Alert>
             <Row className="align-items-center justify-content-between">
               <Col lg={12}>
                 <h3>
                   Data <span className="fw-semi-bold">Area</span>
                 </h3>
               </Col>
+              {/* alert */}
               <Col lg={4}>
                 <input
                   className="form-control my-3"
@@ -133,52 +161,57 @@ class Area extends React.Component {
             </Row>
             <Row>
               <Col lg={12}>
-                <div className="table-responsive">
-                  <Table className="table-hover border-0">
-                    <thead>
-                      <tr>
-                        <th>Kode</th>
-                        <th>Nama</th>
-                        <th>Aksi</th>
-                      </tr>
-                    </thead>
-                    {/* eslint-disable */}
-                    <tbody id="myTable">
-                      {this.state.dataArea.length > 0 ? (
-                        this.state.dataArea.map(item => {
-                          return (
-                            <tr>
-                              <td>{item.code}</td>
-                              <td>{item.name}</td>
-                              <td>
-                                <Link
-                                  to={"/app/forms/editdataarea/" + item._id}
-                                >
-                                  <span className="text-success">
-                                    <i class="far fa-edit"></i>
-                                    Ubah
-                                  </span>
-                                </Link>
-                                <a
-                                  onClick={() => this.handleDelete(item._id)}
-                                  className="ml-1"
-                                >
-                                  <span className="text-danger">
-                                    <i class="fas fa-trash"></i>
-                                    Hapus
-                                  </span>
-                                </a>
-                              </td>
-                            </tr>
-                          );
-                        })
-                      ) : (
-                        <Loader size={35} className="pt-5 position-absolute" />
-                      )}
-                    </tbody>
-                    {/* eslint-enable */}
-                  </Table>
-                </div>
+                <Widget refresh collapse close className="px-2">
+                  <div className="table-responsive">
+                    <Table className="table-hover border-0">
+                      <thead>
+                        <tr>
+                          <th>Kode</th>
+                          <th>Nama</th>
+                          <th>Aksi</th>
+                        </tr>
+                      </thead>
+                      {/* eslint-disable */}
+                      <tbody id="myTable">
+                        {this.state.dataArea.length > 0 ? (
+                          this.state.dataArea.map(item => {
+                            return (
+                              <tr>
+                                <td>{item.code}</td>
+                                <td>{item.name}</td>
+                                <td>
+                                  <Link
+                                    to={"/app/forms/editdataarea/" + item._id}
+                                  >
+                                    <span className="text-success">
+                                      <i className="far fa-edit"></i>
+                                      Ubah
+                                    </span>
+                                  </Link>
+                                  <a
+                                    onClick={() => this.handleDelete(item._id)}
+                                    className="ml-1"
+                                  >
+                                    <span className="text-danger">
+                                      <i className="fas fa-trash"></i>
+                                      Hapus
+                                    </span>
+                                  </a>
+                                </td>
+                              </tr>
+                            );
+                          })
+                        ) : (
+                          <Loader
+                            size={35}
+                            className="pt-5 position-absolute"
+                          />
+                        )}
+                      </tbody>
+                      {/* eslint-enable */}
+                    </Table>
+                  </div>
+                </Widget>
               </Col>
             </Row>
           </Col>
@@ -187,5 +220,5 @@ class Area extends React.Component {
     );
   }
 }
-
+//aaaaaaa bbbbbb
 export default Area;

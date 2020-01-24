@@ -15,6 +15,10 @@ const defaultState = {
   // CREATE
   createSuccess: false,
   createError: false,
+  // SHOW
+  showSuccess: false,
+  showError: false,
+  showData: [],
   // DELETE
   deleteSuccess: false,
   deleteError: false,

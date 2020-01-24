@@ -15,10 +15,13 @@ import {
 } from "reactstrap";
 import $ from "jquery";
 
-// import Widget from "../../../components/Widget";
+import Widget from "../../../components/Widget";
 import s from "./Panelmeter.module.scss";
 import { Link } from "react-router-dom";
 import { fromArray } from "@amcharts/amcharts4/.internal/core/utils/Iterator";
+
+//LOADER
+import Loader from "../../../components/Loader/Loader";
 
 class Panelmeter extends React.Component {
   constructor(props) {
@@ -131,83 +134,91 @@ class Panelmeter extends React.Component {
                 />
               </Col>
               <Col lg={4} className="text-right">
-                <button className="btn btn-primary">Tambah Data </button>
+                <Link
+                  to="/app/forms/createdataperangkat"
+                  className="btn text-white bg-warning"
+                >
+                  Tambah Data
+                </Link>
               </Col>
             </Row>
             <Row className={s.rowTable}>
               <Col lg={12}>
                 <div>
-                  <Table className="table-hover table-responsive">
-                    <thead>
-                      <tr>
-                        <th>Kode</th>
-                        <th>Nomor Seri</th>
-                        <th>Tipe</th>
-                        <th>Model</th>
-                        <th>Parent</th>
-                        <th>Last Update</th>
-                        <th>Valve</th>
-                        <th>Signal</th>
-                        <th>Battery Voltage</th>
-                        <th>Wilayah/Area</th>
-                        <th>Status</th>
-                        <th>EXP</th>
-                        <th>Aksi</th>
-                        <th>Lokasi</th>
-                      </tr>
-                    </thead>
-                    {/* eslint-disable */}
-                    <tbody id="myTable">
-                      {this.state.dataPerangkat ? (
-                        this.state.dataPerangkat.map(item => {
-                          return (
-                            <tr>
-                              <td>{item.kode}</td>
-                              <td>{item.serialNumber}</td>
-                              <td>{item.tipe}</td>
-                              <td>{item.model}</td>
-                              <td>{item.parent}</td>
-                              <td>{this.parseDate(item.lastUpdate)}</td>
-                              <td>{item.valve}</td>
-                              <td>{item.signal}</td>
-                              <td>{item.batteryVoltage}</td>
-                              <td>{item.wilayahArea}</td>
-                              <td>{item.status}</td>
-                              <td>{this.parseDate(item.exp)}</td>
-                              <td>
-                                <Link to="/app/forms/editdataperangkat/">
-                                  <a href="#" className="mr-1">
-                                    <span className="text-success">
-                                      <i class="far fa-edit"></i>
-                                      Ubah
+                  <Widget refresh collapse close className="px-2">
+                    <Table className="table-hover table-responsive">
+                      <thead>
+                        <tr>
+                          <th>Kode</th>
+                          <th>Nomor Seri</th>
+                          <th>Tipe</th>
+                          <th>Model</th>
+                          <th>Parent</th>
+                          <th>Last Update</th>
+                          <th>Valve</th>
+                          <th>Signal</th>
+                          <th>Battery Voltage</th>
+                          <th>Wilayah/Area</th>
+                          <th>Status</th>
+                          <th>EXP</th>
+                          <th>Aksi</th>
+                          <th>Lokasi</th>
+                        </tr>
+                      </thead>
+                      {/* eslint-disable */}
+                      <tbody id="myTable">
+                        {this.state.dataPerangkat ? (
+                          this.state.dataPerangkat.map(item => {
+                            return (
+                              <tr>
+                                <td>{item.kode}</td>
+                                <td>{item.serialNumber}</td>
+                                <td>{item.tipe}</td>
+                                <td>{item.model}</td>
+                                <td>{item.parent}</td>
+                                <td>{this.parseDate(item.lastUpdate)}</td>
+                                <td>{item.valve}</td>
+                                <td>{item.signal}</td>
+                                <td>{item.batteryVoltage}</td>
+                                <td>{item.wilayahArea}</td>
+                                <td>{item.status}</td>
+                                <td>{this.parseDate(item.exp)}</td>
+                                <td>
+                                  <Link to="/app/forms/editdataperangkat/">
+                                    <a href="#" className="mr-1">
+                                      <span className="text-success">
+                                        <i class="far fa-edit"></i>
+                                        Ubah
+                                      </span>
+                                    </a>
+                                  </Link>
+                                  <a href="#" className="ml-1">
+                                    <span className="text-danger">
+                                      <i className="fas fa-trash"></i>
+                                      Hapus
                                     </span>
                                   </a>
-                                </Link>
-                                <a href="#" className="ml-1">
-                                  <span className="text-danger">
-                                    <i class="fas fa-trash"></i>
-                                    Hapus
-                                  </span>
-                                </a>
-                              </td>
-                              <td>
-                                <a href="#" className="ml-1">
-                                  <span className="text-primary">
-                                    <i class="fas fa-globe pl-3"></i>
-                                  </span>
-                                </a>
-                              </td>
-                            </tr>
-                          );
-                        })
-                      ) : (
-                        <div>
-                          <h2>Loading..</h2>
-                        </div>
-                      )}
-                    </tbody>
-                    {/* eslint-enable */}
-                  </Table>
+                                </td>
+                                <td>
+                                  <a href="#" className="ml-1">
+                                    <span className="text-primary">
+                                      <i className="fas fa-globe pl-3"></i>
+                                    </span>
+                                  </a>
+                                </td>
+                              </tr>
+                            );
+                          })
+                        ) : (
+                          <Loader
+                            size={35}
+                            className="pt-5 position-absolute"
+                          />
+                        )}
+                      </tbody>
+                      {/* eslint-enable */}
+                    </Table>
+                  </Widget>
                 </div>
               </Col>
             </Row>

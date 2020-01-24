@@ -107,17 +107,10 @@ class Sidebar extends React.Component {
               this.props.dispatch(changeActiveSidebarItem(activeItem))
             }
             activeItem={this.props.activeItem}
-            header="Meter"
+            header="Perangkat"
             isHeader
             iconName="flaticon-controls"
-            link="/app/main/"
-            index="main"
-            childrenLinks={[
-              {
-                header: "Perangkat",
-                link: "/app/tables/panelmeter"
-              }
-            ]}
+            link="/app/tables/panelmeter"
           />
           {/* <LinksGroup
             onActiveSidebarItemChange={activeItem =>

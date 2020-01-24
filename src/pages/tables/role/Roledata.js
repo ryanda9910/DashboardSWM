@@ -20,6 +20,9 @@ import { Link } from "react-router-dom";
 // import Widget from "../../../components/Widget";
 import s from "./Roledata.module.scss";
 
+//LOADER
+import Loader from "../../../components/Loader/Loader";
+
 class Roledata extends React.Component {
   constructor(props) {
     super(props);
@@ -91,7 +94,9 @@ class Roledata extends React.Component {
                 />
               </Col>
               <Col lg={4} className="text-right">
-                <button className="btn btn-primary">Tambah Data</button>
+                <button className="btn bg-warning text-white">
+                  Tambah Data
+                </button>
               </Col>
             </Row>
             <Row>
@@ -143,9 +148,7 @@ class Roledata extends React.Component {
                           );
                         })
                       ) : (
-                        <div>
-                          <h2>Loading..</h2>
-                        </div>
+                        <Loader size={35} className="pt-5 position-absolute" />
                       )}
                     </tbody>
                     {/* eslint-enable */}

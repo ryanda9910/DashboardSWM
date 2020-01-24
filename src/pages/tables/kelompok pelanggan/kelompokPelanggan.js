@@ -17,6 +17,9 @@ import $ from "jquery";
 import s from "./kelompokPelanggan.module.scss";
 // import { useState } from "react";
 
+//LOADER
+import Loader from "../../../components/Loader/Loader";
+
 class kelompokPelanggan extends React.Component {
   constructor(props) {
     super(props);
@@ -122,7 +125,9 @@ class kelompokPelanggan extends React.Component {
                 />
               </Col>
               <Col lg={4} className="text-right">
-                <button className="btn btn-primary">Tambah Data </button>
+                <button className="btn bg-warning text-white">
+                  Tambah Data{" "}
+                </button>
               </Col>
             </Row>
             <Row>
@@ -179,9 +184,7 @@ class kelompokPelanggan extends React.Component {
                           );
                         })
                       ) : (
-                        <div>
-                          <h2>Loading..</h2>
-                        </div>
+                        <Loader size={35} className="pt-5 position-absolute" />
                       )}
                     </tbody>
                     {/* eslint-enable */}

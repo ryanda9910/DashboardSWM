@@ -18,6 +18,8 @@ import $ from "jquery";
 // import Widget from "../../../components/Widget/Widget";
 import s from "./Userdata.module.scss";
 import { Link } from "react-router-dom";
+//LOADER
+import Loader from "../../../components/Loader/Loader";
 
 class Userdata extends React.Component {
   constructor(props) {
@@ -100,7 +102,9 @@ class Userdata extends React.Component {
                 />
               </Col>
               <Col lg={4} className="text-right">
-                <button className="btn btn-primary">Tambah Data </button>
+                <button className="btn bg-warning text-white">
+                  Tambah Data{" "}
+                </button>
               </Col>
             </Row>
             <Row>
@@ -156,9 +160,7 @@ class Userdata extends React.Component {
                           );
                         })
                       ) : (
-                        <div>
-                          <h2>Loading..</h2>
-                        </div>
+                        <Loader size={35} className="pt-5 position-absolute" />
                       )}
                     </tbody>
                     {/* eslint-enable */}

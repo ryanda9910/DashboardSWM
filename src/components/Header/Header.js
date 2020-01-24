@@ -23,6 +23,9 @@ import {
   Form,
   FormGroup
 } from "reactstrap";
+// CUSTOM
+import jwt from 'jsonwebtoken';
+
 import Notifications from "../Notifications";
 import { logoutUser } from "../../actions/user";
 import {
@@ -188,7 +191,8 @@ class Header extends React.Component {
               >
                 <img src={avatar} alt="..." />
               </span>
-              <span className={`small ${s.accountCheck}`}>Philip smith</span>
+              {/* CUSTOM */}
+              <span className={`small ${s.accountCheck}`}>{jwt.decode(localStorage.getItem('token')).user_name}</span>
               <Badge className={s.badge} color="primary">
                 13
               </Badge>

@@ -42,33 +42,44 @@ export function receiveLogout() {
 
 // Logs the user out
 export function logoutUser() {
+    // 
     return (dispatch) => {
-        dispatch(requestLogout());
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        document.cookie = 'token=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-        axios.defaults.headers.common['Authorization'] = "";
-        dispatch(receiveLogout());
+      // POST LOGOUT
+      axios.post('/api/superuser/logout').then(res => {
+        if(res.status === 200){
+          console.log(res);
+          dispatch(requestLogout());
+          localStorage.removeItem('token');
+          // localStorage.removeItem('user');
+          // modify session
+          document.cookie = 'token=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+          axios.defaults.headers.common['Authorization'] = "";
+          return dispatch(receiveLogout());
+        }
+      }).catch(err => {
+        console.log(err);
+        console.log(err.response);
+      })
     };
 }
 
 export function receiveToken(token) {
     return (dispatch) => {
-        let user;
+        // let user;
 
         // We check if app runs with backend mode
-        if (config.isBackend) {
-          user = jwt.decode(token).user;
-          delete user.id;
-        } else {
-          user = {
-            email: config.auth.email
-          }
-        }
-
-        delete user.id;
+        // if (config.isBackend) {
+        //   user = jwt.decode(token).user;
+        //   // delete user.id;
+        // } else {
+        //   user = {
+        //     email: config.auth.email
+        //   }
+        // }
+        // delete user.id;
+        // localStorage.setItem('user', JSON.stringify(user));
+        
         localStorage.setItem('token', token);
-        localStorage.setItem('user', JSON.stringify(user));
         axios.defaults.headers.common['Authorization'] = "Bearer " + token;
         dispatch(receiveLogin());
     }
@@ -86,11 +97,14 @@ export function loginUser(creds) {
           if (creds.social) {
             window.location.href = config.baseURLApi + "/user/signin/" + creds.social + (process.env.NODE_ENV === "production" ? "?app=light-blue-react" : "");
           } else if (creds.email.length > 0 && creds.password.length > 0) {
-            axios.post("/user/signin/local", creds).then(res => {
-              const token = res.data.token;
-              dispatch(receiveToken(token));
+            axios.post("/api/superuser/login", creds).then(res => {
+              console.log(res);
+              const token = res.data.data.token;
+              console.log(token);
+              return dispatch(receiveToken(token));
             }).catch(err => {
-              dispatch(loginError(err.response.data));
+              console.log(err.response)
+              dispatch(loginError(err.response.data.message));
             })
 
           } else {

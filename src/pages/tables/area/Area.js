@@ -1,6 +1,5 @@
 import React from "react";
-import { Row, Col, Table } from "reactstrap";
-import s from "./Area.module.scss";
+import { Row, Col, Table, Alert } from "reactstrap";
 import {
   BrowserRouter as Router,
   Switch,
@@ -12,42 +11,45 @@ import {
 import axios from "axios";
 import $ from "jquery";
 
+// CUSTOM
 import config from "../../../config";
+import Loader from "../../../components/Loader";
+import cx from "classnames";
+import s from "./Area.module.scss";
 
 class Area extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       dataArea: [
-        {
-          code: "20160801003",
-          name: "Anggun"
-        },
-        {
-          code: "20160801003",
-          name: "Aldo"
-        }
+        // {
+        //   code: "20160801003",
+        //   name: "Anggun"
+        // },
+        // {
+        //   code: "20160801003",
+        //   name: "Aldo"
+        // }
       ],
-      status: ""
+      isCreated: false,
+      showAlert: false
     };
   }
 
   componentDidMount() {
     // GET data
-    if (localStorage.getItem("token")) {
-      axios
-        .get(config.remote + "/api/area")
-        .then(res => {
-          console.log(res);
-          this.setState({
-            dataArea: res.data.message.data,
-            status: res.data.status
-          });
-        })
-        .catch(err => {
-          console.log(err);
+    axios
+      .get("/api/area", config.axiosConfig)
+      .then(res => {
+        console.log(res);
+        this.setState({
+          dataArea: res.data.message.data,
+          status: res.data.status
         });
-    }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 
   // DELETE
@@ -61,12 +63,33 @@ class Area extends React.Component {
           console.log(res);
           alert(res.data.status);
           window.location.reload();
+          this.setState({
+            succesDelete: true
+          });
         })
         .catch(err => {
           alert(err.data.status);
         });
     }
+    // ALERT
+    return localStorage.getItem("isCreated") ? this.onShowAlert() : null;
   }
+
+  onShowAlert = () => {
+    this.setState(
+      {
+        showAlert: true
+      },
+      () => {
+        window.setTimeout(() => {
+          this.setState({
+            showAlert: false
+          });
+        }, 2000);
+      }
+    );
+    localStorage.removeItem("isCreated");
+  };
 
   render() {
     // search
@@ -85,6 +108,11 @@ class Area extends React.Component {
         });
       });
     });
+
+    // if (this.state.successDelete === true) {
+    //   return <Redirect to="/app/tables/area" />;
+    // }
+
     return (
       <div className={s.root}>
         <Row className="pt-3">
@@ -97,12 +125,21 @@ class Area extends React.Component {
                 </ol>
               </Col>
             </Row>
+            <Alert
+              color="success"
+              className={cx(s.promoAlert, {
+                [s.showAlert]: this.state.showAlert
+              })}
+            >
+              {localStorage.getItem("isCreated") || "Data has been created"}
+            </Alert>
             <Row className="align-items-center justify-content-between">
               <Col lg={12}>
                 <h3>
                   Data <span className="fw-semi-bold">Area</span>
                 </h3>
               </Col>
+              {/* alert */}
               <Col lg={4}>
                 <input
                   className="form-control my-3"
@@ -116,7 +153,7 @@ class Area extends React.Component {
               <Col lg={4} className="text-right">
                 <Link
                   to="/app/forms/createdataarea"
-                  className="btn text-white bg-primary"
+                  className="btn text-white bg-warning"
                 >
                   Tambah Data
                 </Link>
@@ -164,9 +201,7 @@ class Area extends React.Component {
                           );
                         })
                       ) : (
-                        <div>
-                          <h2>Loading..</h2>
-                        </div>
+                        <Loader size={35} className="pt-5 position-absolute" />
                       )}
                     </tbody>
                     {/* eslint-enable */}

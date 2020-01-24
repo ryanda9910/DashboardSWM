@@ -38,7 +38,7 @@ class CreateDataTarifPelanggan extends React.Component {
       volfrom3: "",
       volto3: "",
       // status post
-      createStatus: "",
+      createStatus: null,
       createError: null
     };
     //
@@ -77,7 +77,9 @@ class CreateDataTarifPelanggan extends React.Component {
       .then(res => {
         console.log(res);
         if (res.status === 200 || res.status === 201) {
-          alert(res.data.status);
+          // alert(res.data.status);
+          // untuk alert pada table
+          localStorage.setItem('isCreated', res.data.status);
           this.setState({
             createStatus: res.status
           });

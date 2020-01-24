@@ -6,6 +6,9 @@ import $ from "jquery";
 import s from "./Pelanggan.module.scss";
 import { Link } from "react-router-dom";
 
+//LOADER
+import Loader from "../../../components/Loader/Loader";
+
 class Pelanggan extends React.Component {
   constructor(props) {
     super(props);
@@ -85,7 +88,9 @@ class Pelanggan extends React.Component {
                 />
               </Col>
               <Col lg={4} className="text-right">
-                <button className="btn btn-primary">Tambah Data </button>
+                <button className="btn bg-warning text-white">
+                  Tambah Data{" "}
+                </button>
               </Col>
             </Row>
             <Row>
@@ -151,9 +156,7 @@ class Pelanggan extends React.Component {
                           );
                         })
                       ) : (
-                        <div>
-                          <h2>Loading..</h2>
-                        </div>
+                        <Loader size={35} className="pt-5 position-absolute" />
                       )}
                     </tbody>
                     {/* eslint-enable */}

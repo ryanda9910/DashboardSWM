@@ -20,6 +20,9 @@ import s from "./Panelmeter.module.scss";
 import { Link } from "react-router-dom";
 import { fromArray } from "@amcharts/amcharts4/.internal/core/utils/Iterator";
 
+//LOADER
+import Loader from "../../../components/Loader/Loader";
+
 class Panelmeter extends React.Component {
   constructor(props) {
     super(props);
@@ -131,7 +134,9 @@ class Panelmeter extends React.Component {
                 />
               </Col>
               <Col lg={4} className="text-right">
-                <button className="btn btn-primary">Tambah Data </button>
+                <button className="btn bg-warning text-white">
+                  Tambah Data{" "}
+                </button>
               </Col>
             </Row>
             <Row className={s.rowTable}>
@@ -201,9 +206,7 @@ class Panelmeter extends React.Component {
                           );
                         })
                       ) : (
-                        <div>
-                          <h2>Loading..</h2>
-                        </div>
+                        <Loader size={35} className="pt-5 position-absolute" />
                       )}
                     </tbody>
                     {/* eslint-enable */}

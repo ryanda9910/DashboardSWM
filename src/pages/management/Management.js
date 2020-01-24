@@ -193,7 +193,7 @@ class Management extends React.Component {
                             <span className="fs-sm">Image</span>
                         </TableHeaderColumn>
                         <TableHeaderColumn dataField="title" dataFormat={this.titleFormatter}>
-                            <span className="fs-sm">Title</span>
+                            <span className="fsx-sm">Title</span>
                         </TableHeaderColumn>
                         {window.innerWidth >= 768 && (
                             <TableHeaderColumn dataField="subtitle">

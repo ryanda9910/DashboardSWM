@@ -35,7 +35,10 @@ import config from "../../../config";
 import Loader from '../../../components/Loader/Loader';
 import s from "./TarifPelanggan.module.scss";
 // actions
-import { getData } from '../../../actions/tables/tarifpelanggan';
+import { 
+  getData, 
+  createData,
+  deleteData, } from '../../../actions/tables/tarifpelanggan';
 
 class TarifPelanggan extends React.Component {
 
@@ -61,16 +64,8 @@ class TarifPelanggan extends React.Component {
       // getError: false,
       // ALERT
       showAlert: false,
-      // 
-      // isCreated: false,
-      // fourZeroOne: null,
+      alertDestroy: false
     };
-    // props from reducer to state
-    // this.setState({
-    //   dataTarifPelanggan: this.props.dataTarifPelanggan,
-    //   getSuccess: this.props.getSuccess,
-    //   getError: this.props.getError,
-    // })
   }
 
   componentDidMount() {
@@ -78,8 +73,7 @@ class TarifPelanggan extends React.Component {
     this.props.dispatch(getData())
 
     // ALERT
-    return localStorage.getItem('isCreated') ? this.onShowAlert() : null
-    
+    return this.state.deleteSuccess ? this.onShowAlert() : null
   }
 
   // DELETE
@@ -87,15 +81,9 @@ class TarifPelanggan extends React.Component {
     let confirm = window.confirm("delete data, are you sure?");
     console.log(confirm);
     if (confirm) {
-      axios
-        .delete("http://swm-apis.herokuapp.com/api/tarif/" + id)
-        .then(res => {
-          alert(res.data.message);
-          window.location.reload();
-        })
-        .catch(err => {
-          alert(err.data.message);
-        });
+      this.props.dispatch(deleteData(id))
+      this.onShowAlert()
+      this.props.dispatch(getData())
     }
   }
 
@@ -108,6 +96,7 @@ class TarifPelanggan extends React.Component {
       window.setTimeout(()=>{
         this.setState({
           showAlert:false,
+          alertDestroy: false
         })
       },2000)     
     });
@@ -116,8 +105,13 @@ class TarifPelanggan extends React.Component {
 
 
   render() {
-    console.log(this.state);
-    console.log(this.props);
+    // console.log(this.state);
+    // console.log(this.props);
+
+    // jika error karena 401 atau lainnya, tendang user dengan hapus cookie
+    if(this.props.getError){
+      return document.cookie = 'token=;expires=Thu, 01 Jan 1970 00:00:01 GMT;'
+    }
 
     // search
     $("#myInput").on("keyup", function() {
@@ -208,7 +202,7 @@ class TarifPelanggan extends React.Component {
                   color="success"
                   className={cx(s.promoAlert, {[s.showAlert]: this.state.showAlert})}
                 >
-                  {localStorage.getItem('isCreated') || 'Data has been created'}
+                  {this.props.alertMessage || 'Data get actions'}
                 </Alert>
                 {/* handle 401 */}
                 {/* <button onClick={() => document.cookie = 'token=;expires=Thu, 01 Jan 1970 00:00:01 GMT;'}>delete cookie</button> */}
@@ -281,9 +275,18 @@ class TarifPelanggan extends React.Component {
 
 function mapStateToProps(state) {
   return {
-      getSuccess: state.reducerTarifPelanggan.getSuccess,
-      getError: state.reducerTarifPelanggan.getError,
-      dataTarifPelanggan: state.reducerTarifPelanggan.dataTarifPelanggan,
+    // ALERT
+    alertMessage: state.reducerTarifPelanggan.alertMessage,
+    // GET 
+    getSuccess: state.reducerTarifPelanggan.getSuccess,
+    getError: state.reducerTarifPelanggan.getError,
+    dataTarifPelanggan: state.reducerTarifPelanggan.dataTarifPelanggan,
+    // CREATE
+    createSuccess: state.reducerTarifPelanggan.createSuccess,
+    createError: state.reducerTarifPelanggan.createError,
+    // DELETE
+    deleteSuccess: state.reducerTarifPelanggan.deleteSuccess,
+    deleteError: state.reducerTarifPelanggan.deleteError,
   };
 }
 

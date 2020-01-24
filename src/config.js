@@ -31,6 +31,7 @@ const axiosConfig = {
       'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': '*',
       'Accept' : 'application/json',
+      'Authorization': 'Bearer ' + token
     }
   }
 

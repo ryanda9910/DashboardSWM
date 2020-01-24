@@ -10,16 +10,24 @@ import {
   CustomInput,
   InputGroup,
   InputGroupAddon,
-  InputGroupText
+  InputGroupText,
+  FormFeedback,
+  FormText,
 } from "reactstrap";
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
 import { Link, Redirect } from "react-router-dom";
-import axios from "axios";
-// import Formsy from "formsy-react";
+// 
+import { createData } from '../../../actions/tables/tarifpelanggan';
 import s from "./createdatatarifpelanggan.module.scss";
-// import InputValidation from "../../../components/InputValidation";
-// import Widget from "../../../components/Widget";
 
 class CreateDataTarifPelanggan extends React.Component {
+  
+  static propTypes = {
+    dispatch: PropTypes.func.isRequired,
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -38,8 +46,8 @@ class CreateDataTarifPelanggan extends React.Component {
       volfrom3: "",
       volto3: "",
       // status post
-      createStatus: null,
-      createError: null
+      // createStatus: null,
+      // createError: null
     };
     //
     this.goBack = this.goBack.bind(this);
@@ -64,33 +72,15 @@ class CreateDataTarifPelanggan extends React.Component {
       volfrom3: this.state.volfrom3,
       volto3: this.state.volto3
     };
-
-    let axiosConfig = {
-      headers: {
-        "Content-Type": "application/json;charset=UTF-8",
-        "Access-Control-Allow-Origin": "*"
-        // Authorization: token
-      }
-    };
-    axios
-      .post("http://swm-apis.herokuapp.com/api/tarif/", postData, axiosConfig)
-      .then(res => {
-        console.log(res);
-        if (res.status === 200 || res.status === 201) {
-          // alert(res.data.status);
-          // untuk alert pada table
-          localStorage.setItem('isCreated', res.data.status);
-          this.setState({
-            createStatus: res.status
-          });
-        }
-      })
-      .catch(err => {
-        console.log(err);
-        this.setState({
-          createError: "Something Wrong"
-        });
-      });
+    // let axiosConfig = {
+    //   headers: {
+    //     "Content-Type": "application/json;charset=UTF-8",
+    //     "Access-Control-Allow-Origin": "*"
+    //     // Authorization: token
+    //   }
+    // };
+    // 
+    this.props.dispatch(createData(postData))
   };
   // track change
   handleChange = e => {
@@ -110,17 +100,15 @@ class CreateDataTarifPelanggan extends React.Component {
 
   render() {
     console.log(this.state);
-
-    // redirect jika succes create
-    if (this.state.createStatus === 200 || this.state.createStatus === 201) {
-      return <Redirect to="/app/tables/tarifpelanggan" />;
-    }
-
+    // craete success
+    // if(this.props.createSuccess){
+    //   return <Redirect to="/app/tables/tarifpelanggan" />;
+    // }
     // create error
     const createError =
-      this.state.createError === null ? null : (
+      this.props.createError === false ? null : (
         <div className="text-center w-100 py-2">
-          <small className="text-white">{this.state.createError}</small>
+          <small className="text-white">{this.props.createError}</small>
         </div>
       );
 
@@ -208,6 +196,8 @@ class CreateDataTarifPelanggan extends React.Component {
                   id="exampleKode"
                   placeholder="Kode"
                 />
+                {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                {/* <FormText>Example help text that remains unchanged.</FormText> */}
               </FormGroup>
               {/* isactive */}
               <FormGroup>
@@ -339,4 +329,11 @@ class CreateDataTarifPelanggan extends React.Component {
   }
 }
 
-export default CreateDataTarifPelanggan;
+const mapStateToProps = (state) => {
+  return {
+    createSuccess: state.reducerTarifPelanggan.createSuccess,
+    createError: state.reducerTarifPelanggan.createError,
+  }
+}
+
+export default connect(mapStateToProps)(CreateDataTarifPelanggan);

@@ -58,8 +58,8 @@ export const getData = () => {
       return dispatch(getSuccess(res.data.message.data));
     })
     .catch(err => {
-      // console.log(err.response);
-      dispatch(getError(err.response.status));
+      console.log(err.response);
+      // dispatch(getError(err.response.status));
     });
   }
 }
@@ -67,14 +67,20 @@ export const createData = (postData) => {
   return (dispatch) => {
     axios.post("/api/tarif/", postData)
     .then(res => {
-      // console.log(res);
-      if (res.status === 200 || res.status === 201) {
+      // jika success
+      if (res.data.code >= 200 || res.data.code < 300) {
+        console.log(res)
+        // ketika Error masuk kesini, backend
+        // dispatch(createSuccess(res.data.status))
         dispatch(createSuccess(res.data.status))
+      }else{
+        // jika validasi dari server error
+        dispatch(createError(res.response.data.message))
       }
     })
     .catch(err => {
-      // console.log(err);
-      dispatch(createSuccess(err.response.data.message))     
+      console.log(err);
+      dispatch(createError(err.response.data.message))     
     });
   }
 }

@@ -60,8 +60,6 @@ export function logoutUser() {
         console.log(err);
         console.log(err.response);
         // 
-        document.cookie = 'token=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-        axios.defaults.headers.common['Authorization'] = "";
       })
     };
 }

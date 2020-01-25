@@ -3,9 +3,9 @@ import {
   Row,
   Col,
   Button,
-  FormGroup,
   Label,
   Form,
+  FormGroup,
   Input,
   CustomInput,
   InputGroup,
@@ -101,6 +101,7 @@ class CreateDataTarifPelanggan extends React.Component {
 
   render() {
     console.log(this.state);
+    console.log(this.props);
     // craete success
     // if(this.props.createSuccess){
     //   return <Redirect to="/app/tables/tarifpelanggan" />;

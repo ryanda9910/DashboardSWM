@@ -7,6 +7,7 @@ import register from './register';
 import analytics from './analytics';
 // tables
 import reducerTarifPelanggan from './reducerTarifPelanggan';
+import reducerDistributor from './reducerDistributor';
 
 export default combineReducers({
   alerts,
@@ -16,4 +17,5 @@ export default combineReducers({
   register,
   analytics,
   reducerTarifPelanggan,
+  reducerDistributor,
 });

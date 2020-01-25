@@ -3,16 +3,21 @@ import {
   Row,
   Col,
   Table,
-  Progress,
   Button,
-  UncontrolledButtonDropdown,
-  DropdownMenu,
-  DropdownToggle,
-  DropdownItem,
-  Input,
+  Alert,
+  // MODALS
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Form,
+  FormGroup,
   Label,
-  Badge,
-  Alert
+  Input,
+  CustomInput,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupText,
 } from "reactstrap";
 import axios from "axios";
 import $ from "jquery";
@@ -40,7 +45,12 @@ import Widget from "../../../components/Widget";
 import { 
   getData, 
   createData,
-  deleteData, } from '../../../actions/tables/tarifpelanggan';
+  deleteData, 
+} from '../../../actions/tables/tarifpelanggan';
+// ambil distributor untuk create dan update
+import {
+  getDataDistributor
+} from '../../../actions/tables/distributor';
 
 class TarifPelanggan extends React.Component {
   static propTypes = {
@@ -59,23 +69,57 @@ class TarifPelanggan extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // GET
-      // dataTarifPelanggan: [],
-      // getSucces: false,
-      // getError: false,
+      // CREATE
+      name: '',
+      distributor_id: '',
+      isactive: '',
+      description: '',
       // ALERT
       showAlert: false,
-      alertDestroy: false
+      alertDestroy: false,
+      // MODALS
+      modalCreate:false,
     };
+    // 
+    this.handleCreateChange = this.handleCreateChange.bind(this);
   }
 
   componentDidMount() {
+    // masih race condition, harusnya pas modals muncul aja
     // GET data
     this.props.dispatch(getData());
+    // GET data distributor
+    // if(this.state.modalCreate === true){
+    this.props.dispatch(getDataDistributor());
+    // }
 
     // ALERT
     return this.props.alertMessage ? this.onShowAlert() : null;
   }
+
+  // CREATE Tarif
+  doCreateTarif = e => {
+    e.preventDefault();
+    let postData = {
+      name: this.state.name,
+      distributor_id: this.state.distributor_id,
+      isactive: this.state.isactive,
+      description: this.state.description,
+    };
+    console.log(postData);
+    // this.props.dispatch(createData(postData))
+  };
+  // track change
+  handleCreateChange = e => {
+    console.log(e.target);
+    const target = e.target;
+    const value = target.type === "checkbox" ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+  };
 
   // DELETE
   handleDelete(id) {
@@ -87,7 +131,6 @@ class TarifPelanggan extends React.Component {
       this.props.dispatch(getData())
     }
   }
-
 
   onShowAlert = ()=>{
     this.setState({
@@ -104,19 +147,37 @@ class TarifPelanggan extends React.Component {
     localStorage.removeItem('isCreated')
   }
 
+  toggle(id) {
+    this.setState(prevState => ({
+      [id]: !prevState[id],
+    }));
+  }
+
 
   render() {
-    // console.log(this.state);
-    // console.log(this.props);
+    console.log(this.state);
+    console.log(this.props);
 
     // jika error karena 401 atau lainnya, tendang user dengan hapus cookie
     // if(this.props.getError){
     //   return document.cookie = 'token=;expires=Thu, 01 Jan 1970 00:00:01 GMT;'
     // }
 
+    const { modalCreate } = this.state;
+    const { createSuccess, dataDistributor } = this.props;
+
+
+    // create error
+    const createError =
+      this.props.createError === false ? null : (
+        <div className="text-center w-100 py-2">
+          <small className="text-white">{this.props.createError}</small>
+        </div>
+      );
+
     // search
-    $("#myInput").on("keyup", function() {
-      $(document).ready(function() {
+    $(document).ready(function() {
+      $("#myInput").on("keyup", function() {
         var value = $(this)
           .val()
           .toLowerCase();
@@ -141,22 +202,12 @@ class TarifPelanggan extends React.Component {
           ) : (
             <span className="badge btn-danger">FALSE</span>
           );
-          const isprogressive = item.isprogressive ? (
-            <span className="badge btn-success">TRUE</span>
-          ) : (
-            <span className="badge btn-danger">FALSE</span>
-          );
           return (
             <tr>
-              <td>{item.code}</td>
               <td>{item.name}</td>
-              <td>{item.description}</td>
+              {/* <td>{item.distributor_id.code}</td> */}
               <td>{isactive}</td>
-              <td>{isprogressive}</td>
-              <td>{item.volfrom1}</td>
-              <td>{item.price1}</td>
-              <td>{item.volfrom2}</td>
-              <td>{item.price2}</td>
+              <td>{item.description}</td>
               <td>
                 <Link
                   to={"/app/forms/editdatatarifpelanggan/" + item._id}
@@ -225,12 +276,14 @@ class TarifPelanggan extends React.Component {
               <Col lg={4} className="text-right">
                 {/* <button className="btn btn-primary">Create</button> */}
                 {/* <CreateModal /> */}
-                <Link
+                {/* <Link
                   to="/app/forms/createdatatarifpelanggan"
                   className="btn bg-warning text-white"
                 >
                   Tambah Data
-                </Link>
+                </Link> */}
+                {/* BUTTON MODALS CREATE */}
+                <Button className="mr-sm" color="warning" onClick={() => this.toggle('modalCreate')}>Tambah Data</Button>
               </Col>
             </Row>
             <Row>
@@ -240,16 +293,10 @@ class TarifPelanggan extends React.Component {
                     <Table className="table-hover">
                       <thead>
                         <tr>
-                          <th>Kode</th>
                           <th>Nama</th>
-                          <th>Description</th>
+                          <th>ID Distributor</th>
                           <th>is Active</th>
-                          <th>is Progressive</th>
-                          <th>Volume 1</th>
-                          <th>Harga 1</th>
-                          <th>Volume 2</th>
-                          <th>Harga 2 </th>
-                          {/* <th>Status</th> */}
+                          <th>Description</th>
                           <th>Aksi</th>
                         </tr>
                       </thead>
@@ -265,6 +312,80 @@ class TarifPelanggan extends React.Component {
             </Row>
           </Col>
         </Row>
+
+        {/* MODALS */}
+        <Modal size="md" isOpen={modalCreate} toggle={() => this.toggle('modalCreate')}>
+          <ModalHeader toggle={() => this.toggle('modalCreate')}>Tambah Data</ModalHeader>
+          <ModalBody>
+          <Form id="formCreateDataTarif" onSubmit={this.doCreateTarif}>
+
+              {/* isactive */}
+              <FormGroup>
+                <Label for="exampleIsActive">is Active</Label>
+                <CustomInput
+                  onChange={this.handleCreateChange}
+                  type="switch"
+                  id="exampleIsActive"
+                  name="isactive"
+                  label="Turn on this if True"
+                />
+              </FormGroup>
+              {/* name */}
+              <FormGroup>
+                <Label for="exampleNama">Nama</Label>
+                <Input
+                  onChange={this.handleCreateChange}
+                  type="text"
+                  name="name"
+                  id="exampleNama"
+                  placeholder="Nama"
+                />
+              </FormGroup>
+              {/* description */}
+              <FormGroup>
+                <Label for="exampleKode">Deskripsi</Label>
+                <Input
+                  onChange={this.handleCreateChange}
+                  type="text"
+                  name="description"
+                  id="exampleDeskripsi"
+                  placeholder="Deskripsi"
+                />
+                {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                {/* <FormText>Example help text that remains unchanged.</FormText> */}
+              </FormGroup>
+              {/* distributor_id */}
+              <FormGroup>
+                {/* tampilkan distributor name dan id nya sebagai value */}
+                <Label for="exampleKode">ID Distributor</Label>
+                <Input onChange={this.handleCreateChange} type="select" name="distributor_id" id="exampleSelect">
+                  {
+                    dataDistributor.map(item => {
+                      return (
+                        <option value={item._id}>{item.name}</option>
+                      )
+                    })
+                  }
+                </Input>
+                {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                {/* <FormText>Example help text that remains unchanged.</FormText> */}
+              </FormGroup>
+
+              {/* show ERROR */}
+              <FormGroup row className="bg-danger">
+                {createError}
+              </FormGroup>
+
+              <ModalFooter>
+                <Button color="dark" onClick={() => this.toggle('modalCreate')}>Close</Button>
+                {/* craete */}
+                <Button color="warning" className="px-5" type="submit">
+                  Tambah Data
+                </Button>
+              </ModalFooter>
+            </Form>
+          </ModalBody>
+        </Modal>
       </div>
     );
   }
@@ -287,6 +408,9 @@ function mapStateToProps(state) {
     // DELETE
     deleteSuccess: state.reducerTarifPelanggan.deleteSuccess,
     deleteError: state.reducerTarifPelanggan.deleteError,
+
+    // DISTRIBUTOR
+    dataDistributor: state.reducerDistributor.dataDistributor,
   };
 }
 

@@ -54,7 +54,8 @@ import Dashboard from "../../pages/dashboard";
 import pelanggan from "../../pages/tables/pelanggan/Pelanggan";
 import Area from "../../pages/tables/area/Area";
 import PanelMeter from "../../pages/tables/panelmeter/Panelmeter";
-import TarifPelanggan from "../../pages/tables/tarifpelanggan/TarifPelanggan";
+import TarifVersion from "../../pages/tables/tarifversion/TarifVersion";
+import Tarif from "../../pages/tables/tarif/Tarif";
 import KelompokPelanggan from "../../pages/tables/kelompok pelanggan/kelompokPelanggan";
 import RoleData from "../../pages/tables/role/Roledata";
 import UserData from "../../pages/tables/user/Userdata";
@@ -141,6 +142,7 @@ class Layout extends React.Component {
                   timeout={200}
                 >
                   <Switch>
+                    {/* ROUTES TABLES */}
                     <Route
                       path="/app/main"
                       exact
@@ -164,10 +166,11 @@ class Layout extends React.Component {
                       component={pelanggan}
                     />
                     <Route
-                      path="/app/tables/tarifpelanggan"
+                      path="/app/tables/tarifversion"
                       exact
-                      component={TarifPelanggan}
+                      component={TarifVersion}
                     />
+                    <Route path="/app/tables/tarif" exact component={Tarif} />
                     <Route
                       path="/app/tables/kelompokpelanggan"
                       exact

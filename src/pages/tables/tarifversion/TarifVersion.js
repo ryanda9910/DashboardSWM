@@ -33,19 +33,17 @@ import jwt from "jsonwebtoken";
 import cx from "classnames";
 import config from "../../../config";
 import Loader from "../../../components/Loader/Loader";
-import s from "./TarifPelanggan.module.scss";
+import s from "./TarifVersion.module.scss";
 
-// import $ from "jquery";
-
-import Widget from "../../../components/Widget";
+import Widget from "../../../components/Widget/Widget";
 // actions
 import {
   getData,
   createData,
   deleteData
-} from "../../../actions/tables/tarifpelanggan";
+} from "../../../actions/tables/tarifversion";
 
-class TarifPelanggan extends React.Component {
+class TarifVersion extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired
   };
@@ -63,12 +61,14 @@ class TarifPelanggan extends React.Component {
     super(props);
     this.state = {
       // GET
-      // dataTarifPelanggan: [],
+      // dataTarifVersion: [],
       // getSucces: false,
       // getError: false,
       // ALERT
       showAlert: false,
-      alertDestroy: false
+      alertDestroy: false,
+      isCreated: false,
+      showAlert: false
     };
   }
 
@@ -136,8 +136,8 @@ class TarifPelanggan extends React.Component {
 
     // table data
     const tableData =
-      this.props.dataTarifPelanggan.length > 0 ? (
-        this.props.dataTarifPelanggan.map(item => {
+      this.props.dataTarifVersion.length > 0 ? (
+        this.props.dataTarifVersion.map(item => {
           console.log(item);
           const isactive = item.isactive ? (
             <span className="badge btn-success">TRUE</span>
@@ -193,7 +193,7 @@ class TarifPelanggan extends React.Component {
                 <ol className="breadcrumb">
                   <li className="breadcrumb-item">YOU ARE HERE</li>
                   <li className="breadcrumb-item active">
-                    Tarif <span>Pelanggan</span>
+                    Tarif <span>Version</span>
                   </li>
                 </ol>
                 {/* alert */}
@@ -243,22 +243,23 @@ class TarifPelanggan extends React.Component {
                     <Table className="table-hover">
                       <thead>
                         <tr>
-                          <th>Kode</th>
                           <th>Nama</th>
-                          <th>Description</th>
-                          <th>is Active</th>
-                          <th>is Progressive</th>
+                          <th>ValidFrom</th>
+                          <th>Price 1</th>
                           <th>Volume 1</th>
-                          <th>Harga 1</th>
+                          <th>Price 2</th>
                           <th>Volume 2</th>
-                          <th>Harga 2 </th>
+                          <th>Price 3 </th>
+                          <th>Volume 3</th>
+                          <th>Distributor Id </th>
+                          <th>Tarif Id </th>
                           {/* <th>Status</th> */}
                           <th>Aksi</th>
                         </tr>
                       </thead>
                       <tbody id="myTable" className="position-relative">
                         {/* eslint-disable */}
-                        {this.props.dataTarifPelanggan ? tableData : null}
+                        {this.props.dataTarifVersion ? tableData : null}
                       </tbody>
                       {/* eslint-enable */}
                     </Table>
@@ -276,21 +277,21 @@ class TarifPelanggan extends React.Component {
 function mapStateToProps(state) {
   return {
     // ALERT
-    alertMessage: state.reducerTarifPelanggan.alertMessage,
+    alertMessage: state.reducerTarifVersion.alertMessage,
     // GET
-    getSuccess: state.reducerTarifPelanggan.getSuccess,
-    getError: state.reducerTarifPelanggan.getError,
-    dataTarifPelanggan: state.reducerTarifPelanggan.dataTarifPelanggan,
+    getSuccess: state.reducerTarifVersion.getSuccess,
+    getError: state.reducerTarifVersion.getError,
+    dataTarifVersion: state.reducerTarifVersion.dataTarifVersion,
     // CREATE
-    createSuccess: state.reducerTarifPelanggan.createSuccess,
-    createError: state.reducerTarifPelanggan.createError,
+    createSuccess: state.reducerTarifVersion.createSuccess,
+    createError: state.reducerTarifVersion.createError,
     // UPDATE
-    updateSuccess: state.reducerTarifPelanggan.updateSuccess,
-    updateError: state.reducerTarifPelanggan.updateError,
+    updateSuccess: state.reducerTarifVersion.updateSuccess,
+    updateError: state.reducerTarifVersion.updateError,
     // DELETE
-    deleteSuccess: state.reducerTarifPelanggan.deleteSuccess,
-    deleteError: state.reducerTarifPelanggan.deleteError
+    deleteSuccess: state.reducerTarifVersion.deleteSuccess,
+    deleteError: state.reducerTarifVersion.deleteError
   };
 }
 
-export default withRouter(connect(mapStateToProps)(TarifPelanggan));
+export default withRouter(connect(mapStateToProps)(TarifVersion));

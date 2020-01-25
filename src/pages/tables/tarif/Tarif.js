@@ -15,10 +15,10 @@ import $ from "jquery";
 import config from "../../../config";
 import Loader from "../../../components/Loader";
 import cx from "classnames";
-import s from "./Area.module.scss";
+import s from "./Tarif.module.scss";
 import Widget from "../../../components/Widget";
 
-class Area extends React.Component {
+class Tarif extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -122,7 +122,7 @@ class Area extends React.Component {
               <Col lg={12}>
                 <ol className="breadcrumb">
                   <li className="breadcrumb-item">YOU ARE HERE</li>
-                  <li className="breadcrumb-item active">Area</li>
+                  <li className="breadcrumb-item active">Tarif</li>
                 </ol>
               </Col>
             </Row>
@@ -137,7 +137,7 @@ class Area extends React.Component {
             <Row className="align-items-center justify-content-between">
               <Col lg={12}>
                 <h3>
-                  Data <span className="fw-semi-bold">Area</span>
+                  Data <span className="fw-semi-bold">Tarif</span>
                 </h3>
               </Col>
               {/* alert */}
@@ -167,10 +167,9 @@ class Area extends React.Component {
                     <Table className="table-hover border-0">
                       <thead>
                         <tr>
-                          <th>Kode</th>
                           <th>Nama</th>
-                          <th>Kode Distributor</th>
-                          <th>Aksi</th>
+                          <th>Deskripsi</th>
+                          <th>Status</th>
                         </tr>
                       </thead>
                       {/* eslint-disable */}
@@ -181,7 +180,6 @@ class Area extends React.Component {
                               <tr>
                                 <td>{item.code}</td>
                                 <td>{item.name}</td>
-                                <td></td>
                                 <td>
                                   <Link
                                     to={"/app/forms/editdataarea/" + item._id}
@@ -223,5 +221,5 @@ class Area extends React.Component {
     );
   }
 }
-//aaaaaaa bbbbbb
-export default Area;
+
+export default Tarif;

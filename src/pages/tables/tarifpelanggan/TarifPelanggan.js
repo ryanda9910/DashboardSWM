@@ -35,6 +35,8 @@ import config from "../../../config";
 import Loader from "../../../components/Loader/Loader";
 import s from "./TarifPelanggan.module.scss";
 
+// import $ from "jquery";
+
 import Widget from "../../../components/Widget";
 // actions
 import { getData } from "../../../actions/tables/tarifpelanggan";
@@ -61,6 +63,7 @@ class TarifPelanggan extends React.Component {
       // getSucces: false,
       // getError: false,
       // ALERT
+      isCreated: false,
       showAlert: false
       //
       // isCreated: false,
@@ -120,8 +123,8 @@ class TarifPelanggan extends React.Component {
     console.log(this.props);
 
     // search
-    $("#myInput").on("keyup", function() {
-      $(document).ready(function() {
+    $(document).ready(function() {
+      $("#myInput").on("keyup", function() {
         var value = $(this)
           .val()
           .toLowerCase();

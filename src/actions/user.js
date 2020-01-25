@@ -55,14 +55,13 @@ export function logoutUser() {
           document.cookie = 'token=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
           axios.defaults.headers.common['Authorization'] = "";
           return dispatch(receiveLogout());
-        }else{
-          // jika tidak succes
-          document.cookie = 'token=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-          axios.defaults.headers.common['Authorization'] = "";
         }
       }).catch(err => {
         console.log(err);
         console.log(err.response);
+        // 
+        document.cookie = 'token=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+        axios.defaults.headers.common['Authorization'] = "";
       })
     };
 }
@@ -107,7 +106,7 @@ export function loginUser(creds) {
               console.log(token);
               return dispatch(receiveToken(token));
             }).catch(err => {
-              console.log(err.response)
+              // console.log(err.response.data.message)
               dispatch(loginError(err.response.data.message));
             })
 

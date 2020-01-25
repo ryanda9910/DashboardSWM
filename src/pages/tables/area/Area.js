@@ -39,8 +39,7 @@ class Area extends React.Component {
 
   componentDidMount() {
     // GET data
-    axios
-      .get("/api/area", config.axiosConfig)
+    axios.get('/api/area')
       .then(res => {
         console.log(res);
         this.setState({

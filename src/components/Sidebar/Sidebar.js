@@ -144,18 +144,8 @@ class Sidebar extends React.Component {
             header="Tarif Pelanggan"
             isHeader
             iconName="flaticon-notebook-3"
-            link="/app/tables/"
+            link="/app/tables/tarifpelanggan"
             index="Tarif Pelanggan"
-            childrenLinks={[
-              {
-                header: "Role",
-                link: "/app/tables/roledata"
-              },
-              {
-                header: "User",
-                link: "/app/tables/userdata"
-              }
-            ]}
           />
           <LinksGroup
             onActiveSidebarItemChange={t =>

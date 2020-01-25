@@ -51,45 +51,35 @@ class Editdatatarifpelanggan extends React.Component {
   componentDidMount() {
     // get data
     const id = this.props.match.params.id;
-    // jika sudah ada token baru GET
-    if (localStorage.getItem("token")) {
-      let axiosConfig = {
-        headers: {
-          "Content-Type": "application/json;charset=UTF-8",
-          "Access-Control-Allow-Origin": "*"
-          // Authorization: token
-        }
-      };
-      axios
-        .get(config.remote + "/api/tarif/" + id, axiosConfig)
-        .then(res => {
-          console.log(res);
-          this.setState({
-            code: res.data.data.code,
-            isactive: res.data.data.isactive,
-            name: res.data.data.name,
-            description: res.data.data.description,
-            isprogressive: res.data.data.isprogressive,
-            price1: res.data.data.price1,
-            volfrom1: res.data.data.volfrom1,
-            volto1: res.data.data.volto1,
-            price2: res.data.data.price2,
-            volfrom2: res.data.data.volfrom2,
-            volto2: res.data.data.volto2,
-            price3: res.data.data.price3,
-            volfrom3: res.data.data.volfrom3,
-            volto3: res.data.data.volto3,
-            statusGetSpesificsData: res.data.status
-          });
-          return 0;
-        })
-        .catch(err => {
-          console.log(err);
-          this.setState({
-            getError: "Something Wrong"
-          });
+    axios
+      .get("/api/tarif/" + id)
+      .then(res => {
+        console.log(res);
+        this.setState({
+          code: res.data.data.code,
+          isactive: res.data.data.isactive,
+          name: res.data.data.name,
+          description: res.data.data.description,
+          isprogressive: res.data.data.isprogressive,
+          price1: res.data.data.price1,
+          volfrom1: res.data.data.volfrom1,
+          volto1: res.data.data.volto1,
+          price2: res.data.data.price2,
+          volfrom2: res.data.data.volfrom2,
+          volto2: res.data.data.volto2,
+          price3: res.data.data.price3,
+          volfrom3: res.data.data.volfrom3,
+          volto3: res.data.data.volto3,
+          statusGetSpesificsData: res.data.status
         });
-    }
+        return 0;
+      })
+      .catch(err => {
+        console.log(err);
+        this.setState({
+          getError: "Something Wrong"
+        });
+      });
   }
 
   // do UPDATE

@@ -14,7 +14,7 @@ const defaultState = {
   // GET
   getSuccess: false,
   getError: false,
-  dataTarifPelanggan: [],
+  dataTarifVersion: [],
   // CREATE
   createSuccess: false,
   createError: false,
@@ -35,14 +35,14 @@ export default function reducerTarifVersion(state = defaultState, action) {
         ...state,
         getSuccess: true,
         getError: false,
-        dataTarifPelanggan: action.data
+        dataTarifVersion: action.data
       };
     case GET_ERROR:
       return {
         ...state,
         getSuccess: false,
         getError: action.payload,
-        dataTarifPelanggan: null
+        dataTarifVersion: null
       };
     // CREATE
     case CREATE_SUCCESS:

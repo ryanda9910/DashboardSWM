@@ -160,6 +160,7 @@ class TarifVersion extends React.Component {
               <td>{item.price1}</td>
               <td>{item.volfrom2}</td>
               <td>{item.price2}</td>
+              <td></td>
               <td>
                 <Link
                   to={"/app/forms/editdatatarifpelanggan/" + item._id}
@@ -212,7 +213,7 @@ class TarifVersion extends React.Component {
             <Row className="align-items-center justify-content-between">
               <Col lg={12}>
                 <h3>
-                  Data <span className="fw-semi-bold">Tarif Pelanggan</span>
+                  Data <span className="fw-semi-bold">Tarif Version</span>
                 </h3>
               </Col>
               <Col lg={4}>
@@ -253,7 +254,6 @@ class TarifVersion extends React.Component {
                           <th>Volume 3</th>
                           <th>Distributor Id </th>
                           <th>Tarif Id </th>
-                          {/* <th>Status</th> */}
                           <th>Aksi</th>
                         </tr>
                       </thead>

@@ -258,7 +258,7 @@ class TarifVersion extends React.Component {
             <Row className="align-items-center justify-content-between">
               <Col lg={12}>
                 <h3>
-                  Data <span className="fw-semi-bold">Tarif Pelanggan</span>
+                  Data <span className="fw-semi-bold">Tarif Version</span>
                 </h3>
               </Col>
               <Col lg={4}>

@@ -12,21 +12,20 @@ import {
   InputGroupAddon,
   InputGroupText,
   FormFeedback,
-  FormText,
+  FormText
 } from "reactstrap";
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
 import { Link, Redirect } from "react-router-dom";
-// 
+//
 import Widget from "../../../components/Widget";
-import { createData } from '../../../actions/tables/tarifpelanggan';
+import { createData } from "../../../actions/tables/tarifversion";
 import s from "./createdatatarifpelanggan.module.scss";
 
 class CreateDataTarifPelanggan extends React.Component {
-  
   static propTypes = {
-    dispatch: PropTypes.func.isRequired,
+    dispatch: PropTypes.func.isRequired
   };
 
   constructor(props) {
@@ -45,7 +44,7 @@ class CreateDataTarifPelanggan extends React.Component {
       volto2: "",
       price3: "",
       volfrom3: "",
-      volto3: "",
+      volto3: ""
       // status post
       // createStatus: null,
       // createError: null
@@ -80,8 +79,8 @@ class CreateDataTarifPelanggan extends React.Component {
     //     // Authorization: token
     //   }
     // };
-    // 
-    this.props.dispatch(createData(postData))
+    //
+    this.props.dispatch(createData(postData));
   };
   // track change
   handleChange = e => {
@@ -331,11 +330,11 @@ class CreateDataTarifPelanggan extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     createSuccess: state.reducerTarifPelanggan.createSuccess,
-    createError: state.reducerTarifPelanggan.createError,
-  }
-}
+    createError: state.reducerTarifPelanggan.createError
+  };
+};
 
 export default connect(mapStateToProps)(CreateDataTarifPelanggan);

@@ -111,6 +111,7 @@ class Sidebar extends React.Component {
             isHeader
             iconName="flaticon-controls"
             link="/app/tables/panelmeter"
+            index="Panelmeter"
           />
           {/* <LinksGroup
             onActiveSidebarItemChange={activeItem =>
@@ -133,7 +134,7 @@ class Sidebar extends React.Component {
             isHeader
             iconName="flaticon-user"
             link="/app/tables/pelanggan"
-            index="pelanggan"
+            index="Pelanggan"
           />
           <LinksGroup
             onActiveSidebarItemChange={activeItem =>
@@ -143,8 +144,18 @@ class Sidebar extends React.Component {
             header="Tarif Pelanggan"
             isHeader
             iconName="flaticon-notebook-3"
-            link="/app/tables/tarifpelanggan"
-            index="Tarif Pelanggan"
+            link="/app/tarifpelanggan"
+            index="tarifpelanggan"
+            childrenLinks={[
+              {
+                header: "TarifVersion",
+                link: "/app/tables/tarifversion"
+              },
+              {
+                header: "Tarif",
+                link: "/app/tables/tarif"
+              }
+            ]}
           />
           <LinksGroup
             onActiveSidebarItemChange={t =>
@@ -174,10 +185,10 @@ class Sidebar extends React.Component {
             }
             activeItem={this.props.activeItem}
             header="Security"
-            link="/app/inbox"
+            link="/app/security"
             isHeader
             iconName="flaticon-locked-2"
-            index="inbox"
+            index="security"
             childrenLinks={[
               {
                 header: "Role",

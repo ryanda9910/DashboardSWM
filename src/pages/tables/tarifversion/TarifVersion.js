@@ -38,21 +38,21 @@ import jwt from "jsonwebtoken";
 import cx from "classnames";
 import config from "../../../config";
 import Loader from "../../../components/Loader/Loader";
-import s from "./TarifPelanggan.module.scss";
+import s from "./TarifVersion.module.scss";
 
-import Widget from "../../../components/Widget";
+import Widget from "../../../components/Widget/Widget";
 // actions
-import { 
-  getData, 
-  createData,
-  deleteData, 
-} from '../../../actions/tables/tarifpelanggan';
+import {
+  getDataTarif,
+  createDataTarif,
+  deleteDataTarif, 
+} from '../../../actions/tables/tarif';
 // ambil distributor untuk create dan update
 import {
   getDataDistributor
 } from '../../../actions/tables/distributor';
 
-class TarifPelanggan extends React.Component {
+class TarifVersion extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired
   };
@@ -87,14 +87,14 @@ class TarifPelanggan extends React.Component {
   componentDidMount() {
     // masih race condition, harusnya pas modals muncul aja
     // GET data
-    this.props.dispatch(getData());
+    this.props.dispatch(getDataTarif());
     // GET data distributor
     // if(this.state.modalCreate === true){
     this.props.dispatch(getDataDistributor());
     // }
 
     // ALERT
-    return this.props.alertMessage ? this.onShowAlert() : null;
+    // return this.props.alertMessage ? this.onShowAlert() : null;
   }
 
   // CREATE Tarif
@@ -107,7 +107,7 @@ class TarifPelanggan extends React.Component {
       description: this.state.description,
     };
     console.log(postData);
-    // this.props.dispatch(createData(postData))
+    // this.props.dispatch(createDataTarif(postData))
   };
   // track change
   handleCreateChange = e => {
@@ -126,9 +126,9 @@ class TarifPelanggan extends React.Component {
     let confirm = window.confirm("delete data, are you sure?");
     console.log(confirm);
     if (confirm) {
-      this.props.dispatch(deleteData(id))
-      this.onShowAlert()
-      this.props.dispatch(getData())
+      this.props.dispatch(deleteDataTarif(id));
+      this.onShowAlert();
+      this.props.dispatch(getDataTarif());
     }
   }
 
@@ -194,8 +194,8 @@ class TarifPelanggan extends React.Component {
 
     // table data
     const tableData =
-      this.props.dataTarifPelanggan.length > 0 ? (
-        this.props.dataTarifPelanggan.map(item => {
+      this.props.dataTarif.length > 0 ? (
+        this.props.dataTarif.map(item => {
           console.log(item);
           const isactive = item.isactive ? (
             <span className="badge btn-success">TRUE</span>
@@ -210,7 +210,7 @@ class TarifPelanggan extends React.Component {
               <td>{item.description}</td>
               <td>
                 <Link
-                  to={"/app/forms/editdatatarifpelanggan/" + item._id}
+                  to={"/app/forms/editdatatarif/" + item._id}
                   className="mr-1"
                 >
                   <span className="text-success">
@@ -241,7 +241,7 @@ class TarifPelanggan extends React.Component {
                 <ol className="breadcrumb">
                   <li className="breadcrumb-item">YOU ARE HERE</li>
                   <li className="breadcrumb-item active">
-                    Tarif <span>Pelanggan</span>
+                    Tarif <span>Version</span>
                   </li>
                 </ol>
                 {/* alert */}
@@ -251,10 +251,8 @@ class TarifPelanggan extends React.Component {
                     [s.showAlert]: this.state.showAlert
                   })}
                 >
-                  {this.props.alertMessage || 'Data get actions'}
+                  {this.props.alertMessage || "Data get actions"}
                 </Alert>
-                {/* handle 401 */}
-                {/* <button onClick={() => document.cookie = 'token=;expires=Thu, 01 Jan 1970 00:00:01 GMT;'}>delete cookie</button> */}
               </Col>
             </Row>
             <Row className="align-items-center justify-content-between">
@@ -302,7 +300,7 @@ class TarifPelanggan extends React.Component {
                       </thead>
                       <tbody id="myTable" className="position-relative">
                         {/* eslint-disable */}
-                        {this.props.dataTarifPelanggan ? tableData : null}
+                        {this.props.dataTarifVersion ? tableData : null}
                       </tbody>
                       {/* eslint-enable */}
                     </Table>
@@ -394,24 +392,24 @@ class TarifPelanggan extends React.Component {
 function mapStateToProps(state) {
   return {
     // ALERT
-    alertMessage: state.reducerTarifPelanggan.alertMessage,
-    // GET 
-    getSuccess: state.reducerTarifPelanggan.getSuccess,
-    getError: state.reducerTarifPelanggan.getError,
-    dataTarifPelanggan: state.reducerTarifPelanggan.dataTarifPelanggan,
+    alertMessage: state.reducerTarif.alertMessage,
+    // GET
+    getSuccess: state.reducerTarif.getSuccess,
+    getError: state.reducerTarif.getError,
+    dataTarif: state.reducerTarif.dataTarif,
     // CREATE
-    createSuccess: state.reducerTarifPelanggan.createSuccess,
-    createError: state.reducerTarifPelanggan.createError,
+    createSuccess: state.reducerTarif.createSuccess,
+    createError: state.reducerTarif.createError,
     // UPDATE
-    updateSuccess: state.reducerTarifPelanggan.updateSuccess,
-    updateError: state.reducerTarifPelanggan.updateError,
+    updateSuccess: state.reducerTarif.updateSuccess,
+    updateError: state.reducerTarif.updateError,
     // DELETE
-    deleteSuccess: state.reducerTarifPelanggan.deleteSuccess,
-    deleteError: state.reducerTarifPelanggan.deleteError,
+    deleteSuccess: state.reducerTarif.deleteSuccess,
+    deleteError: state.reducerTarif.deleteError,
 
     // DISTRIBUTOR
     dataDistributor: state.reducerDistributor.dataDistributor,
   };
 }
 
-export default withRouter(connect(mapStateToProps)(TarifPelanggan));
+export default withRouter(connect(mapStateToProps)(TarifVersion));

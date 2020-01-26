@@ -121,6 +121,9 @@ class Userdata extends React.Component {
                           <th>Email</th>
                           <th>Username</th>
                           <th>Role</th>
+                          <th>Slug</th>
+                          <th>Phone</th>
+                          <th>Deskripsi</th>
                           <th>Status</th>
                           <th>Aksi</th>
                         </tr>
@@ -135,6 +138,9 @@ class Userdata extends React.Component {
                                 <td>{item.email}</td>
                                 <td>{item.username}</td>
                                 <td>{item.role}</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
                                 <td>
                                   <Badge
                                     color="success"

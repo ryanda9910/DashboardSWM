@@ -39,7 +39,8 @@ class Area extends React.Component {
 
   componentDidMount() {
     // GET data
-    axios.get('/api/area')
+    axios
+      .get("/api/area")
       .then(res => {
         console.log(res);
         this.setState({
@@ -168,6 +169,7 @@ class Area extends React.Component {
                         <tr>
                           <th>Kode</th>
                           <th>Nama</th>
+                          <th>Kode Distributor</th>
                           <th>Aksi</th>
                         </tr>
                       </thead>
@@ -179,6 +181,7 @@ class Area extends React.Component {
                               <tr>
                                 <td>{item.code}</td>
                                 <td>{item.name}</td>
+                                <td></td>
                                 <td>
                                   <Link
                                     to={"/app/forms/editdataarea/" + item._id}

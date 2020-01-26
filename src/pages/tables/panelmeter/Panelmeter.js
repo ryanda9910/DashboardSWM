@@ -157,6 +157,7 @@ class Panelmeter extends React.Component {
                           <th>Last Update</th>
                           <th>Valve</th>
                           <th>Signal</th>
+                          <th>Manufaktur</th>
                           <th>Battery Voltage</th>
                           <th>Wilayah/Area</th>
                           <th>Status</th>
@@ -179,6 +180,7 @@ class Panelmeter extends React.Component {
                                 <td>{this.parseDate(item.lastUpdate)}</td>
                                 <td>{item.valve}</td>
                                 <td>{item.signal}</td>
+                                <td></td>
                                 <td>{item.batteryVoltage}</td>
                                 <td>{item.wilayahArea}</td>
                                 <td>{item.status}</td>

@@ -70,14 +70,14 @@ import EditDataPelanggan from "../../pages/forms/editdatapelanggan/Editdatapelan
 import EditDataPerangkat from "../../pages/forms/editdataperangkat/Editdataperangkat";
 import EditDataArea from "../../pages/forms/editdataarea/Editdataarea";
 //CREATE DATA TABLES
-import CreateDataTarifPelanggan from "../../pages/forms/createdatatarifpelanggan/CreateDataTarifPelanggan";
-import CreateDataArea from "../../pages/forms/createdataarea/CreateDataArea";
-import CreateDataKelompokPelanggan from "../../pages/forms/createdatakelompokpelanggan/CreateDataKelompokPelanggan";
-import CreateDataBillingCostumer from "../../pages/forms/createdatabillingcostumer/CreateDataBillingCostumer";
-import CreateDataRole from "../../pages/forms/createdatarole/CreateDataRole";
-import CreateDataUsers from "../../pages/forms/createdatauser/CreateDataUser";
-import CreateDataPerangkat from "../../pages/forms/createdataperangkat/CreateDataPerangkat";
-import CreateDataPelanggan from "../../pages/forms/createdatapelanggan/CreateDataPelanggan";
+// import CreateDataTarifPelanggan from "../../pages/forms/createdatatarifpelanggan/CreateDataTarifPelanggan";
+// import CreateDataArea from "../../pages/forms/createdataarea/CreateDataArea";
+// import CreateDataKelompokPelanggan from "../../pages/forms/createdatakelompokpelanggan/CreateDataKelompokPelanggan";
+// import CreateDataBillingCostumer from "../../pages/forms/createdatabillingcostumer/CreateDataBillingCostumer";
+// import CreateDataRole from "../../pages/forms/createdatarole/CreateDataRole";
+// import CreateDataUsers from "../../pages/forms/createdatauser/CreateDataUser";
+// import CreateDataPerangkat from "../../pages/forms/createdataperangkat/CreateDataPerangkat";
+// import CreateDataPelanggan from "../../pages/forms/createdatapelanggan/CreateDataPelanggan";
 
 import Header from "../Header";
 import Sidebar from "../Sidebar";
@@ -234,7 +234,7 @@ class Layout extends React.Component {
                       component={EditDataArea}
                     />
                     {/* ROUTES CREATE DATA */}
-                    <Route
+                    {/* <Route
                       path="/app/forms/createdatatarifpelanggan"
                       exact
                       component={CreateDataTarifPelanggan}
@@ -273,7 +273,7 @@ class Layout extends React.Component {
                       path="/app/forms/createdataperangkat"
                       exact
                       component={CreateDataPerangkat}
-                    />
+                    /> */}
                     {/* <Route
                       path="/app/tables/pelanggan"
                       exact

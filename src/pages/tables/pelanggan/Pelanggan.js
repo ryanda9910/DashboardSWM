@@ -1,49 +1,190 @@
-import { Row, Col, Table, Badge } from "reactstrap";
-import React, { Component } from "react";
+import React from "react";
+import {
+  Row,
+  Col,
+  Table,
+  Button,
+  Alert,
+  // MODALS
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  CustomInput,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupText
+} from "reactstrap";
+import axios from "axios";
 import $ from "jquery";
-
-import Widget from "../../../components/Widget";
-import s from "./Pelanggan.module.scss";
-import { Link } from "react-router-dom";
-
-//LOADER
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useRouteMatch,
+  useParams,
+  withRouter,
+  Redirect
+} from "react-router-dom";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import jwt from "jsonwebtoken";
+// MODAL CREATE
+import cx from "classnames";
+import config from "../../../config";
 import Loader from "../../../components/Loader/Loader";
+import s from "./Pelanggan.module.scss";
+
+import Widget from "../../../components/Widget/Widget";
+// actions
+import {
+  getDataTarif,
+  createDataTarif,
+  deleteDataTarif
+} from "../../../actions/tables/tarif";
+// ambil distributor untuk create dan update
+import { getDataDistributor } from "../../../actions/tables/distributor";
 
 class Pelanggan extends React.Component {
+  static propTypes = {
+    dispatch: PropTypes.func.isRequired
+  };
+
+  static isAuthenticated(token) {
+    // We check if app runs with backend mode
+    // if (!config.isBackend && token) return true;
+    if (!token) return;
+    const date = new Date().getTime() / 1000;
+    const data = jwt.decode(token);
+    return date < data.exp;
+  }
+
   constructor(props) {
     super(props);
     this.state = {
-      // image: require("../../../images/tables/1.png"), // eslint-disable-line global-require
-      // new Date("September 14, 2012")
-      dataPelanggan: [
-        {
-          kode: "2.001.5.00.0005100",
-          nama: "Adam",
-          telepon: "0811020019",
-          email: "adam@gmail.com"
-        },
-        {
-          kode: "2.002.5.00.0005100",
-          nama: "Anggun",
-          telepon: "0811678019",
-          email: "anggun@gmail.com"
-        },
-        {
-          kode: "2.003.5.00.0005100",
-          nama: "Hendri",
-          telepon: "0812320019",
-          email: "Hendri@gmail.com"
-        },
-        {
-          kode: "2.004.5.00.0005100",
-          nama: "Aldo",
-          telepon: "0810920019",
-          email: "Aldo@gmail.com"
-        }
-      ]
+      // CREATE
+      costumer_grup_id: "",
+      name: "",
+      code: "",
+      email: "",
+      address: "",
+      phone: "",
+      status: "",
+      notes: "",
+      distributor_id: "",
+      area_id: "",
+      // ALERT
+      showAlert: false,
+      alertDestroy: false,
+      // MODALS
+      modalCreate: false
     };
+    //
+    this.handleCreateChange = this.handleCreateChange.bind(this);
   }
+
+  componentDidMount() {
+    // masih race condition, harusnya pas modals muncul aja
+    // GET data
+    this.props.dispatch(getDataTarif());
+    // GET data distributor
+    // if(this.state.modalCreate === true){
+    this.props.dispatch(getDataDistributor());
+    // }
+
+    // ALERT
+    // return this.props.alertMessage ? this.onShowAlert() : null;
+  }
+
+  // CREATE Tarif
+  doCreateTarif = e => {
+    e.preventDefault();
+    let postData = {
+      costumer_grup_id: this.state.costumer_grup_id,
+      name: this.state.name,
+      code: this.state.code,
+      email: this.state.email,
+      address: this.state.address,
+      phone: this.state.phone,
+      status: this.state.status,
+      notes: this.state.notes,
+      distributor_id: this.state.distributor_id,
+      area_id: this.state.area_id
+    };
+    console.log(postData);
+    // this.props.dispatch(createDataTarif(postData))
+  };
+  // track change
+  handleCreateChange = e => {
+    console.log(e.target);
+    const target = e.target;
+    const value = target.type === "checkbox" ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+  };
+
+  // DELETE
+  handleDelete(id) {
+    let confirm = window.confirm("delete data, are you sure?");
+    console.log(confirm);
+    if (confirm) {
+      this.props.dispatch(deleteDataTarif(id));
+      this.onShowAlert();
+      this.props.dispatch(getDataTarif());
+    }
+  }
+
+  onShowAlert = () => {
+    this.setState(
+      {
+        showAlert: true
+      },
+      () => {
+        window.setTimeout(() => {
+          this.setState({
+            showAlert: false,
+            alertDestroy: false
+          });
+        }, 2000);
+      }
+    );
+    localStorage.removeItem("isCreated");
+  };
+
+  toggle(id) {
+    this.setState(prevState => ({
+      [id]: !prevState[id]
+    }));
+  }
+
   render() {
+    console.log(this.state);
+    console.log(this.props);
+
+    // jika error karena 401 atau lainnya, tendang user dengan hapus cookie
+    // if(this.props.getError){
+    //   return document.cookie = 'token=;expires=Thu, 01 Jan 1970 00:00:01 GMT;'
+    // }
+
+    const { modalCreate } = this.state;
+    const { createSuccess, dataDistributor } = this.props;
+
+    // create error
+    const createError =
+      this.props.createError === false ? null : (
+        <div className="text-center w-100 py-2">
+          <small className="text-white">{this.props.createError}</small>
+        </div>
+      );
+
     // search
     $(document).ready(function() {
       $("#myInput").on("keyup", function() {
@@ -60,6 +201,55 @@ class Pelanggan extends React.Component {
         });
       });
     });
+
+    // table data
+    const tableData =
+      this.props.dataTarif.length > 0 ? (
+        this.props.dataTarif.map(item => {
+          console.log(item);
+          // const isactive = item.isactive ? (
+          //   <span className="badge btn-success">TRUE</span>
+          // ) : (
+          //   <span className="badge btn-danger">FALSE</span>
+          // );
+          return (
+            <tr>
+              <td>{item.costumer_grup_id}</td>
+              {/* <td>{item.distributor_id.code}</td> */}
+              {/* <td>{isactive}</td> */}
+              <td>{item.name}</td>
+              <td>{item.code}</td>
+              <td>{item.email}</td>
+              <td>{item.address}</td>
+              <td>{item.phone}</td>
+              <td>{item.status}</td>
+              <td>{item.notes}</td>
+              <td>{item.distributor_id}</td>
+              <td>{item.area_id}</td>
+              <td>
+                <Link
+                  to={"/app/forms/editdataarea/" + item._id}
+                  className="mr-1"
+                >
+                  <span className="text-success">
+                    <i class="far fa-edit"></i>
+                    Ubah
+                  </span>
+                </Link>
+                <a onClick={() => this.handleDelete(item._id)} className="ml-1">
+                  <span className="text-danger">
+                    <i class="fas fa-trash"></i>
+                    Hapus
+                  </span>
+                </a>
+              </td>
+            </tr>
+          );
+        })
+      ) : (
+        <Loader size={35} className="pt-5 position-absolute" />
+      );
+
     return (
       <div className={s.root}>
         <Row className="pt-3">
@@ -68,8 +258,19 @@ class Pelanggan extends React.Component {
               <Col lg={12}>
                 <ol className="breadcrumb">
                   <li className="breadcrumb-item">YOU ARE HERE</li>
-                  <li className="breadcrumb-item active"> Pelanggan </li>
+                  <li className="breadcrumb-item active">
+                    Data<span>Area</span>
+                  </li>
                 </ol>
+                {/* alert */}
+                {/* <Alert
+                  color="success"
+                  className={cx(s.promoAlert, {
+                    [s.showAlert]: this.state.showAlert
+                  })}
+                >
+                  {this.props.alertMessage || "Data get actions"}
+                </Alert> */}
               </Col>
             </Row>
             <Row className="align-items-center justify-content-between">
@@ -80,91 +281,54 @@ class Pelanggan extends React.Component {
               </Col>
               <Col lg={4}>
                 <input
-                  className="form-control my-3"
+                  class="form-control my-3"
                   id="myInput"
                   placeholder="Search"
+                  aria-label="Search"
                   type="text"
                   style={{ color: "#FFF" }}
                 />
               </Col>
               <Col lg={4} className="text-right">
-                <Link
-                  to="/app/forms/createdatapelanggan"
-                  className="btn text-white bg-warning"
+                {/* <button className="btn btn-primary">Create</button> */}
+                {/* <CreateModal /> */}
+                {/* <Link
+                  to="/app/forms/createdatatarifpelanggan"
+                  className="btn bg-warning text-white"
                 >
                   Tambah Data
-                </Link>
+                </Link> */}
+                {/* BUTTON MODALS CREATE */}
+                <Button
+                  className="mr-sm"
+                  color="warning"
+                  onClick={() => this.toggle("modalCreate")}
+                >
+                  Tambah Data
+                </Button>
               </Col>
             </Row>
             <Row>
               <Col lg={12}>
                 <Widget refresh collapse close className="px-2">
-                  <div className="table-hover table-responsive">
+                  <div className="table-responsive">
                     <Table className="table-hover">
                       <thead>
                         <tr>
-                          <th>Kode</th>
+                          <th>Costumer_grup_id</th>
                           <th>Nama</th>
-                          <th>Telepon</th>
+                          <th>Kode</th>
                           <th>Email</th>
-                          <th>Tipe</th>
+                          <th>Alamat</th>
+                          <th>Telepon</th>
                           <th>Status</th>
+                          <th>Catatan</th>
                           <th>Aksi</th>
                         </tr>
                       </thead>
-                      {/* eslint-disable */}
-                      <tbody id="myTable">
-                        {this.state.dataPelanggan ? (
-                          this.state.dataPelanggan.map(item => {
-                            return (
-                              <tr>
-                                <td>{item.kode}</td>
-                                <td>{item.nama}</td>
-                                <td>{item.telepon}</td>
-                                <td>{item.email}</td>
-                                <td>
-                                  <Badge
-                                    color="success"
-                                    className="text-white"
-                                    pill
-                                  >
-                                    Prabayar
-                                  </Badge>
-                                </td>
-                                <td>
-                                  <Badge
-                                    color="warning"
-                                    className="text-white"
-                                    pill
-                                  >
-                                    Tutup Sementara
-                                  </Badge>
-                                </td>
-                                <td>
-                                  <Link to="/app/forms/editdatapelanggan">
-                                    <a href="#" className="mr-1">
-                                      <span className="text-success">
-                                        <i className="far fa-edit"></i>
-                                        Ubah
-                                      </span>
-                                    </a>
-                                  </Link>
-                                  <a href="#" className="ml-1">
-                                    <span className="text-danger">
-                                      <i className="fas fa-trash"></i>
-                                      Hapus
-                                    </span>
-                                  </a>
-                                </td>
-                              </tr>
-                            );
-                          })
-                        ) : (
-                          <Loader
-                            size={35}
-                            className="pt-5 position-absolute"
-                          />
-                        )}
+                      <tbody id="myTable" className="position-relative">
+                        {/* eslint-disable */}
+                        {this.props.dataTarifVersion ? tableData : null}
                       </tbody>
                       {/* eslint-enable */}
                     </Table>
@@ -174,9 +338,177 @@ class Pelanggan extends React.Component {
             </Row>
           </Col>
         </Row>
+
+        {/* MODALS */}
+        <Modal
+          size="md"
+          isOpen={modalCreate}
+          toggle={() => this.toggle("modalCreate")}
+        >
+          <ModalHeader toggle={() => this.toggle("modalCreate")}>
+            Tambah Data
+          </ModalHeader>
+          <ModalBody>
+            <Form id="formCreateDataTarif" onSubmit={this.doCreateTarif}>
+              {/* code */}
+              <FormGroup>
+                <Label for="exampleNama">Costumer GRUP ID </Label>
+                <Input
+                  onChange={this.handleCreateChange}
+                  type="text"
+                  name="costumer_grup_id"
+                  id="exampleCostumergrup"
+                  placeholder=" Masukkan Costumer_grup_id"
+                />
+              </FormGroup>
+              {/* nama */}
+              <FormGroup>
+                <Label for="exampleKode">Nama</Label>
+                <Input
+                  onChange={this.handleCreateChange}
+                  type="text"
+                  name="name"
+                  id="exampleName"
+                  placeholder="Masukkan Nama"
+                />
+                {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                {/* <FormText>Example help text that remains unchanged.</FormText> */}
+              </FormGroup>
+              <FormGroup>
+                <Label for="exampleKode">Email</Label>
+                <Input
+                  onChange={this.handleCreateChange}
+                  type="text"
+                  name="email"
+                  id="exampleEmail"
+                  placeholder="Masukkan Email"
+                />
+                {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                {/* <FormText>Example help text that remains unchanged.</FormText> */}
+              </FormGroup>
+              <FormGroup>
+                <Label for="exampleKode">Alamat</Label>
+                <Input
+                  onChange={this.handleCreateChange}
+                  type="text"
+                  name="address"
+                  id="exampleAddress"
+                  placeholder="Masukkan Alamat"
+                />
+                {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                {/* <FormText>Example help text that remains unchanged.</FormText> */}
+              </FormGroup>
+              <FormGroup>
+                <Label for="exampleKode">Telepon</Label>
+                <Input
+                  onChange={this.handleCreateChange}
+                  type="text"
+                  name="phone"
+                  id="examplePhone"
+                  placeholder="Masukkan Telepon"
+                />
+                {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                {/* <FormText>Example help text that remains unchanged.</FormText> */}
+              </FormGroup>
+              <FormGroup>
+                <Label for="exampleKode">Status</Label>
+                <Input
+                  onChange={this.handleCreateChange}
+                  type="text"
+                  name="status"
+                  id="exampleStatus"
+                  placeholder="Masukkan Data Status"
+                />
+                {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                {/* <FormText>Example help text that remains unchanged.</FormText> */}
+              </FormGroup>
+              <FormGroup>
+                <Label for="exampleKode">Catatan</Label>
+                <Input
+                  onChange={this.handleCreateChange}
+                  type="text"
+                  name="notes"
+                  id="exampleNotes"
+                  placeholder="Masukkan Catatan"
+                />
+                {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                {/* <FormText>Example help text that remains unchanged.</FormText> */}
+              </FormGroup>
+              <FormGroup>
+                {/* tampilkan distributor name dan id nya sebagai value */}
+                <Label for="exampleKode">Distributor ID </Label>
+                <Input
+                  onChange={this.handleCreateChange}
+                  type="select"
+                  name="distributor_id"
+                  id="exampleSelect"
+                >
+                  {dataDistributor.map(item => {
+                    return <option value={item._id}>{item.name}</option>;
+                  })}
+                </Input>
+                {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                {/* <FormText>Example help text that remains unchanged.</FormText> */}
+              </FormGroup>
+              <FormGroup>
+                {/* tampilkan distributor name dan id nya sebagai value */}
+                <Label for="exampleKode">Area ID </Label>
+                <Input
+                  onChange={this.handleCreateChange}
+                  type="select"
+                  name="area_id"
+                  id="exampleSelect"
+                >
+                  {dataDistributor.map(item => {
+                    return <option value={item._id}>{item.name}</option>;
+                  })}
+                </Input>
+                {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                {/* <FormText>Example help text that remains unchanged.</FormText> */}
+              </FormGroup>
+              {/* show ERROR */}
+              <FormGroup row className="bg-danger">
+                {createError}
+              </FormGroup>
+
+              <ModalFooter>
+                <Button color="dark" onClick={() => this.toggle("modalCreate")}>
+                  Close
+                </Button>
+                {/* craete */}
+                <Button color="warning" className="px-5" type="submit">
+                  Tambah Data
+                </Button>
+              </ModalFooter>
+            </Form>
+          </ModalBody>
+        </Modal>
       </div>
     );
   }
 }
 
-export default Pelanggan;
+function mapStateToProps(state) {
+  return {
+    // ALERT
+    alertMessage: state.reducerTarif.alertMessage,
+    // GET
+    getSuccess: state.reducerTarif.getSuccess,
+    getError: state.reducerTarif.getError,
+    dataTarif: state.reducerTarif.dataTarif,
+    // CREATE
+    createSuccess: state.reducerTarif.createSuccess,
+    createError: state.reducerTarif.createError,
+    // UPDATE
+    updateSuccess: state.reducerTarif.updateSuccess,
+    updateError: state.reducerTarif.updateError,
+    // DELETE
+    deleteSuccess: state.reducerTarif.deleteSuccess,
+    deleteError: state.reducerTarif.deleteError,
+
+    // DISTRIBUTOR
+    dataDistributor: state.reducerDistributor.dataDistributor
+  };
+}
+
+export default withRouter(connect(mapStateToProps)(Pelanggan));

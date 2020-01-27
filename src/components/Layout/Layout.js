@@ -64,6 +64,7 @@ import CostumerBilling from "../../pages/tables/costumer/CostumerBilling";
 import EditDataKelompokPelanggan from "../../pages/forms/editdatakelompokpelanggan/EditdatakelompokPelanggan";
 import EditdataCostumerBilling from "../../pages/forms/editdatacostumerbilling/Editdatacostumerbilling";
 import EditDataTarifPelanggan from "../../pages/forms/editdatatarifpelanggan/Editdatatarifpelanggan";
+import EditDataTarifVersion from "../../pages/forms/editdatatarifversion/Editdatatarifversion";
 import EditDataUsers from "../../pages/forms/editdatausers/Editdatausers";
 import EditDataRole from "../../pages/forms/editdatarole/Editdatarole";
 import EditDataPelanggan from "../../pages/forms/editdatapelanggan/Editdatapelanggan";
@@ -191,7 +192,7 @@ class Layout extends React.Component {
                       exact
                       component={CostumerBilling}
                     />
-
+                    {/* ROUTES EDIT DATA */}
                     <Route
                       path="/app/forms/editdatakelompokpelanggan"
                       exact
@@ -207,7 +208,11 @@ class Layout extends React.Component {
                       exact
                       component={EditDataTarifPelanggan}
                     />
-
+                    <Route
+                      path="/app/forms/editdatatarifversion/:id"
+                      exact
+                      component={EditDataTarifVersion}
+                    />
                     <Route
                       path="/app/forms/editdatausers"
                       exact

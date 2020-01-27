@@ -7,6 +7,7 @@ import register from "./register";
 import analytics from "./analytics";
 // tables
 import reducerTarif from './reducerTarif';
+import reducerTarifVersion from './reducerTarifVersion';
 import reducerDistributor from './reducerDistributor';
 
 export default combineReducers({
@@ -17,5 +18,6 @@ export default combineReducers({
   register,
   analytics,
   reducerTarif,
+  reducerTarifVersion,
   reducerDistributor,
 });

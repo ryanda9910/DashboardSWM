@@ -1,12 +1,12 @@
 // bahan dari actions
 import {
-  GET_SUCCESS,
-  GET_ERROR,
-  CREATE_SUCCESS,
-  CREATE_ERROR,
-  DELETE_SUCCESS,
-  DELETE_ERROR
-} from "../actions/tables/tarifversion";
+  GET_TARIF_SUCCESS,
+  GET_TARIF_ERROR,
+  CREATE_TARIF_SUCCESS,
+  CREATE_TARIF_ERROR,
+  DELETE_TARIF_SUCCESS,
+  DELETE_TARIF_ERROR,
+} from "../actions/tables/tarif";
 //
 const defaultState = {
   // ALERT
@@ -14,7 +14,7 @@ const defaultState = {
   // GET
   getSuccess: false,
   getError: false,
-  dataTarifVersion: [],
+  dataTarif: [],
   // CREATE
   createSuccess: false,
   createError: false,
@@ -27,32 +27,32 @@ const defaultState = {
   deleteError: false
 };
 
-export default function reducerTarifVersion(state = defaultState, action) {
+export default function reducerTarif(state = defaultState, action) {
   switch (action.type) {
     // GET
-    case GET_SUCCESS:
+    case GET_TARIF_SUCCESS:
       return {
         ...state,
         getSuccess: true,
         getError: false,
-        dataTarifVersion: action.data
+        dataTarif: action.data
       };
-    case GET_ERROR:
+    case GET_TARIF_ERROR:
       return {
         ...state,
         getSuccess: false,
         getError: action.payload,
-        dataTarifVersion: null
+        dataTarif: null
       };
     // CREATE
-    case CREATE_SUCCESS:
+    case CREATE_TARIF_SUCCESS:
       return {
         ...state,
         createSuccess: true,
         createError: false,
         alertMessage: action.data
       };
-    case CREATE_ERROR:
+    case CREATE_TARIF_ERROR:
       return {
         ...state,
         createSuccess: false,
@@ -60,14 +60,14 @@ export default function reducerTarifVersion(state = defaultState, action) {
         alertMessage: null
       };
     // DELETE
-    case DELETE_SUCCESS:
+    case DELETE_TARIF_SUCCESS:
       return {
         ...state,
         alertMessage: action.data,
         deleteSuccess: true,
         deleteError: false
       };
-    case DELETE_ERROR:
+    case DELETE_TARIF_ERROR:
       return {
         ...state,
         deleteSuccess: false,

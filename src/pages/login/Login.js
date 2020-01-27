@@ -32,6 +32,7 @@ class Login extends React.Component {
     if (!token) return;
     const date = new Date().getTime() / 1000;
     const data = jwt.decode(token);
+    console.log(data);
     return date < data.exp;
   }
 

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Switch, Route, Redirect } from 'react-router';
 import { HashRouter } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
+import axios from 'axios';
 
 /* eslint-disable */
 import ErrorPage from '../pages/error';
@@ -17,7 +18,12 @@ import { logoutUser } from '../actions/user';
 
 const PrivateRoute = ({dispatch, component, ...rest }) => {
     if (!Login.isAuthenticated(localStorage.getItem('token'))) {
-        dispatch(logoutUser());
+        // dispatch(logoutUser());
+        localStorage.removeItem('token');
+        // localStorage.removeItem('user');
+        // expire session
+        document.cookie = 'token=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+        axios.defaults.headers.common['Authorization'] = "";
         return (<Redirect to="/login"/>)
     } else {
         return ( // eslint-disable-line
@@ -42,17 +48,16 @@ class App extends React.PureComponent {
                     <Route path="/" exact render={() => <Redirect to="/app/main"/>}/>
                     <Route path="/app" exact render={() => <Redirect to="/app/main"/>}/>
                     <PrivateRoute path="/app" dispatch={this.props.dispatch} component={LayoutComponent}/>
-                    <Route path="/documentation" exact
-                           render={() => <Redirect to="/documentation/getting-started/overview"/>}/>
-                    <Route path="/documentation" component={DocumentationLayoutComponent}/>
-                    <Route path="/register" exact component={Register}/>
+                    {/* <Route path="/documentation" exact
+                           render={() => <Redirect to="/documentation/getting-started/overview"/>}/> */}
+                    {/* <Route path="/documentation" component={DocumentationLayoutComponent}/> */}
+                    {/* <Route path="/register" exact component={Register}/> */}
                     <Route path="/login" exact component={Login}/>
                     <Route path="/error" exact component={ErrorPage}/>
-                    <Redirect from="*" to="/app/main/visits"/>
+                    {/* <Redirect from="*" to="/app/main/visits"/> */}
                 </Switch>
             </HashRouter>
         </div>
-
     );
   }
 }

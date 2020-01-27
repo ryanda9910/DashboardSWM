@@ -15,31 +15,31 @@ import {
 // import Formsy from "formsy-react";
 import s from "./editdatatarifpelanggan.module.scss";
 import axios from "axios";
+import { connect } from 'react-redux';
+import PropTypes from "prop-types";
 // config
 import config from "../../../config";
 import { Redirect } from "react-router-dom";
 
 // import InputValidation from "../../../components/InputValidation";
 import Widget from "../../../components/Widget";
+import { getDataDistributor } from "../../../actions/tables/distributor";
 
 class Editdatatarifpelanggan extends React.Component {
+
+  static propTypes = {
+    dispatch: PropTypes.func.isRequired
+  };
+
   constructor(props) {
     super(props);
     this.state = {
-      code: "",
+      // 
+      name: '',
+      distributor_id: null,
       isactive: false,
-      name: "",
-      description: "",
-      isprogressive: false,
-      price1: "",
-      volfrom1: "",
-      volto1: "",
-      price2: "",
-      volfrom2: "",
-      volto2: "",
-      price3: "",
-      volfrom3: "",
-      volto3: "",
+      description: '',
+      // 
       statusGetSpesificsData: "",
       getError: null,
       updateStatus: "",
@@ -49,30 +49,21 @@ class Editdatatarifpelanggan extends React.Component {
   }
 
   componentDidMount() {
-    // get data
+    // DATA TARIF SPESIFIC
+    // get id
     const id = this.props.match.params.id;
-    axios
-      .get("/api/tarif/" + id)
+    axios.get("/api/tarif/" + id)
       .then(res => {
         console.log(res);
         this.setState({
-          code: res.data.data.code,
-          isactive: res.data.data.isactive,
+          // 
           name: res.data.data.name,
+          distributor_id: res.data.data.distributor_id,
+          isactive: res.data.data.isactive,
           description: res.data.data.description,
-          isprogressive: res.data.data.isprogressive,
-          price1: res.data.data.price1,
-          volfrom1: res.data.data.volfrom1,
-          volto1: res.data.data.volto1,
-          price2: res.data.data.price2,
-          volfrom2: res.data.data.volfrom2,
-          volto2: res.data.data.volto2,
-          price3: res.data.data.price3,
-          volfrom3: res.data.data.volfrom3,
-          volto3: res.data.data.volto3,
+          // 
           statusGetSpesificsData: res.data.status
         });
-        return 0;
       })
       .catch(err => {
         console.log(err);
@@ -80,37 +71,28 @@ class Editdatatarifpelanggan extends React.Component {
           getError: "Something Wrong"
         });
       });
+    // DATA DISTRIBUTOR
+    this.props.dispatch(getDataDistributor())
   }
 
   // do UPDATE
   doUpdateTarif = e => {
     e.preventDefault();
     let postData = {
-      code: this.state.code,
-      // handle is active
-      isactive: this.state.isactive,
       name: this.state.name,
+      distributor_id: this.state.distributor_id,
+      isactive: this.state.isactive,
       description: this.state.description,
-      isprogressive: this.state.isprogressive,
-      price1: this.state.price1,
-      volfrom1: this.state.volfrom1,
-      volto1: this.state.volto1,
-      price2: this.state.price2,
-      volfrom2: this.state.volfrom2,
-      volto2: this.state.volto2,
-      price3: this.state.price3,
-      volfrom3: this.state.volfrom3,
-      volto3: this.state.volto3
     };
 
     console.log(postData);
 
+    // UPDATE data
     const id = this.props.match.params.id;
     axios
       .put(
         "http://swm-apis.herokuapp.com/api/tarif/" + id,
-        postData,
-        config.axiosConfig
+        postData
       )
       .then(res => {
         console.log(res);
@@ -144,12 +126,14 @@ class Editdatatarifpelanggan extends React.Component {
   };
 
   render() {
-    console.log(this.props.match.params.id);
     console.log(this.state);
+    console.log(this.props);
+
+    const { dataDistributor } = this.props;
 
     // redirect jika succes create
     if (this.state.updateStatus === 200 || this.state.updateStatus === 201) {
-      return <Redirect to="/app/tables/tarifpelanggan" />;
+      return <Redirect to="/app/tables/tarif" />;
     }
 
     // update error
@@ -180,81 +164,37 @@ class Editdatatarifpelanggan extends React.Component {
                 </a>
               </Col>
               <Form onSubmit={this.doUpdateTarif}>
-                {/* tidak ditampilkan saat add */}
-                {/* volto1 */}
+                {/* name */}
                 <FormGroup>
-                  <Label for="exampleVolto1">Volume to 1</Label>
+                  <Label for="exampleNama">Nama</Label>
                   <Input
-                    value={this.state.volto1}
+                    value={this.state.name}
                     onChange={this.handleChange}
                     type="text"
-                    name="volto1"
-                    id="exampleVolto1"
-                    placeholder="Volume to 1"
+                    name="name"
+                    id="exampleNama"
+                    placeholder="Nama"
                   />
                 </FormGroup>
-                {/* volto2 */}
+                {/* distributor_id */}
                 <FormGroup>
-                  <Label for="exampleVolto2">Volume to 2</Label>
+                  <Label for="exampleKode">ID Distributor</Label>
                   <Input
-                    value={this.state.volto2}
+                    value={this.state.distributor_id}
                     onChange={this.handleChange}
-                    type="text"
-                    name="volto2"
-                    id="exampleVolto2"
-                    placeholder="Volume to 2"
-                  />
-                </FormGroup>
-                {/* volto3 */}
-                <FormGroup>
-                  <Label for="exampleVolto3">Volume to 3</Label>
-                  <Input
-                    value={this.state.volto3}
-                    onChange={this.handleChange}
-                    type="text"
-                    name="volto3"
-                    id="exampleVolto3"
-                    placeholder="Volume to 3"
-                  />
-                </FormGroup>
-                {/* volfrom3 */}
-                <FormGroup>
-                  <Label for="exampleVolfrom3">Volume from 3</Label>
-                  <Input
-                    value={this.state.volfrom3}
-                    onChange={this.handleChange}
-                    type="text"
-                    name="volfrom3"
-                    id="exampleVolfrom3"
-                    placeholder="Volume from 3"
-                  />
-                </FormGroup>
-                {/* price3 */}
-                <FormGroup>
-                  <Label for="price3">Price 3</Label>
-                  <Input
-                    value={this.state.price3}
-                    onChange={this.handleChange}
-                    type="text"
-                    name="price3"
-                    id="price3"
-                    placeholder="Price 3"
-                  />
-                </FormGroup>
-
-                <hr />
-
-                {/* code */}
-                <FormGroup>
-                  <Label for="exampleKode">Kode</Label>
-                  <Input
-                    value={this.state.code}
-                    onChange={this.handleChange}
-                    type="text"
-                    name="code"
+                    type="select"
+                    name="distributor_id"
                     id="exampleKode"
                     placeholder="Kode"
-                  />
+                  >
+                    {
+                      dataDistributor.map(item => {
+                        return (
+                          <option value={item._id}>{item.name}</option>
+                        )
+                      })
+                    }
+                  </Input>
                 </FormGroup>
                 {/* isactive */}
                 <FormGroup>
@@ -268,18 +208,6 @@ class Editdatatarifpelanggan extends React.Component {
                     label="Turn on this if True"
                   />
                 </FormGroup>
-                {/* name */}
-                <FormGroup>
-                  <Label for="exampleNama">Nama</Label>
-                  <Input
-                    value={this.state.name}
-                    onChange={this.handleChange}
-                    type="text"
-                    name="name"
-                    id="exampleNama"
-                    placeholder="Nama"
-                  />
-                </FormGroup>
                 {/* description */}
                 <FormGroup>
                   <Label for="exampleDescription">Description</Label>
@@ -290,90 +218,6 @@ class Editdatatarifpelanggan extends React.Component {
                     name="description"
                     id="exampleDescription"
                     placeholder="Description"
-                  />
-                </FormGroup>
-                {/* isprogressive */}
-                <FormGroup>
-                  <Label for="exampleIsProgressive">is Progressive</Label>
-                  <CustomInput
-                    checked={this.state.isprogressive}
-                    onChange={this.handleChange}
-                    type="switch"
-                    id="exampleIsProgressive"
-                    name="isprogressive"
-                    label="Turn on this if True"
-                  />
-                </FormGroup>
-                {/* volfrom1 */}
-                <FormGroup>
-                  <Label for="exampleVolume1">Volume 1</Label>
-                  <InputGroup>
-                    <InputGroupAddon addonType="prepend">
-                      <InputGroupText className="bg-blue-design">
-                        <i className="glyphicon glyphicon-tint"></i>
-                      </InputGroupText>
-                    </InputGroupAddon>
-                    <Input
-                      value={this.state.volfrom1}
-                      onChange={this.handleChange}
-                      type="number"
-                      name="volfrom1"
-                      id="exampleVolume1"
-                      placeholder="Volume 1"
-                    />
-                    <InputGroupAddon addonType="append">
-                      <InputGroupText className="bg-blue-design">
-                        M<sup>3</sup>
-                      </InputGroupText>
-                    </InputGroupAddon>
-                  </InputGroup>
-                </FormGroup>
-                {/* price1 */}
-                <FormGroup>
-                  <Label for="examplePrice1">Harga 1</Label>
-                  <Input
-                    value={this.state.price1}
-                    onChange={this.handleChange}
-                    type="number"
-                    name="price1"
-                    id="exampleVolume1"
-                    placeholder="Harga 1"
-                  />
-                </FormGroup>
-                {/* volfrom2 */}
-                <FormGroup>
-                  <Label for="exampleVolume2">Volume 2</Label>
-                  <InputGroup>
-                    <InputGroupAddon addonType="prepend">
-                      <InputGroupText className="bg-blue-design">
-                        <i className="glyphicon glyphicon-tint"></i>
-                      </InputGroupText>
-                    </InputGroupAddon>
-                    <Input
-                      value={this.state.volfrom2}
-                      onChange={this.handleChange}
-                      type="number"
-                      name="volfrom2"
-                      id="exampleVolume2"
-                      placeholder="Volume 2"
-                    />
-                    <InputGroupAddon addonType="append">
-                      <InputGroupText className="bg-blue-design">
-                        M<sup>3</sup>
-                      </InputGroupText>
-                    </InputGroupAddon>
-                  </InputGroup>
-                </FormGroup>
-                {/* price2 */}
-                <FormGroup>
-                  <Label for="examplePrice2">Harga 2</Label>
-                  <Input
-                    value={this.state.price2}
-                    onChange={this.handleChange}
-                    type="number"
-                    name="price2"
-                    id="examplePrice2"
-                    placeholder="Harga 2"
                   />
                 </FormGroup>
 
@@ -391,4 +235,11 @@ class Editdatatarifpelanggan extends React.Component {
   }
 }
 
-export default Editdatatarifpelanggan;
+function mapStateToProps(state){
+  return {
+    // DISTRIBUTOR
+    dataDistributor: state.reducerDistributor.dataDistributor,
+  }
+}
+
+export default connect(mapStateToProps)(Editdatatarifpelanggan);

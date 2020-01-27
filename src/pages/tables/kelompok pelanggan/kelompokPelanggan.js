@@ -43,26 +43,20 @@ import s from "./kelompokPelanggan.module.scss";
 import Widget from "../../../components/Widget/Widget";
 // actions
 import {
-  getDataTarif,
-  createDataTarif,
-  deleteDataTarif
-} from "../../../actions/tables/tarif";
-// ambil distributor untuk create dan update
+  getDataKelompokPelanggan,
+  createDataKelompokPelanggan,
+  deleteDataKelompokPelanggan
+} from "../../../actions/tables/kelompokpelanggan";
+// data distributor
 import { getDataDistributor } from "../../../actions/tables/distributor";
+// data tarif
+import { getDataTarif } from "../../../actions/tables/tarif";
+
 
 class kelompokPelanggan extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired
   };
-
-  static isAuthenticated(token) {
-    // We check if app runs with backend mode
-    // if (!config.isBackend && token) return true;
-    if (!token) return;
-    const date = new Date().getTime() / 1000;
-    const data = jwt.decode(token);
-    return date < data.exp;
-  }
 
   constructor(props) {
     super(props);
@@ -71,11 +65,11 @@ class kelompokPelanggan extends React.Component {
       parent_group: "",
       group: "",
       code: "",
-      code: "",
-      isactive: "",
       name: "",
+      isactive: false,
       description: "",
-      tarif_id: "",
+      tarif_id: null,
+      distributor_id: null,
       // ALERT
       showAlert: false,
       alertDestroy: false,
@@ -89,33 +83,29 @@ class kelompokPelanggan extends React.Component {
   componentDidMount() {
     // masih race condition, harusnya pas modals muncul aja
     // GET data
-    this.props.dispatch(getDataTarif());
-    // GET data distributor
-    // if(this.state.modalCreate === true){
-    this.props.dispatch(getDataDistributor());
-    // }
-
-    // ALERT
-    // return this.props.alertMessage ? this.onShowAlert() : null;
+    this.props.dispatch(getDataKelompokPelanggan());
   }
 
   // CREATE Tarif
-  doCreateTarif = e => {
+  doCreateKelompokPelanggan = e => {
     e.preventDefault();
     let postData = {
-      costumer_id: this.state.costumer_id,
+      parent_group: this.state.parent_group,
+      group: this.state.group,
       code: this.state.code,
-      tipe: this.state.tipe,
-      model: this.state.model,
-      manufaktur: this.state.manufaktur,
-      lat: this.state.lat,
-      long: this.state.long,
-      valve: this.state.valve,
-      status: this.state.status,
-      distributor_id: this.state.distributor_id
+      name: this.state.name,
+      isactive: this.state.isactive,
+      description: this.state.description,
+      tarif_id: this.state.tarif_id,
+      distributor_id: this.state.distributor_id,
+      // lat: this.state.lat,
+      // long: this.state.long,
     };
     console.log(postData);
-    // this.props.dispatch(createDataTarif(postData))
+    this.props.dispatch(createDataKelompokPelanggan(postData))
+    this.setState({
+      modalCreate: false,
+    })
   };
   // track change
   handleCreateChange = e => {
@@ -134,9 +124,7 @@ class kelompokPelanggan extends React.Component {
     let confirm = window.confirm("delete data, are you sure?");
     console.log(confirm);
     if (confirm) {
-      this.props.dispatch(deleteDataTarif(id));
-      this.onShowAlert();
-      this.props.dispatch(getDataTarif());
+      this.props.dispatch(deleteDataKelompokPelanggan(id));
     }
   }
 
@@ -154,26 +142,24 @@ class kelompokPelanggan extends React.Component {
         }, 2000);
       }
     );
-    localStorage.removeItem("isCreated");
   };
 
   toggle(id) {
     this.setState(prevState => ({
       [id]: !prevState[id]
     }));
+    // GET data distributor
+    this.props.dispatch(getDataDistributor());
+    // GET data tarif
+    this.props.dispatch(getDataTarif());
   }
 
   render() {
     console.log(this.state);
     console.log(this.props);
 
-    // jika error karena 401 atau lainnya, tendang user dengan hapus cookie
-    // if(this.props.getError){
-    //   return document.cookie = 'token=;expires=Thu, 01 Jan 1970 00:00:01 GMT;'
-    // }
-
     const { modalCreate } = this.state;
-    const { createSuccess, dataDistributor } = this.props;
+    const { dataKelompokPelanggan, dataDistributor, dataTarif } = this.props;
 
     // create error
     const createError =
@@ -202,28 +188,27 @@ class kelompokPelanggan extends React.Component {
 
     // table data
     const tableData =
-      this.props.dataTarif.length > 0 ? (
-        this.props.dataTarif.map(item => {
+      dataKelompokPelanggan ? (
+        dataKelompokPelanggan.map(item => {
           console.log(item);
-          // const isactive = item.isactive ? (
-          //   <span className="badge btn-success">TRUE</span>
-          // ) : (
-          //   <span className="badge btn-danger">FALSE</span>
-          // );
+          const isactive = item.isactive ? (
+            <span className="badge btn-success">TRUE</span>
+          ) : (
+            <span className="badge btn-danger">FALSE</span>
+          );
           return (
             <tr>
               <td>{item.parent_group}</td>
-              {/* <td>{item.distributor_id.code}</td> */}
-              {/* <td>{isactive}</td> */}
               <td>{item.group}</td>
               <td>{item.code}</td>
-              <td>{item.isactive}</td>
               <td>{item.name}</td>
+              <td>{isactive}</td>
+              <td>{item.distributor_id.name}</td>
+              <td>{item.tarif_id.name}</td>
               <td>{item.description}</td>
-              <td>{item.tarif_id}</td>
               <td>
                 <Link
-                  to={"/app/forms/editdataarea/" + item._id}
+                  to={"/app/forms/editdatakelompokpelanggan/" + item._id}
                   className="mr-1"
                 >
                   <span className="text-success">
@@ -257,15 +242,6 @@ class kelompokPelanggan extends React.Component {
                     Data<span>Kelompok Pelanggan</span>
                   </li>
                 </ol>
-                {/* alert */}
-                {/* <Alert
-                  color="success"
-                  className={cx(s.promoAlert, {
-                    [s.showAlert]: this.state.showAlert
-                  })}
-                >
-                  {this.props.alertMessage || "Data get actions"}
-                </Alert> */}
               </Col>
             </Row>
             <Row className="align-items-center justify-content-between">
@@ -285,14 +261,6 @@ class kelompokPelanggan extends React.Component {
                 />
               </Col>
               <Col lg={4} className="text-right">
-                {/* <button className="btn btn-primary">Create</button> */}
-                {/* <CreateModal /> */}
-                {/* <Link
-                  to="/app/forms/createdatatarifpelanggan"
-                  className="btn bg-warning text-white"
-                >
-                  Tambah Data
-                </Link> */}
                 {/* BUTTON MODALS CREATE */}
                 <Button
                   className="mr-sm"
@@ -313,15 +281,16 @@ class kelompokPelanggan extends React.Component {
                           <th>Parent_Grup</th>
                           <th>Grup</th>
                           <th>Kode</th>
-                          <th>Status</th>
                           <th>Nama</th>
+                          <th>is Active</th>
+                          <th>ID Distributor</th>
+                          <th>ID Tarif</th>
                           <th>Deskripsi</th>
-                          <th>Tarif</th>
                         </tr>
                       </thead>
                       <tbody id="myTable" className="position-relative">
                         {/* eslint-disable */}
-                        {this.props.dataTarifVersion ? tableData : null}
+                        {this.props.getSuccess ? tableData : null}
                       </tbody>
                       {/* eslint-enable */}
                     </Table>
@@ -342,10 +311,10 @@ class kelompokPelanggan extends React.Component {
             Tambah Data
           </ModalHeader>
           <ModalBody>
-            <Form id="formCreateDataTarif" onSubmit={this.doCreateTarif}>
-              {/* code */}
+            <Form id="formCreateDataTarif" onSubmit={this.doCreateKelompokPelanggan}>
+              {/* parent_group */}
               <FormGroup>
-                <Label for="exampleNama">Parent Grup </Label>
+                <Label for="exampleParent">Parent Grup </Label>
                 <Input
                   onChange={this.handleCreateChange}
                   type="text"
@@ -354,31 +323,46 @@ class kelompokPelanggan extends React.Component {
                   placeholder=" Masukkan Parent Grup"
                 />
               </FormGroup>
-              {/* nama */}
+              {/* group */}
               <FormGroup>
-                <Label for="exampleKode">Grup</Label>
+                <Label for="exampleGroup">Grup</Label>
                 <Input
                   onChange={this.handleCreateChange}
                   type="text"
-                  name="Grup"
-                  id="exampleGrup"
+                  name="group"
+                  id="exampleGroup"
                   placeholder="Masukkan Grup"
                 />
                 {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
                 {/* <FormText>Example help text that remains unchanged.</FormText> */}
               </FormGroup>
+              {/* code */}
               <FormGroup>
                 <Label for="exampleKode">Kode</Label>
                 <Input
                   onChange={this.handleCreateChange}
                   type="text"
                   name="code"
-                  id="exampleCode"
+                  id="exampleKode"
                   placeholder="Masukkan Kode"
                 />
                 {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
                 {/* <FormText>Example help text that remains unchanged.</FormText> */}
               </FormGroup>
+              {/* name */}
+              <FormGroup>
+                <Label for="exampleName">Name</Label>
+                <Input
+                  onChange={this.handleCreateChange}
+                  type="text"
+                  name="name"
+                  id="exampleName"
+                  placeholder="Masukkan Nama"
+                />
+                {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                {/* <FormText>Example help text that remains unchanged.</FormText> */}
+              </FormGroup>
+              {/* isacrive */}
               <FormGroup>
                 <Label for="exampleKode">Is Active</Label>
                 <CustomInput
@@ -391,32 +375,50 @@ class kelompokPelanggan extends React.Component {
                 {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
                 {/* <FormText>Example help text that remains unchanged.</FormText> */}
               </FormGroup>
+              {/* distributor_id */}
               <FormGroup>
-                <Label for="exampleKode">Nama</Label>
+                {/* tampilkan distributor name dan id nya sebagai value */}
+                <Label>ID Distributor</Label>
                 <Input
                   onChange={this.handleCreateChange}
-                  type="text"
-                  name="name"
-                  id="exampleName"
-                  placeholder="Masukkan Nama"
-                />
+                  type="select"
+                  name="distributor_id"
+                >
+                  <option value={null}></option>
+                  {dataDistributor.map(item => {
+                    return <option value={item._id}>{item.name}</option>;
+                  })}
+                </Input>
                 {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
                 {/* <FormText>Example help text that remains unchanged.</FormText> */}
               </FormGroup>
               {/* tarif_id */}
               <FormGroup>
                 {/* tampilkan distributor name dan id nya sebagai value */}
-                <Label for="exampleKode">TARIF ID </Label>
+                <Label>ID Tarif</Label>
                 <Input
                   onChange={this.handleCreateChange}
                   type="select"
                   name="tarif_id"
-                  id="exampleSelect"
                 >
-                  {dataDistributor.map(item => {
+                  <option value={null}></option>
+                  {dataTarif.map(item => {
                     return <option value={item._id}>{item.name}</option>;
                   })}
                 </Input>
+                {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                {/* <FormText>Example help text that remains unchanged.</FormText> */}
+              </FormGroup>
+              {/* description */}
+              <FormGroup>
+                <Label for="exampleDesc">Deskripsi</Label>
+                <Input
+                  onChange={this.handleCreateChange}
+                  type="text"
+                  name="description"
+                  id="exampleDesc"
+                  placeholder="Masukkan Deskripsi"
+                />
                 {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
                 {/* <FormText>Example help text that remains unchanged.</FormText> */}
               </FormGroup>
@@ -446,23 +448,25 @@ class kelompokPelanggan extends React.Component {
 function mapStateToProps(state) {
   return {
     // ALERT
-    alertMessage: state.reducerTarif.alertMessage,
+    alertMessage: state.reducerKelompokPelanggan.alertMessage,
     // GET
-    getSuccess: state.reducerTarif.getSuccess,
-    getError: state.reducerTarif.getError,
-    dataTarif: state.reducerTarif.dataTarif,
+    getSuccess: state.reducerKelompokPelanggan.getSuccess,
+    getError: state.reducerKelompokPelanggan.getError,
+    dataKelompokPelanggan: state.reducerKelompokPelanggan.dataKelompokPelanggan,
     // CREATE
-    createSuccess: state.reducerTarif.createSuccess,
-    createError: state.reducerTarif.createError,
+    createSuccess: state.reducerKelompokPelanggan.createSuccess,
+    createError: state.reducerKelompokPelanggan.createError,
     // UPDATE
-    updateSuccess: state.reducerTarif.updateSuccess,
-    updateError: state.reducerTarif.updateError,
+    updateSuccess: state.reducerKelompokPelanggan.updateSuccess,
+    updateError: state.reducerKelompokPelanggan.updateError,
     // DELETE
-    deleteSuccess: state.reducerTarif.deleteSuccess,
-    deleteError: state.reducerTarif.deleteError,
+    deleteSuccess: state.reducerKelompokPelanggan.deleteSuccess,
+    deleteError: state.reducerKelompokPelanggan.deleteError,
 
     // DISTRIBUTOR
-    dataDistributor: state.reducerDistributor.dataDistributor
+    dataDistributor: state.reducerDistributor.dataDistributor,
+    // DISTRIBUTOR
+    dataTarif: state.reducerTarif.dataTarif,
   };
 }
 

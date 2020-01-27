@@ -61,7 +61,7 @@ import RoleData from "../../pages/tables/role/Roledata";
 import UserData from "../../pages/tables/user/Userdata";
 
 //EDIT TABLES DATA
-import EditDataKelompokPelanggan from "../../pages/forms/editdatakelompokpelanggan/EditdatakelompokPelanggan";
+import EditDataKelompokPelanggan from "../../pages/forms/editdatakelompokpelanggan/Editdatakelompokpelanggan";
 import EditdataCostumerBilling from "../../pages/forms/editdatacostumerbilling/Editdatacostumerbilling";
 import EditDataTarifPelanggan from "../../pages/forms/editdatatarifpelanggan/Editdatatarifpelanggan";
 import EditDataTarifVersion from "../../pages/forms/editdatatarifversion/Editdatatarifversion";
@@ -196,7 +196,7 @@ class Layout extends React.Component {
                       component={UserData}
                     />
                     <Route
-                      path="/app/forms/editdatakelompokpelanggan"
+                      path="/app/forms/editdatakelompokpelanggan/:id"
                       exact
                       component={EditDataKelompokPelanggan}
                     />

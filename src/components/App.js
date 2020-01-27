@@ -51,6 +51,7 @@ class App extends React.PureComponent {
     ){
       // hapus token
       localStorage.removeItem('token');
+      window.location.reload();
     }
 
 

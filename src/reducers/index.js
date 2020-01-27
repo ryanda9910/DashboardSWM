@@ -10,6 +10,8 @@ import reducerTarif from './reducerTarif';
 import reducerTarifVersion from './reducerTarifVersion';
 import reducerDistributor from './reducerDistributor';
 import reducerArea from './reducerArea';
+import reducerKelompokPelanggan from './reducerKelompokPelanggan';
+import reducerPelanggan from './reducerPelanggan';
 
 export default combineReducers({
   alerts,
@@ -23,4 +25,6 @@ export default combineReducers({
   reducerTarifVersion,
   reducerDistributor,
   reducerArea,
+  reducerKelompokPelanggan,
+  reducerPelanggan,
 });

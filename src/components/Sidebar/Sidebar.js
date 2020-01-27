@@ -201,10 +201,10 @@ class Sidebar extends React.Component {
             ]}
           />
           <LinksGroup
-            header="Biling Costumer"
-            link="/app/tables/costumerbilling"
+            header="Meter Testing"
+            link="/app/tables/metertesting"
             isHeader
-            iconName="flaticon-archive-3"
+            iconName="flaticon-settings-6"
           />
           {/* <Link
             onClick={this.doLogout}

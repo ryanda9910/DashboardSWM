@@ -63,9 +63,9 @@ class Editdatatarifpelanggan extends React.Component {
       .then(res => {
         console.log(res);
 
-        const validFrom =  res.data.data.validFrom;
-        const validFromChange = validFrom.substr(0, validFrom.lastIndexOf('T'));
-        console.log(validFromChange);
+        // const validFrom =  res.data.data.validFrom;
+        // const validFromChange = validFrom.substr(0, validFrom.lastIndexOf('T'));
+        // console.log(validFromChange);
 
         this.setState({
           // 
@@ -79,7 +79,8 @@ class Editdatatarifpelanggan extends React.Component {
           price2: res.data.data.price2,
           volume3: res.data.data.volume3,
           price3: res.data.data.price3,
-          validFrom: validFromChange,
+          // validFrom: validFromChange,
+          validFrom: res.data.data.validFrom,
           // 
           statusGetSpesificsData: res.data.status
         });
@@ -116,24 +117,24 @@ class Editdatatarifpelanggan extends React.Component {
     console.log(postData);
 
     // UPDATE data
-    // const id = this.props.match.params.id;
-    // axios
-    //   .put(
-    //     "/api/tarifversion/" + id,
-    //     postData
-    //   )
-    //   .then(res => {
-    //     console.log(res);
-    //     this.setState({
-    //       updateStatus: res.status
-    //     });
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //     this.setState({
-    //       updateError: "Something Wrong"
-    //     });
-    //   });
+    const id = this.props.match.params.id;
+    axios
+      .put(
+        "/api/tarifversion/" + id,
+        postData
+      )
+      .then(res => {
+        console.log(res);
+        this.setState({
+          updateStatus: res.status
+        });
+      })
+      .catch(err => {
+        console.log(err);
+        this.setState({
+          updateError: "Something Wrong"
+        });
+      });
   };
 
   // track change
@@ -328,14 +329,12 @@ class Editdatatarifpelanggan extends React.Component {
                 </FormGroup>
 
 
-
-
                 {/* validFrom */}
                 <FormGroup>
                   <Label for="validFrom">Valid From</Label>
                   <Input
                     value={this.state.validFrom}
-                    onChange={this.handleCreateChange}
+                    onChange={this.handleChange}
                     type="date"
                     name="validFrom"
                     id="validFrom"                  

@@ -9,6 +9,7 @@ import analytics from "./analytics";
 import reducerTarif from './reducerTarif';
 import reducerTarifVersion from './reducerTarifVersion';
 import reducerDistributor from './reducerDistributor';
+import reducerArea from './reducerArea';
 
 export default combineReducers({
   alerts,
@@ -17,7 +18,9 @@ export default combineReducers({
   products,
   register,
   analytics,
+  // tables
   reducerTarif,
   reducerTarifVersion,
   reducerDistributor,
+  reducerArea,
 });

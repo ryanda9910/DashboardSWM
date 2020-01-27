@@ -51,14 +51,14 @@ export function logoutUser() {
           dispatch(requestLogout());
           localStorage.removeItem('token');
           // localStorage.removeItem('user');
-          // expire session
+          // expire cookie
           document.cookie = 'token=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
           axios.defaults.headers.common['Authorization'] = "";
           return dispatch(receiveLogout());
         }
       }).catch(err => {
-        console.log(err);
-        console.log(err.response);
+        // console.log(err);
+        // console.log(err.response);
         // 
       })
     };

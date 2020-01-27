@@ -1,78 +1,119 @@
 import React from "react";
-import { Row, Col, Table, Alert } from "reactstrap";
+import {
+  Row,
+  Col,
+  Table,
+  Button,
+  Alert,
+  // MODALS
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  CustomInput,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupText
+} from "reactstrap";
+import axios from "axios";
+import $ from "jquery";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Link,
   useRouteMatch,
-  useParams
+  useParams,
+  withRouter,
+  Redirect
 } from "react-router-dom";
-import axios from "axios";
-import $ from "jquery";
-
-// CUSTOM
-import config from "../../../config";
-import Loader from "../../../components/Loader";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import jwt from "jsonwebtoken";
+// MODAL CREATE
 import cx from "classnames";
+import config from "../../../config";
+import Loader from "../../../components/Loader/Loader";
 import s from "./Area.module.scss";
-import Widget from "../../../components/Widget";
+
+import Widget from "../../../components/Widget/Widget";
+// actions
+import {
+  getDataArea,
+  createDataArea,
+  deleteDataArea
+} from "../../../actions/tables/area";
+
+// DISTRIBUTOR
+import { getDataDistributor } from "../../../actions/tables/distributor";
+
+
 
 class Area extends React.Component {
+  static propTypes = {
+    dispatch: PropTypes.func.isRequired
+  };
+
   constructor(props) {
     super(props);
     this.state = {
-      dataArea: [
-        // {
-        //   code: "20160801003",
-        //   name: "Anggun"
-        // },
-        // {
-        //   code: "20160801003",
-        //   name: "Aldo"
-        // }
-      ],
-      isCreated: false,
-      showAlert: false
+      // CREATE
+      code: "",
+      name: "",
+      distributor_id: "",
+      // ALERT
+      showAlert: false,
+      alertDestroy: false,
+      // MODALS
+      modalCreate: false
     };
+    //
+    this.handleCreateChange = this.handleCreateChange.bind(this);
   }
 
   componentDidMount() {
+    // masih race condition, harusnya pas modals muncul aja
     // GET data
-    axios
-      .get("/api/area")
-      .then(res => {
-        console.log(res);
-        this.setState({
-          dataArea: res.data.message.data,
-          status: res.data.status
-        });
-      })
-      .catch(err => {
-        console.log(err);
-      });
-    // ALERT
-    return localStorage.getItem("isCreated") ? this.onShowAlert() : null;
+    this.props.dispatch(getDataArea());
   }
+
+  // CREATE Tarif
+  doCreateArea = e => {
+    e.preventDefault();
+    let postData = {
+      code: this.state.code,
+      name: this.state.name,
+      distributor_id: this.state.distributor_id
+    };
+    console.log(postData);
+    this.props.dispatch(createDataArea(postData))
+    this.setState({
+      modalCreate: false,
+      emptyDistributorIdMsg: '',
+    })
+  };
+  // track change
+  handleCreateChange = e => {
+    console.log(e.target);
+    const target = e.target;
+    const value = target.type === "checkbox" ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+  };
 
   // DELETE
   handleDelete(id) {
     let confirm = window.confirm("delete data, are you sure?");
     console.log(confirm);
     if (confirm) {
-      axios
-        .delete("/api/area/" + id)
-        .then(res => {
-          console.log(res);
-          alert(res.data.status);
-          window.location.reload();
-          this.setState({
-            succesDelete: true
-          });
-        })
-        .catch(err => {
-          alert(err.data.status);
-        });
+      this.props.dispatch(deleteDataArea(id));
     }
   }
 
@@ -84,7 +125,8 @@ class Area extends React.Component {
       () => {
         window.setTimeout(() => {
           this.setState({
-            showAlert: false
+            showAlert: false,
+            alertDestroy: false
           });
         }, 2000);
       }
@@ -92,7 +134,31 @@ class Area extends React.Component {
     localStorage.removeItem("isCreated");
   };
 
+  toggle(id) {
+    this.setState(prevState => ({
+      [id]: !prevState[id]
+    }));
+    // GET data distributor
+    // if(this.state.modalCreate === true){
+    this.props.dispatch(getDataDistributor());
+    // }
+  }
+
   render() {
+    console.log(this.state);
+    console.log(this.props);
+
+    const { modalCreate } = this.state;
+    const { dataArea, dataDistributor } = this.props;
+
+    // create error
+    const createError =
+      this.props.createError === false ? null : (
+        <div className="text-center w-100 py-2">
+          <small className="text-white">{this.props.createError}</small>
+        </div>
+      );
+
     // search
     $(document).ready(function() {
       $("#myInput").on("keyup", function() {
@@ -110,9 +176,44 @@ class Area extends React.Component {
       });
     });
 
-    // if (this.state.successDelete === true) {
-    //   return <Redirect to="/app/tables/area" />;
-    // }
+    // table data
+    const tableData =
+      dataArea ? (
+        dataArea.map(item => {
+          console.log(item);
+          // const isactive = item.isactive ? (
+          //   <span className="badge btn-success">TRUE</span>
+          // ) : (
+          //   <span className="badge btn-danger">FALSE</span>
+          // );
+          return (
+            <tr>
+              <td>{item.code}</td>
+              <td>{item.name}</td>
+              <td>{item.distributor_id.name}</td>
+              <td>
+                <Link
+                  to={"/app/forms/editdataarea/" + item._id}
+                  className="mr-1"
+                >
+                  <span className="text-success">
+                    <i class="far fa-edit"></i>
+                    Ubah
+                  </span>
+                </Link>
+                <a onClick={() => this.handleDelete(item._id)} className="ml-1">
+                  <span className="text-danger">
+                    <i class="fas fa-trash"></i>
+                    Hapus
+                  </span>
+                </a>
+              </td>
+            </tr>
+          );
+        })
+      ) : (
+        <Loader size={35} className="pt-5 position-absolute" />
+      );
 
     return (
       <div className={s.root}>
@@ -122,28 +223,21 @@ class Area extends React.Component {
               <Col lg={12}>
                 <ol className="breadcrumb">
                   <li className="breadcrumb-item">YOU ARE HERE</li>
-                  <li className="breadcrumb-item active">Area</li>
+                  <li className="breadcrumb-item active">
+                    Data<span>Area</span>
+                  </li>
                 </ol>
               </Col>
             </Row>
-            <Alert
-              color="success"
-              className={cx(s.promoAlert, {
-                [s.showAlert]: this.state.showAlert
-              })}
-            >
-              {localStorage.getItem("isCreated") || "Data has been created"}
-            </Alert>
             <Row className="align-items-center justify-content-between">
               <Col lg={12}>
                 <h3>
                   Data <span className="fw-semi-bold">Area</span>
                 </h3>
               </Col>
-              {/* alert */}
               <Col lg={4}>
                 <input
-                  className="form-control my-3"
+                  class="form-control my-3"
                   id="myInput"
                   placeholder="Search"
                   aria-label="Search"
@@ -152,64 +246,31 @@ class Area extends React.Component {
                 />
               </Col>
               <Col lg={4} className="text-right">
-                <Link
-                  to="/app/forms/createdataarea"
-                  className="btn text-white bg-warning"
+                <Button
+                  className="mr-sm"
+                  color="warning"
+                  onClick={() => this.toggle("modalCreate")}
                 >
                   Tambah Data
-                </Link>
+                </Button>
               </Col>
             </Row>
             <Row>
               <Col lg={12}>
                 <Widget refresh collapse close className="px-2">
                   <div className="table-responsive">
-                    <Table className="table-hover border-0">
+                    <Table className="table-hover">
                       <thead>
                         <tr>
                           <th>Kode</th>
                           <th>Nama</th>
-                          <th>Kode Distributor</th>
+                          <th>ID Distributor</th>
                           <th>Aksi</th>
                         </tr>
                       </thead>
-                      {/* eslint-disable */}
-                      <tbody id="myTable">
-                        {this.state.dataArea.length > 0 ? (
-                          this.state.dataArea.map(item => {
-                            return (
-                              <tr>
-                                <td>{item.code}</td>
-                                <td>{item.name}</td>
-                                <td></td>
-                                <td>
-                                  <Link
-                                    to={"/app/forms/editdataarea/" + item._id}
-                                  >
-                                    <span className="text-success">
-                                      <i className="far fa-edit"></i>
-                                      Ubah
-                                    </span>
-                                  </Link>
-                                  <a
-                                    onClick={() => this.handleDelete(item._id)}
-                                    className="ml-1"
-                                  >
-                                    <span className="text-danger">
-                                      <i className="fas fa-trash"></i>
-                                      Hapus
-                                    </span>
-                                  </a>
-                                </td>
-                              </tr>
-                            );
-                          })
-                        ) : (
-                          <Loader
-                            size={35}
-                            className="pt-5 position-absolute"
-                          />
-                        )}
+                      <tbody id="myTable" className="position-relative">
+                        {/* eslint-disable */}
+                        {this.props.getSuccess ? tableData : null}
                       </tbody>
                       {/* eslint-enable */}
                     </Table>
@@ -219,9 +280,104 @@ class Area extends React.Component {
             </Row>
           </Col>
         </Row>
+
+        {/* MODALS */}
+        <Modal
+          size="md"
+          isOpen={modalCreate}
+          toggle={() => this.toggle("modalCreate")}
+        >
+          <ModalHeader toggle={() => this.toggle("modalCreate")}>
+            Tambah Data
+          </ModalHeader>
+          <ModalBody>
+            <Form id="formCreateDataTarif" onSubmit={this.doCreateArea}>
+              {/* code */}
+              <FormGroup>
+                <Label for="exampleNama">Kode</Label>
+                <Input
+                  onChange={this.handleCreateChange}
+                  type="text"
+                  name="code"
+                  id="exampleCode"
+                  placeholder=" Masukkan Kode"
+                />
+              </FormGroup>
+              {/* nama */}
+              <FormGroup>
+                <Label for="exampleKode">Nama</Label>
+                <Input
+                  onChange={this.handleCreateChange}
+                  type="text"
+                  name="name"
+                  id="exampleNama"
+                  placeholder="Masukkan Nama Area"
+                />
+                {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                {/* <FormText>Example help text that remains unchanged.</FormText> */}
+              </FormGroup>
+              {/* distributor_id */}
+              <FormGroup>
+                {/* tampilkan distributor name dan id nya sebagai value */}
+                <Label for="exampleKode">ID Distributor</Label>
+                <Input
+                  onChange={this.handleCreateChange}
+                  type="select"
+                  name="distributor_id"
+                  id="exampleSelect"
+                >
+                  <option value={null}></option>
+                  {dataDistributor.map(item => {
+                    return <option value={item._id}>{item.name}</option>;
+                  })}
+                </Input>
+                {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                {/* <FormText>Example help text that remains unchanged.</FormText> */}
+              </FormGroup>
+
+              {/* show ERROR */}
+              <FormGroup row className="bg-danger">
+                {createError}
+              </FormGroup>
+
+              <ModalFooter>
+                <Button color="dark" onClick={() => this.toggle("modalCreate")}>
+                  Close
+                </Button>
+                {/* craete */}
+                <Button color="warning" className="px-5" type="submit">
+                  Tambah Data
+                </Button>
+              </ModalFooter>
+            </Form>
+          </ModalBody>
+        </Modal>
       </div>
     );
   }
 }
-//aaaaaaa bbbbbb
-export default Area;
+
+function mapStateToProps(state) {
+  return {
+    // ALERT
+    alertMessage: state.reducerArea.alertMessage,
+    // GET
+    getSuccess: state.reducerArea.getSuccess,
+    getError: state.reducerArea.getError,
+    dataArea: state.reducerArea.dataArea,
+    // CREATE
+    createSuccess: state.reducerArea.createSuccess,
+    createError: state.reducerArea.createError,
+    // UPDATE
+    updateSuccess: state.reducerArea.updateSuccess,
+    updateError: state.reducerArea.updateError,
+    // DELETE
+    deleteSuccess: state.reducerArea.deleteSuccess,
+    deleteError: state.reducerArea.deleteError,
+
+    // DISTRIBUTOR
+    dataDistributor: state.reducerDistributor.dataDistributor,
+  };
+}
+
+export default withRouter(connect(mapStateToProps)(Area));

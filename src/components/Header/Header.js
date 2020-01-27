@@ -24,7 +24,7 @@ import {
   FormGroup
 } from "reactstrap";
 // CUSTOM
-import jwt from 'jsonwebtoken';
+import jwt from "jsonwebtoken";
 
 import Notifications from "../Notifications";
 import { logoutUser } from "../../actions/user";
@@ -35,9 +35,9 @@ import {
   changeSidebarVisibility
 } from "../../actions/navigation";
 
-import sender1 from "../../images/1.png";
-import sender2 from "../../images/2.png";
-import sender3 from "../../images/3.png";
+// import sender1 from "../../images/1.png";
+// import sender2 from "../../images/2.png";
+// import sender3 from "../../images/3.png";
 
 import avatar from "../../images/people/a5.jpg";
 
@@ -192,7 +192,9 @@ class Header extends React.Component {
                 <img src={avatar} alt="..." />
               </span>
               {/* CUSTOM */}
-              <span className={`small ${s.accountCheck}`}>{jwt.decode(localStorage.getItem('token')).user_name}</span>
+              <span className={`small ${s.accountCheck}`}>
+                {jwt.decode(localStorage.getItem("token")).user_name}
+              </span>
               <Badge className={s.badge} color="primary">
                 13
               </Badge>
@@ -223,14 +225,14 @@ class Header extends React.Component {
             </DropdownToggle>
             <DropdownMenu className={`${s.dropdownMenu} ${s.messages}`}>
               <DropdownItem>
-                <img className={s.image} src={sender1} alt="" />
+                {/* <img className={s.image} src={sender1} alt="" /> */}
                 <div className={s.details}>
                   <div>Jane Hew</div>
                   <div className={s.text}>Hey, John! How is it going? ...</div>
                 </div>
               </DropdownItem>
               <DropdownItem>
-                <img className={s.image} src={sender2} alt="" />
+                {/* <img className={s.image} src={sender2} alt="" /> */}
                 <div className={s.details}>
                   <div>Alies Rumiancaŭ</div>
                   <div className={s.text}>
@@ -239,7 +241,7 @@ class Header extends React.Component {
                 </div>
               </DropdownItem>
               <DropdownItem>
-                <img className={s.image} src={sender3} alt="" />
+                {/* <img className={s.image} src={sender3} alt="" /> */}
                 <div className={s.details}>
                   <div>Michał Rumiancaŭ</div>
                   <div className={s.text}>

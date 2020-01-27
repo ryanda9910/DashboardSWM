@@ -59,7 +59,7 @@ import Tarif from "../../pages/tables/tarif/Tarif";
 import KelompokPelanggan from "../../pages/tables/kelompok pelanggan/kelompokPelanggan";
 import RoleData from "../../pages/tables/role/Roledata";
 import UserData from "../../pages/tables/user/Userdata";
-import CostumerBilling from "../../pages/tables/costumer/CostumerBilling";
+
 //EDIT TABLES DATA
 import EditDataKelompokPelanggan from "../../pages/forms/editdatakelompokpelanggan/EditdatakelompokPelanggan";
 import EditdataCostumerBilling from "../../pages/forms/editdatacostumerbilling/Editdatacostumerbilling";
@@ -71,15 +71,17 @@ import EditDataPelanggan from "../../pages/forms/editdatapelanggan/Editdatapelan
 import EditDataPerangkat from "../../pages/forms/editdataperangkat/Editdataperangkat";
 import EditDataArea from "../../pages/forms/editdataarea/Editdataarea";
 //CREATE DATA TABLES
-import CreateDataTarifPelanggan from "../../pages/forms/createdatatarifpelanggan/CreateDataTarifPelanggan";
-import CreateDataArea from "../../pages/forms/createdataarea/CreateDataArea";
-import CreateDataKelompokPelanggan from "../../pages/forms/createdatakelompokpelanggan/CreateDataKelompokPelanggan";
-import CreateDataBillingCostumer from "../../pages/forms/createdatabillingcostumer/CreateDataBillingCostumer";
-import CreateDataRole from "../../pages/forms/createdatarole/CreateDataRole";
-import CreateDataUsers from "../../pages/forms/createdatauser/CreateDataUser";
-import CreateDataPerangkat from "../../pages/forms/createdataperangkat/CreateDataPerangkat";
-import CreateDataPelanggan from "../../pages/forms/createdatapelanggan/CreateDataPelanggan";
-
+// import CreateDataTarifPelanggan from "../../pages/forms/createdatatarifpelanggan/CreateDataTarifPelanggan";
+// import CreateDataArea from "../../pages/forms/createdataarea/CreateDataArea";
+// import CreateDataKelompokPelanggan from "../../pages/forms/createdatakelompokpelanggan/CreateDataKelompokPelanggan";
+// import CreateDataBillingCostumer from "../../pages/forms/createdatabillingcostumer/CreateDataBillingCostumer";
+// import CreateDataRole from "../../pages/forms/createdatarole/CreateDataRole";
+// import CreateDataUsers from "../../pages/forms/createdatauser/CreateDataUser";
+// import CreateDataPerangkat from "../../pages/forms/createdataperangkat/CreateDataPerangkat";
+// import CreateDataPelanggan from "../../pages/forms/createdatapelanggan/CreateDataPelanggan";
+//  METER TESTING
+import MeterTesting from "../../pages/tables/metertesting/Metertesting";
+//
 import Header from "../Header";
 import Sidebar from "../Sidebar";
 import { openSidebar, closeSidebar } from "../../actions/navigation";
@@ -143,6 +145,12 @@ class Layout extends React.Component {
                   timeout={200}
                 >
                   <Switch>
+                    {/* ROUTES TESTING */}
+                    <Route
+                      path="/app/tables/metertesting"
+                      exact
+                      component={MeterTesting}
+                    />
                     {/* ROUTES TABLES */}
                     <Route
                       path="/app/main"
@@ -187,12 +195,6 @@ class Layout extends React.Component {
                       exact
                       component={UserData}
                     />
-                    <Route
-                      path="/app/tables/costumerbilling"
-                      exact
-                      component={CostumerBilling}
-                    />
-                    {/* ROUTES EDIT DATA */}
                     <Route
                       path="/app/forms/editdatakelompokpelanggan"
                       exact
@@ -239,7 +241,7 @@ class Layout extends React.Component {
                       component={EditDataArea}
                     />
                     {/* ROUTES CREATE DATA */}
-                    <Route
+                    {/* <Route
                       path="/app/forms/createdatatarifpelanggan"
                       exact
                       component={CreateDataTarifPelanggan}
@@ -278,7 +280,7 @@ class Layout extends React.Component {
                       path="/app/forms/createdataperangkat"
                       exact
                       component={CreateDataPerangkat}
-                    />
+                    /> */}
                     {/* <Route
                       path="/app/tables/pelanggan"
                       exact

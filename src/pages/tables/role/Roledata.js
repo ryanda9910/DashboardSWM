@@ -3,52 +3,180 @@ import {
   Row,
   Col,
   Table,
-  Progress,
   Button,
-  UncontrolledButtonDropdown,
-  DropdownMenu,
-  DropdownToggle,
-  DropdownItem,
-  Input,
+  Alert,
+  // MODALS
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Form,
+  FormGroup,
   Label,
-  Badge
+  Input,
+  CustomInput,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupText
 } from "reactstrap";
+import axios from "axios";
 import $ from "jquery";
-
-import { Link } from "react-router-dom";
-
-import Widget from "../../../components/Widget";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useRouteMatch,
+  useParams,
+  withRouter,
+  Redirect
+} from "react-router-dom";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import jwt from "jsonwebtoken";
+// MODAL CREATE
+import cx from "classnames";
+import config from "../../../config";
+import Loader from "../../../components/Loader/Loader";
 import s from "./Roledata.module.scss";
 
-//LOADER
-import Loader from "../../../components/Loader/Loader";
+import Widget from "../../../components/Widget/Widget";
+// actions
+import {
+  getDataTarif,
+  createDataTarif,
+  deleteDataTarif
+} from "../../../actions/tables/tarif";
+// ambil distributor untuk create dan update
+import { getDataDistributor } from "../../../actions/tables/distributor";
 
 class Roledata extends React.Component {
+  static propTypes = {
+    dispatch: PropTypes.func.isRequired
+  };
+
+  static isAuthenticated(token) {
+    // We check if app runs with backend mode
+    // if (!config.isBackend && token) return true;
+    if (!token) return;
+    const date = new Date().getTime() / 1000;
+    const data = jwt.decode(token);
+    return date < data.exp;
+  }
+
   constructor(props) {
     super(props);
     this.state = {
-      dataRole: [
-        {
-          kode: "KSRO1",
-          nama: "kasir"
-        },
-        {
-          kode: "KSRO1",
-          nama: "kasir"
-        },
-        {
-          kode: "KSRO1",
-          nama: "kasir"
-        },
-        {
-          kode: "KSRO1",
-          nama: "kasir"
-        }
-      ]
+      // CREATE
+      code: "",
+      isactive: "",
+      name: "",
+      description: "",
+      menuaccess: "",
+      distributor_id: "",
+      // ALERT
+      showAlert: false,
+      alertDestroy: false,
+      // MODALS
+      modalCreate: false
     };
+    //
+    this.handleCreateChange = this.handleCreateChange.bind(this);
+  }
+
+  componentDidMount() {
+    // masih race condition, harusnya pas modals muncul aja
+    // GET data
+    this.props.dispatch(getDataTarif());
+    // GET data distributor
+    // if(this.state.modalCreate === true){
+    this.props.dispatch(getDataDistributor());
+    // }
+
+    // ALERT
+    // return this.props.alertMessage ? this.onShowAlert() : null;
+  }
+
+  // CREATE Tarif
+  doCreateTarif = e => {
+    e.preventDefault();
+    let postData = {
+      code: this.state.code,
+      isactive: this.state.isactive,
+      name: this.state.name,
+      description: this.state.description,
+      menuaccess: this.state.menuaccess,
+      distributor_id: this.state.distributor_id
+    };
+    console.log(postData);
+    // this.props.dispatch(createDataTarif(postData))
+  };
+  // track change
+  handleCreateChange = e => {
+    console.log(e.target);
+    const target = e.target;
+    const value = target.type === "checkbox" ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+  };
+
+  // DELETE
+  handleDelete(id) {
+    let confirm = window.confirm("delete data, are you sure?");
+    console.log(confirm);
+    if (confirm) {
+      this.props.dispatch(deleteDataTarif(id));
+      this.onShowAlert();
+      this.props.dispatch(getDataTarif());
+    }
+  }
+
+  onShowAlert = () => {
+    this.setState(
+      {
+        showAlert: true
+      },
+      () => {
+        window.setTimeout(() => {
+          this.setState({
+            showAlert: false,
+            alertDestroy: false
+          });
+        }, 2000);
+      }
+    );
+    localStorage.removeItem("isCreated");
+  };
+
+  toggle(id) {
+    this.setState(prevState => ({
+      [id]: !prevState[id]
+    }));
   }
 
   render() {
+    console.log(this.state);
+    console.log(this.props);
+
+    // jika error karena 401 atau lainnya, tendang user dengan hapus cookie
+    // if(this.props.getError){
+    //   return document.cookie = 'token=;expires=Thu, 01 Jan 1970 00:00:01 GMT;'
+    // }
+
+    const { modalCreate } = this.state;
+    const { createSuccess, dataDistributor } = this.props;
+
+    // create error
+    const createError =
+      this.props.createError === false ? null : (
+        <div className="text-center w-100 py-2">
+          <small className="text-white">{this.props.createError}</small>
+        </div>
+      );
+
     // search
     $(document).ready(function() {
       $("#myInput").on("keyup", function() {
@@ -65,6 +193,51 @@ class Roledata extends React.Component {
         });
       });
     });
+
+    // table data
+    const tableData =
+      this.props.dataTarif.length > 0 ? (
+        this.props.dataTarif.map(item => {
+          console.log(item);
+          // const isactive = item.isactive ? (
+          //   <span className="badge btn-success">TRUE</span>
+          // ) : (
+          //   <span className="badge btn-danger">FALSE</span>
+          // );
+          return (
+            <tr>
+              <td>{item.code}</td>
+              {/* <td>{item.distributor_id.code}</td> */}
+              {/* <td>{isactive}</td> */}
+              <td>{item.isactive}</td>
+              <td>{item.name}</td>
+              <td>{item.description}</td>
+              <td>{item.menuaccess}</td>
+              <td>{item.distributor_id}</td>
+              <td>
+                <Link
+                  to={"/app/forms/editdataarea/" + item._id}
+                  className="mr-1"
+                >
+                  <span className="text-success">
+                    <i class="far fa-edit"></i>
+                    Ubah
+                  </span>
+                </Link>
+                <a onClick={() => this.handleDelete(item._id)} className="ml-1">
+                  <span className="text-danger">
+                    <i class="fas fa-trash"></i>
+                    Hapus
+                  </span>
+                </a>
+              </td>
+            </tr>
+          );
+        })
+      ) : (
+        <Loader size={35} className="pt-5 position-absolute" />
+      );
+
     return (
       <div className={s.root}>
         <Row className="pt-3">
@@ -74,9 +247,18 @@ class Roledata extends React.Component {
                 <ol className="breadcrumb">
                   <li className="breadcrumb-item">YOU ARE HERE</li>
                   <li className="breadcrumb-item active">
-                    Data <span>Role</span>
+                    Data<span>Role</span>
                   </li>
                 </ol>
+                {/* alert */}
+                {/* <Alert
+                  color="success"
+                  className={cx(s.promoAlert, {
+                    [s.showAlert]: this.state.showAlert
+                  })}
+                >
+                  {this.props.alertMessage || "Data get actions"}
+                </Alert> */}
               </Col>
             </Row>
             <Row className="align-items-center justify-content-between">
@@ -94,69 +276,42 @@ class Roledata extends React.Component {
                 />
               </Col>
               <Col lg={4} className="text-right">
-                <Link
-                  to="/app/forms/createdatarole"
-                  className="btn text-white bg-warning"
+                {/* <button className="btn btn-primary">Create</button> */}
+                {/* <CreateModal /> */}
+                {/* <Link
+                  to="/app/forms/createdatatarifpelanggan"
+                  className="btn bg-warning text-white"
                 >
                   Tambah Data
-                </Link>
+                </Link> */}
+                {/* BUTTON MODALS CREATE */}
+                <Button
+                  className="mr-sm"
+                  color="warning"
+                  onClick={() => this.toggle("modalCreate")}
+                >
+                  Tambah Data
+                </Button>
               </Col>
             </Row>
             <Row>
               <Col lg={12}>
                 <Widget refresh collapse close className="px-2">
-                  <div className="table-hover table-responsive">
+                  <div className="table-responsive">
                     <Table className="table-hover">
                       <thead>
                         <tr>
                           <th>Kode</th>
-                          <th>Nama</th>
                           <th>Status</th>
+                          <th>Nama</th>
+                          <th>Deskripsi</th>
+                          <th>Akses Menu</th>
                           <th>Aksi</th>
                         </tr>
                       </thead>
-                      {/* eslint-disable */}
-                      <tbody id="myTable">
-                        {this.state.dataRole ? (
-                          this.state.dataRole.map(item => {
-                            return (
-                              <tr>
-                                <td>{item.kode}</td>
-                                <td>{item.nama}</td>
-                                <td>
-                                  <Badge
-                                    color="success"
-                                    className="text-secondary"
-                                    pill
-                                  >
-                                    AKTIF
-                                  </Badge>
-                                </td>
-                                <td>
-                                  <Link to="/app/forms/editroledata">
-                                    <a href="#" className="mr-1">
-                                      <span className="text-success">
-                                        <i className="far fa-edit"></i>
-                                        Ubah
-                                      </span>
-                                    </a>
-                                  </Link>
-                                  <a href="#" className="ml-1">
-                                    <span className="text-danger">
-                                      <i className="fas fa-trash"></i>
-                                      Hapus
-                                    </span>
-                                  </a>
-                                </td>
-                              </tr>
-                            );
-                          })
-                        ) : (
-                          <Loader
-                            size={35}
-                            className="pt-5 position-absolute"
-                          />
-                        )}
+                      <tbody id="myTable" className="position-relative">
+                        {/* eslint-disable */}
+                        {this.props.dataTarifVersion ? tableData : null}
                       </tbody>
                       {/* eslint-enable */}
                     </Table>
@@ -166,9 +321,140 @@ class Roledata extends React.Component {
             </Row>
           </Col>
         </Row>
+
+        {/* MODALS */}
+        <Modal
+          size="md"
+          isOpen={modalCreate}
+          toggle={() => this.toggle("modalCreate")}
+        >
+          <ModalHeader toggle={() => this.toggle("modalCreate")}>
+            Tambah Data
+          </ModalHeader>
+          <ModalBody>
+            <Form id="formCreateDataTarif" onSubmit={this.doCreateTarif}>
+              {/* code */}
+              <FormGroup>
+                <Label for="exampleNama">Kode </Label>
+                <Input
+                  onChange={this.handleCreateChange}
+                  type="text"
+                  name="code"
+                  id="exampleCode"
+                  placeholder=" Masukkan Kode"
+                />
+              </FormGroup>
+              {/* nama */}
+              <FormGroup>
+                <Label for="exampleKode">Is Active</Label>
+                <CustomInput
+                  onChange={this.handleCreateChange}
+                  type="switch"
+                  id="exampleIsActive"
+                  name="isactive"
+                  label="Turn on this if True"
+                />
+                {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                {/* <FormText>Example help text that remains unchanged.</FormText> */}
+              </FormGroup>
+              <FormGroup>
+                <Label for="exampleKode">Nama</Label>
+                <Input
+                  onChange={this.handleCreateChange}
+                  type="text"
+                  name="name"
+                  id="exampleName"
+                  placeholder="Masukkan Nama"
+                />
+                {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                {/* <FormText>Example help text that remains unchanged.</FormText> */}
+              </FormGroup>
+              <FormGroup>
+                <Label for="exampleKode">Deskripsi</Label>
+                <Input
+                  onChange={this.handleCreateChange}
+                  type="text"
+                  name="description"
+                  id="exampleDescription"
+                  placeholder="Masukkan Deskripsi"
+                />
+                {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                {/* <FormText>Example help text that remains unchanged.</FormText> */}
+              </FormGroup>
+              <FormGroup>
+                <Label for="exampleKode">Akses Menu</Label>
+                <Input
+                  onChange={this.handleCreateChange}
+                  type="select"
+                  name="tarif_id"
+                  id="exampleSelect"
+                >
+                  {dataDistributor.map(item => {
+                    return <option value={item._id}>{item.name}</option>;
+                  })}
+                </Input>
+              </FormGroup>
+              {/* distributor_id */}
+              <FormGroup>
+                {/* tampilkan distributor name dan id nya sebagai value */}
+                <Label for="exampleKode">Distributor ID </Label>
+                <Input
+                  onChange={this.handleCreateChange}
+                  type="select"
+                  name="distributor_id"
+                  id="exampleSelect"
+                >
+                  {dataDistributor.map(item => {
+                    return <option value={item._id}>{item.name}</option>;
+                  })}
+                </Input>
+                {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                {/* <FormText>Example help text that remains unchanged.</FormText> */}
+              </FormGroup>
+
+              {/* show ERROR */}
+              <FormGroup row className="bg-danger">
+                {createError}
+              </FormGroup>
+
+              <ModalFooter>
+                <Button color="dark" onClick={() => this.toggle("modalCreate")}>
+                  Close
+                </Button>
+                {/* craete */}
+                <Button color="warning" className="px-5" type="submit">
+                  Tambah Data
+                </Button>
+              </ModalFooter>
+            </Form>
+          </ModalBody>
+        </Modal>
       </div>
     );
   }
 }
 
-export default Roledata;
+function mapStateToProps(state) {
+  return {
+    // ALERT
+    alertMessage: state.reducerTarif.alertMessage,
+    // GET
+    getSuccess: state.reducerTarif.getSuccess,
+    getError: state.reducerTarif.getError,
+    dataTarif: state.reducerTarif.dataTarif,
+    // CREATE
+    createSuccess: state.reducerTarif.createSuccess,
+    createError: state.reducerTarif.createError,
+    // UPDATE
+    updateSuccess: state.reducerTarif.updateSuccess,
+    updateError: state.reducerTarif.updateError,
+    // DELETE
+    deleteSuccess: state.reducerTarif.deleteSuccess,
+    deleteError: state.reducerTarif.deleteError,
+
+    // DISTRIBUTOR
+    dataDistributor: state.reducerDistributor.dataDistributor
+  };
+}
+
+export default withRouter(connect(mapStateToProps)(Roledata));

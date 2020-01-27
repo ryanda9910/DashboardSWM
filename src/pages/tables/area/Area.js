@@ -295,6 +295,7 @@ class Area extends React.Component {
                         <tr>
                           <th>Kode</th>
                           <th>Nama</th>
+                          <th>ID Distributor</th>
                           <th>Aksi</th>
                         </tr>
                       </thead>

@@ -315,7 +315,7 @@ class Panelmeter extends React.Component {
                     <Table className="table-hover">
                       <thead>
                         <tr>
-                          <th>Costumer_id</th>
+                          <th>ID Costumer</th>
                           <th>Kode</th>
                           <th>Tipe</th>
                           <th>Model</th>
@@ -324,6 +324,7 @@ class Panelmeter extends React.Component {
                           <th>Longitude</th>
                           <th>Valve</th>
                           <th>Status</th>
+                          <th>ID Distributor</th>
                           <th>Aksi</th>
                         </tr>
                       </thead>

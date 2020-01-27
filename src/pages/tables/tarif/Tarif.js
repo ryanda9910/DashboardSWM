@@ -239,7 +239,7 @@ class Tarif extends React.Component {
             <tr>
               <td>{item.name}</td>
               <td>{item.distributor_id.code}</td>
-              <td>{isactive}</td>
+              <td>{item.isactive}</td>
               <td>{item.description}</td>
               <td>
                 <Link

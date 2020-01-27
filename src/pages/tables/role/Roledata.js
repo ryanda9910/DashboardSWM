@@ -306,6 +306,7 @@ class Roledata extends React.Component {
                           <th>Nama</th>
                           <th>Deskripsi</th>
                           <th>Akses Menu</th>
+                          <th>ID Distributor</th>
                           <th>Aksi</th>
                         </tr>
                       </thead>

@@ -316,6 +316,7 @@ class Userdata extends React.Component {
                           <th>Deskripsi</th>
                           <th>Email</th>
                           <th>Phone</th>
+                          <th>ID Distributor</th>
                           <th>Aksi</th>
                         </tr>
                       </thead>

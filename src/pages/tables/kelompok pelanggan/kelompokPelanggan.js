@@ -221,6 +221,7 @@ class kelompokPelanggan extends React.Component {
               <td>{item.name}</td>
               <td>{item.description}</td>
               <td>{item.tarif_id}</td>
+              <td>{item.distributor_id}</td>
               <td>
                 <Link
                   to={"/app/forms/editdataarea/" + item._id}
@@ -310,13 +311,14 @@ class kelompokPelanggan extends React.Component {
                     <Table className="table-hover">
                       <thead>
                         <tr>
-                          <th>Parent_Grup</th>
+                          <th>Grup Parent</th>
                           <th>Grup</th>
                           <th>Kode</th>
                           <th>Status</th>
                           <th>Nama</th>
                           <th>Deskripsi</th>
                           <th>Tarif</th>
+                          <th>ID Distritbutor</th>
                         </tr>
                       </thead>
                       <tbody id="myTable" className="position-relative">

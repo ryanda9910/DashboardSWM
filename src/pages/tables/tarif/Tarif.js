@@ -141,7 +141,7 @@ class Tarif extends React.Component {
         modalCreate: false,
         emptyDistributorIdMsg: '',
       })
-      this.props.dispatch(getDataTarif(postData))
+      // this.props.dispatch(getDataTarif())
     }
   };
   // track change
@@ -162,7 +162,7 @@ class Tarif extends React.Component {
     console.log(confirm);
     if (confirm) {
       this.props.dispatch(deleteDataTarif(id));
-      this.props.dispatch(getDataTarif());
+      // this.props.dispatch(getDataTarif());
     }
   }
 

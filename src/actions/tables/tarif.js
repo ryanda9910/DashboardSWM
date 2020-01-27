@@ -77,14 +77,17 @@ export const createDataTarif = (postData) => {
         // ketika Error masuk kesini, backend
         // dispatch(createSuccess(res.data.status))
         dispatch(createTarifSuccess(res.data.status))
+        dispatch(getDataTarif())
       }else{
         // jika validasi dari server error
         dispatch(createTarifError(res.response.data.data.message))
+        dispatch(getDataTarif())
       }
     })
     .catch(err => {
       console.log(err.response);
       // dispatch(createTarifError(err.response.data.message))     
+      dispatch(getDataTarif())
     });
   }
 }
@@ -93,11 +96,13 @@ export const deleteDataTarif = (id) => {
     axios.delete("/api/tarif/" + id)
       .then(res => {
         console.log(res.data.message)
-        return dispatch(deleteTarifSuccess(res.data.message))
+        dispatch(deleteTarifSuccess(res.data.message))
+        dispatch(getDataTarif())
       })
       .catch(err => {
         console.log(err.data)
-        // dispatch(deleteTarifError(err.data))
+        dispatch(deleteTarifError(err.data.message))
+        dispatch(getDataTarif())
       });
   }
 }

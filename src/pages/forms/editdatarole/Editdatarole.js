@@ -18,57 +18,41 @@ class Editdatarole extends React.Component {
             <Widget refresh collapse close className="px-5">
               <Form className="mt-5">
                 <FormGroup row>
-                  <Label md={3} xs={12} for="nama-input">
-                    Kode
-                  </Label>
-                  <Col md={9} xs={12}>
-                    <input
-                      className="form-control"
-                      id="inputlg"
-                      placeholder="Masukkan Kode"
-                      aria-label="Search"
-                      type="text"
-                      style={{ color: "#FFF" }}
-                    />
-                  </Col>
+                  <Label for="nama-input">Kode</Label>
+                  <Input
+                    className="form-control"
+                    id="inputlg"
+                    placeholder="Masukkan Kode"
+                    type="text"
+                    style={{ color: "#FFF" }}
+                  />
                 </FormGroup>
                 <FormGroup row>
-                  <Label md={3} xs={12} for="email-input">
-                    Nama
-                  </Label>
-                  <Col md={9} xs={12}>
-                    <input
-                      className="form-control"
-                      id="inputlg"
-                      placeholder="Masukkan Nama"
-                      aria-label="Search"
-                      type="text"
-                      style={{ color: "#FFF" }}
-                    />
-                  </Col>
+                  <Label for="email-input">Nama</Label>
+                  <Input
+                    className="form-control"
+                    id="inputlg"
+                    placeholder="Masukkan Nama"
+                    type="text"
+                    style={{ color: "#FFF" }}
+                  />
                 </FormGroup>
                 <FormGroup row>
-                  <Label md={3} xs={12} for="username-input">
-                    Deskripsi
-                  </Label>
-                  <Col md={9} xs={12}>
-                    <input
-                      className="form-control"
-                      id="inputlg"
-                      placeholder="Masukkan Data"
-                      aria-label="Search"
-                      type="text"
-                      style={{ color: "#FFF" }}
-                    />
-                  </Col>
+                  <Label for="username-input">Deskripsi</Label>
+                  <Input
+                    className="form-control"
+                    id="inputlg"
+                    placeholder="Masukkan Data"
+                    aria-label="Search"
+                    type="text"
+                    style={{ color: "#FFF" }}
+                  />
                 </FormGroup>
                 <FormGroup row>
-                  <Label md={3} xs={12} for="password-input">
-                    Aktif
-                  </Label>
+                  <Label for="password-input">Aktif</Label>
                   <FormGroup check inline>
                     <Label check>
-                      <input
+                      <Input
                         type="radio"
                         name="radio2"
                         className="radiobtn ml-5"
@@ -77,7 +61,7 @@ class Editdatarole extends React.Component {
                       Active
                     </Label>
                     <Label check>
-                      <input
+                      <Input
                         type="radio"
                         name="radio2"
                         className="radiobtn ml-5"
@@ -88,37 +72,31 @@ class Editdatarole extends React.Component {
                   </FormGroup>
                 </FormGroup>
                 <FormGroup row>
-                  <Label md={3} xs={12} for="role-input">
-                    Menu Akses
-                  </Label>
-                  <Col md={9} xs={12}>
-                    <input
-                      className="form-control"
-                      id="inputlg"
-                      placeholder="Masukkan Data"
-                      aria-label="Search"
-                      type="text"
-                      style={{ color: "#FFF" }}
-                    />
-                  </Col>
+                  <Label for="role-input">Menu Akses</Label>
+                  <Input
+                    className="form-control"
+                    id="inputlg"
+                    placeholder="Masukkan Data"
+                    aria-label="Search"
+                    type="text"
+                    style={{ color: "#FFF" }}
+                  />
                 </FormGroup>
                 <div className="float-right">
-                  <Link to="/app/tables/roledata">
-                    <Button
-                      className="my-5 px-5 ml-5"
-                      color="light"
-                      type="submit"
-                    >
-                      Kembali
-                    </Button>
-                    <Button
-                      className="my-5 px-5 ml-5"
-                      color="primary"
-                      type="submit"
-                    >
-                      Simpan
-                    </Button>
-                  </Link>
+                  <Button
+                    className="my-5 px-5 ml-5"
+                    color="light"
+                    type="button"
+                  >
+                    Kembali
+                  </Button>
+                  <Button
+                    className="my-5 px-5 ml-5"
+                    color="primary"
+                    type="submit"
+                  >
+                    Simpan
+                  </Button>
                 </div>
               </Form>
             </Widget>

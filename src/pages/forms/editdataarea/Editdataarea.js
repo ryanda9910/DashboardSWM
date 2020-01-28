@@ -3,7 +3,7 @@ import { Row, Col, Button, FormGroup, Label, Form, Input } from "reactstrap";
 // import Formsy from "formsy-react";
 import { Link, Redirect } from "react-router-dom";
 import axios from "axios";
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { getDataDistributor } from "../../../actions/tables/distributor";
 
@@ -13,7 +13,6 @@ import config from "../../../config";
 import Widget from "../../../components/Widget";
 
 class Editdataarea extends React.Component {
-
   static propTypes = {
     dispatch: PropTypes.func.isRequired
   };
@@ -43,15 +42,15 @@ class Editdataarea extends React.Component {
         this.setState({
           code: res.data.data.code,
           name: res.data.data.name,
-          distributor_id: res.data.data.distributor_id,
+          distributor_id: res.data.data.distributor_id
         });
       })
       .catch(err => {
         console.log(err);
       });
-    
+
     // DATA DISTRIBUTOR
-    this.props.dispatch(getDataDistributor())
+    this.props.dispatch(getDataDistributor());
   }
 
   // UPDATE
@@ -60,7 +59,7 @@ class Editdataarea extends React.Component {
     const data = {
       code: this.state.code,
       name: this.state.name,
-      distributor_id: this.state.distributor_id,
+      distributor_id: this.state.distributor_id
     };
 
     // PUT
@@ -125,13 +124,11 @@ class Editdataarea extends React.Component {
               Edit Data <span className="fw-semi-bold"> Area</span>
             </h1>
           </Col>
-          <Col lg={12}>
+          <Col lg={8}>
             <Widget refresh collapse className="px-5">
               <Form onSubmit={this.doUpdateDataArea} className="mt-4">
                 {/* show ERROR */}
-                <FormGroup className="bg-danger">
-                  {updateError}
-                </FormGroup>
+                <FormGroup className="bg-danger">{updateError}</FormGroup>
                 <FormGroup>
                   <Label for="nama-input">Kode</Label>
                   <input
@@ -167,13 +164,9 @@ class Editdataarea extends React.Component {
                     type="select"
                     name="distributor_id"
                   >
-                    {
-                      dataDistributor.map(item => {
-                        return (
-                          <option value={item._id}>{item.name}</option>
-                        )
-                      })
-                    }
+                    {dataDistributor.map(item => {
+                      return <option value={item._id}>{item.name}</option>;
+                    })}
                   </Input>
                 </FormGroup>
                 <div>
@@ -196,12 +189,11 @@ class Editdataarea extends React.Component {
   }
 }
 
-function mapStateToProps(state){
+function mapStateToProps(state) {
   return {
     // DISTRIBUTOR
-    dataDistributor: state.reducerDistributor.dataDistributor,
-
-  }
+    dataDistributor: state.reducerDistributor.dataDistributor
+  };
 }
 
 export default connect(mapStateToProps)(Editdataarea);

@@ -35,18 +35,18 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import jwt from "jsonwebtoken";
 // MODAL CREATE
-import cx from "classnames";
-import config from "../../../config";
+// import cx from "classnames";
+// import config from "../../../config";
 import Loader from "../../../components/Loader/Loader";
 import s from "./Roledata.module.scss";
 
 import Widget from "../../../components/Widget/Widget";
 // actions
 import {
-  getDataTarif,
-  createDataTarif,
-  deleteDataTarif
-} from "../../../actions/tables/tarif";
+  getDataRole,
+  createDataRole,
+  deleteDataRole
+} from "../../../actions/tables/role";
 // ambil distributor untuk create dan update
 import { getDataDistributor } from "../../../actions/tables/distributor";
 
@@ -87,7 +87,7 @@ class Roledata extends React.Component {
   componentDidMount() {
     // masih race condition, harusnya pas modals muncul aja
     // GET data
-    this.props.dispatch(getDataTarif());
+    this.props.dispatch(getDataRole());
     // GET data distributor
     // if(this.state.modalCreate === true){
     this.props.dispatch(getDataDistributor());
@@ -97,8 +97,8 @@ class Roledata extends React.Component {
     // return this.props.alertMessage ? this.onShowAlert() : null;
   }
 
-  // CREATE Tarif
-  doCreateTarif = e => {
+  // CREATE Role
+  doCreateRole = e => {
     e.preventDefault();
     let postData = {
       code: this.state.code,
@@ -109,7 +109,7 @@ class Roledata extends React.Component {
       distributor_id: this.state.distributor_id
     };
     console.log(postData);
-    // this.props.dispatch(createDataTarif(postData))
+    this.props.dispatch(createDataRole(postData));
   };
   // track change
   handleCreateChange = e => {
@@ -128,9 +128,9 @@ class Roledata extends React.Component {
     let confirm = window.confirm("delete data, are you sure?");
     console.log(confirm);
     if (confirm) {
-      this.props.dispatch(deleteDataTarif(id));
+      this.props.dispatch(deleteDataRole(id));
       this.onShowAlert();
-      this.props.dispatch(getDataTarif());
+      this.props.dispatch(getDataRole());
     }
   }
 
@@ -196,27 +196,32 @@ class Roledata extends React.Component {
 
     // table data
     const tableData =
-      this.props.dataTarif.length > 0 ? (
-        this.props.dataTarif.map(item => {
+      this.props.dataRole.length > 0 ? (
+        this.props.dataRole.map(item => {
           console.log(item);
-          // const isactive = item.isactive ? (
-          //   <span className="badge btn-success">TRUE</span>
-          // ) : (
-          //   <span className="badge btn-danger">FALSE</span>
-          // );
+          const isactive = item.isactive ? (
+            <span className="badge btn-success">TRUE</span>
+          ) : (
+            <span className="badge btn-danger">FALSE</span>
+          );
+          let menuaccess = "";
+          for (var a = 0; a < item.menuaccess.length; a++) {
+            menuaccess += item.menuaccess[a];
+          }
+          console.log(menuaccess);
           return (
             <tr>
               <td>{item.code}</td>
               {/* <td>{item.distributor_id.code}</td> */}
-              {/* <td>{isactive}</td> */}
-              <td>{item.isactive}</td>
+              <td>{isactive}</td>
+              {/* <td>{item.isactive}</td> */}
               <td>{item.name}</td>
               <td>{item.description}</td>
-              <td>{item.menuaccess}</td>
-              <td>{item.distributor_id}</td>
+              <td>{menuaccess}</td>
+              <td>{item.distributor_id._id}</td>
               <td>
                 <Link
-                  to={"/app/forms/editdataarea/" + item._id}
+                  to={"/app/forms/editdatarole/" + item._id}
                   className="mr-1"
                 >
                   <span className="text-success">
@@ -312,7 +317,7 @@ class Roledata extends React.Component {
                       </thead>
                       <tbody id="myTable" className="position-relative">
                         {/* eslint-disable */}
-                        {this.props.dataTarifVersion ? tableData : null}
+                        {this.props.dataRole ? tableData : null}
                       </tbody>
                       {/* eslint-enable */}
                     </Table>
@@ -333,7 +338,10 @@ class Roledata extends React.Component {
             Tambah Data
           </ModalHeader>
           <ModalBody>
-            <Form id="formCreateDataTarif" onSubmit={this.doCreateTarif}>
+            <Form
+              id="formCreateDataRolegetDataRole"
+              onSubmit={this.doCreateRole}
+            >
               {/* code */}
               <FormGroup>
                 <Label for="exampleNama">Kode </Label>
@@ -438,20 +446,20 @@ class Roledata extends React.Component {
 function mapStateToProps(state) {
   return {
     // ALERT
-    alertMessage: state.reducerTarif.alertMessage,
+    alertMessage: state.reducerRole.alertMessage,
     // GET
-    getSuccess: state.reducerTarif.getSuccess,
-    getError: state.reducerTarif.getError,
-    dataTarif: state.reducerTarif.dataTarif,
+    getSuccess: state.reducerRole.getSuccess,
+    getError: state.reducerRole.getError,
+    dataRole: state.reducerRole.dataRole,
     // CREATE
-    createSuccess: state.reducerTarif.createSuccess,
-    createError: state.reducerTarif.createError,
+    createSuccess: state.reducerRole.createSuccess,
+    createError: state.reducerRole.createError,
     // UPDATE
-    updateSuccess: state.reducerTarif.updateSuccess,
-    updateError: state.reducerTarif.updateError,
+    updateSuccess: state.reducerRole.updateSuccess,
+    updateError: state.reducerRole.updateError,
     // DELETE
-    deleteSuccess: state.reducerTarif.deleteSuccess,
-    deleteError: state.reducerTarif.deleteError,
+    deleteSuccess: state.reducerRole.deleteSuccess,
+    deleteError: state.reducerRole.deleteError,
 
     // DISTRIBUTOR
     dataDistributor: state.reducerDistributor.dataDistributor

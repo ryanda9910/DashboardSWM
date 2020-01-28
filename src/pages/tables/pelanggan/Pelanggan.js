@@ -79,7 +79,7 @@ class Pelanggan extends React.Component {
       // MODALS
       modalCreate: false,
       // EMPTY DATA
-      emptyData: '',
+      emptyData: ""
     };
     //
     this.handleChange = this.handleChange.bind(this);
@@ -165,8 +165,8 @@ class Pelanggan extends React.Component {
     }));
   }
 
-  emptyData(){
-    this.setState({emptyData: 'belum ada data.'})
+  emptyData() {
+    this.setState({ emptyData: "belum ada data." });
   }
 
   render() {
@@ -212,55 +212,54 @@ class Pelanggan extends React.Component {
     });
 
     // table data
-    const tableData =
-      this.props.dataPelanggan ? (
-        this.props.dataPelanggan.map(item => {
-          console.log(item);
-          // const isactive = item.isactive ? (
-          //   <span className="badge btn-success">TRUE</span>
-          // ) : (
-          //   <span className="badge btn-danger">FALSE</span>
-          // );
-          return (
-            <tr>
-              {/* <td>{item.distributor_id.name}</td> */}
-              {/* <td>{isactive}</td> */}
-              <td>{item.name}</td>
-              <td>{item.code}</td>
-              <td>{item.customer_group_id.name}</td>
-              {/* <td>{item.customer_grup_id}</td> */}
-              <td>{item.distributor_id.name}</td>
-              {/* <td>{item.distributor_id}</td> */}
-              <td>{item.area_id.name}</td>
-              {/* <td>{item.area_id}</td> */}
-              <td>{item.email}</td>
-              <td>{item.address}</td>
-              <td>{item.phone}</td>
-              <td>{item.status}</td>
-              <td>{item.notes}</td>
-              <td>
-                <Link
-                  to={"/app/forms/editdatapelanggan/" + item._id}
-                  className="mr-1"
-                >
-                  <span className="text-success">
-                    <i class="far fa-edit"></i>
-                    Ubah
-                  </span>
-                </Link>
-                <a onClick={() => this.handleDelete(item._id)} className="ml-1">
-                  <span className="text-danger">
-                    <i class="fas fa-trash"></i>
-                    Hapus
-                  </span>
-                </a>
-              </td>
-            </tr>
-          );
-        })
-      ) : (
-        <Loader size={35} className="pt-5 position-absolute" />
-      );
+    const tableData = this.props.dataPelanggan ? (
+      this.props.dataPelanggan.map(item => {
+        console.log(item);
+        // const isactive = item.isactive ? (
+        //   <span className="badge btn-success">TRUE</span>
+        // ) : (
+        //   <span className="badge btn-danger">FALSE</span>
+        // );
+        return (
+          <tr>
+            {/* <td>{item.distributor_id.name}</td> */}
+            {/* <td>{isactive}</td> */}
+            <td>{item.name}</td>
+            <td>{item.code}</td>
+            <td>{item.customer_group_id.name}</td>
+            {/* <td>{item.customer_grup_id}</td> */}
+            <td>{item.distributor_id.name}</td>
+            {/* <td>{item.distributor_id}</td> */}
+            <td>{item.area_id.name}</td>
+            {/* <td>{item.area_id}</td> */}
+            <td>{item.email}</td>
+            <td>{item.address}</td>
+            <td>{item.phone}</td>
+            <td>{item.status}</td>
+            <td>{item.notes}</td>
+            <td>
+              <Link
+                to={"/app/forms/editdatapelanggan/" + item._id}
+                className="mr-1"
+              >
+                <span className="text-success">
+                  <i class="far fa-edit"></i>
+                  Ubah
+                </span>
+              </Link>
+              <a onClick={() => this.handleDelete(item._id)} className="ml-1">
+                <span className="text-danger">
+                  <i class="fas fa-trash"></i>
+                  Hapus
+                </span>
+              </a>
+            </td>
+          </tr>
+        );
+      })
+    ) : (
+      <Loader size={35} className="pt-5 position-absolute" />
+    );
 
     return (
       <div className={s.root}>
@@ -321,7 +320,7 @@ class Pelanggan extends React.Component {
                         <tr>
                           <th>Nama</th>
                           <th>Kode</th>
-                          <th>ID Kelompok Pelanggan</th>
+                          <th>ID Costumer Grup</th>
                           <th>ID Distributor</th>
                           <th>ID Area</th>
                           <th>Email</th>
@@ -335,10 +334,9 @@ class Pelanggan extends React.Component {
                       <tbody id="myTable" className="position-relative">
                         {dataPelanggan.length > 0 ? tableData : null}
                       </tbody>
-                      
+
                       {/* emptyData */}
                       {/* <div><h2>{this.state.emptyData}</h2></div> */}
-                    
                     </Table>
                   </div>
                 </Widget>

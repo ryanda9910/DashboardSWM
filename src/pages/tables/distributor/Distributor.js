@@ -38,20 +38,24 @@ import jwt from "jsonwebtoken";
 import cx from "classnames";
 import config from "../../../config";
 import Loader from "../../../components/Loader/Loader";
-import s from "./Area.module.scss";
+import s from "./Distributor.module.scss";
 
 import Widget from "../../../components/Widget/Widget";
 // actions
-import {
-  getDataArea,
-  createDataArea,
-  deleteDataArea
-} from "../../../actions/tables/area";
+// import //   getDataKelompokPelanggan
+// //   createDataKelompokPelanggan,
+// //   deleteDataKelompokPelanggan
+// "../../../actions/tables/kelompokpelanggan";
+// data distributor
+import { 
+  getDataDistributor, 
+  createDataDistributor, 
+  deleteDataDistributor, 
+} from "../../../actions/tables/distributor";
+// data tarif
+// import { getDataTarif } from "../../../actions/tables/tarif";
 
-// DISTRIBUTOR
-import { getDataDistributor } from "../../../actions/tables/distributor";
-
-class Area extends React.Component {
+class Distributor extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired
   };
@@ -61,8 +65,13 @@ class Area extends React.Component {
     this.state = {
       // CREATE
       code: "",
+      isactive: "",
       name: "",
-      distributor_id: "",
+      contact: "",
+      description: "",
+      phone: "",
+      email: "",
+      tipe: "",
       // ALERT
       showAlert: false,
       alertDestroy: false,
@@ -76,22 +85,28 @@ class Area extends React.Component {
   componentDidMount() {
     // masih race condition, harusnya pas modals muncul aja
     // GET data
-    this.props.dispatch(getDataArea());
+    this.props.dispatch(getDataDistributor());
   }
 
   // CREATE Tarif
-  doCreateArea = e => {
+  doCreate = e => {
     e.preventDefault();
     let postData = {
       code: this.state.code,
+      isactive: this.state.isactive === true ? 'true' : 'false',
       name: this.state.name,
-      distributor_id: this.state.distributor_id
+      contact: this.state.contact,
+      description: this.state.description,
+      phone: this.state.phone,
+      email: this.state.email,
+      tipe: this.state.tipe
+      // lat: this.state.lat,
+      // long: this.state.long,
     };
     console.log(postData);
-    this.props.dispatch(createDataArea(postData));
+    this.props.dispatch(createDataDistributor(postData));
     this.setState({
-      modalCreate: false,
-      emptyDistributorIdMsg: ""
+      modalCreate: false
     });
   };
   // track change
@@ -111,7 +126,7 @@ class Area extends React.Component {
     let confirm = window.confirm("delete data, are you sure?");
     console.log(confirm);
     if (confirm) {
-      this.props.dispatch(deleteDataArea(id));
+      this.props.dispatch(deleteDataDistributor(id));
     }
   }
 
@@ -129,17 +144,16 @@ class Area extends React.Component {
         }, 2000);
       }
     );
-    localStorage.removeItem("isCreated");
   };
 
   toggle(id) {
     this.setState(prevState => ({
       [id]: !prevState[id]
     }));
-    // GET data distributor
-    // if(this.state.modalCreate === true){
-    this.props.dispatch(getDataDistributor());
-    // }
+    //     // GET data distributor
+    //     this.props.dispatch(getDataDistributor());
+    //     // GET data tarif
+    //     this.props.dispatch(getDataTarif());
   }
 
   render() {
@@ -147,15 +161,15 @@ class Area extends React.Component {
     console.log(this.props);
 
     const { modalCreate } = this.state;
-    const { dataArea, dataDistributor } = this.props;
+    const { dataDistributor } = this.props;
 
     // create error
-    const createError =
-      this.props.createError === false ? null : (
-        <div className="text-center w-100 py-2">
-          <small className="text-white">{this.props.createError}</small>
-        </div>
-      );
+    // const createError =
+    //   this.props.createError === false ? null : (
+    //     <div className="text-center w-100 py-2">
+    //       <small className="text-white">{this.props.createError}</small>
+    //     </div>
+    //   );
 
     // search
     $(document).ready(function() {
@@ -175,21 +189,29 @@ class Area extends React.Component {
     });
 
     // table data
-    const tableData = dataArea ? (
-      dataArea.map(item => {
+    const tableData = dataDistributor ? (
+      dataDistributor.map(item => {
         console.log(item);
-        // const isactive = item.isactive ? (
-        //   <span className="badge btn-success">TRUE</span>
-        // ) : (
-        //   <span className="badge btn-danger">FALSE</span>
-        // );
+        const isactive = item.isactive ? (
+          <span className="badge btn-success">TRUE</span>
+        ) : (
+          <span className="badge btn-danger">FALSE</span>
+        );
         return (
           <tr>
             <td>{item.code}</td>
+            <td>{isactive}</td>
             <td>{item.name}</td>
-            <td>{item.distributor_id.name}</td>
+            <td>{item.contact}</td>
+            <td>{item.description}</td>
+            <td>{item.phone}</td>
+            <td>{item.email}</td>
+            <td>{item.tipe}</td>
             <td>
-              <Link to={"/app/forms/editdataarea/" + item._id} className="mr-1">
+              <Link
+                to={"/app/forms/editdatadistributor/" + item._id}
+                className="mr-1"
+              >
                 <span className="text-success">
                   <i class="far fa-edit"></i>
                   Ubah
@@ -218,7 +240,7 @@ class Area extends React.Component {
                 <ol className="breadcrumb">
                   <li className="breadcrumb-item">YOU ARE HERE</li>
                   <li className="breadcrumb-item active">
-                    Data<span>Area</span>
+                    Data<span>Distributor</span>
                   </li>
                 </ol>
               </Col>
@@ -226,7 +248,7 @@ class Area extends React.Component {
             <Row className="align-items-center justify-content-between">
               <Col lg={12}>
                 <h3>
-                  Data <span className="fw-semi-bold">Area</span>
+                  Data <span className="fw-semi-bold">Distributor</span>
                 </h3>
               </Col>
               <Col lg={4}>
@@ -240,6 +262,7 @@ class Area extends React.Component {
                 />
               </Col>
               <Col lg={4} className="text-right">
+                {/* BUTTON MODALS CREATE */}
                 <Button
                   className="mr-sm"
                   color="warning"
@@ -257,8 +280,13 @@ class Area extends React.Component {
                       <thead>
                         <tr>
                           <th>Kode</th>
+                          <th>Status</th>
                           <th>Nama</th>
-                          <th>ID Distributor</th>
+                          <th>Kontak</th>
+                          <th>Deskripsi</th>
+                          <th>Telepon</th>
+                          <th>Email</th>
+                          <th>Tipe</th>
                           <th>Aksi</th>
                         </tr>
                       </thead>
@@ -285,54 +313,120 @@ class Area extends React.Component {
             Tambah Data
           </ModalHeader>
           <ModalBody>
-            <Form id="formCreateDataTarif" onSubmit={this.doCreateArea}>
+            <Form
+              id="formCreateDataTarif"
+              onSubmit={this.doCreate}
+            >
+              
               {/* code */}
               <FormGroup>
-                <Label for="exampleNama">Kode</Label>
+                <Label for="code">Kode</Label>
                 <Input
                   onChange={this.handleCreateChange}
                   type="text"
                   name="code"
-                  id="exampleCode"
-                  placeholder=" Masukkan Kode"
-                />
-              </FormGroup>
-              {/* nama */}
-              <FormGroup>
-                <Label for="exampleKode">Nama</Label>
-                <Input
-                  onChange={this.handleCreateChange}
-                  type="text"
-                  name="name"
-                  id="exampleNama"
-                  placeholder="Masukkan Nama Area"
+                  id="code"
+                  placeholder="Masukkan Kode"
                 />
                 {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
                 {/* <FormText>Example help text that remains unchanged.</FormText> */}
               </FormGroup>
-              {/* distributor_id */}
+              {/* isactive */}
               <FormGroup>
-                {/* tampilkan distributor name dan id nya sebagai value */}
-                <Label for="exampleKode">ID Distributor</Label>
+                <Label for="exampleIsActive">is Active</Label>
+                <CustomInput
+                  onChange={this.handleCreateChange}
+                  type="switch"
+                  id="exampleIsActive"
+                  name="isactive"
+                  label="Turn on this if True"
+                />
+              </FormGroup>
+              {/* name */}
+              <FormGroup>
+                <Label for="name">Nama</Label>
                 <Input
                   onChange={this.handleCreateChange}
-                  type="select"
-                  name="distributor_id"
-                  id="exampleSelect"
-                >
-                  <option value={null}></option>
-                  {dataDistributor.map(item => {
-                    return <option value={item._id}>{item.name}</option>;
-                  })}
-                </Input>
+                  type="text"
+                  name="name"
+                  id="name"
+                  placeholder="Masukkan Nama"
+                />
+                {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                {/* <FormText>Example help text that remains unchanged.</FormText> */}
+              </FormGroup>
+              {/* contact */}
+              <FormGroup>
+                <Label for="contact">Kontak</Label>
+                <Input
+                  onChange={this.handleCreateChange}
+                  type="text"
+                  name="contact"
+                  id="contact"
+                  placeholder="Masukkan Kontak"
+                />
+                {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                {/* <FormText>Example help text that remains unchanged.</FormText> */}
+              </FormGroup>
+              {/* description */}
+              <FormGroup>
+                {/* tampilkan distributor name dan id nya sebagai value */}
+                <Label for="description">Deskripsi</Label>
+                <Input
+                  onChange={this.handleCreateChange}
+                  type="text"
+                  name="description"
+                  id="description"
+                  placeholder="Masukkan Deskripsi"
+                />
+                {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                {/* <FormText>Example help text that remains unchanged.</FormText> */}
+              </FormGroup>
+              {/* phone */}
+              <FormGroup>
+                {/* tampilkan distributor name dan id nya sebagai value */}
+                <Label for="phone">Telepon</Label>
+                <Input
+                  onChange={this.handleCreateChange}
+                  type="text"
+                  name="phone"
+                  id="phone"
+                  placeholder="Masukkan Telepon"
+                />
+                {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                {/* <FormText>Example help text that remains unchanged.</FormText> */}
+              </FormGroup>
+              {/* email */}
+              <FormGroup>
+                <Label for="email">Email</Label>
+                <Input
+                  onChange={this.handleCreateChange}
+                  type="text"
+                  name="email"
+                  id="email"
+                  placeholder="Masukkan Email"
+                />
+                {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                {/* <FormText>Example help text that remains unchanged.</FormText> */}
+              </FormGroup>
+              {/* tipe */}
+              <FormGroup>
+                <Label for="tipe">Tipe</Label>
+                <Input
+                  onChange={this.handleCreateChange}
+                  type="text"
+                  name="tipe"
+                  id="tipe"
+                  placeholder="Masukkan Tipe"
+                />
                 {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
                 {/* <FormText>Example help text that remains unchanged.</FormText> */}
               </FormGroup>
 
               {/* show ERROR */}
-              <FormGroup row className="bg-danger">
+              {/* <FormGroup row className="bg-danger">
                 {createError}
-              </FormGroup>
+              </FormGroup> */}
 
               <ModalFooter>
                 <Button color="dark" onClick={() => this.toggle("modalCreate")}>
@@ -354,24 +448,26 @@ class Area extends React.Component {
 function mapStateToProps(state) {
   return {
     // ALERT
-    alertMessage: state.reducerArea.alertMessage,
+    alertMessage: state.reducerDistributor.alertMessage,
     // GET
-    getSuccess: state.reducerArea.getSuccess,
-    getError: state.reducerArea.getError,
-    dataArea: state.reducerArea.dataArea,
-    // CREATE
-    createSuccess: state.reducerArea.createSuccess,
-    createError: state.reducerArea.createError,
-    // UPDATE
-    updateSuccess: state.reducerArea.updateSuccess,
-    updateError: state.reducerArea.updateError,
-    // DELETE
-    deleteSuccess: state.reducerArea.deleteSuccess,
-    deleteError: state.reducerArea.deleteError,
+    getSuccess: state.reducerDistributor.getSuccess,
+    getError: state.reducerDistributor.getError,
+    // dataKelompokPelanggan: state.reducerKelompokPelanggan.dataKelompokPelanggan,
+    // // CREATE
+    // createSuccess: state.reducerKelompokPelanggan.createSuccess,
+    // createError: state.reducerKelompokPelanggan.createError,
+    // // UPDATE
+    // updateSuccess: state.reducerKelompokPelanggan.updateSuccess,
+    // updateError: state.reducerKelompokPelanggan.updateError,
+    // // DELETE
+    // deleteSuccess: state.reducerKelompokPelanggan.deleteSuccess,
+    // deleteError: state.reducerKelompokPelanggan.deleteError,
 
     // DISTRIBUTOR
-    dataDistributor: state.reducerDistributor.dataDistributor
+    dataDistributor: state.reducerDistributor.dataDistributor,
+    // DISTRIBUTOR
+    dataTarif: state.reducerTarif.dataTarif
   };
 }
 
-export default withRouter(connect(mapStateToProps)(Area));
+export default withRouter(connect(mapStateToProps)(Distributor));

@@ -5,49 +5,6 @@ import { Switch, Route, withRouter, Redirect } from "react-router";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import Hammer from "rc-hammerjs";
 
-// import Profile from "../../pages/profile";
-// import UIButtons from "../../pages/ui-elements/buttons";
-// import UIIcons from "../../pages/ui-elements/icons";
-// import UITabsAccordion from "../../pages/ui-elements/tabs-accordion/";
-// import UINotifications from "../../pages/ui-elements/notifications";
-// import UIListGroups from "../../pages/ui-elements/list-groups";
-// import FormsElements from "../../pages/forms/elements";
-// import FormsValidation from "../../pages/forms/validation";
-// import FormsWizard from "../../pages/forms/wizard";
-// import TablesStatic from "../../pages/tables/static";
-// import TablesDynamic from "../../pages/tables/dynamic";
-// import MapsGoogle from "../../pages/maps/google";
-// import MapsVector from "../../pages/maps/vector";
-// import ExtraCalendar from "../../pages/extra/calendar";
-// import ExtraInvoice from "../../pages/extra/invoice";
-// import ExtraSearch from "../../pages/extra/search";
-// import ExtraTimeline from "../../pages/extra/timeline";
-// import ExtraGallery from "../../pages/extra/gallery";
-// import Grid from "../../pages/grid";
-// import Widgets from "../../pages/widgets";
-// import Products from "../../pages/products";
-// import Management from "../../pages/management";
-// import Product from "../../pages/product";
-// import Package from "../../pages/package";
-// import Email from "../../pages/email";
-// import CoreTypography from "../../pages/core/typography";
-// import CoreColors from "../../pages/core/colors";
-// import CoreGrid from "../../pages/core/grid";
-// import UIAlerts from "../../pages/ui-elements/alerts";
-// import UIBadge from "../../pages/ui-elements/badge";
-// import UICard from "../../pages/ui-elements/card";
-// import UICarousel from "../../pages/ui-elements/carousel";
-// import UIJumbotron from "../../pages/ui-elements/jumbotron";
-// import UIModal from "../../pages/ui-elements/modal";
-// import UIProgress from "../../pages/ui-elements/progress";
-// import UINavbar from "../../pages/ui-elements/navbar";
-// import UINav from "../../pages/ui-elements/nav";
-// import UIPopovers from "../../pages/ui-elements/popovers";
-// import Charts from "../../pages/charts";
-// import ApexCharts from "../../pages/charts/apex";
-// import Echarts from "../../pages/charts/echarts";
-// import HighCharts from "../../pages/charts/highcharts";
-// import DashboardAnalytics from "../../pages/analytics";
 import Dashboard from "../../pages/dashboard";
 
 //TABLES DATA
@@ -59,10 +16,10 @@ import Tarif from "../../pages/tables/tarif/Tarif";
 import KelompokPelanggan from "../../pages/tables/kelompok pelanggan/kelompokPelanggan";
 import RoleData from "../../pages/tables/role/Roledata";
 import UserData from "../../pages/tables/user/Userdata";
+import Distributor from "../../pages/tables/distributor/Distributor";
 
 //EDIT TABLES DATA
 import EditDataKelompokPelanggan from "../../pages/forms/editdatakelompokpelanggan/Editdatakelompokpelanggan";
-import EditdataCostumerBilling from "../../pages/forms/editdatacostumerbilling/Editdatacostumerbilling";
 import EditDataTarifPelanggan from "../../pages/forms/editdatatarifpelanggan/Editdatatarifpelanggan";
 import EditDataTarifVersion from "../../pages/forms/editdatatarifversion/Editdatatarifversion";
 import EditDataUsers from "../../pages/forms/editdatausers/Editdatausers";
@@ -70,24 +27,15 @@ import EditDataRole from "../../pages/forms/editdatarole/Editdatarole";
 import EditDataPelanggan from "../../pages/forms/editdatapelanggan/Editdatapelanggan";
 import EditDataPerangkat from "../../pages/forms/editdataperangkat/Editdataperangkat";
 import EditDataArea from "../../pages/forms/editdataarea/Editdataarea";
-//CREATE DATA TABLES
-// import CreateDataTarifPelanggan from "../../pages/forms/createdatatarifpelanggan/CreateDataTarifPelanggan";
-// import CreateDataArea from "../../pages/forms/createdataarea/CreateDataArea";
-// import CreateDataKelompokPelanggan from "../../pages/forms/createdatakelompokpelanggan/CreateDataKelompokPelanggan";
-// import CreateDataBillingCostumer from "../../pages/forms/createdatabillingcostumer/CreateDataBillingCostumer";
-// import CreateDataRole from "../../pages/forms/createdatarole/CreateDataRole";
-// import CreateDataUsers from "../../pages/forms/createdatauser/CreateDataUser";
-// import CreateDataPerangkat from "../../pages/forms/createdataperangkat/CreateDataPerangkat";
-// import CreateDataPelanggan from "../../pages/forms/createdatapelanggan/CreateDataPelanggan";
-//  METER TESTING
+import EditDataDistributor from "../../pages/forms/editdatadistributor/Editdatadistributor";
+
+//METER TESTING
 import MeterTesting from "../../pages/tables/metertesting/Metertesting";
-//
+
 import Header from "../Header";
 import Sidebar from "../Sidebar";
 import { openSidebar, closeSidebar } from "../../actions/navigation";
 import s from "./Layout.module.scss";
-// import CreateDataUser from "../../pages/forms/createdatauser/CreateDataUser";
-// import ProductEdit from "../../pages/management/components/productEdit";
 
 class Layout extends React.Component {
   static propTypes = {
@@ -197,14 +145,15 @@ class Layout extends React.Component {
                     />
                     {/* EDIT CREATE DATA */}
                     <Route
+                      path="/app/tables/distributor"
+                      exact
+                      component={Distributor}
+                    />
+                    {/* ROUTES EDIT DATA  */}
+                    <Route
                       path="/app/forms/editdatakelompokpelanggan/:id"
                       exact
                       component={EditDataKelompokPelanggan}
-                    />
-                    <Route
-                      path="/app/forms/editdatacostumerbilling"
-                      exact
-                      component={EditdataCostumerBilling}
                     />
                     <Route
                       path="/app/forms/editdatatarifpelanggan/:id"
@@ -217,12 +166,12 @@ class Layout extends React.Component {
                       component={EditDataTarifVersion}
                     />
                     <Route
-                      path="/app/forms/editdatausers"
+                      path="/app/forms/editdatausers/:id"
                       exact
                       component={EditDataUsers}
                     />
                     <Route
-                      path="/app/forms/editroledata"
+                      path="/app/forms/editdatarole/:id"
                       exact
                       component={EditDataRole}
                     />
@@ -232,7 +181,7 @@ class Layout extends React.Component {
                       component={EditDataPelanggan}
                     />
                     <Route
-                      path="/app/forms/editdataperangkat"
+                      path="/app/forms/editdataperangkat/:id"
                       exact
                       component={EditDataPerangkat}
                     />
@@ -241,105 +190,11 @@ class Layout extends React.Component {
                       exact
                       component={EditDataArea}
                     />
-                    {/* ROUTES CREATE DATA */}
-                    {/* <Route
-                      path="/app/forms/createdatatarifpelanggan"
-                      exact
-                      component={CreateDataTarifPelanggan}
-                    />
                     <Route
-                      path="/app/forms/createdataarea"
+                      path="/app/forms/editdatadistributor/:id"
                       exact
-                      component={CreateDataArea}
+                      component={EditDataDistributor}
                     />
-                    <Route
-                      path="/app/forms/createdatapelanggan"
-                      exact
-                      component={CreateDataPelanggan}
-                    />
-                    <Route
-                      path="/app/forms/createdatabillingcostumer"
-                      exact
-                      component={CreateDataBillingCostumer}
-                    />
-                    <Route
-                      path="/app/forms/createdatarole"
-                      exact
-                      component={CreateDataRole}
-                    />
-                    <Route
-                      path="/app/forms/createdatauser"
-                      exact
-                      component={CreateDataUsers}
-                    />
-                    <Route
-                      path="/app/forms/createdatakelompokpelanggan"
-                      exact
-                      component={CreateDataKelompokPelanggan}
-                    />
-                    <Route
-                      path="/app/forms/createdataperangkat"
-                      exact
-                      component={CreateDataPerangkat}
-                    /> */}
-                    {/* <Route
-                      path="/app/tables/pelanggan"
-                      exact
-                      component={Pelanggan}
-                    /> */}
-                    {/* <Route path="/app/main/widgets" exact component={Widgets} />
-                    <Route path="/app/main/analytics" exact component={DashboardAnalytics} />
-                    <Route path="/app/ecommerce/management" exact component={Management} />
-                    <Route path="/app/ecommerce/management/:id" exact component={ProductEdit} />
-                    <Route path="/app/ecommerce/management/create" exact component={ProductEdit} />
-                    <Route path="/app/ecommerce/products" exact component={Products} />
-                    <Route path="/app/ecommerce/product" exact component={Product} />
-                    <Route path="/app/ecommerce/product/:id" exact component={Product} />
-                    <Route path="/app/profile" exact component={Profile} />
-                    <Route path="/app/inbox" exact component={Email} />
-                    <Route path="/app/ui" exact render={() => <Redirect to="/app/ui/components" />} />
-                    <Route path="/app/ui/buttons" exact component={UIButtons} />
-                    <Route path="/app/ui/icons" exact component={UIIcons} />
-                    <Route path="/app/ui/tabs-accordion" exact component={UITabsAccordion} />
-                    <Route path="/app/ui/notifications" exact component={UINotifications} />
-                    <Route path="/app/ui/list-groups" exact component={UIListGroups} />
-                    <Route path="/app/ui/alerts" exact component={UIAlerts} />
-                    <Route path="/app/ui/badge" exact component={UIBadge} />
-                    <Route path="/app/ui/card" exact component={UICard} />
-                    <Route path="/app/ui/carousel" exact component={UICarousel} />
-                    <Route path="/app/ui/jumbotron" exact component={UIJumbotron} />
-                    <Route path="/app/ui/modal" exact component={UIModal} />
-                    <Route path="/app/ui/popovers" exact component={UIPopovers} />
-                    <Route path="/app/ui/progress" exact component={UIProgress} />
-                    <Route path="/app/ui/navbar" exact component={UINavbar} />
-                    <Route path="/app/ui/nav" exact component={UINav} />
-                    <Route path="/app/grid" exact component={Grid} />
-                    <Route path="/app/package" exact component={Package} />
-                    <Route path="/app/forms" exact render={() => <Redirect to="/app/forms/elements" />} />
-                    <Route path="/app/forms/elements" exact component={FormsElements} />
-                    <Route path="/app/forms/validation" exact component={FormsValidation} />
-                    <Route path="/app/forms/wizard" exact component={FormsWizard} />
-                    <Route path="/app/charts/" exact render={() => <Redirect to="/app/charts/overview" />} />
-                    <Route path="/app/charts/overview" exact component={Charts} />
-                    <Route path="/app/charts/apex" exact component={ApexCharts} />
-                    <Route path="/app/charts/echarts" exact component={Echarts} />
-                    <Route path="/app/charts/highcharts" exact component={HighCharts} /> */}
-                    {/* <Route path="/app/tables" exact render={() => <Redirect to="/app/tables/static" />} /> */}
-                    {/* <Route path="/app/tables/static" exact component={TablesStatic} />
-                    <Route path="/app/tables/dynamic" exact component={TablesDynamic} />
-                    <Route path="/app/extra" exact render={() => <Redirect to="/app/extra/calendar" />} />
-                    <Route path="/app/extra/calendar" exact component={ExtraCalendar} />
-                    <Route path="/app/extra/invoice" exact component={ExtraInvoice} />
-                    <Route path="/app/extra/search" exact component={ExtraSearch} />
-                    <Route path="/app/extra/timeline" exact component={ExtraTimeline} />
-                    <Route path="/app/extra/gallery" exact component={ExtraGallery} />
-                    <Route path="/app/maps" exact render={() => <Redirect to="/app/maps/google" />} />
-                    <Route path="/app/maps/google" exact component={MapsGoogle} />
-                    <Route path="/app/maps/vector" exact component={MapsVector} />
-                    <Route path="/app/core" exact render={() => <Redirect to="/app/core/typography" />} />
-                    <Route path="/app/core/typography" exact component={CoreTypography} />
-                    <Route path="/app/core/colors" exact component={CoreColors} />
-                    <Route path="/app/core/grid" exact component={CoreGrid} /> */}
                   </Switch>
                 </CSSTransition>
               </TransitionGroup>

@@ -2,7 +2,7 @@ import React from "react";
 import cx from "classnames";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-// import { Progress, Alert } from "reactstrap";
+
 import { withRouter } from "react-router-dom";
 import { dismissAlert } from "../../actions/alerts";
 import s from "./Sidebar.module.scss";
@@ -96,6 +96,31 @@ class Sidebar extends React.Component {
               this.props.dispatch(changeActiveSidebarItem(activeItem))
             }
             activeItem={this.props.activeItem}
+            header="Security"
+            link="/app/security"
+            isHeader
+            iconName="flaticon-locked-2"
+            index="security"
+            childrenLinks={[
+              {
+                header: "Distributor",
+                link: "/app/tables/distributor"
+              },
+              {
+                header: "Role",
+                link: "/app/tables/roledata"
+              },
+              {
+                header: "User",
+                link: "/app/tables/userdata"
+              }
+            ]}
+          />
+          <LinksGroup
+            onActiveSidebarItemChange={activeItem =>
+              this.props.dispatch(changeActiveSidebarItem(activeItem))
+            }
+            activeItem={this.props.activeItem}
             header="Area"
             isHeader
             iconName="flaticon-map-location"
@@ -113,18 +138,6 @@ class Sidebar extends React.Component {
             link="/app/tables/panelmeter"
             index="Panelmeter"
           />
-          {/* <LinksGroup
-            onActiveSidebarItemChange={activeItem =>
-              this.props.dispatch(changeActiveSidebarItem(activeItem))
-            }
-            activeItem={this.props.activeItem}
-            header="Email"
-            link="/app/inbox"
-            isHeader
-            iconName="flaticon-paper-plane"
-            index="inbox"
-            badge="9"
-          /> */}
           <LinksGroup
             onActiveSidebarItemChange={activeItem =>
               this.props.dispatch(changeActiveSidebarItem(activeItem))
@@ -141,18 +154,18 @@ class Sidebar extends React.Component {
               this.props.dispatch(changeActiveSidebarItem(activeItem))
             }
             activeItem={this.props.activeItem}
-            header="Tarif Pelanggan"
+            header="Tarif"
             isHeader
             iconName="flaticon-notebook-3"
             link="/app/tarifpelanggan"
             index="tarifpelanggan"
             childrenLinks={[
               {
-                header: "TarifVersion",
+                header: "Tarif Version",
                 link: "/app/tables/tarifversion"
               },
               {
-                header: "Tarif",
+                header: "Tarif Pelanggan",
                 link: "/app/tables/tarif"
               }
             ]}
@@ -167,38 +180,6 @@ class Sidebar extends React.Component {
             iconName="flaticon-database-1"
             link="/app/tables/kelompokpelanggan"
             index="tables"
-          />
-          {/* <LinksGroup
-            onActiveSidebarItemChange={activeItem =>
-              this.props.dispatch(changeActiveSidebarItem(activeItem))
-            }
-            activeItem={this.props.activeItem}
-            header="Laporan"
-            link="app/laporan"
-            isHeader
-            iconName="flaticon-document"
-            index="inbox"
-          /> */}
-          <LinksGroup
-            onActiveSidebarItemChange={activeItem =>
-              this.props.dispatch(changeActiveSidebarItem(activeItem))
-            }
-            activeItem={this.props.activeItem}
-            header="Security"
-            link="/app/security"
-            isHeader
-            iconName="flaticon-locked-2"
-            index="security"
-            childrenLinks={[
-              {
-                header: "Role",
-                link: "/app/tables/roledata"
-              },
-              {
-                header: "User",
-                link: "/app/tables/userdata"
-              }
-            ]}
           />
           <LinksGroup
             header="Meter Testing"

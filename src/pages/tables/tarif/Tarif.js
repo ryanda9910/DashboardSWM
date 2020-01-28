@@ -271,7 +271,7 @@ class Tarif extends React.Component {
                 <ol className="breadcrumb">
                   <li className="breadcrumb-item">YOU ARE HERE</li>
                   <li className="breadcrumb-item active">
-                    Tarif <span></span>
+                    Tarif<span> Pelanggan </span>
                   </li>
                 </ol>
                 {/* alert */}
@@ -290,7 +290,7 @@ class Tarif extends React.Component {
             <Row className="align-items-center justify-content-between">
               <Col lg={12}>
                 <h3>
-                  Data <span className="fw-semi-bold">Tarif</span>
+                  Data Tarif <span className="fw-semi-bold">Pelanggan</span>
                 </h3>
               </Col>
               <Col lg={4}>
@@ -323,8 +323,8 @@ class Tarif extends React.Component {
                         <tr>
                           <th>Nama</th>
                           <th>ID Distributor</th>
-                          <th>is Active</th>
-                          <th>Description</th>
+                          <th>Status</th>
+                          <th>Deskripsi</th>
                           <th>Aksi</th>
                         </tr>
                       </thead>

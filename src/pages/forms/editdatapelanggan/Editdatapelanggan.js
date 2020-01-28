@@ -3,8 +3,8 @@ import { Row, Col, Button, FormGroup, Label, Form, Input } from "reactstrap";
 // import Formsy from "formsy-react";
 import s from "./editdatapelanggan.module.scss";
 import { Redirect } from "react-router-dom";
-import {connect} from 'react-redux';
-import axios from 'axios';
+import { connect } from "react-redux";
+import axios from "axios";
 
 // import avatar from "../../images/people/a5.jpg";
 // import { Image } from "@amcharts/amcharts4/core";
@@ -17,27 +17,25 @@ import { getDataKelompokPelanggan } from "../../../actions/tables/kelompokpelang
 // data area
 import { getDataArea } from "../../../actions/tables/area";
 
-
 class Editdatapelanggan extends React.Component {
-
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       // data
       customer_group_id: null,
-      name: '',
-      code: '',
-      email: '',
-      address: '',
-      phone: '',
-      status: '',
-      notes: '',
+      name: "",
+      code: "",
+      email: "",
+      address: "",
+      phone: "",
+      status: "",
+      notes: "",
       distributor_id: null,
       area_id: null,
-      // 
+      //
       updateStatus: null,
-      updateError: null,
-    }
+      updateError: null
+    };
     this.goBack = this.goBack.bind(this);
   }
 
@@ -79,16 +77,16 @@ class Editdatapelanggan extends React.Component {
   doUpdateData = e => {
     e.preventDefault();
     const data = {
-      customer_group_id:this.state.customer_group_id,
-      name:this.state.name,
-      code:this.state.code,
-      email:this.state.email,
-      address:this.state.address,
-      phone:this.state.phone,
-      status:this.state.status,
-      notes:this.state.notes,
-      distributor_id:this.state.distributor_id,
-      area_id:this.state.area_id
+      customer_group_id: this.state.customer_group_id,
+      name: this.state.name,
+      code: this.state.code,
+      email: this.state.email,
+      address: this.state.address,
+      phone: this.state.phone,
+      status: this.state.status,
+      notes: this.state.notes,
+      distributor_id: this.state.distributor_id,
+      area_id: this.state.area_id
     };
 
     console.log(data);
@@ -148,29 +146,29 @@ class Editdatapelanggan extends React.Component {
             <h3 className="page-title fw-semi-bold">Edit Data Pelanggan</h3>
             {/* <img src={avatar} alt="..." /> */}
             <Widget refresh collapse close className="px-5">
-            <Form onSubmit={this.doUpdateData}>
-              {/* customer_group_id */}
-              <FormGroup>
-                <Label for="customer_group_id">ID Kelompok Pelanggan</Label>
-                <Input
-                  value={this.state.customer_group_id}
-                  onChange={this.handleChange}
-                  type="select"
-                  name="customer_group_id"
-                  id="customer_group_id"
-                >
-                  {dataKelompokPelanggan.map(item => {
-                    return <option value={item._id}>{item.name}</option>;
-                  })}
-                </Input>
-                {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
-                {/* <FormText>Example help text that remains unchanged.</FormText> */}
+              <Form onSubmit={this.doUpdateData}>
+                {/* customer_group_id */}
+                <FormGroup>
+                  <Label for="customer_group_id">ID Kelompok Pelanggan</Label>
+                  <Input
+                    value={this.state.customer_group_id}
+                    onChange={this.handleChange}
+                    type="select"
+                    name="customer_group_id"
+                    id="customer_group_id"
+                  >
+                    {dataKelompokPelanggan.map(item => {
+                      return <option value={item._id}>{item.name}</option>;
+                    })}
+                  </Input>
+                  {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                  {/* <FormText>Example help text that remains unchanged.</FormText> */}
                 </FormGroup>
                 {/* name */}
                 <FormGroup>
                   <Label for="name">Nama</Label>
                   <Input
-                    value={this.state.name}                  
+                    value={this.state.name}
                     onChange={this.handleChange}
                     type="text"
                     name="name"
@@ -318,7 +316,6 @@ class Editdatapelanggan extends React.Component {
                     Simpan
                   </Button>
                 </div>
-
               </Form>
             </Widget>
           </Col>
@@ -351,8 +348,7 @@ function mapStateToProps(state) {
     // AREA
     dataArea: state.reducerArea.dataArea,
     // KELOMPOK PELANGGAN
-    dataKelompokPelanggan: state.reducerKelompokPelanggan.dataKelompokPelanggan,
-    
+    dataKelompokPelanggan: state.reducerKelompokPelanggan.dataKelompokPelanggan
   };
 }
 

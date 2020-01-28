@@ -143,6 +143,7 @@ class Layout extends React.Component {
                       exact
                       component={UserData}
                     />
+                    {/* EDIT CREATE DATA */}
                     <Route
                       path="/app/tables/distributor"
                       exact

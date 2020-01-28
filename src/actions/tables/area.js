@@ -61,6 +61,7 @@ export const getDataArea = () => {
       });
   };
 };
+
 export const createDataArea = postData => {
   return dispatch => {
     axios
@@ -95,7 +96,7 @@ export const deleteDataArea = id => {
         dispatch(getDataArea());
       })
       .catch(err => {
-        dispatch(deleteAreaError(err.response.status));
+        // dispatch(deleteAreaError(err.response.status))
       });
   };
 };

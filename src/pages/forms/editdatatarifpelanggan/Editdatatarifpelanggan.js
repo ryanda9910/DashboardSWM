@@ -81,7 +81,7 @@ class Editdatatarifpelanggan extends React.Component {
     let postData = {
       name: this.state.name,
       distributor_id: this.state.distributor_id,
-      isactive: this.state.isactive,
+      isactive: this.state.isactive === true ? "true" : "false",
       description: this.state.description
     };
 

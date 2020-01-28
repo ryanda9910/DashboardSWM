@@ -32,7 +32,9 @@ export const getDataDistributor = () => {
     })
     .catch(err => {
       console.log(err.response);
-      dispatch(getDistributorError(err.response.status));
+      if(err.response){
+        dispatch(getDistributorError(err.response.status));
+      }
     });
   }
 }

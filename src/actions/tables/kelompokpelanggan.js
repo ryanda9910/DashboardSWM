@@ -56,7 +56,9 @@ export const getDataKelompokPelanggan = () => {
     })
     .catch(err => {
       console.log(err.response);
-      dispatch(getKelompokPelangganError(err.response.status));
+      if(err.response){
+        dispatch(getKelompokPelangganError(err.response.status));
+      }
     });
   }
 }
@@ -77,7 +79,9 @@ export const createDataKelompokPelanggan = (postData) => {
       dispatch(getDataKelompokPelanggan())
     })
     .catch(err => {
-      dispatch(createKelompokPelangganError(err.response.status))     
+      if(err.response){
+        dispatch(createKelompokPelangganError(err.response.status))     
+      }
     });
   }
 }
@@ -92,7 +96,9 @@ export const deleteDataKelompokPelanggan = (id) => {
         dispatch(getDataKelompokPelanggan())
       })
       .catch(err => {
-        dispatch(deleteKelompokPelangganError(err.response.status))
+        if(err.response){
+          dispatch(deleteKelompokPelangganError(err.response.status))
+        }
       });
   }
 }

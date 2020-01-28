@@ -57,7 +57,9 @@ export const getDataTarif = () => {
       dispatch(getTarifSuccess(res.data.message.data));
     })
     .catch(err => {
-      dispatch(getTarifError(err.response.status))
+      if(err.response){
+        dispatch(getTarifError(err.response.status))
+      }
     });
   }
 }
@@ -78,7 +80,9 @@ export const createDataTarif = (postData) => {
       dispatch(getDataTarif())
     })
     .catch(err => {
-      dispatch(createTarifError(err.response.status))     
+      if(err.response){
+        dispatch(createTarifError(err.response.status)) 
+      }    
     });
   }
 }
@@ -93,7 +97,9 @@ export const deleteDataTarif = (id) => {
         dispatch(getDataTarif())
       })
       .catch(err => {
-        dispatch(deleteTarifError(err.response.status))
+        if(err.response){
+          dispatch(deleteTarifError(err.response.status))
+        }      
       });
   }
 }

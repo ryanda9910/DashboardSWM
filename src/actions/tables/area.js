@@ -56,7 +56,9 @@ export const getDataArea = () => {
     })
     .catch(err => {
       console.log(err.response);
-      // dispatch(getAreaError(err.response.status));
+      if(err.response){
+        dispatch(getAreaError(err.response.status));
+      }
     });
   }
 }
@@ -77,7 +79,9 @@ export const createDataArea = (postData) => {
       dispatch(getDataArea())
     })
     .catch(err => {
-      // dispatch(createAreaError(err.response.status))     
+      if(err.response){
+        dispatch(createAreaError(err.response.status))     
+      }
     });
   }
 }
@@ -92,7 +96,9 @@ export const deleteDataArea = (id) => {
         dispatch(getDataArea())
       })
       .catch(err => {
-        // dispatch(deleteAreaError(err.response.status))
+        if(err.response){
+          dispatch(deleteAreaError(err.response.status))
+        }
       });
   }
 }

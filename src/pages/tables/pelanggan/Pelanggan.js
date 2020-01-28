@@ -319,7 +319,6 @@ class Pelanggan extends React.Component {
                     <Table className="table-hover">
                       <thead>
                         <tr>
-                          <th>ID Costumer Grup</th>
                           <th>Nama</th>
                           <th>Kode</th>
                           <th>ID Kelompok Pelanggan</th>
@@ -330,7 +329,6 @@ class Pelanggan extends React.Component {
                           <th>Telepon</th>
                           <th>Status</th>
                           <th>Catatan</th>
-                          <th>ID Distributor</th>
                           <th>Aksi</th>
                         </tr>
                       </thead>

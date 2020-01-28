@@ -51,7 +51,7 @@ class Editdatapelanggan extends React.Component {
         console.log(res);
         //
         this.setState({
-          customer_group_id: res.data.data.customer_group_id._id,
+          customer_group_id: res.data.data.customer_group_id,
           name: res.data.data.name,
           code: res.data.data.code,
           email: res.data.data.email,
@@ -59,7 +59,7 @@ class Editdatapelanggan extends React.Component {
           phone: res.data.data.phone,
           status: res.data.data.status,
           notes: res.data.data.notes,
-          distributor_id: res.data.data.distributor_id._id,
+          distributor_id: res.data.data.distributor_id,
           area_id: res.data.data.area_id
         });
       })

@@ -204,8 +204,6 @@ class kelompokPelanggan extends React.Component {
             <td>{item.distributor_id.name}</td>
             <td>{item.tarif_id.name}</td>
             <td>{item.description}</td>
-            <td>{item.tarif_id}</td>
-            <td>{item.distributor_id}</td>
             <td>
               <Link
                 to={"/app/forms/editdatakelompokpelanggan/" + item._id}
@@ -286,8 +284,7 @@ class kelompokPelanggan extends React.Component {
                           <th>ID Distributor</th>
                           <th>ID Tarif</th>
                           <th>Deskripsi</th>
-                          <th>Tarif</th>
-                          <th>ID Distritbutor</th>
+                          <th>Aksi</th>
                         </tr>
                       </thead>
                       <tbody id="myTable" className="position-relative">

@@ -32,8 +32,8 @@ const axiosConfig = {
       'Access-Control-Allow-Origin': '*',
       'Accept' : 'application/json',
       'Authorization': 'Bearer ' + token
-    }
   }
+}
 
 export default {
   hostApi,

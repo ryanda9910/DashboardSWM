@@ -1,96 +1,98 @@
-import axios from "axios";
-import config from "../../config";
+import axios from 'axios';
+import config from '../../config';
 import jwt from "jsonwebtoken";
-import { toast } from "react-toastify";
+import { toast } from 'react-toastify';
 
 // bahan, type untuk dikirim ke reducers
-export const GET_SUCCESS = "GET_SUCCESS";
-export const GET_ERROR = "GET_ERROR";
-export const CREATE_SUCCESS = "CREATE_SUCCESS";
-export const CREATE_ERROR = "CREATE_ERROR";
-export const DELETE_SUCCESS = "DELETE_SUCCESS";
-export const DELETE_ERROR = "DELETE_ERROR";
+export const GET_TARIF_VERSION_SUCCESS = 'GET_TARIF_VERSION_SUCCESS';
+export const GET_TARIF_VERSION_ERROR = 'GET_TARIF_VERSION_ERROR';
+export const CREATE_TARIF_VERSION_SUCCESS = 'CREATE_TARIF_VERSION_SUCCESS';
+export const CREATE_TARIF_VERSION_ERROR = 'CREATE_TARIF_VERSION_ERROR';
+export const DELETE_TARIF_VERSION_SUCCESS = 'DELETE_TARIF_VERSION_SUCCESS';
+export const DELETE_TARIF_VERSION_ERROR = 'DELETE_TARIF_VERSION_ERROR';
 
 // pengolah bahan, fungsi yang mengembalikan bahan
-export const getSuccess = data => {
+export const getTarifVersionSuccess = (data) => {
   return {
-    type: GET_SUCCESS,
+    type: GET_TARIF_VERSION_SUCCESS,
     data
-  };
-};
-export const getError = payload => {
+  }
+}
+export const getTarifVersionError = (payload) => {
   return {
-    type: GET_ERROR,
+    type: GET_TARIF_VERSION_ERROR,
     payload
-  };
-};
-export const createSuccess = data => {
+  }
+}
+export const createTarifVersionSuccess = (data) => {
   return {
-    type: CREATE_SUCCESS,
+    type: CREATE_TARIF_VERSION_SUCCESS,
     data
-  };
-};
-export const createError = payload => {
+  }
+}
+export const createTarifVersionError = (payload) => {
   return {
-    type: CREATE_ERROR,
+    type: CREATE_TARIF_VERSION_ERROR,
     payload
-  };
-};
-export const deleteSuccess = data => {
+  }
+}
+export const deleteTarifVersionSuccess = (data) => {
   return {
-    type: DELETE_SUCCESS,
+    type: DELETE_TARIF_VERSION_SUCCESS,
     data
-  };
-};
-export const deleteError = payload => {
+  }
+}
+export const deleteTarifVersionError = (payload) => {
   return {
-    type: DELETE_ERROR,
+    type: DELETE_TARIF_VERSION_ERROR,
     payload
-  };
-};
+  }
+}
 
 // pengeksekusi, fungsi yang berhubungan langsung dengan server
-export const getData = () => {
-  return dispatch => {
-    axios
-      .get("/api/tarif")
+export const getDataTarifVersion = () => {
+  return (dispatch) => {
+    axios.get('/api/tarifversion')
+    .then(res => {
+      console.log(res);
+      // jika 200 an suucces, jika error 401 maka tendang
+      dispatch(getTarifVersionSuccess(res.data.message.data));
+    })
+    .catch(err => {
+      dispatch(getTarifVersionError(err.response.status))
+    })
+  }
+}
+export const createDataTarifVersion = (postData) => {
+  return (dispatch) => {
+    axios.post("/api/tarifversion/", postData)
+    .then(res => {
+      console.log(res)
+      // jika success
+      if (res.data.code >= 200 || res.data.code < 300) {
+        // ketika Error masuk kesini, backend
+        // dispatch(createSuccess(res.data.status))
+        dispatch(createTarifVersionSuccess(res.data.status))
+      }
+      dispatch(getDataTarifVersion())
+    })
+    .catch(err => {
+      dispatch(createTarifVersionError(err.response.status))
+    })
+  }
+}
+export const deleteDataTarifVersion = (id) => {
+  return (dispatch) => {
+    axios.delete("/api/tarifversion/" + id)
       .then(res => {
-        // console.log(res.data.message.data);
-        return dispatch(getSuccess(res.data.message.data));
-      })
-      .catch(err => {
-        // console.log(err.response);
-        dispatch(getError(err.response.status));
-      });
-  };
-};
-export const createData = postData => {
-  return dispatch => {
-    axios
-      .post("/api/tarif/", postData)
-      .then(res => {
-        // console.log(res);
-        if (res.status === 200 || res.status === 201) {
-          dispatch(createSuccess(res.data.status));
+        console.log(res)
+        if (res.data.code >= 200 || res.data.code < 300){
+          dispatch(deleteTarifVersionSuccess(res.data.message))
         }
+        dispatch(getDataTarifVersion())
       })
       .catch(err => {
-        // console.log(err);
-        dispatch(createSuccess(err.response.data.message));
-      });
-  };
-};
-export const deleteData = id => {
-  return dispatch => {
-    axios
-      .delete("/api/tarif/" + id)
-      .then(res => {
-        console.log(res.data.message);
-        return dispatch(deleteSuccess(res.data.message));
+        dispatch(deleteTarifVersionError(err.response.status))
       })
-      .catch(err => {
-        console.log(err.data.message);
-        dispatch(deleteError(err.data.message));
-      });
-  };
-};
+  }
+}

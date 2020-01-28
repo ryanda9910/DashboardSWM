@@ -15,16 +15,11 @@ import {
   Label,
   Input,
   CustomInput,
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
+  FormFeedback,
+  FormText,
 } from "reactstrap";
-import axios from "axios";
 import $ from "jquery";
 import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
   Link,
   useRouteMatch,
   useParams,
@@ -33,81 +28,128 @@ import {
 } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import jwt from "jsonwebtoken";
 // MODAL CREATE
 import cx from "classnames";
-import config from "../../../config";
 import Loader from "../../../components/Loader/Loader";
 import s from "./TarifVersion.module.scss";
 
 import Widget from "../../../components/Widget/Widget";
 // actions
 import {
-  getDataTarif,
-  createDataTarif,
-  deleteDataTarif, 
-} from '../../../actions/tables/tarif';
+  getDataTarifVersion,
+  createDataTarifVersion,
+  deleteDataTarifVersion, 
+} from '../../../actions/tables/tarifversion';
 // ambil distributor untuk create dan update
 import {
   getDataDistributor
 } from '../../../actions/tables/distributor';
+// ambil data tarif
+import { getDataTarif } from '../../../actions/tables/tarif';
 
-class TarifVersion extends React.Component {
+class Tarif extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired
   };
-
-  static isAuthenticated(token) {
-    // We check if app runs with backend mode
-    // if (!config.isBackend && token) return true;
-    if (!token) return;
-    const date = new Date().getTime() / 1000;
-    const data = jwt.decode(token);
-    return date < data.exp;
-  }
 
   constructor(props) {
     super(props);
     this.state = {
       // CREATE
       name: '',
-      distributor_id: '',
-      isactive: '',
-      description: '',
+      distributor_id: null,
+      tarif_id: null,
+      volume1: '',
+      price1: '',
+      volume2: '',
+      price2: '',
+      volume3: '',
+      price3: '',
+      validFrom: null,
+      // validasi
+      emptyDistributorIdMsg: '',
+      emptyCreateName: '',
+      emptyCreateDescription: '',
+      emptyTarifIdMsg: '',
       // ALERT
       showAlert: false,
-      alertDestroy: false,
+      alertMessage: 'data get action',
+      alertBackground: 'success',
       // MODALS
       modalCreate:false,
     };
     // 
     this.handleCreateChange = this.handleCreateChange.bind(this);
+    this.doCreateTarifVersion = this.doCreateTarifVersion.bind(this);
+    // this.onShowAlert = this.onShowAlert.bind(this);
+    // this.handleDelete = this.handleDelete.bind(this);
   }
 
   componentDidMount() {
     // masih race condition, harusnya pas modals muncul aja
     // GET data
-    this.props.dispatch(getDataTarif());
-    // GET data distributor
-    // if(this.state.modalCreate === true){
-    this.props.dispatch(getDataDistributor());
-    // }
+    this.props.dispatch(getDataTarifVersion());
+  }
 
+  componentWillReceiveProps(){
     // ALERT
-    // return this.props.alertMessage ? this.onShowAlert() : null;
+    if(this.props.deleteSuccess){
+      this.setState({
+        alertMessage: 'delete success'
+      })
+      return this.onShowAlert()
+    }
+    if(this.props.deleteError){
+      this.setState({
+        alertMessage: 'delete error',
+        alertBackground: 'danger'
+      })
+      return this.onShowAlert()
+    }
   }
 
   // CREATE Tarif
-  doCreateTarif = e => {
-    e.preventDefault();
+  doCreateTarifVersion = e => {
     let postData = {
       name: this.state.name,
       distributor_id: this.state.distributor_id,
-      isactive: this.state.isactive,
-      description: this.state.description,
+      tarif_id: this.state.tarif_id,
+      volume1: this.state.volume1,
+      price1: this.state.price1,
+      volume2: this.state.volume2,
+      price2: this.state.price2,
+      volume3: this.state.volume3,
+      price3: this.state.price3,
+      validFrom: this.state.validFrom,
     };
     console.log(postData);
-    // this.props.dispatch(createDataTarif(postData))
+    e.preventDefault();
+    // CREATE VALIDASI
+    if(this.state.distributor_id === null || this.state.distributor_id === ''){
+      this.setState({
+        emptyDistributorIdMsg: 'wajib memasukan distributor!'
+      });
+      return false;
+    }
+    else if(this.state.name === ''){
+      this.setState({
+        emptyCreateName: 'Field name harus diisi.'
+      })
+    }
+    else if(this.state.description === ''){
+      this.setState({
+        emptyCreateDescription: 'Field description harus diisi.'
+      })
+    }
+    else{
+      e.preventDefault();
+      console.log(postData);
+      this.props.dispatch(createDataTarifVersion(postData))
+      this.setState({
+        modalCreate: false,
+        emptyDistributorIdMsg: '',
+      })
+    }
   };
   // track change
   handleCreateChange = e => {
@@ -126,9 +168,7 @@ class TarifVersion extends React.Component {
     let confirm = window.confirm("delete data, are you sure?");
     console.log(confirm);
     if (confirm) {
-      this.props.dispatch(deleteDataTarif(id));
-      this.onShowAlert();
-      this.props.dispatch(getDataTarif());
+      this.props.dispatch(deleteDataTarifVersion(id));
     }
   }
 
@@ -140,17 +180,22 @@ class TarifVersion extends React.Component {
       window.setTimeout(()=>{
         this.setState({
           showAlert:false,
-          alertDestroy: false
+          // alertMessage: ''
         })
       },2000)     
     });
-    localStorage.removeItem('isCreated')
   }
 
   toggle(id) {
     this.setState(prevState => ({
       [id]: !prevState[id],
+      // message validasi akan hilang setiap kali toggle() di klik
+      emptyDistributorIdMsg: '',
     }));
+    // GET data distributor
+    this.props.dispatch(getDataDistributor());
+    // GET data tarif
+    this.props.dispatch(getDataTarif())
   }
 
 
@@ -159,12 +204,13 @@ class TarifVersion extends React.Component {
     console.log(this.props);
 
     // jika error karena 401 atau lainnya, tendang user dengan hapus cookie
-    // if(this.props.getError){
-    //   return document.cookie = 'token=;expires=Thu, 01 Jan 1970 00:00:01 GMT;'
+    // if(this.props.getError || this.props.createError || this.props.deleteError){
+    //   localStorage.removeItem('token');
+    //   window.location.reload(false);
     // }
 
     const { modalCreate } = this.state;
-    const { createSuccess, dataDistributor } = this.props;
+    const { dataDistributor, dataTarif } = this.props;
 
 
     // create error
@@ -194,23 +240,32 @@ class TarifVersion extends React.Component {
 
     // table data
     const tableData =
-      this.props.dataTarif.length > 0 ? (
-        this.props.dataTarif.map(item => {
+      this.props.dataTarifVersion ? (
+        this.props.dataTarifVersion.map(item => {
           console.log(item);
           const isactive = item.isactive ? (
             <span className="badge btn-success">TRUE</span>
           ) : (
             <span className="badge btn-danger">FALSE</span>
           );
+          const validFrom =  item.validFrom;
+          const validFromChange = validFrom.substr(0, validFrom.lastIndexOf('T'));
           return (
             <tr>
               <td>{item.name}</td>
-              {/* <td>{item.distributor_id.code}</td> */}
+              <td>{item.tarif_id.name}</td>
+              <td>{item.distributor_id.name}</td>
               <td>{isactive}</td>
-              <td>{item.description}</td>
+              <td>{item.volume1}M<sup>3</sup></td>
+              <td>{item.price1}</td>
+              <td>{item.volume2}M<sup>3</sup></td>
+              <td>{item.price2}</td>
+              <td>{item.volume3}M<sup>3</sup></td>
+              <td>{item.price3}</td>
+              <td>{item.validFrom === null ? "-" : validFromChange}</td>
               <td>
                 <Link
-                  to={"/app/forms/editdatatarif/" + item._id}
+                  to={"/app/forms/editdatatarifversion/" + item._id}
                   className="mr-1"
                 >
                   <span className="text-success">
@@ -245,14 +300,16 @@ class TarifVersion extends React.Component {
                   </li>
                 </ol>
                 {/* alert */}
-                <Alert
-                  color="success"
+                {/* <Alert
+                  color={this.state.alertBackground}
                   className={cx(s.promoAlert, {
                     [s.showAlert]: this.state.showAlert
                   })}
                 >
-                  {this.props.alertMessage || "Data get actions"}
-                </Alert>
+                  {this.state.alertMessage === '' ? null : this.state.alertMessage}
+                </Alert> */}
+                {/* handle 401 */}
+                {/* <button onClick={() => document.cookie = 'token=;expires=Thu, 01 Jan 1970 00:00:01 GMT;'}>delete cookie</button> */}
               </Col>
             </Row>
             <Row className="align-items-center justify-content-between">
@@ -272,14 +329,6 @@ class TarifVersion extends React.Component {
                 />
               </Col>
               <Col lg={4} className="text-right">
-                {/* <button className="btn btn-primary">Create</button> */}
-                {/* <CreateModal /> */}
-                {/* <Link
-                  to="/app/forms/createdatatarifpelanggan"
-                  className="btn bg-warning text-white"
-                >
-                  Tambah Data
-                </Link> */}
                 {/* BUTTON MODALS CREATE */}
                 <Button className="mr-sm" color="warning" onClick={() => this.toggle('modalCreate')}>Tambah Data</Button>
               </Col>
@@ -292,15 +341,22 @@ class TarifVersion extends React.Component {
                       <thead>
                         <tr>
                           <th>Nama</th>
+                          <th>ID Tarif</th>
                           <th>ID Distributor</th>
                           <th>is Active</th>
-                          <th>Description</th>
+                          <th>Volume 1</th>
+                          <th>Price 1</th>
+                          <th>Volume 2</th>
+                          <th>Price 2</th>
+                          <th>Volume 3</th>
+                          <th>Price 3</th>
+                          <th>Valid From</th>
                           <th>Aksi</th>
                         </tr>
                       </thead>
                       <tbody id="myTable" className="position-relative">
                         {/* eslint-disable */}
-                        {this.props.dataTarifVersion ? tableData : null}
+                        {this.props.getSuccess ? tableData : null}
                       </tbody>
                       {/* eslint-enable */}
                     </Table>
@@ -315,58 +371,129 @@ class TarifVersion extends React.Component {
         <Modal size="md" isOpen={modalCreate} toggle={() => this.toggle('modalCreate')}>
           <ModalHeader toggle={() => this.toggle('modalCreate')}>Tambah Data</ModalHeader>
           <ModalBody>
-          <Form id="formCreateDataTarif" onSubmit={this.doCreateTarif}>
+          <Form id="formCreateDataTarif" onSubmit={this.doCreateTarifVersion}>
 
-              {/* isactive */}
-              <FormGroup>
-                <Label for="exampleIsActive">is Active</Label>
-                <CustomInput
-                  onChange={this.handleCreateChange}
-                  type="switch"
-                  id="exampleIsActive"
-                  name="isactive"
-                  label="Turn on this if True"
-                />
-              </FormGroup>
               {/* name */}
               <FormGroup>
-                <Label for="exampleNama">Nama</Label>
+                <Label for="name">Nama</Label>
                 <Input
                   onChange={this.handleCreateChange}
                   type="text"
                   name="name"
-                  id="exampleNama"
+                  id="name"
                   placeholder="Nama"
                 />
-              </FormGroup>
-              {/* description */}
-              <FormGroup>
-                <Label for="exampleKode">Deskripsi</Label>
-                <Input
-                  onChange={this.handleCreateChange}
-                  type="text"
-                  name="description"
-                  id="exampleDeskripsi"
-                  placeholder="Deskripsi"
-                />
-                {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
-                {/* <FormText>Example help text that remains unchanged.</FormText> */}
+                <FormText className="text-danger">{this.state.emptyCreateName === '' ? null : this.state.emptyCreateName}</FormText>
               </FormGroup>
               {/* distributor_id */}
               <FormGroup>
                 {/* tampilkan distributor name dan id nya sebagai value */}
-                <Label for="exampleKode">ID Distributor</Label>
-                <Input onChange={this.handleCreateChange} type="select" name="distributor_id" id="exampleSelect">
+                <Label>ID Distributor</Label>
+                <Input value={this.state.distributor_id} onChange={this.handleCreateChange} name="distributor_id" type="select">
+                  <option value={null}></option>
                   {
                     dataDistributor.map(item => {
+                    console.log(item._id)
                       return (
                         <option value={item._id}>{item.name}</option>
                       )
                     })
                   }
                 </Input>
-                {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
-                {/* <FormText>Example help text that remains unchanged.</FormText> */}
+                <FormText className="text-danger">{this.state.emptyDistributorIdMsg === '' ? null : this.state.emptyDistributorIdMsg}</FormText>
+              </FormGroup>
+              {/* tarif_id */}
+              <FormGroup>
+                <Label>ID Tarif</Label>
+                <Input value={this.state.tarif_id} onChange={this.handleCreateChange} name="tarif_id" type="select">
+                  <option value={null}></option>
+                  {
+                    dataTarif.map(item => {
+                    console.log(item._id)
+                      return (
+                        <option value={item._id}>{item.name}</option>
+                      )
+                    })
+                  }
+                </Input>
+                <FormText className="text-danger">{this.state.emptyTarifIdMsg === '' ? null : this.state.emptyTarifIdMsg}</FormText>
+              </FormGroup>
+              {/* volume 1 */}
+              <FormGroup>
+                <Label for="volume1">Volume 1</Label>
+                <Input
+                  onChange={this.handleCreateChange}
+                  type="number"
+                  name="volume1"
+                  id="volume1"
+                  placeholder="Volume 1"
+                />
+              </FormGroup>
+              {/* price 1 */}
+              <FormGroup>
+                <Label for="price1">Price 1</Label>
+                <Input
+                  onChange={this.handleCreateChange}
+                  type="number"
+                  name="price1"
+                  id="price1"
+                  placeholder="Price 1"
+                />
+              </FormGroup>
+              {/* volume 2 */}
+              <FormGroup>
+                <Label for="volume2">Volume 2</Label>
+                <Input
+                  onChange={this.handleCreateChange}
+                  type="number"
+                  name="volume2"
+                  id="volume2"                  
+                  placeholder="Volume 2"
+                />
+              </FormGroup>
+              {/* price 2 */}
+              <FormGroup>
+                <Label for="price2">Price 2</Label>
+                <Input
+                  onChange={this.handleCreateChange}
+                  type="number"
+                  name="price2"
+                  id="price2"                  
+                  placeholder="Price 2"
+                />
+              </FormGroup>
+              {/* volume 3 */}
+              <FormGroup>
+                <Label for="volume3">Volume 2</Label>
+                <Input
+                  onChange={this.handleCreateChange}
+                  type="number"
+                  name="volume3"
+                  id="volume3"
+                  placeholder="Volume 3"
+                />
+              </FormGroup>
+              {/* price 3 */}
+              <FormGroup>
+                <Label for="price3">Price 2</Label>
+                <Input
+                  onChange={this.handleCreateChange}
+                  type="number"
+                  name="price3"
+                  id="price3"                  
+                  placeholder="Price 3"
+                />
+              </FormGroup>
+              {/* validFrom */}
+              <FormGroup>
+                <Label for="validFrom">Valid From</Label>
+                <Input
+                  onChange={this.handleCreateChange}
+                  type="date"
+                  name="validFrom"
+                  id="validFrom"                  
+                  placeholder="Valid From"
+                />
               </FormGroup>
 
               {/* show ERROR */}
@@ -392,24 +519,23 @@ class TarifVersion extends React.Component {
 function mapStateToProps(state) {
   return {
     // ALERT
-    alertMessage: state.reducerTarif.alertMessage,
+    // alertMessage: state.reducerTarifVersion.alertMessage,
     // GET
-    getSuccess: state.reducerTarif.getSuccess,
-    getError: state.reducerTarif.getError,
-    dataTarif: state.reducerTarif.dataTarif,
+    getSuccess: state.reducerTarifVersion.getSuccess,
+    getError: state.reducerTarifVersion.getError,
+    dataTarifVersion: state.reducerTarifVersion.dataTarifVersion,
     // CREATE
-    createSuccess: state.reducerTarif.createSuccess,
-    createError: state.reducerTarif.createError,
-    // UPDATE
-    updateSuccess: state.reducerTarif.updateSuccess,
-    updateError: state.reducerTarif.updateError,
+    createSuccess: state.reducerTarifVersion.createSuccess,
+    createError: state.reducerTarifVersion.createError,
     // DELETE
-    deleteSuccess: state.reducerTarif.deleteSuccess,
-    deleteError: state.reducerTarif.deleteError,
+    deleteSuccess: state.reducerTarifVersion.deleteSuccess,
+    deleteError: state.reducerTarifVersion.deleteError,
 
     // DISTRIBUTOR
     dataDistributor: state.reducerDistributor.dataDistributor,
+    // TARIF
+    dataTarif: state.reducerTarif.dataTarif,
   };
 }
 
-export default withRouter(connect(mapStateToProps)(TarifVersion));
+export default withRouter(connect(mapStateToProps)(Tarif));

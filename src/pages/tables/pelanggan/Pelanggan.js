@@ -43,32 +43,27 @@ import s from "./Pelanggan.module.scss";
 import Widget from "../../../components/Widget/Widget";
 // actions
 import {
-  getDataTarif,
-  createDataTarif,
-  deleteDataTarif
-} from "../../../actions/tables/tarif";
-// ambil distributor untuk create dan update
+  getDataPelanggan,
+  createDataPelanggan,
+  deleteDataPelanggan
+} from "../../../actions/tables/pelanggan";
+// data distributor
 import { getDataDistributor } from "../../../actions/tables/distributor";
+// data kelompok pelanggan
+import { getDataKelompokPelanggan } from "../../../actions/tables/kelompokpelanggan";
+// data area
+import { getDataArea } from "../../../actions/tables/area";
 
 class Pelanggan extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired
   };
 
-  static isAuthenticated(token) {
-    // We check if app runs with backend mode
-    // if (!config.isBackend && token) return true;
-    if (!token) return;
-    const date = new Date().getTime() / 1000;
-    const data = jwt.decode(token);
-    return date < data.exp;
-  }
-
   constructor(props) {
     super(props);
     this.state = {
       // CREATE
-      costumer_grup_id: "",
+      customer_group_id: null,
       name: "",
       code: "",
       email: "",
@@ -76,8 +71,8 @@ class Pelanggan extends React.Component {
       phone: "",
       status: "",
       notes: "",
-      distributor_id: "",
-      area_id: "",
+      distributor_id: null,
+      area_id: null,
       // ALERT
       showAlert: false,
       alertDestroy: false,
@@ -85,27 +80,26 @@ class Pelanggan extends React.Component {
       modalCreate: false
     };
     //
-    this.handleCreateChange = this.handleCreateChange.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
     // masih race condition, harusnya pas modals muncul aja
     // GET data
-    this.props.dispatch(getDataTarif());
-    // GET data distributor
-    // if(this.state.modalCreate === true){
+    this.props.dispatch(getDataPelanggan());
+    // distributor
     this.props.dispatch(getDataDistributor());
-    // }
-
-    // ALERT
-    // return this.props.alertMessage ? this.onShowAlert() : null;
+    // kelompok planggan
+    this.props.dispatch(getDataKelompokPelanggan());
+    // area
+    this.props.dispatch(getDataArea());
   }
 
-  // CREATE Tarif
-  doCreateTarif = e => {
+  // CREATE Pelanggan
+  doCreatePelanggan = e => {
     e.preventDefault();
     let postData = {
-      costumer_grup_id: this.state.costumer_grup_id,
+      customer_group_id: this.state.costumer_grup_id,
       name: this.state.name,
       code: this.state.code,
       email: this.state.email,
@@ -117,10 +111,13 @@ class Pelanggan extends React.Component {
       area_id: this.state.area_id
     };
     console.log(postData);
-    // this.props.dispatch(createDataTarif(postData))
+    this.props.dispatch(createDataPelanggan(postData));
+    this.setState({
+      modalCreate: false
+    });
   };
   // track change
-  handleCreateChange = e => {
+  handleChange = e => {
     console.log(e.target);
     const target = e.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
@@ -136,9 +133,9 @@ class Pelanggan extends React.Component {
     let confirm = window.confirm("delete data, are you sure?");
     console.log(confirm);
     if (confirm) {
-      this.props.dispatch(deleteDataTarif(id));
+      this.props.dispatch(deleteDataPelanggan(id));
       this.onShowAlert();
-      this.props.dispatch(getDataTarif());
+      this.props.dispatch(getDataPelanggan());
     }
   }
 
@@ -175,7 +172,12 @@ class Pelanggan extends React.Component {
     // }
 
     const { modalCreate } = this.state;
-    const { createSuccess, dataDistributor } = this.props;
+    const {
+      dataArea,
+      dataDistributor,
+      dataKelompokPelanggan,
+      dataPelanggan
+    } = this.props;
 
     // create error
     const createError =
@@ -204,8 +206,8 @@ class Pelanggan extends React.Component {
 
     // table data
     const tableData =
-      this.props.dataTarif.length > 0 ? (
-        this.props.dataTarif.map(item => {
+      this.props.dataPelanggan.length > 0 ? (
+        this.props.dataPelanggan.map(item => {
           console.log(item);
           // const isactive = item.isactive ? (
           //   <span className="badge btn-success">TRUE</span>
@@ -214,18 +216,18 @@ class Pelanggan extends React.Component {
           // );
           return (
             <tr>
-              <td>{item.costumer_grup_id}</td>
-              {/* <td>{item.distributor_id.code}</td> */}
+              {/* <td>{item.distributor_id.name}</td> */}
               {/* <td>{isactive}</td> */}
               <td>{item.name}</td>
               <td>{item.code}</td>
+              <td>{item.costumer_grup_id}</td>
+              <td>{item.distributor_id}</td>
+              <td>{item.area_id}</td>
               <td>{item.email}</td>
               <td>{item.address}</td>
               <td>{item.phone}</td>
               <td>{item.status}</td>
               <td>{item.notes}</td>
-              <td>{item.distributor_id}</td>
-              <td>{item.area_id}</td>
               <td>
                 <Link
                   to={"/app/forms/editdataarea/" + item._id}
@@ -293,7 +295,7 @@ class Pelanggan extends React.Component {
                 {/* <button className="btn btn-primary">Create</button> */}
                 {/* <CreateModal /> */}
                 {/* <Link
-                  to="/app/forms/createdatatarifpelanggan"
+                  to="/app/forms/createdataPelangganpelanggan"
                   className="btn bg-warning text-white"
                 >
                   Tambah Data
@@ -318,6 +320,9 @@ class Pelanggan extends React.Component {
                           <th>ID Costumer Grup</th>
                           <th>Nama</th>
                           <th>Kode</th>
+                          <th>ID Kelompok Pelanggan</th>
+                          <th>ID Distributor</th>
+                          <th>ID Area</th>
                           <th>Email</th>
                           <th>Alamat</th>
                           <th>Telepon</th>
@@ -329,7 +334,7 @@ class Pelanggan extends React.Component {
                       </thead>
                       <tbody id="myTable" className="position-relative">
                         {/* eslint-disable */}
-                        {this.props.dataTarifVersion ? tableData : null}
+                        {dataPelanggan ? tableData : null}
                       </tbody>
                       {/* eslint-enable */}
                     </Table>
@@ -350,100 +355,129 @@ class Pelanggan extends React.Component {
             Tambah Data
           </ModalHeader>
           <ModalBody>
-            <Form id="formCreateDataTarif" onSubmit={this.doCreateTarif}>
-              {/* code */}
+            <Form
+              id="formCreateDataPelanggan"
+              onSubmit={this.doCreatePelanggan}
+            >
+              {/* customer_group_id */}
               <FormGroup>
-                <Label for="exampleNama">Costumer GRUP ID </Label>
+                <Label for="customer_group_id">ID Kelompok Pelanggan</Label>
                 <Input
-                  onChange={this.handleCreateChange}
-                  type="text"
-                  name="costumer_grup_id"
-                  id="exampleCostumergrup"
-                  placeholder=" Masukkan Costumer_grup_id"
-                />
+                  onChange={this.handleChange}
+                  type="select"
+                  name="customer_group_id"
+                  id="customer_group_id"
+                >
+                  <option value={null}></option>
+                  {dataKelompokPelanggan.map(item => {
+                    return <option value={item._id}>{item.name}</option>;
+                  })}
+                </Input>
+                {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                {/* <FormText>Example help text that remains unchanged.</FormText> */}
               </FormGroup>
-              {/* nama */}
+              {/* name */}
               <FormGroup>
-                <Label for="exampleKode">Nama</Label>
+                <Label for="name">Nama</Label>
                 <Input
-                  onChange={this.handleCreateChange}
+                  onChange={this.handleChange}
                   type="text"
                   name="name"
-                  id="exampleName"
+                  id="name"
                   placeholder="Masukkan Nama"
                 />
                 {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
                 {/* <FormText>Example help text that remains unchanged.</FormText> */}
               </FormGroup>
+              {/* code */}
               <FormGroup>
-                <Label for="exampleKode">Email</Label>
+                <Label for="code">Kode</Label>
                 <Input
-                  onChange={this.handleCreateChange}
+                  onChange={this.handleChange}
+                  type="text"
+                  name="code"
+                  id="code"
+                  placeholder="Masukkan kode"
+                />
+                {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                {/* <FormText>Example help text that remains unchanged.</FormText> */}
+              </FormGroup>
+              {/* email */}
+              <FormGroup>
+                <Label for="email">Email</Label>
+                <Input
+                  onChange={this.handleChange}
                   type="text"
                   name="email"
-                  id="exampleEmail"
+                  id="email"
                   placeholder="Masukkan Email"
                 />
                 {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
                 {/* <FormText>Example help text that remains unchanged.</FormText> */}
               </FormGroup>
+              {/* address */}
               <FormGroup>
-                <Label for="exampleKode">Alamat</Label>
+                <Label for="address">Alamat</Label>
                 <Input
-                  onChange={this.handleCreateChange}
-                  type="text"
+                  onChange={this.handleChange}
+                  type="textarea"
                   name="address"
-                  id="exampleAddress"
+                  id="address"
                   placeholder="Masukkan Alamat"
                 />
                 {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
                 {/* <FormText>Example help text that remains unchanged.</FormText> */}
               </FormGroup>
+              {/* phone */}
               <FormGroup>
-                <Label for="exampleKode">Telepon</Label>
+                <Label for="phone">Phone</Label>
                 <Input
-                  onChange={this.handleCreateChange}
+                  onChange={this.handleChange}
                   type="text"
                   name="phone"
-                  id="examplePhone"
-                  placeholder="Masukkan Telepon"
+                  id="phone"
+                  placeholder="Masukkan No.Telp"
                 />
                 {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
                 {/* <FormText>Example help text that remains unchanged.</FormText> */}
               </FormGroup>
+              {/* status */}
               <FormGroup>
-                <Label for="exampleKode">Status</Label>
+                <Label for="status">Status</Label>
                 <Input
-                  onChange={this.handleCreateChange}
+                  onChange={this.handleChange}
                   type="text"
                   name="status"
-                  id="exampleStatus"
-                  placeholder="Masukkan Data Status"
+                  id="status"
+                  placeholder="Masukkan Status"
                 />
                 {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
                 {/* <FormText>Example help text that remains unchanged.</FormText> */}
               </FormGroup>
+              {/* notes */}
               <FormGroup>
-                <Label for="exampleKode">Catatan</Label>
+                <Label for="notes">Catatan</Label>
                 <Input
-                  onChange={this.handleCreateChange}
+                  onChange={this.handleChange}
                   type="text"
                   name="notes"
-                  id="exampleNotes"
+                  id="notes"
                   placeholder="Masukkan Catatan"
                 />
                 {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
                 {/* <FormText>Example help text that remains unchanged.</FormText> */}
               </FormGroup>
+              {/* distributor_id */}
               <FormGroup>
                 {/* tampilkan distributor name dan id nya sebagai value */}
-                <Label for="exampleKode">Distributor ID </Label>
+                <Label for="distributor_id">Distributor ID </Label>
                 <Input
-                  onChange={this.handleCreateChange}
+                  onChange={this.handleChange}
                   type="select"
                   name="distributor_id"
-                  id="exampleSelect"
+                  id="distributor_id"
                 >
+                  <option value={null}></option>
                   {dataDistributor.map(item => {
                     return <option value={item._id}>{item.name}</option>;
                   })}
@@ -451,16 +485,18 @@ class Pelanggan extends React.Component {
                 {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
                 {/* <FormText>Example help text that remains unchanged.</FormText> */}
               </FormGroup>
+              {/* area_id */}
               <FormGroup>
                 {/* tampilkan distributor name dan id nya sebagai value */}
                 <Label for="exampleKode">Area ID </Label>
                 <Input
-                  onChange={this.handleCreateChange}
+                  onChange={this.handleChange}
                   type="select"
                   name="area_id"
                   id="exampleSelect"
                 >
-                  {dataDistributor.map(item => {
+                  <option value={null}></option>
+                  {dataArea.map(item => {
                     return <option value={item._id}>{item.name}</option>;
                   })}
                 </Input>
@@ -492,23 +528,27 @@ class Pelanggan extends React.Component {
 function mapStateToProps(state) {
   return {
     // ALERT
-    alertMessage: state.reducerTarif.alertMessage,
+    alertMessage: state.reducerPelanggan.alertMessage,
     // GET
-    getSuccess: state.reducerTarif.getSuccess,
-    getError: state.reducerTarif.getError,
-    dataTarif: state.reducerTarif.dataTarif,
+    getSuccess: state.reducerPelanggan.getSuccess,
+    getError: state.reducerPelanggan.getError,
+    dataPelanggan: state.reducerPelanggan.dataPelanggan,
     // CREATE
-    createSuccess: state.reducerTarif.createSuccess,
-    createError: state.reducerTarif.createError,
+    createSuccess: state.reducerPelanggan.createSuccess,
+    createError: state.reducerPelanggan.createError,
     // UPDATE
-    updateSuccess: state.reducerTarif.updateSuccess,
-    updateError: state.reducerTarif.updateError,
+    updateSuccess: state.reducerPelanggan.updateSuccess,
+    updateError: state.reducerPelanggan.updateError,
     // DELETE
-    deleteSuccess: state.reducerTarif.deleteSuccess,
-    deleteError: state.reducerTarif.deleteError,
+    deleteSuccess: state.reducerPelanggan.deleteSuccess,
+    deleteError: state.reducerPelanggan.deleteError,
 
     // DISTRIBUTOR
-    dataDistributor: state.reducerDistributor.dataDistributor
+    dataDistributor: state.reducerDistributor.dataDistributor,
+    // AREA
+    dataArea: state.reducerArea.dataArea,
+    // KELOMPOK PELANGGAN
+    dataKelompokPelanggan: state.reducerKelompokPelanggan.dataKelompokPelanggan
   };
 }
 

@@ -82,10 +82,6 @@ class Tarif extends React.Component {
     // masih race condition, harusnya pas modals muncul aja
     // GET data
     this.props.dispatch(getDataTarif());
-    // GET data distributor
-    // if(this.state.modalCreate === true){
-    this.props.dispatch(getDataDistributor());
-    // }
   }
 
   componentWillReceiveProps() {
@@ -139,7 +135,6 @@ class Tarif extends React.Component {
         modalCreate: false,
         emptyDistributorIdMsg: ""
       });
-      this.props.dispatch(getDataTarif(postData));
     }
   };
   // track change
@@ -160,7 +155,7 @@ class Tarif extends React.Component {
     console.log(confirm);
     if (confirm) {
       this.props.dispatch(deleteDataTarif(id));
-      this.props.dispatch(getDataTarif());
+      // this.props.dispatch(getDataTarif());
     }
   }
 
@@ -186,6 +181,8 @@ class Tarif extends React.Component {
       // message validasi akan hilang setiap kali toggle() di klik
       emptyDistributorIdMsg: ""
     }));
+    // GET data distributor
+    this.props.dispatch(getDataDistributor());
   }
 
   render() {
@@ -239,6 +236,8 @@ class Tarif extends React.Component {
             <tr>
               <td>{item.name}</td>
               <td>{item.distributor_id.code}</td>
+              <td>{item.isactive}</td>
+              <td>{item.distributor_id.name}</td>
               <td>{item.isactive}</td>
               <td>{item.description}</td>
               <td>

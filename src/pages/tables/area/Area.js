@@ -43,26 +43,20 @@ import s from "./Area.module.scss";
 import Widget from "../../../components/Widget/Widget";
 // actions
 import {
-  getDataTarif,
-  createDataTarif,
-  deleteDataTarif
-} from "../../../actions/tables/tarif";
-// ambil distributor untuk create dan update
+  getDataArea,
+  createDataArea,
+  deleteDataArea
+} from "../../../actions/tables/area";
+
+// DISTRIBUTOR
 import { getDataDistributor } from "../../../actions/tables/distributor";
+
+
 
 class Area extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired
   };
-
-  static isAuthenticated(token) {
-    // We check if app runs with backend mode
-    // if (!config.isBackend && token) return true;
-    if (!token) return;
-    const date = new Date().getTime() / 1000;
-    const data = jwt.decode(token);
-    return date < data.exp;
-  }
 
   constructor(props) {
     super(props);
@@ -84,18 +78,11 @@ class Area extends React.Component {
   componentDidMount() {
     // masih race condition, harusnya pas modals muncul aja
     // GET data
-    this.props.dispatch(getDataTarif());
-    // GET data distributor
-    // if(this.state.modalCreate === true){
-    this.props.dispatch(getDataDistributor());
-    // }
-
-    // ALERT
-    // return this.props.alertMessage ? this.onShowAlert() : null;
+    this.props.dispatch(getDataArea());
   }
 
   // CREATE Tarif
-  doCreateTarif = e => {
+  doCreateArea = e => {
     e.preventDefault();
     let postData = {
       code: this.state.code,
@@ -103,7 +90,11 @@ class Area extends React.Component {
       distributor_id: this.state.distributor_id
     };
     console.log(postData);
-    // this.props.dispatch(createDataTarif(postData))
+    this.props.dispatch(createDataArea(postData))
+    this.setState({
+      modalCreate: false,
+      emptyDistributorIdMsg: '',
+    })
   };
   // track change
   handleCreateChange = e => {
@@ -122,9 +113,7 @@ class Area extends React.Component {
     let confirm = window.confirm("delete data, are you sure?");
     console.log(confirm);
     if (confirm) {
-      this.props.dispatch(deleteDataTarif(id));
-      this.onShowAlert();
-      this.props.dispatch(getDataTarif());
+      this.props.dispatch(deleteDataArea(id));
     }
   }
 
@@ -149,19 +138,18 @@ class Area extends React.Component {
     this.setState(prevState => ({
       [id]: !prevState[id]
     }));
+    // GET data distributor
+    // if(this.state.modalCreate === true){
+    this.props.dispatch(getDataDistributor());
+    // }
   }
 
   render() {
     console.log(this.state);
     console.log(this.props);
 
-    // jika error karena 401 atau lainnya, tendang user dengan hapus cookie
-    // if(this.props.getError){
-    //   return document.cookie = 'token=;expires=Thu, 01 Jan 1970 00:00:01 GMT;'
-    // }
-
     const { modalCreate } = this.state;
-    const { createSuccess, dataDistributor } = this.props;
+    const { dataArea, dataDistributor } = this.props;
 
     // create error
     const createError =
@@ -190,8 +178,8 @@ class Area extends React.Component {
 
     // table data
     const tableData =
-      this.props.dataTarif.length > 0 ? (
-        this.props.dataTarif.map(item => {
+      dataArea ? (
+        dataArea.map(item => {
           console.log(item);
           // const isactive = item.isactive ? (
           //   <span className="badge btn-success">TRUE</span>
@@ -200,10 +188,9 @@ class Area extends React.Component {
           // );
           return (
             <tr>
+              <td>{item.code}</td>
               <td>{item.name}</td>
-              {/* <td>{item.distributor_id.code}</td> */}
-              {/* <td>{isactive}</td> */}
-              <td>{item.description}</td>
+              <td>{item.distributor_id.name}</td>
               <td>
                 <Link
                   to={"/app/forms/editdataarea/" + item._id}
@@ -240,15 +227,6 @@ class Area extends React.Component {
                     Data<span>Area</span>
                   </li>
                 </ol>
-                {/* alert */}
-                <Alert
-                  color="success"
-                  className={cx(s.promoAlert, {
-                    [s.showAlert]: this.state.showAlert
-                  })}
-                >
-                  {this.props.alertMessage || "Data get actions"}
-                </Alert>
               </Col>
             </Row>
             <Row className="align-items-center justify-content-between">
@@ -268,15 +246,6 @@ class Area extends React.Component {
                 />
               </Col>
               <Col lg={4} className="text-right">
-                {/* <button className="btn btn-primary">Create</button> */}
-                {/* <CreateModal /> */}
-                {/* <Link
-                  to="/app/forms/createdatatarifpelanggan"
-                  className="btn bg-warning text-white"
-                >
-                  Tambah Data
-                </Link> */}
-                {/* BUTTON MODALS CREATE */}
                 <Button
                   className="mr-sm"
                   color="warning"
@@ -301,7 +270,7 @@ class Area extends React.Component {
                       </thead>
                       <tbody id="myTable" className="position-relative">
                         {/* eslint-disable */}
-                        {this.props.dataTarifVersion ? tableData : null}
+                        {this.props.getSuccess ? tableData : null}
                       </tbody>
                       {/* eslint-enable */}
                     </Table>
@@ -322,7 +291,7 @@ class Area extends React.Component {
             Tambah Data
           </ModalHeader>
           <ModalBody>
-            <Form id="formCreateDataTarif" onSubmit={this.doCreateTarif}>
+            <Form id="formCreateDataTarif" onSubmit={this.doCreateArea}>
               {/* code */}
               <FormGroup>
                 <Label for="exampleNama">Kode</Label>
@@ -357,6 +326,7 @@ class Area extends React.Component {
                   name="distributor_id"
                   id="exampleSelect"
                 >
+                  <option value={null}></option>
                   {dataDistributor.map(item => {
                     return <option value={item._id}>{item.name}</option>;
                   })}
@@ -390,23 +360,23 @@ class Area extends React.Component {
 function mapStateToProps(state) {
   return {
     // ALERT
-    alertMessage: state.reducerTarif.alertMessage,
+    alertMessage: state.reducerArea.alertMessage,
     // GET
-    getSuccess: state.reducerTarif.getSuccess,
-    getError: state.reducerTarif.getError,
-    dataTarif: state.reducerTarif.dataTarif,
+    getSuccess: state.reducerArea.getSuccess,
+    getError: state.reducerArea.getError,
+    dataArea: state.reducerArea.dataArea,
     // CREATE
-    createSuccess: state.reducerTarif.createSuccess,
-    createError: state.reducerTarif.createError,
+    createSuccess: state.reducerArea.createSuccess,
+    createError: state.reducerArea.createError,
     // UPDATE
-    updateSuccess: state.reducerTarif.updateSuccess,
-    updateError: state.reducerTarif.updateError,
+    updateSuccess: state.reducerArea.updateSuccess,
+    updateError: state.reducerArea.updateError,
     // DELETE
-    deleteSuccess: state.reducerTarif.deleteSuccess,
-    deleteError: state.reducerTarif.deleteError,
+    deleteSuccess: state.reducerArea.deleteSuccess,
+    deleteError: state.reducerArea.deleteError,
 
     // DISTRIBUTOR
-    dataDistributor: state.reducerDistributor.dataDistributor
+    dataDistributor: state.reducerDistributor.dataDistributor,
   };
 }
 

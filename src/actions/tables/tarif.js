@@ -54,16 +54,10 @@ export const getDataTarif = () => {
   return (dispatch) => {
     axios.get('/api/tarif')
     .then(res => {
-      // console.log(res.data.message.data);
-      return dispatch(getTarifSuccess(res.data.message.data));
+      dispatch(getTarifSuccess(res.data.message.data));
     })
     .catch(err => {
-      console.log(err.response);
-      if(err.response.status === 401){
-        localStorage.removeItem('token');
-
-      }
-      // dispatch(getTarifError(err.response.status));
+      dispatch(getTarifError(err.response.status))
     });
   }
 }
@@ -76,15 +70,15 @@ export const createDataTarif = (postData) => {
         console.log(res)
         // ketika Error masuk kesini, backend
         // dispatch(createSuccess(res.data.status))
-        dispatch(createTarifSuccess(res.data.status))
+        dispatch(createTarifSuccess(res.data.message.data))
       }else{
         // jika validasi dari server error
-        dispatch(createTarifError(res.response.data.data.message))
+        // dispatch(createTarifError(res.data.message))
       }
+      dispatch(getDataTarif())
     })
     .catch(err => {
-      console.log(err.response);
-      // dispatch(createTarifError(err.response.data.message))     
+      dispatch(createTarifError(err.response.status))     
     });
   }
 }
@@ -92,12 +86,14 @@ export const deleteDataTarif = (id) => {
   return (dispatch) => {
     axios.delete("/api/tarif/" + id)
       .then(res => {
-        console.log(res.data.message)
-        return dispatch(deleteTarifSuccess(res.data.message))
+        console.log(res.data)
+        if (res.data.code >= 200 || res.data.code < 300){
+          dispatch(deleteTarifSuccess(res.data.message))
+        }
+        dispatch(getDataTarif())
       })
       .catch(err => {
-        console.log(err.data)
-        // dispatch(deleteTarifError(err.data))
+        dispatch(deleteTarifError(err.response.status))
       });
   }
 }

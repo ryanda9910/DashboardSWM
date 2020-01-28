@@ -15,7 +15,7 @@ import {
 // import Formsy from "formsy-react";
 import s from "./editdatatarifpelanggan.module.scss";
 import axios from "axios";
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
 // config
 import config from "../../../config";
@@ -26,7 +26,6 @@ import Widget from "../../../components/Widget";
 import { getDataDistributor } from "../../../actions/tables/distributor";
 
 class Editdatatarifpelanggan extends React.Component {
-
   static propTypes = {
     dispatch: PropTypes.func.isRequired
   };
@@ -34,12 +33,12 @@ class Editdatatarifpelanggan extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // 
-      name: '',
+      //
+      name: "",
       distributor_id: null,
       isactive: false,
-      description: '',
-      // 
+      description: "",
+      //
       statusGetSpesificsData: "",
       getError: null,
       updateStatus: "",
@@ -52,16 +51,17 @@ class Editdatatarifpelanggan extends React.Component {
     // DATA TARIF SPESIFIC
     // get id
     const id = this.props.match.params.id;
-    axios.get("/api/tarif/" + id)
+    axios
+      .get("/api/tarif/" + id)
       .then(res => {
         console.log(res);
         this.setState({
-          // 
+          //
           name: res.data.data.name,
           distributor_id: res.data.data.distributor_id,
           isactive: res.data.data.isactive,
           description: res.data.data.description,
-          // 
+          //
           statusGetSpesificsData: res.data.status
         });
       })
@@ -72,7 +72,7 @@ class Editdatatarifpelanggan extends React.Component {
         });
       });
     // DATA DISTRIBUTOR
-    this.props.dispatch(getDataDistributor())
+    this.props.dispatch(getDataDistributor());
   }
 
   // do UPDATE
@@ -82,7 +82,7 @@ class Editdatatarifpelanggan extends React.Component {
       name: this.state.name,
       distributor_id: this.state.distributor_id,
       isactive: this.state.isactive,
-      description: this.state.description,
+      description: this.state.description
     };
 
     console.log(postData);
@@ -90,10 +90,7 @@ class Editdatatarifpelanggan extends React.Component {
     // UPDATE data
     const id = this.props.match.params.id;
     axios
-      .put(
-        "/api/tarif/" + id,
-        postData
-      )
+      .put("/api/tarif/" + id, postData)
       .then(res => {
         console.log(res);
         this.setState({
@@ -146,9 +143,9 @@ class Editdatatarifpelanggan extends React.Component {
 
     return (
       <div className={s.root}>
-        <Row className="py-5">
+        <Row className="py-5 justify-content-center">
           <Col lg={12}>
-            <h1 className="page-title">
+            <h1 className="page-title text-center">
               Edit <span className="fw-semi-bold">Tarif Pelanggan</span>
             </h1>
           </Col>
@@ -187,13 +184,9 @@ class Editdatatarifpelanggan extends React.Component {
                     id="exampleKode"
                     placeholder="Kode"
                   >
-                    {
-                      dataDistributor.map(item => {
-                        return (
-                          <option value={item._id}>{item.name}</option>
-                        )
-                      })
-                    }
+                    {dataDistributor.map(item => {
+                      return <option value={item._id}>{item.name}</option>;
+                    })}
                   </Input>
                 </FormGroup>
                 {/* isactive */}
@@ -235,11 +228,11 @@ class Editdatatarifpelanggan extends React.Component {
   }
 }
 
-function mapStateToProps(state){
+function mapStateToProps(state) {
   return {
     // DISTRIBUTOR
-    dataDistributor: state.reducerDistributor.dataDistributor,
-  }
+    dataDistributor: state.reducerDistributor.dataDistributor
+  };
 }
 
 export default connect(mapStateToProps)(Editdatatarifpelanggan);

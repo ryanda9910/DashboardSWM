@@ -7,12 +7,12 @@ import {
   Label,
   Form,
   Input,
-  CustomInput,
+  CustomInput
 } from "reactstrap";
 // import Formsy from "formsy-react";
 import s from "./editdatatarifversion.module.scss";
 import axios from "axios";
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Redirect } from "react-router-dom";
 
@@ -24,9 +24,7 @@ import { getDataDistributor } from "../../../actions/tables/distributor";
 // TARIF
 import { getDataTarif } from "../../../actions/tables/tarif";
 
-
 class Editdatatarifpelanggan extends React.Component {
-
   static propTypes = {
     dispatch: PropTypes.func.isRequired
   };
@@ -35,18 +33,18 @@ class Editdatatarifpelanggan extends React.Component {
     super(props);
     this.state = {
       // UPDATE
-      name: '',
+      name: "",
       tarif_id: null,
       distributor_id: null,
       isactive: false,
-      volume1: '',
-      price1: '',
-      volume2: '',
-      price2: '',
-      volume3: '',
-      price3: '',
+      volume1: "",
+      price1: "",
+      volume2: "",
+      price2: "",
+      volume3: "",
+      price3: "",
       validFrom: null,
-      // 
+      //
       statusGetSpesificsData: "",
       getError: null,
       updateStatus: "",
@@ -59,7 +57,8 @@ class Editdatatarifpelanggan extends React.Component {
     // DATA TARIF SPESIFIC
     // get id
     const id = this.props.match.params.id;
-    axios.get("/api/tarifversion/" + id)
+    axios
+      .get("/api/tarifversion/" + id)
       .then(res => {
         console.log(res);
 
@@ -68,7 +67,7 @@ class Editdatatarifpelanggan extends React.Component {
         // console.log(validFromChange);
 
         this.setState({
-          // 
+          //
           name: res.data.data.name,
           tarif_id: res.data.data.tarif_id,
           distributor_id: res.data.data.distributor_id,
@@ -81,7 +80,7 @@ class Editdatatarifpelanggan extends React.Component {
           price3: res.data.data.price3,
           // validFrom: validFromChange,
           validFrom: res.data.data.validFrom,
-          // 
+          //
           statusGetSpesificsData: res.data.status
         });
       })
@@ -92,9 +91,9 @@ class Editdatatarifpelanggan extends React.Component {
         });
       });
     // DATA DISTRIBUTOR
-    this.props.dispatch(getDataDistributor())
+    this.props.dispatch(getDataDistributor());
     // DATA TARIF
-    this.props.dispatch(getDataTarif())
+    this.props.dispatch(getDataTarif());
   }
 
   // do UPDATE
@@ -111,7 +110,7 @@ class Editdatatarifpelanggan extends React.Component {
       price2: this.state.price2,
       volume3: this.state.volume3,
       price3: this.state.price3,
-      validFrom: this.state.validFrom,
+      validFrom: this.state.validFrom
     };
 
     console.log(postData);
@@ -119,10 +118,7 @@ class Editdatatarifpelanggan extends React.Component {
     // UPDATE data
     const id = this.props.match.params.id;
     axios
-      .put(
-        "/api/tarifversion/" + id,
-        postData
-      )
+      .put("/api/tarifversion/" + id, postData)
       .then(res => {
         console.log(res);
         this.setState({
@@ -175,10 +171,10 @@ class Editdatatarifpelanggan extends React.Component {
 
     return (
       <div className={s.root}>
-        <Row className="py-5">
+        <Row className="py-5 justify-content-center">
           <Col lg={12}>
-            <h1 className="page-title">
-              Edit <span className="fw-semi-bold">Tarif Pelanggan</span>
+            <h1 className="page-title text-center">
+              Edit <span className="fw-semi-bold">Tarif Version</span>
             </h1>
           </Col>
           <Col lg={7}>
@@ -215,13 +211,9 @@ class Editdatatarifpelanggan extends React.Component {
                     name="tarif_id"
                     placeholder="Kode"
                   >
-                    {
-                      dataTarif.map(item => {
-                        return (
-                          <option value={item._id}>{item.name}</option>
-                        )
-                      })
-                    }
+                    {dataTarif.map(item => {
+                      return <option value={item._id}>{item.name}</option>;
+                    })}
                   </Input>
                 </FormGroup>
                 {/* distributor_id */}
@@ -234,13 +226,9 @@ class Editdatatarifpelanggan extends React.Component {
                     name="distributor_id"
                     placeholder="Kode"
                   >
-                    {
-                      dataDistributor.map(item => {
-                        return (
-                          <option value={item._id}>{item.name}</option>
-                        )
-                      })
-                    }
+                    {dataDistributor.map(item => {
+                      return <option value={item._id}>{item.name}</option>;
+                    })}
                   </Input>
                 </FormGroup>
                 {/* isactive */}
@@ -328,7 +316,6 @@ class Editdatatarifpelanggan extends React.Component {
                   />
                 </FormGroup>
 
-
                 {/* validFrom */}
                 <FormGroup>
                   <Label for="validFrom">Valid From</Label>
@@ -337,12 +324,10 @@ class Editdatatarifpelanggan extends React.Component {
                     onChange={this.handleChange}
                     type="date"
                     name="validFrom"
-                    id="validFrom"                  
+                    id="validFrom"
                     placeholder="Valid From"
                   />
                 </FormGroup>
-
-
 
                 {/* show ERROR */}
                 <FormGroup row>{updateError}</FormGroup>
@@ -358,13 +343,13 @@ class Editdatatarifpelanggan extends React.Component {
   }
 }
 
-function mapStateToProps(state){
+function mapStateToProps(state) {
   return {
     // DISTRIBUTOR
     dataDistributor: state.reducerDistributor.dataDistributor,
     // TARIF
-    dataTarif: state.reducerTarif.dataTarif,
-  }
+    dataTarif: state.reducerTarif.dataTarif
+  };
 }
 
 export default connect(mapStateToProps)(Editdatatarifpelanggan);

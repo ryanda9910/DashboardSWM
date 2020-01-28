@@ -1,5 +1,14 @@
 import React from "react";
-import { Row, Col, Button, FormGroup, Label, Form, Input } from "reactstrap";
+import {
+  Row,
+  Col,
+  Button,
+  FormGroup,
+  Label,
+  Form,
+  Input,
+  CustomInput
+} from "reactstrap";
 // import Formsy from "formsy-react";
 import { Link, Redirect } from "react-router-dom";
 import axios from "axios";
@@ -7,12 +16,12 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { getDataDistributor } from "../../../actions/tables/distributor";
 
-import s from "./editdataarea.module.scss";
+import s from "./editdatadistributor.module.scss";
 import config from "../../../config";
 // import InputValidation from "../../../components/InputValidation";
 import Widget from "../../../components/Widget";
 
-class Editdataarea extends React.Component {
+class Editdatadistributor extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired
   };
@@ -21,7 +30,13 @@ class Editdataarea extends React.Component {
     super(props);
     this.state = {
       code: "",
+      isactive: "",
       name: "",
+      contact: "",
+      description: "",
+      phone: "",
+      email: "",
+      tipe: "",
       distributor_id: null,
       updateStatus: null,
       updateError: null
@@ -40,9 +55,14 @@ class Editdataarea extends React.Component {
         console.log(res);
         //
         this.setState({
-          code: res.data.data.code,
-          name: res.data.data.name,
-          distributor_id: res.data.data.distributor_id
+          code: this.state.code,
+          isactive: this.state.isactive,
+          name: this.state.name,
+          contact: this.state.contact,
+          description: this.state.description,
+          phone: this.state.phone,
+          email: this.state.email,
+          tipe: this.state.tipe
         });
       })
       .catch(err => {
@@ -58,14 +78,19 @@ class Editdataarea extends React.Component {
     e.preventDefault();
     const data = {
       code: this.state.code,
+      isactive: this.state.isactive,
       name: this.state.name,
-      distributor_id: this.state.distributor_id
+      contact: this.state.contact,
+      description: this.state.description,
+      phone: this.state.phone,
+      email: this.state.email,
+      tipe: this.state.tipe
     };
 
     // PUT
     const id = this.props.match.params.id;
     axios
-      .put(config.remote + "/api/area/" + id, data)
+      .put(config.remote + "/api/distributor/" + id, data)
       .then(res => {
         console.log(res);
         //
@@ -105,7 +130,7 @@ class Editdataarea extends React.Component {
 
     // redirect jika succes update
     if (this.state.updateStatus === 200) {
-      return <Redirect to="/app/tables/area" />;
+      return <Redirect to="/app/tables/distributor" />;
     }
 
     // update error
@@ -121,10 +146,10 @@ class Editdataarea extends React.Component {
         <Row className="py-5 justify-content-center">
           <Col lg={12} className="text-center">
             <h1 className="page-title">
-              Edit Data <span className="fw-semi-bold"> Area</span>
+              Edit Data <span className="fw-semi-bold">Distributor</span>
             </h1>
           </Col>
-          <Col lg={8}>
+          <Col lg={12}>
             <Widget refresh collapse className="px-5">
               <Form onSubmit={this.doUpdateDataArea} className="mt-4">
                 {/* show ERROR */}
@@ -143,32 +168,83 @@ class Editdataarea extends React.Component {
                   />
                 </FormGroup>
                 <FormGroup>
-                  <Label for="email-input">Nama</Label>
-                  <input
-                    value={this.state.name}
-                    name="name"
+                  <Label for="exampleIsActive">Status</Label>
+                  <CustomInput
+                    checked={this.state.isactive}
                     onChange={this.handleChange}
-                    className="form-control"
-                    id="inputlg"
-                    placeholder="Masukkan Nama "
-                    type="text"
-                    style={{ color: "#FFF" }}
+                    type="switch"
+                    id="exampleIsActive"
+                    name="isactive"
+                    label="Turn on this if True"
                   />
                 </FormGroup>
                 {/* distributor_id */}
                 <FormGroup>
-                  <Label>ID Distributor</Label>
-                  <Input
-                    value={this.state.distributor_id}
+                  <Label for="nama-input">Nama</Label>
+                  <input
+                    value={this.state.name}
+                    name="code"
                     onChange={this.handleChange}
-                    type="select"
-                    name="distributor_id"
-                  >
-                    {dataDistributor.map(item => {
-                      return <option value={item._id}>{item.name}</option>;
-                    })}
-                  </Input>
+                    className="form-control"
+                    id="inputlg"
+                    placeholder="Masukkan Nama"
+                    type="text"
+                    style={{ color: "#FFF" }}
+                  />
                 </FormGroup>
+                <FormGroup>
+                  <Label for="nama-input">Kontak</Label>
+                  <input
+                    value={this.state.contact}
+                    name="code"
+                    onChange={this.handleChange}
+                    className="form-control"
+                    id="inputlg"
+                    placeholder="Masukkan Kontak "
+                    type="text"
+                    style={{ color: "#FFF" }}
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <Label for="nama-input">Deskripsi</Label>
+                  <input
+                    value={this.state.description}
+                    name="code"
+                    onChange={this.handleChange}
+                    className="form-control"
+                    id="inputlg"
+                    placeholder="Masukkan Kode "
+                    type="text"
+                    style={{ color: "#FFF" }}
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <Label for="nama-input">Telepon</Label>
+                  <input
+                    value={this.state.phone}
+                    name="code"
+                    onChange={this.handleChange}
+                    className="form-control"
+                    id="inputlg"
+                    placeholder="Masukkan Telepon "
+                    type="text"
+                    style={{ color: "#FFF" }}
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <Label for="nama-input">Email</Label>
+                  <input
+                    value={this.state.email}
+                    name="code"
+                    onChange={this.handleChange}
+                    className="form-control"
+                    id="inputlg"
+                    placeholder="Masukkan Kode "
+                    type="text"
+                    style={{ color: "#FFF" }}
+                  />
+                </FormGroup>
+
                 <div>
                   <a
                     onClick={this.goBack}
@@ -196,4 +272,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(Editdataarea);
+export default connect(mapStateToProps)(Editdatadistributor);

@@ -1,25 +1,32 @@
 import React from "react";
-import { Row, Col, Button, FormGroup, Label, Form, Input, CustomInput } from "reactstrap";
+import {
+  Row,
+  Col,
+  Button,
+  FormGroup,
+  Label,
+  Form,
+  Input,
+  CustomInput
+} from "reactstrap";
 // import Formsy from "formsy-react";
 import s from "./editdatakelompokpelanggan.module.scss";
 import { Link, Redirect } from "react-router-dom";
-import {connect} from 'react-redux';
-import axios from 'axios';
+import { connect } from "react-redux";
+import axios from "axios";
 
 // import InputValidation from "../../../components/InputValidation";
 import Widget from "../../../components/Widget";
 
 // data distributor
-import { getDataDistributor } from '../../../actions/tables/distributor';
+import { getDataDistributor } from "../../../actions/tables/distributor";
 // data tarif
 import { getDataTarif } from "../../../actions/tables/tarif";
-// 
-import { getDataKelompokPelanggan } from  "../../../actions/tables/kelompokpelanggan";
+//
+import { getDataKelompokPelanggan } from "../../../actions/tables/kelompokpelanggan";
 
 class Editdatakelompokpelanggan extends React.Component {
-
-
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       // data
@@ -31,10 +38,10 @@ class Editdatakelompokpelanggan extends React.Component {
       description: "",
       tarif_id: null,
       distributor_id: null,
-      // 
+      //
       updateStatus: null,
-      updateError: null,
-    }
+      updateError: null
+    };
     this.goBack = this.goBack.bind(this);
   }
 
@@ -55,13 +62,13 @@ class Editdatakelompokpelanggan extends React.Component {
           isactive: res.data.data.isactive,
           description: res.data.data.description,
           tarif_id: res.data.data.tarif_id._id,
-          distributor_id: res.data.data.distributor_id,
+          distributor_id: res.data.data.distributor_id
         });
       })
       .catch(err => {
         console.log(err);
       });
-    
+
     // GET data distributor
     this.props.dispatch(getDataDistributor());
     // GET data tarif
@@ -79,7 +86,7 @@ class Editdatakelompokpelanggan extends React.Component {
       isactive: this.state.isactive,
       description: this.state.description,
       tarif_id: this.state.tarif_id,
-      distributor_id: this.state.distributor_id,
+      distributor_id: this.state.distributor_id
     };
 
     console.log(data);
@@ -103,7 +110,7 @@ class Editdatakelompokpelanggan extends React.Component {
           updateError: "Something Wrong"
         });
       });
-    // 
+    //
   };
 
   // track change
@@ -135,18 +142,18 @@ class Editdatakelompokpelanggan extends React.Component {
 
     return (
       <div className={s.root}>
-        <Row className="py-5">
-          <Col lg={8}>
-            <h4 className="page-title fw-semi-bold">
+        <Row className="py-5 justify-content-center">
+          <Col lg={12}>
+            <h1 className="page-title fw-semi-bold text-center">
               Edit Data Kelompok Pelanggan
-            </h4>
+            </h1>
+          </Col>
+          <Col lg={8} className="justify-content-center">
             <Widget refresh collapse close className="px-5">
               <Form className="mt-5" onSubmit={this.doUpdateData}>
                 {/* parent_group */}
                 <FormGroup>
-                  <Label for="parent_group">
-                    Parent Group
-                  </Label>
+                  <Label for="parent_group">Parent Group</Label>
                   <Input
                     value={this.state.parent_group}
                     onChange={this.handleChange}
@@ -158,9 +165,7 @@ class Editdatakelompokpelanggan extends React.Component {
                 </FormGroup>
                 {/* group */}
                 <FormGroup>
-                  <Label for="group">
-                    Group
-                  </Label>
+                  <Label for="group">Group</Label>
                   <Input
                     value={this.state.group}
                     onChange={this.handleChange}
@@ -172,9 +177,7 @@ class Editdatakelompokpelanggan extends React.Component {
                 </FormGroup>
                 {/* code */}
                 <FormGroup>
-                  <Label for="code">
-                    Kode
-                  </Label>
+                  <Label for="code">Kode</Label>
                   <Input
                     value={this.state.code}
                     onChange={this.handleChange}
@@ -186,9 +189,7 @@ class Editdatakelompokpelanggan extends React.Component {
                 </FormGroup>
                 {/* name */}
                 <FormGroup>
-                  <Label for="name">
-                    Nama
-                  </Label>
+                  <Label for="name">Nama</Label>
                   <Input
                     value={this.state.name}
                     onChange={this.handleChange}
@@ -200,9 +201,7 @@ class Editdatakelompokpelanggan extends React.Component {
                 </FormGroup>
                 {/* isactive */}
                 <FormGroup>
-                  <Label for="isactive">
-                    is Active
-                  </Label>
+                  <Label for="isactive">is Active</Label>
                   <CustomInput
                     checked={this.state.isactive}
                     onChange={this.handleChange}
@@ -261,7 +260,6 @@ class Editdatakelompokpelanggan extends React.Component {
                   {/* <FormText>Example help text that remains unchanged.</FormText> */}
                 </FormGroup>
 
-
                 <div className="float-right">
                   <Button
                     className="my-5 px-5 ml-5"
@@ -288,13 +286,13 @@ class Editdatakelompokpelanggan extends React.Component {
   }
 }
 
-function mapStateToProps(state){
+function mapStateToProps(state) {
   return {
     // DISTRIBUTOR
     dataDistributor: state.reducerDistributor.dataDistributor,
     // TARIF
-    dataTarif: state.reducerTarif.dataTarif,
-  }
+    dataTarif: state.reducerTarif.dataTarif
+  };
 }
 
 export default connect(mapStateToProps)(Editdatakelompokpelanggan);

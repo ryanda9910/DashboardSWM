@@ -220,9 +220,9 @@ class Pelanggan extends React.Component {
               {/* <td>{isactive}</td> */}
               <td>{item.name}</td>
               <td>{item.code}</td>
-              <td>{item.costumer_grup_id}</td>
-              <td>{item.distributor_id}</td>
-              <td>{item.area_id}</td>
+              <td>{item.customer_group_id.name}</td>
+              <td>{item.distributor_id.name}</td>
+              <td>{item.area_id.name}</td>
               <td>{item.email}</td>
               <td>{item.address}</td>
               <td>{item.phone}</td>
@@ -230,7 +230,7 @@ class Pelanggan extends React.Component {
               <td>{item.notes}</td>
               <td>
                 <Link
-                  to={"/app/forms/editdataarea/" + item._id}
+                  to={"/app/forms/editdatapelanggan/" + item._id}
                   className="mr-1"
                 >
                   <span className="text-success">
@@ -317,10 +317,9 @@ class Pelanggan extends React.Component {
                     <Table className="table-hover">
                       <thead>
                         <tr>
-                          <th>ID Costumer Grup</th>
                           <th>Nama</th>
                           <th>Kode</th>
-                          <th>ID Kelompok Pelanggan</th>
+                          <th>ID Costumer Grup</th>
                           <th>ID Distributor</th>
                           <th>ID Area</th>
                           <th>Email</th>
@@ -328,7 +327,6 @@ class Pelanggan extends React.Component {
                           <th>Telepon</th>
                           <th>Status</th>
                           <th>Catatan</th>
-                          <th>ID Distributor</th>
                           <th>Aksi</th>
                         </tr>
                       </thead>

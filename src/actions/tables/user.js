@@ -55,7 +55,7 @@ export const getDataUser = () => {
     axios
       .get("/api/user")
       .then(res => {
-        dispatch(getUserSuccess(res.data.message.data));
+        dispatch(getUserSuccess(res.data.data));
       })
       .catch(err => {
         if (err.response) {
@@ -74,7 +74,7 @@ export const createDataUser = postData => {
           console.log(res);
           // ketika Error masuk kesini, backend
           // dispatch(createSuccess(res.data.status))
-          dispatch(createUserSuccess(res.data.message.data));
+          dispatch(createUserSuccess(res.data.data));
         } else {
           // jika validasi dari server error
           // dispatch(createUserError(res.data.message))

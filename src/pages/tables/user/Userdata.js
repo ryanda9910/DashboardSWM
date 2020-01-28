@@ -99,7 +99,7 @@ class Userdata extends React.Component {
       description: this.state.description,
       email: this.state.email,
       phone: this.state.phone,
-      password: this.state.phone,
+      password: this.state.password,
       distributor_id: this.state.distributor_id
     };
     console.log(postData);
@@ -189,51 +189,50 @@ class Userdata extends React.Component {
     });
 
     // table data
-    const tableData =
-      this.props.length > 0 ? (
-        this.props.dataUser.map(item => {
-          console.log(item);
+    const tableData = this.props.dataUser.data ? (
+      this.props.dataUser.data.map(item => {
+        console.log(item);
 
-          const isactive = item.isactive ? (
-            <span className="badge btn-success">TRUE</span>
-          ) : (
-            <span className="badge btn-danger">FALSE</span>
-          );
-          return (
-            <tr>
-              <td>{item.role_id}</td>
-              {/* <td>{item.distributor_id.code}</td> */}
-              {/* <td>{isactive}</td> */}
-              <td>{isactive}</td>
-              <td>{item.name}</td>
-              <td>{item.slug}</td>
-              <td>{item.description}</td>
-              <td>{item.email}</td>
-              <td>{item.phone}</td>
-              <td>{item.distributor_id.name}</td>
-              <td>
-                <Link
-                  to={"/app/forms/editdatauser/" + item._id}
-                  className="mr-1"
-                >
-                  <span className="text-success">
-                    <i class="far fa-edit"></i>
-                    Ubah
-                  </span>
-                </Link>
-                <a onClick={() => this.handleDelete(item._id)} className="ml-1">
-                  <span className="text-danger">
-                    <i class="fas fa-trash"></i>
-                    Hapus
-                  </span>
-                </a>
-              </td>
-            </tr>
-          );
-        })
-      ) : (
-        <Loader size={35} className="pt-5 position-absolute" />
-      );
+        const isactive = item.isactive ? (
+          <span className="badge btn-success">TRUE</span>
+        ) : (
+          <span className="badge btn-danger">FALSE</span>
+        );
+        return (
+          <tr>
+            <td>{item.role_id.name}</td>
+            {/* <td>{item.distributor_id.code}</td> */}
+            {/* <td>{isactive}</td> */}
+            <td>{isactive}</td>
+            <td>{item.name}</td>
+            <td>{item.slug}</td>
+            <td>{item.description}</td>
+            <td>{item.email}</td>
+            <td>{item.phone}</td>
+            <td>{item.distributor_id.name}</td>
+            <td>
+              <Link
+                to={"/app/forms/editdatausers/" + item._id}
+                className="mr-1"
+              >
+                <span className="text-success">
+                  <i class="far fa-edit"></i>
+                  Ubah
+                </span>
+              </Link>
+              <a onClick={() => this.handleDelete(item._id)} className="ml-1">
+                <span className="text-danger">
+                  <i class="fas fa-trash"></i>
+                  Hapus
+                </span>
+              </a>
+            </td>
+          </tr>
+        );
+      })
+    ) : (
+      <Loader size={35} className="pt-5 position-absolute" />
+    );
 
     return (
       <div className={s.root}>
@@ -461,8 +460,8 @@ function mapStateToProps(state) {
     createSuccess: state.reducerUser.createSuccess,
     createError: state.reducerUser.createError,
     // UPDATE
-    updateSuccess: state.reducerUser.updateSuccess,
-    updateError: state.reducerUser.updateError,
+    // updateSuccess: state.reducerUser.updateSuccess,
+    // updateError: state.reducerUser.updateError,
     // DELETE
     deleteSuccess: state.reducerUser.deleteSuccess,
     deleteError: state.reducerUser.deleteError,

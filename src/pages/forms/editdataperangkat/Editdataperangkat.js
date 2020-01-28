@@ -1,5 +1,14 @@
 import React from "react";
-import { Row, Col, Button, FormGroup, Label, Form, Input } from "reactstrap";
+import {
+  Row,
+  Col,
+  Button,
+  FormGroup,
+  Label,
+  Form,
+  Input,
+  InputGroup
+} from "reactstrap";
 // import Formsy from "formsy-react";
 import s from "./editdataperangkat.module.scss";
 import { Link } from "react-router-dom";
@@ -15,162 +24,121 @@ class Editdataperangkat extends React.Component {
           <Widget refresh collapse close className="px-5">
             <Form className="py-5 px-5">
               <FormGroup row>
-                <Label md={3} xs={12} for="nama-input">
-                  Kode
-                </Label>
-                <Col lg={6} xs={12}>
-                  <input
-                    className="form-control"
-                    id="inputlg"
-                    placeholder="Masukkan Kode"
-                    aria-label="Search"
-                    type="text"
-                    style={{ color: "#FFF" }}
-                  />
-                </Col>
+                <Label for="nama-input">Kode</Label>
+                <Input
+                  className="form-control"
+                  id="inputlg"
+                  placeholder="Masukkan Kode"
+                  aria-label="Search"
+                  type="text"
+                  style={{ color: "#FFF" }}
+                />
               </FormGroup>
               <FormGroup row>
-                <Label md={3} xs={12} for="email-input">
-                  Serial Number
-                </Label>
-                <Col lg={6} xs={12}>
-                  <input
-                    className="form-control"
-                    id="inputlg"
-                    placeholder="Masukkan Nomor Seri"
-                    aria-label="Search"
-                    type="text"
-                    style={{ color: "#FFF" }}
-                  />
-                </Col>
+                <Label for="email-input">Serial Number</Label>
+                <Input
+                  className="form-control"
+                  id="inputlg"
+                  placeholder="Masukkan Nomor Seri"
+                  aria-label="Search"
+                  type="text"
+                  style={{ color: "#FFF" }}
+                />
               </FormGroup>
               <FormGroup row>
-                <Label md={3} xs={12} for="email-input">
-                  Tipe
-                </Label>
-                <Col lg={6} xs={12}>
-                  <input
-                    className="form-control"
-                    id="inputlg"
-                    placeholder="Masukkan Tipe"
-                    aria-label="Search"
-                    type="text"
-                    style={{ color: "#FFF" }}
-                  />
-                </Col>
+                <Label for="email-input">Tipe</Label>
+                <Input
+                  className="form-control"
+                  id="inputlg"
+                  placeholder="Masukkan Tipe"
+                  aria-label="Search"
+                  type="text"
+                  style={{ color: "#FFF" }}
+                />
               </FormGroup>
               <FormGroup row>
-                <Label md={3} xs={12} for="password-input">
-                  Model
-                </Label>
-                <Col lg={6} xs={12}>
-                  <input
-                    className="form-control"
-                    id="inputlg"
-                    placeholder="Masukkan Data"
-                    aria-label="Search"
-                    type="text"
-                    style={{ color: "#FFF" }}
-                  />
-                </Col>
+                <Label for="password-input">Model</Label>
+                <Input
+                  className="form-control"
+                  id="inputlg"
+                  placeholder="Masukkan Data"
+                  aria-label="Search"
+                  type="text"
+                  style={{ color: "#FFF" }}
+                />
               </FormGroup>
               <FormGroup row>
-                <Label md={3} xs={12} for="role-input">
-                  Parent
-                </Label>
-                <Col lg={6} xs={12}>
-                  <input
-                    class="form-control"
-                    id="inputlg"
-                    placeholder="Masukkan Data"
-                    aria-label="Search"
-                    type="text"
-                    style={{ color: "#FFF" }}
-                  />
-                </Col>
+                <Label for="role-input">Parent</Label>
+                <Input
+                  class="form-control"
+                  id="inputlg"
+                  placeholder="Masukkan Data"
+                  aria-label="Search"
+                  type="text"
+                  style={{ color: "#FFF" }}
+                />
               </FormGroup>
               <FormGroup row>
-                <Label md={3} xs={12} for="status-input">
-                  Last Update
-                </Label>
-                <Col lg={6} xs={12}>
-                  <input
-                    class="form-control"
-                    id="inputlg"
-                    placeholder="Masukkan Data"
-                    aria-label="Search"
-                    type="text"
-                    style={{ color: "#FFF" }}
-                  />
-                </Col>
+                <Label for="status-input">Last Update</Label>
+
+                <Input
+                  class="form-control"
+                  id="inputlg"
+                  placeholder="Masukkan Data"
+                  aria-label="Search"
+                  type="text"
+                  style={{ color: "#FFF" }}
+                />
               </FormGroup>
               <FormGroup row>
-                <Label md={3} xs={12} for="note-input">
-                  Value
-                </Label>
-                <Col lg={6} xs={12}>
-                  <input
-                    class="form-control"
-                    id="inputlg"
-                    placeholder="Masukkan Data"
-                    aria-label="Search"
-                    type="text"
-                    style={{ color: "#FFF" }}
-                  />
-                </Col>
+                <Label for="note-input">Value</Label>
+                <Input
+                  class="form-control"
+                  id="inputlg"
+                  placeholder="Masukkan Data"
+                  aria-label="Search"
+                  type="text"
+                  style={{ color: "#FFF" }}
+                />
               </FormGroup>
               <FormGroup row>
-                <Label md={3} xs={12} for="lastlogin-input">
-                  Signal
-                </Label>
-                <Col lg={6} xs={12}>
-                  <input
-                    class="form-control"
-                    id="inputlg"
-                    placeholder="Masukkan Data"
-                    aria-label="Search"
-                    type="text"
-                    style={{ color: "#FFF" }}
-                  />
-                </Col>
+                <Label for="lastlogin-input">Signal</Label>
+                <Input
+                  class="form-control"
+                  id="inputlg"
+                  placeholder="Masukkan Data"
+                  aria-label="Search"
+                  type="text"
+                  style={{ color: "#FFF" }}
+                />
               </FormGroup>
               <FormGroup row>
-                <Label md={3} xs={12} for="lastlogin-input">
-                  Baterry Voltage
-                </Label>
-                <Col lg={6} xs={12}>
-                  <input
-                    class="form-control"
-                    id="inputlg"
-                    placeholder="Masukkan Data"
-                    aria-label="Search"
-                    type="text"
-                    style={{ color: "#FFF" }}
-                  />
-                </Col>
+                <Label for="lastlogin-input">Baterry Voltage</Label>
+                <Input
+                  class="form-control"
+                  id="inputlg"
+                  placeholder="Masukkan Data"
+                  aria-label="Search"
+                  type="text"
+                  style={{ color: "#FFF" }}
+                />
               </FormGroup>
               <FormGroup row>
-                <Label md={3} xs={12} for="lastlogin-input">
-                  Wilayah/Area
-                </Label>
-                <Col lg={6} xs={12}>
-                  <input
-                    class="form-control"
-                    id="inputlg"
-                    placeholder="Masukkan Data"
-                    aria-label="Search"
-                    type="text"
-                    style={{ color: "#FFF" }}
-                  />
-                </Col>
+                <Label for="lastlogin-input">Wilayah/Area</Label>
+                <Input
+                  class="form-control"
+                  id="inputlg"
+                  placeholder="Masukkan Data"
+                  aria-label="Search"
+                  type="text"
+                  style={{ color: "#FFF" }}
+                />
               </FormGroup>
               <FormGroup row>
-                <Label md={3} xs={12} for="password-input">
-                  Status
-                </Label>
+                <Label for="password-input">Status</Label>
                 <FormGroup check inline>
                   <Label check>
-                    <input
+                    <Input
                       type="radio"
                       name="radio2"
                       className="radiobtn ml-5"
@@ -179,7 +147,7 @@ class Editdataperangkat extends React.Component {
                     Online
                   </Label>
                   <Label check>
-                    <input
+                    <Input
                       type="radio"
                       name="radio2"
                       className="radiobtn ml-5"
@@ -190,19 +158,15 @@ class Editdataperangkat extends React.Component {
                 </FormGroup>
               </FormGroup>
               <FormGroup row>
-                <Label md={3} xs={12} for="lastlogin-input">
-                  Exp
-                </Label>
-                <Col lg={6} xs={12}>
-                  <input
-                    class="form-control"
-                    id="inputlg"
-                    placeholder="Masukkan Data"
-                    aria-label="Search"
-                    type="text"
-                    style={{ color: "#FFF" }}
-                  />
-                </Col>
+                <Label for="lastlogin-input">Exp</Label>
+                <Input
+                  class="form-control"
+                  id="inputlg"
+                  placeholder="Masukkan Data"
+                  aria-label="Search"
+                  type="text"
+                  style={{ color: "#FFF" }}
+                />
               </FormGroup>
               <div className="float-right">
                 <Link to="/app/tables/panelmeter/">

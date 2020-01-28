@@ -195,6 +195,7 @@ class Layout extends React.Component {
                       exact
                       component={UserData}
                     />
+                    {/* EDIT CREATE DATA */}
                     <Route
                       path="/app/forms/editdatakelompokpelanggan/:id"
                       exact
@@ -226,7 +227,7 @@ class Layout extends React.Component {
                       component={EditDataRole}
                     />
                     <Route
-                      path="/app/forms/editdatapelanggan"
+                      path="/app/forms/editdatapelanggan/:id"
                       exact
                       component={EditDataPelanggan}
                     />

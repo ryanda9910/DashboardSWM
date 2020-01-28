@@ -56,7 +56,9 @@ export const getDataPelanggan = () => {
     })
     .catch(err => {
       console.log(err.response);
-      dispatch(getPelangganError(err.response.status));
+      if(err.response){
+        dispatch(getPelangganError(err.response.status));
+      }
     });
   }
 }
@@ -77,7 +79,10 @@ export const createDataPelanggan = (postData) => {
       dispatch(getDataPelanggan())
     })
     .catch(err => {
-      dispatch(createPelangganError(err.response.status))     
+      console.log(err.response);
+      if(err.response){
+        dispatch(createPelangganError(err.response.status))     
+      }
     });
   }
 }
@@ -92,7 +97,10 @@ export const deleteDataPelanggan = (id) => {
         dispatch(getDataPelanggan())
       })
       .catch(err => {
-        dispatch(deletePelangganError(err.response.status))
+        console.log(err.response);
+        if(err.response){
+          dispatch(deletePelangganError(err.response.status))
+        }
       });
   }
 }

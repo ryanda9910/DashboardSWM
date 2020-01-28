@@ -63,9 +63,9 @@ class Editdatatarifpelanggan extends React.Component {
       .then(res => {
         console.log(res);
 
-        // const validFrom =  res.data.data.validFrom;
-        // const validFromChange = validFrom.substr(0, validFrom.lastIndexOf('T'));
-        // console.log(validFromChange);
+        const validFrom =  res.data.data.validFrom;
+        const validFromChange = validFrom.substr(0, validFrom.lastIndexOf('T'));
+        console.log(validFromChange);
 
         this.setState({
           // 
@@ -79,8 +79,8 @@ class Editdatatarifpelanggan extends React.Component {
           price2: res.data.data.price2,
           volume3: res.data.data.volume3,
           price3: res.data.data.price3,
-          // validFrom: validFromChange,
-          validFrom: res.data.data.validFrom,
+          validFrom: validFromChange,
+          // validFrom: res.data.data.validFrom,
           // 
           statusGetSpesificsData: res.data.status
         });
@@ -104,7 +104,7 @@ class Editdatatarifpelanggan extends React.Component {
       name: this.state.name,
       tarif_id: this.state.tarif_id,
       distributor_id: this.state.distributor_id,
-      isactive: this.state.isactive,
+      isactive: this.state.isactive === true ? 'true' : 'false',
       volume1: this.state.volume1,
       price1: this.state.price1,
       volume2: this.state.volume2,

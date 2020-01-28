@@ -54,7 +54,7 @@ class Editdatakelompokpelanggan extends React.Component {
           name: res.data.data.name,
           isactive: res.data.data.isactive,
           description: res.data.data.description,
-          tarif_id: res.data.data.tarif_id._id,
+          tarif_id: res.data.data.tarif_id,
           distributor_id: res.data.data.distributor_id,
         });
       })
@@ -72,11 +72,11 @@ class Editdatakelompokpelanggan extends React.Component {
   doUpdateData = e => {
     e.preventDefault();
     const data = {
-      cparent_group: this.state.parent_group,
+      parent_group: this.state.parent_group,
       group: this.state.group,
       code: this.state.code,
       name: this.state.name,
-      isactive: this.state.isactive,
+      isactive: this.state.isactive === true ? 'true' : 'false',
       description: this.state.description,
       tarif_id: this.state.tarif_id,
       distributor_id: this.state.distributor_id,
@@ -103,7 +103,6 @@ class Editdatakelompokpelanggan extends React.Component {
           updateError: "Something Wrong"
         });
       });
-    // 
   };
 
   // track change

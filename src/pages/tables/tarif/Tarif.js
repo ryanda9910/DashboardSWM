@@ -133,8 +133,8 @@ class Tarif extends React.Component {
       this.props.dispatch(createDataTarif(postData));
       this.setState({
         modalCreate: false,
-        emptyDistributorIdMsg: '',
-      })
+        emptyDistributorIdMsg: ""
+      });
     }
   };
   // track change
@@ -183,7 +183,6 @@ class Tarif extends React.Component {
     }));
     // GET data distributor
     this.props.dispatch(getDataDistributor());
-
   }
 
   render() {
@@ -236,8 +235,10 @@ class Tarif extends React.Component {
           return (
             <tr>
               <td>{item.name}</td>
+              <td>{item.distributor_id.code}</td>
+              <td>{item.isactive}</td>
               <td>{item.distributor_id.name}</td>
-              <td>{isactive}</td>
+              <td>{item.isactive}</td>
               <td>{item.description}</td>
               <td>
                 <Link

@@ -114,10 +114,10 @@ class Pelanggan extends React.Component {
       area_id: this.state.area_id
     };
     console.log(postData);
-    this.props.dispatch(createDataPelanggan(postData))
+    this.props.dispatch(createDataPelanggan(postData));
     this.setState({
       modalCreate: false
-    })
+    });
   };
   // track change
   handleChange = e => {
@@ -179,7 +179,12 @@ class Pelanggan extends React.Component {
     // }
 
     const { modalCreate } = this.state;
-    const { dataArea, dataDistributor, dataKelompokPelanggan, dataPelanggan } = this.props;
+    const {
+      dataArea,
+      dataDistributor,
+      dataKelompokPelanggan,
+      dataPelanggan
+    } = this.props;
 
     // create error
     const createError =
@@ -314,6 +319,7 @@ class Pelanggan extends React.Component {
                     <Table className="table-hover">
                       <thead>
                         <tr>
+                          <th>ID Costumer Grup</th>
                           <th>Nama</th>
                           <th>Kode</th>
                           <th>ID Kelompok Pelanggan</th>
@@ -324,6 +330,7 @@ class Pelanggan extends React.Component {
                           <th>Telepon</th>
                           <th>Status</th>
                           <th>Catatan</th>
+                          <th>ID Distributor</th>
                           <th>Aksi</th>
                         </tr>
                       </thead>
@@ -352,7 +359,10 @@ class Pelanggan extends React.Component {
             Tambah Data
           </ModalHeader>
           <ModalBody>
-            <Form id="formCreateDataPelanggan" onSubmit={this.doCreatePelanggan}>
+            <Form
+              id="formCreateDataPelanggan"
+              onSubmit={this.doCreatePelanggan}
+            >
               {/* customer_group_id */}
               <FormGroup>
                 <Label for="customer_group_id">ID Kelompok Pelanggan</Label>
@@ -471,7 +481,7 @@ class Pelanggan extends React.Component {
                   name="distributor_id"
                   id="distributor_id"
                 >
-                <option value={null}></option>
+                  <option value={null}></option>
                   {dataDistributor.map(item => {
                     return <option value={item._id}>{item.name}</option>;
                   })}
@@ -489,7 +499,7 @@ class Pelanggan extends React.Component {
                   name="area_id"
                   id="exampleSelect"
                 >
-                  <option value={null}></option>                  
+                  <option value={null}></option>
                   {dataArea.map(item => {
                     return <option value={item._id}>{item.name}</option>;
                   })}
@@ -542,8 +552,7 @@ function mapStateToProps(state) {
     // AREA
     dataArea: state.reducerArea.dataArea,
     // KELOMPOK PELANGGAN
-    dataKelompokPelanggan: state.reducerKelompokPelanggan.dataKelompokPelanggan,
-    
+    dataKelompokPelanggan: state.reducerKelompokPelanggan.dataKelompokPelanggan
   };
 }
 

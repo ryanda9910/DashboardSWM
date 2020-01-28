@@ -52,7 +52,6 @@ import { getDataDistributor } from "../../../actions/tables/distributor";
 // data tarif
 import { getDataTarif } from "../../../actions/tables/tarif";
 
-
 class kelompokPelanggan extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired
@@ -97,15 +96,15 @@ class kelompokPelanggan extends React.Component {
       isactive: this.state.isactive,
       description: this.state.description,
       tarif_id: this.state.tarif_id,
-      distributor_id: this.state.distributor_id,
+      distributor_id: this.state.distributor_id
       // lat: this.state.lat,
       // long: this.state.long,
     };
     console.log(postData);
-    this.props.dispatch(createDataKelompokPelanggan(postData))
+    this.props.dispatch(createDataKelompokPelanggan(postData));
     this.setState({
-      modalCreate: false,
-    })
+      modalCreate: false
+    });
   };
   // track change
   handleCreateChange = e => {
@@ -187,48 +186,49 @@ class kelompokPelanggan extends React.Component {
     });
 
     // table data
-    const tableData =
-      dataKelompokPelanggan ? (
-        dataKelompokPelanggan.map(item => {
-          console.log(item);
-          const isactive = item.isactive ? (
-            <span className="badge btn-success">TRUE</span>
-          ) : (
-            <span className="badge btn-danger">FALSE</span>
-          );
-          return (
-            <tr>
-              <td>{item.parent_group}</td>
-              <td>{item.group}</td>
-              <td>{item.code}</td>
-              <td>{item.name}</td>
-              <td>{isactive}</td>
-              <td>{item.distributor_id.name}</td>
-              <td>{item.tarif_id.name}</td>
-              <td>{item.description}</td>
-              <td>
-                <Link
-                  to={"/app/forms/editdatakelompokpelanggan/" + item._id}
-                  className="mr-1"
-                >
-                  <span className="text-success">
-                    <i class="far fa-edit"></i>
-                    Ubah
-                  </span>
-                </Link>
-                <a onClick={() => this.handleDelete(item._id)} className="ml-1">
-                  <span className="text-danger">
-                    <i class="fas fa-trash"></i>
-                    Hapus
-                  </span>
-                </a>
-              </td>
-            </tr>
-          );
-        })
-      ) : (
-        <Loader size={35} className="pt-5 position-absolute" />
-      );
+    const tableData = dataKelompokPelanggan ? (
+      dataKelompokPelanggan.map(item => {
+        console.log(item);
+        const isactive = item.isactive ? (
+          <span className="badge btn-success">TRUE</span>
+        ) : (
+          <span className="badge btn-danger">FALSE</span>
+        );
+        return (
+          <tr>
+            <td>{item.parent_group}</td>
+            <td>{item.group}</td>
+            <td>{item.code}</td>
+            <td>{item.name}</td>
+            <td>{isactive}</td>
+            <td>{item.distributor_id.name}</td>
+            <td>{item.tarif_id.name}</td>
+            <td>{item.description}</td>
+            <td>{item.tarif_id}</td>
+            <td>{item.distributor_id}</td>
+            <td>
+              <Link
+                to={"/app/forms/editdatakelompokpelanggan/" + item._id}
+                className="mr-1"
+              >
+                <span className="text-success">
+                  <i class="far fa-edit"></i>
+                  Ubah
+                </span>
+              </Link>
+              <a onClick={() => this.handleDelete(item._id)} className="ml-1">
+                <span className="text-danger">
+                  <i class="fas fa-trash"></i>
+                  Hapus
+                </span>
+              </a>
+            </td>
+          </tr>
+        );
+      })
+    ) : (
+      <Loader size={35} className="pt-5 position-absolute" />
+    );
 
     return (
       <div className={s.root}>
@@ -278,7 +278,7 @@ class kelompokPelanggan extends React.Component {
                     <Table className="table-hover">
                       <thead>
                         <tr>
-                          <th>Parent_Grup</th>
+                          <th>Grup Parent</th>
                           <th>Grup</th>
                           <th>Kode</th>
                           <th>Nama</th>
@@ -286,6 +286,8 @@ class kelompokPelanggan extends React.Component {
                           <th>ID Distributor</th>
                           <th>ID Tarif</th>
                           <th>Deskripsi</th>
+                          <th>Tarif</th>
+                          <th>ID Distritbutor</th>
                         </tr>
                       </thead>
                       <tbody id="myTable" className="position-relative">
@@ -311,7 +313,10 @@ class kelompokPelanggan extends React.Component {
             Tambah Data
           </ModalHeader>
           <ModalBody>
-            <Form id="formCreateDataTarif" onSubmit={this.doCreateKelompokPelanggan}>
+            <Form
+              id="formCreateDataTarif"
+              onSubmit={this.doCreateKelompokPelanggan}
+            >
               {/* parent_group */}
               <FormGroup>
                 <Label for="exampleParent">Parent Grup </Label>
@@ -466,7 +471,7 @@ function mapStateToProps(state) {
     // DISTRIBUTOR
     dataDistributor: state.reducerDistributor.dataDistributor,
     // DISTRIBUTOR
-    dataTarif: state.reducerTarif.dataTarif,
+    dataTarif: state.reducerTarif.dataTarif
   };
 }
 

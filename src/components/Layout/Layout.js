@@ -61,7 +61,7 @@ import RoleData from "../../pages/tables/role/Roledata";
 import UserData from "../../pages/tables/user/Userdata";
 
 //EDIT TABLES DATA
-import EditDataKelompokPelanggan from "../../pages/forms/editdatakelompokpelanggan/Editdatakelompokpelanggan";
+import EditDataKelompokPelanggan from "../../pages/forms/editdatakelompokpelanggan/EditdatakelompokPelanggan";
 import EditdataCostumerBilling from "../../pages/forms/editdatacostumerbilling/Editdatacostumerbilling";
 import EditDataTarifPelanggan from "../../pages/forms/editdatatarifpelanggan/Editdatatarifpelanggan";
 import EditDataTarifVersion from "../../pages/forms/editdatatarifversion/Editdatatarifversion";

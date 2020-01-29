@@ -31,9 +31,9 @@ import {
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import jwt from "jsonwebtoken";
+
 // MODAL CREATE
-import cx from "classnames";
-import config from "../../../config";
+
 import Loader from "../../../components/Loader/Loader";
 import s from "./Userdata.module.scss";
 
@@ -345,19 +345,28 @@ class Userdata extends React.Component {
                   placeholder=" Masukkan Role_id"
                 />
               </FormGroup>
-              {/* nama */}
-              <FormGroup>
-                <Label for="exampleKode">Is Active</Label>
-                <CustomInput
-                  onChange={this.handleCreateChange}
-                  type="switch"
-                  id="exampleIsActive"
-                  name="isactive"
-                  label="Turn on this if True"
-                />
-                {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
-                {/* <FormText>Example help text that remains unchanged.</FormText> */}
-              </FormGroup>
+              {/* Isactive */}
+              <div className={s.root + " align-self-center"}>
+                <FormGroup className="display-inline-block checkbox-ios">
+                  <Label for="isactive" className="switch">
+                    <Input
+                      onChange={this.handleCreateChange}
+                      type="checkbox"
+                      id="isactive"
+                      name="isactive"
+                      className="ios"
+                      label="Turn on this if True"
+                    />
+                    <i />
+                    <Label for="isactive" className="pl-3">
+                      Status
+                    </Label>
+                  </Label>
+                  {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                  {/* <FormText>Example help text that remains unchanged.</FormText> */}
+                </FormGroup>
+              </div>
+
               <FormGroup>
                 <Label for="exampleKode">Nama</Label>
                 <Input

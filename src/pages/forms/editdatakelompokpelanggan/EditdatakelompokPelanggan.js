@@ -1,14 +1,5 @@
 import React from "react";
-import {
-  Row,
-  Col,
-  Button,
-  FormGroup,
-  Label,
-  Form,
-  Input,
-  CustomInput
-} from "reactstrap";
+import { Row, Col, Button, FormGroup, Label, Form, Input } from "reactstrap";
 // import Formsy from "formsy-react";
 import s from "./editdatakelompokpelanggan.module.scss";
 import { Link, Redirect } from "react-router-dom";
@@ -198,7 +189,7 @@ class Editdatakelompokpelanggan extends React.Component {
                     placeholder="Masukkan Nama"
                   />
                 </FormGroup>
-                {/* isactive */}
+                {/* isactive
                 <FormGroup>
                   <Label for="isactive">is Active</Label>
                   <CustomInput
@@ -209,7 +200,28 @@ class Editdatakelompokpelanggan extends React.Component {
                     name="isactive"
                     label="Turn on this if True"
                   />
-                </FormGroup>
+                </FormGroup> */}
+                <div className={s.root + " align-self-center"}>
+                  <FormGroup className="display-inline-block checkbox-ios">
+                    <Label for="isactive" className="switch">
+                      <Input
+                        checked={this.state.isactive}
+                        onChange={this.handleChange}
+                        type="checkbox"
+                        id="isactive"
+                        name="isactive"
+                        className="ios"
+                        label="Turn on this if True"
+                      />
+                      <i />
+                      <Label for="isactive" className="pl-3">
+                        Status
+                      </Label>
+                    </Label>
+                    {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                    {/* <FormText>Example help text that remains unchanged.</FormText> */}
+                  </FormGroup>
+                </div>
                 {/* distributor_id */}
                 <FormGroup>
                   {/* tampilkan distributor name dan id nya sebagai value */}
@@ -273,7 +285,7 @@ class Editdatakelompokpelanggan extends React.Component {
                     color="primary"
                     type="submit"
                   >
-                    Simpan
+                    Update
                   </Button>
                 </div>
               </Form>

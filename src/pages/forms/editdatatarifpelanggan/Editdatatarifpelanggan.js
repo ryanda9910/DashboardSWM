@@ -189,18 +189,27 @@ class Editdatatarifpelanggan extends React.Component {
                     })}
                   </Input>
                 </FormGroup>
-                {/* isactive */}
-                <FormGroup>
-                  <Label for="exampleIsActive">is Active</Label>
-                  <CustomInput
-                    checked={this.state.isactive}
-                    onChange={this.handleChange}
-                    type="switch"
-                    id="exampleIsActive"
-                    name="isactive"
-                    label="Turn on this if True"
-                  />
-                </FormGroup>
+                <div className={s.root + " align-self-center"}>
+                  <FormGroup className="display-inline-block checkbox-ios">
+                    <Label for="isactive" className="switch">
+                      <Input
+                        checked={this.state.isactive}
+                        onChange={this.handleChange}
+                        type="checkbox"
+                        id="isactive"
+                        name="isactive"
+                        className="ios"
+                        label="Turn on this if True"
+                      />
+                      <i />
+                      <Label for="isactive" className="pl-3">
+                        Status
+                      </Label>
+                    </Label>
+                    {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                    {/* <FormText>Example help text that remains unchanged.</FormText> */}
+                  </FormGroup>
+                </div>
                 {/* description */}
                 <FormGroup>
                   <Label for="exampleDescription">Description</Label>

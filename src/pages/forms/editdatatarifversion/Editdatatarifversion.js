@@ -9,14 +9,13 @@ import {
   Input,
   CustomInput
 } from "reactstrap";
-// import Formsy from "formsy-react";
+
 import s from "./editdatatarifversion.module.scss";
 import axios from "axios";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Redirect } from "react-router-dom";
 
-// import InputValidation from "../../../components/InputValidation";
 import Widget from "../../../components/Widget";
 
 // DISTRIBUTOR
@@ -231,18 +230,28 @@ class Editdatatarifpelanggan extends React.Component {
                     })}
                   </Input>
                 </FormGroup>
-                {/* isactive */}
-                <FormGroup>
-                  <Label for="exampleIsActive">is Active</Label>
-                  <CustomInput
-                    checked={this.state.isactive}
-                    onChange={this.handleChange}
-                    type="switch"
-                    id="exampleIsActive"
-                    name="isactive"
-                    label="Turn on this if True"
-                  />
-                </FormGroup>
+                {/* Isactive */}
+                <div className={s.root + " align-self-center"}>
+                  <FormGroup className="display-inline-block checkbox-ios">
+                    <Label for="isactive" className="switch">
+                      <Input
+                        checked={this.state.isactive}
+                        onChange={this.handleChange}
+                        type="checkbox"
+                        id="isactive"
+                        name="isactive"
+                        className="ios"
+                        label="Turn on this if True"
+                      />
+                      <i />
+                      <Label for="isactive" className="pl-3">
+                        Status
+                      </Label>
+                    </Label>
+                    {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                    {/* <FormText>Example help text that remains unchanged.</FormText> */}
+                  </FormGroup>
+                </div>
                 {/* volume 1 */}
                 <FormGroup>
                   <Label for="exampleVolume1">Volume 1</Label>

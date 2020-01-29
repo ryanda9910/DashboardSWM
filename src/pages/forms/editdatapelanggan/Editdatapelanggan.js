@@ -313,7 +313,7 @@ class Editdatapelanggan extends React.Component {
                     color="primary"
                     type="submit"
                   >
-                    Simpan
+                    Update
                   </Button>
                 </div>
               </Form>

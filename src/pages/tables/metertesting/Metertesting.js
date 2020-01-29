@@ -58,6 +58,7 @@ class Metertesting extends React.Component {
   doChangeValveControl = e => {
     e.preventDefault();
     const postData = {
+      // valveControl: this.state.valveControl === true ? 1 : 0,
       valveControl: this.state.valveControl,
       nameplate: this.state.nameplate
     };
@@ -79,11 +80,14 @@ class Metertesting extends React.Component {
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
     // parse ke INT
-    const valueToInt = parseInt(value);
+    // const valueToInt = parseInt(value);
 
     this.setState({
-      [name]: valueToInt
+      [name]: value
     });
+    // this.setState({
+    //   [name]: valueToInt
+    // });
   };
 
   goBack = () => {
@@ -122,37 +126,31 @@ class Metertesting extends React.Component {
                 Get Data Meter
               </Button>
               <Form onSubmit={this.doChangeValveControl} className="mt-4">
-                <FormGroup row className="px-4">
-                  <Label for="valveTesting" className="mr-5">
-                    Valve
-                  </Label>
-                  <FormGroup check inline>
-                    <Label check>
-                      <input
-                        type="radio"
-                        className="radiobtn ml-5"
+                <div className={s.root + " align-self-center"}>
+                  <FormGroup className="display-inline-block checkbox-ios">
+                    <Label for="valveControl" className="switch">
+                      <Input
+                        checked={this.state.valveControl}
                         onChange={this.handleValveChange}
-                        value={1}
-                        id="valveTesting"
+                        type="checkbox"
+                        id="valveControl"
                         name="valveControl"
-                        label="nyala"
+                        className="ios"
+                        label="Turn on this if True"
                       />
-                      ON
+                      <i />
+                      <Label
+                        for="valveControl"
+                        className="pl-3 fw-semi-bold py-3"
+                        style={{ fontSize: "24px" }}
+                      >
+                        Valve
+                      </Label>
                     </Label>
-                    <Label check>
-                      <input
-                        type="radio"
-                        className="radiobtn ml-5"
-                        value={0}
-                        onChange={this.handleValveChange}
-                        id="valveTesting"
-                        name="valveControl"
-                        label="mati"
-                      />
-                      OFF
-                    </Label>
+                    {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                    {/* <FormText>Example help text that remains unchanged.</FormText> */}
                   </FormGroup>
-                </FormGroup>
+                </div>
                 <FormGroup>
                   <button type="submit" className="btn btn-success">
                     POST

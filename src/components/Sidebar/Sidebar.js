@@ -88,8 +88,8 @@ class Sidebar extends React.Component {
             header="Dashboard"
             isHeader
             iconName="flaticon-worldwide"
-            link="/app/main/dashboard"
-            index="main"
+            link="/app/dashboard"
+            index="dashboard"
           />
           <LinksGroup
             onActiveSidebarItemChange={activeItem =>

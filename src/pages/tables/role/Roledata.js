@@ -268,7 +268,9 @@ class Roledata extends React.Component {
             </Row>
             <Row className="align-items-center justify-content-between">
               <Col lg={12}>
-                <h3>Role</h3>
+                <h3>
+                  Data <span className="fw-semi-bold"> Role </span>
+                </h3>
               </Col>
               <Col lg={4}>
                 <input
@@ -353,19 +355,28 @@ class Roledata extends React.Component {
                   placeholder=" Masukkan Kode"
                 />
               </FormGroup>
-              {/* nama */}
-              <FormGroup>
-                <Label for="exampleKode">Is Active</Label>
-                <CustomInput
-                  onChange={this.handleCreateChange}
-                  type="switch"
-                  id="exampleIsActive"
-                  name="isactive"
-                  label="Turn on this if True"
-                />
-                {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
-                {/* <FormText>Example help text that remains unchanged.</FormText> */}
-              </FormGroup>
+              {/* Isactive */}
+              <div className={s.root + " align-self-center"}>
+                <FormGroup className="display-inline-block checkbox-ios">
+                  <Label for="isactive" className="switch">
+                    <Input
+                      onChange={this.handleCreateChange}
+                      type="checkbox"
+                      id="isactive"
+                      name="isactive"
+                      className="ios"
+                      label="Turn on this if True"
+                    />
+                    <i />
+                    <Label for="isactive" className="pl-3">
+                      Status
+                    </Label>
+                  </Label>
+                  {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                  {/* <FormText>Example help text that remains unchanged.</FormText> */}
+                </FormGroup>
+              </div>
+
               <FormGroup>
                 <Label for="exampleKode">Nama</Label>
                 <Input
@@ -420,7 +431,6 @@ class Roledata extends React.Component {
                 {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
                 {/* <FormText>Example help text that remains unchanged.</FormText> */}
               </FormGroup>
-
               {/* show ERROR */}
               <FormGroup row className="bg-danger">
                 {createError}

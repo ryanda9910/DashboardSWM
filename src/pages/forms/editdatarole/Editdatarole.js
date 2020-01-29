@@ -1,9 +1,9 @@
 import React from "react";
 import { Row, Col, Button, FormGroup, Label, Form, Input } from "reactstrap";
-// import Formsy from "formsy-react";
+
 import s from "./editdatarole.module.scss";
 import { Link } from "react-router-dom";
-// import InputValidation from "../../../components/InputValidation";
+
 import Widget from "../../../components/Widget";
 
 class Editdatarole extends React.Component {
@@ -48,29 +48,27 @@ class Editdatarole extends React.Component {
                     style={{ color: "#FFF" }}
                   />
                 </FormGroup>
-                <FormGroup row>
-                  <Label for="password-input">Aktif</Label>
-                  <FormGroup check inline>
-                    <Label check>
+                {/* Isactive */}
+                <div className={s.root + " align-self-center"}>
+                  <FormGroup className="display-inline-block checkbox-ios">
+                    <Label for="isactive" className="switch">
                       <Input
-                        type="radio"
-                        name="radio2"
-                        className="radiobtn ml-5"
-                        style={{ color: "orange" }}
+                        onChange={this.handleCreateChange}
+                        type="checkbox"
+                        id="isactive"
+                        name="isactive"
+                        className="ios"
+                        label="Turn on this if True"
                       />
-                      Active
+                      <i />
+                      <Label for="isactive" className="pl-3">
+                        Is Active
+                      </Label>
                     </Label>
-                    <Label check>
-                      <Input
-                        type="radio"
-                        name="radio2"
-                        className="radiobtn ml-5"
-                        style={{ color: "orange" }}
-                      />
-                      Non Active
-                    </Label>
+                    {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                    {/* <FormText>Example help text that remains unchanged.</FormText> */}
                   </FormGroup>
-                </FormGroup>
+                </div>
                 <FormGroup row>
                   <Label for="role-input">Menu Akses</Label>
                   <Input

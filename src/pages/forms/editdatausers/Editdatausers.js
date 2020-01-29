@@ -143,7 +143,7 @@ class Editdatausers extends React.Component {
                     <Button
                       className="my-5 px-5 ml-5"
                       color="light"
-                      type="submit"
+                      type="button"
                     >
                       Kembali
                     </Button>
@@ -152,7 +152,7 @@ class Editdatausers extends React.Component {
                       color="primary"
                       type="submit"
                     >
-                      Simpan
+                      Update
                     </Button>
                   </Link>
                 </div>

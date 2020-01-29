@@ -1,13 +1,23 @@
 @import "../../../styles/app";
 
+:global {
+  @import "../../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg";
+  @import "../../../../node_modules/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox";
+  @import "../../../../node_modules/react-datetime/css/react-datetime";
+  @import "../../../../node_modules/rc-color-picker/dist/rc-color-picker";
+  @import "../../../../node_modules/jasny-bootstrap/dist/css/jasny-bootstrap";
+  @import "../../../../node_modules/react-mde/lib/styles/scss/react-mde-all";
+}
+
 // CUSTOM
-// .rowWhite {
-//   background-color: #fff;
-// }
+.rowWhite {
+  background-color: #fff;
+}
 
 .root {
   font-size: 14px;
-  font-family: "Asistant" sans-serif;
+  font-style: initial;
+  font-weight: $font-weight-normal;
 }
 
 // .mainTableWidget {
@@ -17,3 +27,72 @@
 //     }
 //   }
 // }
+
+th,
+td {
+  font-family: "Assitant" sans-serif;
+  text-transform: lowercase;
+  border: 2 px solid black !important;
+}
+table {
+  overflow-x: scroll;
+}
+
+.root {
+  :global {
+    /*
+     * Switchery.
+     */
+
+    .abc-checkbox,
+    .abc-radio {
+      .form-check-input {
+        position: relative;
+        margin: 0;
+      }
+    }
+
+    .display-inline-block {
+      display: inline-block;
+    }
+
+    .display-none {
+      display: none;
+    }
+
+    .switch {
+      box-sizing: content-box;
+    }
+
+    .switch input {
+      display: none;
+    }
+
+    .switch i {
+      display: inline-block;
+      cursor: pointer;
+      padding-right: 20px;
+      transition: all ease 0.2s;
+      -webkit-transition: all ease 0.2s;
+      border-radius: 20px;
+      box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.5);
+    }
+
+    .switch i::before {
+      display: block;
+      content: "";
+      width: 20px;
+      height: 20px;
+      padding: 1px;
+      border-radius: 20px;
+      background: white;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    .switch :checked + i {
+      padding-right: 0;
+      padding-left: 20px;
+      background: rgb(100, 189, 99);
+    }
+  }
+}

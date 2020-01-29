@@ -291,7 +291,7 @@ class Tarif extends React.Component {
             <Row className="align-items-center justify-content-between">
               <Col lg={12}>
                 <h3>
-                  Data Tarif <span className="fw-semi-bold">Pelanggan</span>
+                  Data <span className="fw-semi-bold"> Tarif Pelanggan</span>
                 </h3>
               </Col>
               <Col lg={4}>
@@ -392,17 +392,25 @@ class Tarif extends React.Component {
                     : this.state.emptyDistributorIdMsg}
                 </FormText>
               </FormGroup>
-              {/* isactive */}
-              <FormGroup>
-                <Label for="exampleIsActive">is Active</Label>
-                <CustomInput
-                  onChange={this.handleCreateChange}
-                  type="switch"
-                  id="exampleIsActive"
-                  name="isactive"
-                  label="Turn on this if True"
-                />
-              </FormGroup>
+              {/* Isactive */}
+              <div className={s.root}>
+                <FormGroup className="display-inline-block checkbox-ios">
+                  <Label for="exampleActive" className="switch">
+                    <Input
+                      onChange={this.handleCreateChange}
+                      type="checkbox"
+                      id="exampleActive"
+                      name="isactive"
+                      className="ios"
+                      label="Turn on this if True"
+                    />
+                    <i />
+                    Is Active
+                  </Label>
+                  {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                  {/* <FormText>Example help text that remains unchanged.</FormText> */}
+                </FormGroup>
+              </div>
               {/* description */}
               <FormGroup>
                 <Label for="exampleKode">Deskripsi</Label>

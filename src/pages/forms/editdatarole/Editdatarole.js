@@ -6,8 +6,6 @@ import { Link,Redirect } from "react-router-dom";
 import axios from 'axios';
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-// 
-import { WithContext as ReactTags } from 'react-tag-input';
 // import InputValidation from "../../../components/InputValidation";
 import Widget from "../../../components/Widget";
 // distributor
@@ -34,51 +32,62 @@ class Editdatarole extends React.Component {
       alertDestroy: false,
       // MODALS
       modalCreate: false,
-
-      // REACT_TAG_INPUT
-      // tag default
-      tags: [],
-      // autocomplete
-      suggestions: [
-          { id: 'tarif', text: 'tarif' },
-          { id: 'pelanggan', text: 'pelanggan' },
-          { id: 'tarifversion', text: 'tarifversion' },
-          { id: 'meter', text: 'meter' }
-      ]
+      // HANDLE MENUACCESS
+      tarifversion: false,
+      tarif: false,
+      customerbilling: false,
+      pelanggan: false,
     };
     //
     this.goBack = this.goBack.bind(this);
-
-
-    // REACT_TAG_INPUT
-    this.handleDeleteTag = this.handleDeleteTag.bind(this);
-    this.handleAddition = this.handleAddition.bind(this);
-    this.handleDrag = this.handleDrag.bind(this);
+    // // this.handleChange = this.handleChange.bind(this);
   }
-
-
-
+  
+  
+  
   componentDidMount() {
     // DATA TARIF SPESIFIC
     // get id
     const id = this.props.match.params.id;
     axios
-      .get("/api/role/" + id)
-      .then(res => {
-        console.log(res);
+    .get("/api/role/" + id)
+    .then(res => {
+      // console.log(res);
+      // HANDLE MENUACCESS
+      // console.log(res.data.data.menuaccess.indexOf('tarif') > -1);
+      if(res.data.data.menuaccess.indexOf('tarif') > -1){
         this.setState({
-          //
-          code: res.data.data.code,
-          isactive: res.data.data.isactive,
-          name: res.data.data.name,
-          description: res.data.data.description,
-          menuaccess: res.data.data.menuaccess,
-          distributor_id: res.data.data.distributor_id,
-          //
-          statusGetSpesificsData: res.data.status,
-          // REACT_TAG_INPUT
-          // tags: res.data.data.menuaccess,
-        });
+          tarif: true
+        })
+      }
+      if(res.data.data.menuaccess.indexOf('tarifversion') > -1){
+        this.setState({
+          tarifversion: true
+        })
+      }
+      if(res.data.data.menuaccess.indexOf('pelanggan') > -1){
+        this.setState({
+          pelanggan: true
+        })
+      }
+      if(res.data.data.menuaccess.indexOf('customerbilling') > -1){
+        this.setState({
+          customerbilling: true
+        })
+      }
+      this.setState({
+        //
+        code: res.data.data.code,
+        isactive: res.data.data.isactive,
+        name: res.data.data.name,
+        description: res.data.data.description,
+        menuaccess: res.data.data.menuaccess,
+        distributor_id: res.data.data.distributor_id,
+        //
+        statusGetSpesificsData: res.data.status,
+        // REACT_TAG_INPUT
+        // tags: res.data.data.menuaccess,
+      });
       })
       .catch(err => {
         console.log(err);
@@ -86,23 +95,60 @@ class Editdatarole extends React.Component {
           getError: "Something Wrong"
         });
       });
-    // DATA DISTRIBUTOR
-    this.props.dispatch(getDataDistributor());
-  }
-
-  // do UPDATE
+      
+      
+      // DATA DISTRIBUTOR
+      this.props.dispatch(getDataDistributor());
+    }
+        
+        // do UPDATE
   doUpdateRole = e => {
     e.preventDefault();
-
-    // REACT_TAG_INPUT
-    for(var a=0;a<this.state.menuaccess.length;a++){
-      this.state.tags.push({id:this.state.menuaccess[a], tarif: this.state.menuaccess[a]})
+    // HANDLE MENU ACCESS
+    const tarif = this.state.tarif === true ? 'tarif' : 'popTarif';
+    const tarifversion = this.state.tarifversion === true ? 'tarifversion' : 'popTarifVersion';
+    const customerbilling = this.state.customerbilling === true ? 'customerbilling' : 'popCustomerBilling';
+    const pelanggan = this.state.pelanggan === true ? 'pelanggan' : 'popPelanggan';
+    // 
+    if(this.state.menuaccess.indexOf('tarif') === -1){
+      if(tarif === 'tarif'){
+        this.state.menuaccess.push(tarif);
+      }
+    }else{
+      if(tarif === 'popTarif'){
+        this.state.menuaccess.splice(this.state.menuaccess.indexOf('tarif'), 1)
+      }
     }
+    if(this.state.menuaccess.indexOf('tarifversion') === -1){
+      if(tarifversion === 'tarifversion'){
+        this.state.menuaccess.push(tarifversion);
+      }
+    }else{
+      if(tarifversion === 'popTarifVersion'){
+        this.state.menuaccess.splice(this.state.menuaccess.indexOf('tarifversion'), 1)
+      }
+    }
+    if(this.state.menuaccess.indexOf('customerbilling') === -1){
+      if(customerbilling === 'customerbilling'){
+        this.state.menuaccess.push(customerbilling);
+      }
+    }else{
+      if(customerbilling === 'popCustomerBilling'){
+        this.state.menuaccess.splice(this.state.menuaccess.indexOf('customerbilling'), 1)
+      }
+    }
+    if(this.state.menuaccess.indexOf('pelanggan') === -1){
+      if(pelanggan === 'pelanggan'){
+        this.state.menuaccess.push(pelanggan);
+      }
+    }else{
+      if(pelanggan === 'popPelanggan'){
+        this.state.menuaccess.splice(this.state.menuaccess.indexOf('pelanggan'), 1)
+      }
+    } 
 
-    // handle menuaccess
-    this.state.tags.map(item => [
-      this.state.menuaccess.push(item.id)
-    ]);
+
+
     let postData = {
       code: this.state.code,
       isactive: this.state.isactive === true ? 'true' : 'false',
@@ -115,21 +161,21 @@ class Editdatarole extends React.Component {
     console.log(postData);
 
     // UPDATE data
-    const id = this.props.match.params.id;
-    axios
-      .put("/api/role/" + id, postData)
-      .then(res => {
-        console.log(res);
-        this.setState({
-          updateStatus: res.status
-        });
-      })
-      .catch(err => {
-        console.log(err);
-        this.setState({
-          updateError: "Something Wrong"
-        });
-      });
+    // const id = this.props.match.params.id;
+    // axios
+    //   .put("/api/role/" + id, postData)
+    //   .then(res => {
+    //     console.log(res);
+    //     this.setState({
+    //       updateStatus: res.status
+    //     });
+    //   })
+    //   .catch(err => {
+    //     console.log(err.response);
+    //     this.setState({
+    //       updateError: "Something Wrong"
+    //     });
+    //   });
   };
 
   // track change
@@ -149,40 +195,10 @@ class Editdatarole extends React.Component {
   };
 
 
-
-  // REACT_TAG_INPUT
-  handleDeleteTag(i) {
-    const { tags } = this.state;
-    this.setState({
-      tags: tags.filter((tag, index) => index !== i),
-    });
-  }
-
-  handleAddition(tag) {
-      this.setState(state => ({ tags: [...state.tags, tag] }));
-  }
-
-  handleDrag(tag, currPos, newPos) {
-      const tags = [...this.state.tags];
-      const newTags = tags.slice();
-
-      newTags.splice(currPos, 1);
-      newTags.splice(newPos, 0, tag);
-
-      // re-render
-      this.setState({ tags: newTags });
-  }
   render() {
 
-    console.log(this.state)
-
-    // REACT_TAG_INPUT
-    const KeyCodes = {
-      comma: 188,
-      enter: 13,
-    };
-    const delimiters = [KeyCodes.comma, KeyCodes.enter];
-    const { tags, suggestions } = this.state;
+    console.log(this.state);
+    console.log(this.props);
 
     const { dataDistributor } = this.props;
 
@@ -229,7 +245,7 @@ class Editdatarole extends React.Component {
                 <FormGroup>
                   <Label for="isactive">Is Active</Label>
                   <CustomInput
-                    value={this.state.isactive}
+                    checked={this.state.isactive}
                     onChange={this.handleChange}
                     type="switch"
                     id="isactive"
@@ -272,33 +288,46 @@ class Editdatarole extends React.Component {
                   {/* <FormText>Example help text that remains unchanged.</FormText> */}
                 </FormGroup>
                 {/* menuaccess */}
+                <Label>Akses Menu</Label>
                 <FormGroup>
-                  {/* <Label for="menuaccess">Akses Menu</Label> */}
-                  <Input
-                    value={this.state.code}
+                  <CustomInput
+                    checked={this.state.tarif}
                     onChange={this.handleChange}
-                    type="hidden"
-                    name="menuaccess"
-                    id="menuaccess"
-                  >
-                  </Input>
-                  {/* react tag input */}
-                  {/* <ReactTags tags={tags}
-                    classNames={{
-                      tags: 'tagsClass',
-                      tagInput: 'tagInputClass',
-                      tagInputField: 'tagInputFieldClass',
-                      selected: 'selectedClass',
-                      tag: 'tagClass',
-                      remove: 'removeClass',
-                      suggestions: 'suggestionsClass',
-                      activeSuggestion: 'activeSuggestionClass'
-                    }}
-                    suggestions={suggestions}
-                    handleDelete={this.handleDeleteTag}
-                    handleAddition={this.handleAddition}
-                    handleDrag={this.handleDrag}
-                    delimiters={delimiters} /> */}
+                    type="switch"
+                    id="tarif"
+                    name="tarif"
+                    label="tarif"
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <CustomInput
+                    checked={this.state.tarifversion}
+                    onChange={this.handleChange}
+                    type="switch"
+                    id="tarifversion"
+                    name="tarifversion"
+                    label="tarifversion"
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <CustomInput
+                    checked={this.state.customerbilling}
+                    onChange={this.handleChange}
+                    type="switch"
+                    id="customerbilling"
+                    name="customerbilling"
+                    label="customerbilling"
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <CustomInput
+                    checked={this.state.pelanggan}
+                    onChange={this.handleChange}
+                    type="switch"
+                    id="pelanggan"
+                    name="pelanggan"
+                    label="pelanggan"
+                  />
                 </FormGroup>
                 
 

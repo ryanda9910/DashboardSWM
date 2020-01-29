@@ -39,8 +39,6 @@ import jwt from "jsonwebtoken";
 // import config from "../../../config";
 import Loader from "../../../components/Loader/Loader";
 import s from "./Roledata.module.scss";
-// 
-import { WithContext as ReactTags } from 'react-tag-input';
 
 
 import Widget from "../../../components/Widget/Widget";
@@ -73,99 +71,72 @@ class Roledata extends React.Component {
       alertDestroy: false,
       // MODALS
       modalCreate: false,
-
       // HANDLE MENUACCESS
       tarifversion: false,
       tarif: false,
       cutomerbilling: false,
       pelanggan: false,
-
-
-
-      // REACT_TAG_INPUT
-      // tag default
-      // tags: [],
-      // // autocomplete
-      // suggestions: [
-      //     { id: 'tarif', text: 'tarif' },
-      //     { id: 'pelanggan', text: 'pelanggan' },
-      //     { id: 'tarifversion', text: 'tarifversion' },
-      //     { id: 'meter', text: 'meter' }
-      // ]
     };
     //
     this.handleCreateChange = this.handleCreateChange.bind(this);
-
-    // REACT_TAG_INPUT
-    // this.handleDeleteTag = this.handleDeleteTag.bind(this);
-    // this.handleAddition = this.handleAddition.bind(this);
-    // this.handleDrag = this.handleDrag.bind(this);
   }
   
 
 
   componentDidMount() {
-    // masih race condition, harusnya pas modals muncul aja
     // GET data
     this.props.dispatch(getDataRole());
     // GET data distributor
     // if(this.state.modalCreate === true){
     this.props.dispatch(getDataDistributor());
     // }
-
-    // ALERT
-    // return this.props.alertMessage ? this.onShowAlert() : null;
   }
 
   // CREATE Role
   doCreateRole = e => {
     e.preventDefault();
-    // handle menu accecs
-    // console.log(this.state.tags);
-    // this.state.tags.map(item => [
-    //   this.state.menuaccess.push(item.id)
-    // ]);
-
     // HANDLE MENU ACCESS
-    const tarif = this.state.tarif === true ? 'tarif' : null;
-    const tarifversion = this.state.tarifversion === true ? 'tarifversion' : null;
-    const customerbilling = this.state.customerbilling === true ? 'customerbilling' : null;
-    const pelanggan = this.state.pelanggan === true ? 'pelanggan' : null;
+    const tarif = this.state.tarif === true ? 'tarif' : 'popTarif';
+    const tarifversion = this.state.tarifversion === true ? 'tarifversion' : 'popTarifVersion';
+    const customerbilling = this.state.customerbilling === true ? 'customerbilling' : 'popCustomerBilling';
+    const pelanggan = this.state.pelanggan === true ? 'pelanggan' : 'popPelanggan';
     // 
     if(this.state.menuaccess.indexOf('tarif') === -1){
       if(tarif === 'tarif'){
         this.state.menuaccess.push(tarif);
       }
     }else{
-      // this.state.menuaccess.filter(e => e !== 'tarif')
-      // this.state.menuaccess.splice(this.state.menuaccess.indexOf('tarif'), 1);
+      if(tarif === 'popTarif'){
+        this.state.menuaccess.splice(this.state.menuaccess.indexOf('tarif'), 1)
+      }
     }
     if(this.state.menuaccess.indexOf('tarifversion') === -1){
       if(tarifversion === 'tarifversion'){
         this.state.menuaccess.push(tarifversion);
       }
     }else{
-      // this.state.menuaccess.filter(e => e !== 'tarifversion')
-      // this.state.menuaccess.splice(this.state.menuaccess.indexOf('tarifversion'), 1);
+      if(tarifversion === 'popTarifVersion'){
+        this.state.menuaccess.splice(this.state.menuaccess.indexOf('tarifversion'), 1)
+      }
     }
     if(this.state.menuaccess.indexOf('customerbilling') === -1){
       if(customerbilling === 'customerbilling'){
         this.state.menuaccess.push(customerbilling);
       }
     }else{
-      // this.state.menuaccess.filter(e => e !== 'customerbilling')
-      // this.state.menuaccess.splice(this.state.menuaccess.indexOf('customerbilling'), 1);
+      if(customerbilling === 'popCustomerBilling'){
+        this.state.menuaccess.splice(this.state.menuaccess.indexOf('customerbilling'), 1)
+      }
     }
     if(this.state.menuaccess.indexOf('pelanggan') === -1){
       if(pelanggan === 'pelanggan'){
         this.state.menuaccess.push(pelanggan);
       }
     }else{
-      // this.state.menuaccess.filter(e => e !== 'pelanggan')
-      // this.state.menuaccess.splice(this.state.menuaccess.indexOf('pelanggan'), 1);
+      if(pelanggan === 'popPelanggan'){
+        this.state.menuaccess.splice(this.state.menuaccess.indexOf('pelanggan'), 1)
+      }
     } 
-
-
 
 
     let postData = {
@@ -217,7 +188,6 @@ class Roledata extends React.Component {
         }, 2000);
       }
     );
-    localStorage.removeItem("isCreated");
   };
 
   toggle(id) {
@@ -226,47 +196,9 @@ class Roledata extends React.Component {
     }));
   }
 
-
-  // REACT_TAG_INPUT
-  // handleDeleteTag(i) {
-  //   const { tags } = this.state;
-  //   this.setState({
-  //    tags: tags.filter((tag, index) => index !== i),
-  //   });
-  // }
-
-  // handleAddition(tag) {
-  //     this.setState(state => ({ tags: [...state.tags, tag] }));
-  // }
-
-  // handleDrag(tag, currPos, newPos) {
-  //     const tags = [...this.state.tags];
-  //     const newTags = tags.slice();
-
-  //     newTags.splice(currPos, 1);
-  //     newTags.splice(newPos, 0, tag);
-
-  //     // re-render
-  //     this.setState({ tags: newTags });
-  // }
-
-
   render() {
     console.log(this.state);
     console.log(this.props);
-    
-    // REACT_TAG_INPUT
-    const KeyCodes = {
-      comma: 188,
-      enter: 13,
-    };
-    const delimiters = [KeyCodes.comma, KeyCodes.enter];
-    const { tags, suggestions } = this.state;
-
-    // jika error karena 401 atau lainnya, tendang user dengan hapus cookie
-    // if(this.props.getError){
-    //   return document.cookie = 'token=;expires=Thu, 01 Jan 1970 00:00:01 GMT;'
-    // }
 
     const { modalCreate } = this.state;
     const { createSuccess, dataDistributor } = this.props;
@@ -301,17 +233,18 @@ class Roledata extends React.Component {
     const tableData =
       this.props.dataRole.length > 0 ? (
         this.props.dataRole.map(item => {
-          console.log(item);
+          // console.log(item);
+          // handle isactive
           const isactive = item.isactive ? (
             <span className="badge btn-success">TRUE</span>
           ) : (
             <span className="badge btn-danger">FALSE</span>
           );
-          let menuaccess = "";
-          for (var a = 0; a < item.menuaccess.length; a++) {
-            menuaccess += item.menuaccess[a]+" ";
-          }
-          console.log(menuaccess);
+          // handle menuaccess
+          // let menuaccess = "";
+          // for (var a = 0; a < item.menuaccess.length; a++) {
+          //   menuaccess += item.menuaccess[a]+" ";
+          // }
           return (
             <tr>
               <td>{item.code}</td>
@@ -513,7 +446,7 @@ class Roledata extends React.Component {
               </FormGroup>
               {/* menuaccess */}
               <FormGroup>
-                <Label for="menuaccess">Menu akses</Label>
+                <Label>Menu akses</Label>
                 <CustomInput
                   onChange={this.handleCreateChange}
                   type="switch"
@@ -546,22 +479,6 @@ class Roledata extends React.Component {
                   label="pelanggan"
                   value="pelanggan"
                 />
-                {/* <ReactTags tags={tags}
-                  classNames={{
-                    tags: 'tagsClass',
-                    tagInput: 'tagInputClass',
-                    tagInputField: 'tagInputFieldClass',
-                    selected: 'selectedClass',
-                    tag: 'tagClass',
-                    remove: 'removeClass',
-                    suggestions: 'suggestionsClass',
-                    activeSuggestion: 'activeSuggestionClass'
-                  }}
-                  suggestions={suggestions}
-                  handleDelete={this.handleDeleteTag}
-                  handleAddition={this.handleAddition}
-                  handleDrag={this.handleDrag}
-                  delimiters={delimiters} /> */}
               </FormGroup>
               
 

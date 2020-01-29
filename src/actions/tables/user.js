@@ -82,7 +82,9 @@ export const createDataUser = postData => {
         dispatch(getDataUser());
       })
       .catch(err => {
-        dispatch(createUserError(err.response.status));
+        if (err.response) {
+          dispatch(createUserError(err.response.status));
+        }
       });
   };
 };
@@ -98,7 +100,9 @@ export const deleteDataUser = id => {
         dispatch(getDataUser());
       })
       .catch(err => {
-        dispatch(deleteUserError(err.response.status));
+        if (err.response) {
+          dispatch(deleteUserError(err.response.status));
+        }
       });
   };
 };

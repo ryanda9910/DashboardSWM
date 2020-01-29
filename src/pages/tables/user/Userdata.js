@@ -4,19 +4,18 @@ import {
   Col,
   Table,
   Button,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  CustomInput,
   Alert,
   // MODALS
   Modal,
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  CustomInput
 } from "reactstrap";
-import axios from "axios";
 import $ from "jquery";
 import {
   BrowserRouter as Router,
@@ -44,8 +43,10 @@ import {
   createDataUser,
   deleteDataUser
 } from "../../../actions/tables/user";
-// ambil distributor untuk create dan update
+// distributor
 import { getDataDistributor } from "../../../actions/tables/distributor";
+// role
+import { getDataRole } from "../../../actions/tables/role";
 
 class Userdata extends React.Component {
   static propTypes = {
@@ -56,15 +57,15 @@ class Userdata extends React.Component {
     super(props);
     this.state = {
       // CREATE
-      role_id: "",
-      isactive: "",
+      role_id: null,
+      isactive: false,
       name: "",
       slug: "",
       description: "",
       email: "",
       phone: "",
       password: "",
-      distributor_id: "",
+      distributor_id: null,
       // ALERT
       showAlert: false,
       alertDestroy: false,
@@ -80,12 +81,9 @@ class Userdata extends React.Component {
     // GET data
     this.props.dispatch(getDataUser());
     // GET data distributor
-    // if(this.state.modalCreate === true){
     this.props.dispatch(getDataDistributor());
-    // }
-
-    // ALERT
-    // return this.props.alertMessage ? this.onShowAlert() : null;
+    // GET data role
+    this.props.dispatch(getDataRole());
   }
 
   // CREATE User
@@ -93,7 +91,7 @@ class Userdata extends React.Component {
     e.preventDefault();
     let postData = {
       role_id: this.state.role_id,
-      isactive: this.state.isactive,
+      isactive: this.state.isactive === true ? 'true' : 'user',
       name: this.state.name,
       slug: this.state.slug,
       description: this.state.description,
@@ -103,7 +101,8 @@ class Userdata extends React.Component {
       distributor_id: this.state.distributor_id
     };
     console.log(postData);
-    // this.props.dispatch(createDataUser(postData))
+    this.props.dispatch(createDataUser(postData));
+    this.setState({modalCreate: false});
   };
   // track change
   handleCreateChange = e => {
@@ -123,7 +122,7 @@ class Userdata extends React.Component {
     console.log(confirm);
     if (confirm) {
       this.props.dispatch(deleteDataUser(id));
-      this.onShowAlert();
+      // this.onShowAlert();
       this.props.dispatch(getDataUser());
     }
   }
@@ -161,7 +160,7 @@ class Userdata extends React.Component {
     // }
 
     const { modalCreate } = this.state;
-    const { createSuccess, dataDistributor } = this.props;
+    const { dataRole, dataDistributor } = this.props;
 
     // create error
     const createError =
@@ -208,6 +207,7 @@ class Userdata extends React.Component {
             <td>{item.slug}</td>
             <td>{item.description}</td>
             <td>{item.email}</td>
+            {/* <td>{item.password}</td> */}
             <td>{item.phone}</td>
             <td>{item.distributor_id.name}</td>
             <td>
@@ -305,6 +305,7 @@ class Userdata extends React.Component {
                           <th>Slug</th>
                           <th>Deskripsi</th>
                           <th>Email</th>
+                          {/* <th>Password</th> */}
                           <th>Phone</th>
                           <th>ID Distributor</th>
                           <th>Aksi</th>
@@ -334,92 +335,114 @@ class Userdata extends React.Component {
           </ModalHeader>
           <ModalBody>
             <Form id="formCreateDataUser" onSubmit={this.doCreateUser}>
-              {/* code */}
+              {/* role_id */}
               <FormGroup>
-                <Label for="exampleNama">Role ID </Label>
+                <Label for="role_id">Role ID</Label>
                 <Input
                   onChange={this.handleCreateChange}
-                  type="text"
+                  type="select"
                   name="role_id"
-                  id="exampleRole"
-                  placeholder=" Masukkan Role_id"
-                />
+                  id="role_id"
+                >
+                  <option value={null}></option>
+                  {dataRole.map(item => {
+                    return <option value={item._id}>{item.name}</option>;
+                  })}
+                </Input>
               </FormGroup>
-              {/* nama */}
+              {/* isactive */}
               <FormGroup>
-                <Label for="exampleKode">Is Active</Label>
+                <Label for="isactive">is Active</Label>
                 <CustomInput
                   onChange={this.handleCreateChange}
                   type="switch"
-                  id="exampleIsActive"
+                  id="isactive"
                   name="isactive"
                   label="Turn on this if True"
                 />
                 {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
                 {/* <FormText>Example help text that remains unchanged.</FormText> */}
               </FormGroup>
+              {/* name */}
               <FormGroup>
-                <Label for="exampleKode">Nama</Label>
+                <Label for="name">Nama</Label>
                 <Input
                   onChange={this.handleCreateChange}
                   type="text"
                   name="name"
-                  id="exampleName"
+                  id="name"
                   placeholder="Masukkan Nama"
                 />
                 {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
                 {/* <FormText>Example help text that remains unchanged.</FormText> */}
               </FormGroup>
+              {/* slug */}
               <FormGroup>
-                <Label for="exampleKode">Slug</Label>
+                <Label for="slug">Slug</Label>
                 <Input
                   onChange={this.handleCreateChange}
                   type="text"
                   name="slug"
-                  id="exampleSlug"
+                  id="slug"
                   placeholder="Masukkan Slug"
                 />
                 {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
                 {/* <FormText>Example help text that remains unchanged.</FormText> */}
               </FormGroup>
+              {/* description */}
               <FormGroup>
-                <Label for="exampleKode">Deskripsi</Label>
+                <Label for="description">Deskripsi</Label>
                 <Input
                   onChange={this.handleCreateChange}
                   type="text"
                   name="description"
-                  id="exampleDescription"
+                  id="description"
                   placeholder="Masukkan Deskripsi"
                 />
               </FormGroup>
+              {/* email */}
               <FormGroup>
-                <Label for="exampleKode">Email</Label>
+                <Label for="email">Email</Label>
                 <Input
                   onChange={this.handleCreateChange}
                   type="text"
                   name="email"
-                  id="exampleEmail"
+                  id="email"
                   placeholder="Masukkan Email"
                 />
               </FormGroup>
+              {/* password */}
               <FormGroup>
-                <Label for="exampleKode">Telepon </Label>
+                <Label for="password">Password</Label>
+                <Input
+                  onChange={this.handleCreateChange}
+                  type="password"
+                  name="password"
+                  id="password"
+                  placeholder="Masukkan Password"
+                />
+              </FormGroup>
+              {/* phone */}
+              <FormGroup>
+                <Label for="phone">Telepon </Label>
                 <Input
                   onChange={this.handleCreateChange}
                   type="text"
                   name="phone"
-                  id="examplePhone"
+                  id="phone"
                   placeholder="Masukkan Telepon"
                 />
               </FormGroup>
+              {/* distributor_id */}
               <FormGroup>
-                <Label for="exampleKode">Distributor ID </Label>
+                <Label for="distributor_id">Distributor ID </Label>
                 <Input
                   onChange={this.handleCreateChange}
                   type="select"
                   name="distributor_id"
-                  id="exampleSelect"
+                  id="distributor_id"
                 >
+                  <option value={null}></option>
                   {dataDistributor.map(item => {
                     return <option value={item._id}>{item.name}</option>;
                   })}
@@ -467,7 +490,9 @@ function mapStateToProps(state) {
     deleteError: state.reducerUser.deleteError,
 
     // DISTRIBUTOR
-    dataDistributor: state.reducerDistributor.dataDistributor
+    dataDistributor: state.reducerDistributor.dataDistributor,
+    // ROLE
+    dataRole: state.reducerRole.dataRole,
   };
 }
 

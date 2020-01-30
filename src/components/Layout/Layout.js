@@ -101,15 +101,11 @@ class Layout extends React.Component {
                     />
                     {/* ROUTES TABLES */}
                     <Route
-                      path="/app/main"
+                      path="/app"
                       exact
-                      render={() => <Redirect to="/app/main/dashboard" />}
+                      render={() => <Redirect to="/app/dashboard" />}
                     />
-                    <Route
-                      path="/app/main/dashboard"
-                      exact
-                      component={Dashboard}
-                    />
+                    <Route path="/app/dashboard" exact component={Dashboard} />
 
                     <Route path="/app/tables/area" exact component={Area} />
                     <Route

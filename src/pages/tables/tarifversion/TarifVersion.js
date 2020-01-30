@@ -16,7 +16,7 @@ import {
   Input,
   CustomInput,
   FormFeedback,
-  FormText,
+  FormText
 } from "reactstrap";
 import $ from "jquery";
 import {
@@ -38,14 +38,12 @@ import Widget from "../../../components/Widget/Widget";
 import {
   getDataTarifVersion,
   createDataTarifVersion,
-  deleteDataTarifVersion, 
-} from '../../../actions/tables/tarifversion';
+  deleteDataTarifVersion
+} from "../../../actions/tables/tarifversion";
 // ambil distributor untuk create dan update
-import {
-  getDataDistributor
-} from '../../../actions/tables/distributor';
+import { getDataDistributor } from "../../../actions/tables/distributor";
 // ambil data tarif
-import { getDataTarif } from '../../../actions/tables/tarif';
+import { getDataTarif } from "../../../actions/tables/tarif";
 
 class Tarif extends React.Component {
   static propTypes = {
@@ -56,29 +54,29 @@ class Tarif extends React.Component {
     super(props);
     this.state = {
       // CREATE
-      name: '',
+      name: "",
       distributor_id: null,
       tarif_id: null,
-      volume1: '',
-      price1: '',
-      volume2: '',
-      price2: '',
-      volume3: '',
-      price3: '',
+      volume1: "",
+      price1: "",
+      volume2: "",
+      price2: "",
+      volume3: "",
+      price3: "",
       validFrom: null,
       // validasi
-      emptyDistributorIdMsg: '',
-      emptyCreateName: '',
-      emptyCreateDescription: '',
-      emptyTarifIdMsg: '',
+      emptyDistributorIdMsg: "",
+      emptyCreateName: "",
+      emptyCreateDescription: "",
+      emptyTarifIdMsg: "",
       // ALERT
       showAlert: false,
-      alertMessage: 'data get action',
-      alertBackground: 'success',
+      alertMessage: "data get action",
+      alertBackground: "success",
       // MODALS
-      modalCreate:false,
+      modalCreate: false
     };
-    // 
+    //
     this.handleCreateChange = this.handleCreateChange.bind(this);
     this.doCreateTarifVersion = this.doCreateTarifVersion.bind(this);
     // this.onShowAlert = this.onShowAlert.bind(this);
@@ -91,20 +89,20 @@ class Tarif extends React.Component {
     this.props.dispatch(getDataTarifVersion());
   }
 
-  componentWillReceiveProps(){
+  componentWillReceiveProps() {
     // ALERT
-    if(this.props.deleteSuccess){
+    if (this.props.deleteSuccess) {
       this.setState({
-        alertMessage: 'delete success'
-      })
-      return this.onShowAlert()
+        alertMessage: "delete success"
+      });
+      return this.onShowAlert();
     }
-    if(this.props.deleteError){
+    if (this.props.deleteError) {
       this.setState({
-        alertMessage: 'delete error',
-        alertBackground: 'danger'
-      })
-      return this.onShowAlert()
+        alertMessage: "delete error",
+        alertBackground: "danger"
+      });
+      return this.onShowAlert();
     }
   }
 
@@ -120,35 +118,35 @@ class Tarif extends React.Component {
       price2: this.state.price2,
       volume3: this.state.volume3,
       price3: this.state.price3,
-      validFrom: this.state.validFrom,
+      validFrom: this.state.validFrom
     };
     console.log(postData);
     e.preventDefault();
     // CREATE VALIDASI
-    if(this.state.distributor_id === null || this.state.distributor_id === ''){
+    if (
+      this.state.distributor_id === null ||
+      this.state.distributor_id === ""
+    ) {
       this.setState({
-        emptyDistributorIdMsg: 'wajib memasukan distributor!'
+        emptyDistributorIdMsg: "wajib memasukan distributor!"
       });
       return false;
-    }
-    else if(this.state.name === ''){
+    } else if (this.state.name === "") {
       this.setState({
-        emptyCreateName: 'Field name harus diisi.'
-      })
-    }
-    else if(this.state.description === ''){
+        emptyCreateName: "Field name harus diisi."
+      });
+    } else if (this.state.description === "") {
       this.setState({
-        emptyCreateDescription: 'Field description harus diisi.'
-      })
-    }
-    else{
+        emptyCreateDescription: "Field description harus diisi."
+      });
+    } else {
       e.preventDefault();
       console.log(postData);
-      this.props.dispatch(createDataTarifVersion(postData))
+      this.props.dispatch(createDataTarifVersion(postData));
       this.setState({
         modalCreate: false,
-        emptyDistributorIdMsg: '',
-      })
+        emptyDistributorIdMsg: ""
+      });
     }
   };
   // track change
@@ -172,32 +170,33 @@ class Tarif extends React.Component {
     }
   }
 
-  onShowAlert = ()=>{
-    this.setState({
-      showAlert:true,
-    },
-    ()=>{
-      window.setTimeout(()=>{
-        this.setState({
-          showAlert:false,
-          // alertMessage: ''
-        })
-      },2000)     
-    });
-  }
+  onShowAlert = () => {
+    this.setState(
+      {
+        showAlert: true
+      },
+      () => {
+        window.setTimeout(() => {
+          this.setState({
+            showAlert: false
+            // alertMessage: ''
+          });
+        }, 2000);
+      }
+    );
+  };
 
   toggle(id) {
     this.setState(prevState => ({
       [id]: !prevState[id],
       // message validasi akan hilang setiap kali toggle() di klik
-      emptyDistributorIdMsg: '',
+      emptyDistributorIdMsg: ""
     }));
     // GET data distributor
     this.props.dispatch(getDataDistributor());
     // GET data tarif
-    this.props.dispatch(getDataTarif())
+    this.props.dispatch(getDataTarif());
   }
-
 
   render() {
     console.log(this.state);
@@ -211,7 +210,6 @@ class Tarif extends React.Component {
 
     const { modalCreate } = this.state;
     const { dataDistributor, dataTarif } = this.props;
-
 
     // create error
     const createError =
@@ -330,7 +328,13 @@ class Tarif extends React.Component {
               </Col>
               <Col lg={4} className="text-right">
                 {/* BUTTON MODALS CREATE */}
-                <Button className="mr-sm" color="warning" onClick={() => this.toggle('modalCreate')}>Tambah Data</Button>
+                <Button
+                  className="mr-sm"
+                  color="warning"
+                  onClick={() => this.toggle("modalCreate")}
+                >
+                  Tambah Data
+                </Button>
               </Col>
             </Row>
             <Row>
@@ -343,7 +347,7 @@ class Tarif extends React.Component {
                           <th>Nama</th>
                           <th>ID Tarif</th>
                           <th>ID Distributor</th>
-                          <th>is Active</th>
+                          <th>Status</th>
                           <th>Volume 1</th>
                           <th>Price 1</th>
                           <th>Volume 2</th>
@@ -368,60 +372,83 @@ class Tarif extends React.Component {
         </Row>
 
         {/* MODALS */}
-        <Modal size="md" isOpen={modalCreate} toggle={() => this.toggle('modalCreate')}>
-          <ModalHeader toggle={() => this.toggle('modalCreate')}>Tambah Data</ModalHeader>
+        <Modal
+          size="md"
+          isOpen={modalCreate}
+          toggle={() => this.toggle("modalCreate")}
+        >
+          <ModalHeader toggle={() => this.toggle("modalCreate")}>
+            Tambah Data
+          </ModalHeader>
           <ModalBody>
-          <Form id="formCreateDataTarif" onSubmit={this.doCreateTarifVersion}>
-
+            <Form id="formCreateDataTarif" onSubmit={this.doCreateTarifVersion}>
               {/* name */}
               <FormGroup>
                 <Label for="name">Nama</Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="text"
                   name="name"
                   id="name"
                   placeholder="Nama"
                 />
-                <FormText className="text-danger">{this.state.emptyCreateName === '' ? null : this.state.emptyCreateName}</FormText>
+                <FormText className="text-danger">
+                  {this.state.emptyCreateName === ""
+                    ? null
+                    : this.state.emptyCreateName}
+                </FormText>
               </FormGroup>
               {/* distributor_id */}
               <FormGroup>
                 {/* tampilkan distributor name dan id nya sebagai value */}
                 <Label>ID Distributor</Label>
-                <Input value={this.state.distributor_id} onChange={this.handleCreateChange} name="distributor_id" type="select">
+                <Input
+                  required
+                  value={this.state.distributor_id}
+                  onChange={this.handleCreateChange}
+                  name="distributor_id"
+                  type="select"
+                >
                   <option value={null}></option>
-                  {
-                    dataDistributor.map(item => {
-                    console.log(item._id)
-                      return (
-                        <option value={item._id}>{item.name}</option>
-                      )
-                    })
-                  }
+                  {dataDistributor.map(item => {
+                    console.log(item._id);
+                    return <option value={item._id}>{item.name}</option>;
+                  })}
                 </Input>
-                <FormText className="text-danger">{this.state.emptyDistributorIdMsg === '' ? null : this.state.emptyDistributorIdMsg}</FormText>
+                <FormText className="text-danger">
+                  {this.state.emptyDistributorIdMsg === ""
+                    ? null
+                    : this.state.emptyDistributorIdMsg}
+                </FormText>
               </FormGroup>
               {/* tarif_id */}
               <FormGroup>
                 <Label>ID Tarif</Label>
-                <Input value={this.state.tarif_id} onChange={this.handleCreateChange} name="tarif_id" type="select">
+                <Input
+                  required
+                  value={this.state.tarif_id}
+                  onChange={this.handleCreateChange}
+                  name="tarif_id"
+                  type="select"
+                >
                   <option value={null}></option>
-                  {
-                    dataTarif.map(item => {
-                    console.log(item._id)
-                      return (
-                        <option value={item._id}>{item.name}</option>
-                      )
-                    })
-                  }
+                  {dataTarif.map(item => {
+                    console.log(item._id);
+                    return <option value={item._id}>{item.name}</option>;
+                  })}
                 </Input>
-                <FormText className="text-danger">{this.state.emptyTarifIdMsg === '' ? null : this.state.emptyTarifIdMsg}</FormText>
+                <FormText className="text-danger">
+                  {this.state.emptyTarifIdMsg === ""
+                    ? null
+                    : this.state.emptyTarifIdMsg}
+                </FormText>
               </FormGroup>
               {/* volume 1 */}
               <FormGroup>
                 <Label for="volume1">Volume 1</Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="number"
                   name="volume1"
@@ -433,6 +460,7 @@ class Tarif extends React.Component {
               <FormGroup>
                 <Label for="price1">Price 1</Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="number"
                   name="price1"
@@ -444,10 +472,11 @@ class Tarif extends React.Component {
               <FormGroup>
                 <Label for="volume2">Volume 2</Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="number"
                   name="volume2"
-                  id="volume2"                  
+                  id="volume2"
                   placeholder="Volume 2"
                 />
               </FormGroup>
@@ -455,10 +484,11 @@ class Tarif extends React.Component {
               <FormGroup>
                 <Label for="price2">Price 2</Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="number"
                   name="price2"
-                  id="price2"                  
+                  id="price2"
                   placeholder="Price 2"
                 />
               </FormGroup>
@@ -466,6 +496,7 @@ class Tarif extends React.Component {
               <FormGroup>
                 <Label for="volume3">Volume 2</Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="number"
                   name="volume3"
@@ -477,10 +508,11 @@ class Tarif extends React.Component {
               <FormGroup>
                 <Label for="price3">Price 2</Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="number"
                   name="price3"
-                  id="price3"                  
+                  id="price3"
                   placeholder="Price 3"
                 />
               </FormGroup>
@@ -488,10 +520,11 @@ class Tarif extends React.Component {
               <FormGroup>
                 <Label for="validFrom">Valid From</Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="date"
                   name="validFrom"
-                  id="validFrom"                  
+                  id="validFrom"
                   placeholder="Valid From"
                 />
               </FormGroup>
@@ -502,7 +535,9 @@ class Tarif extends React.Component {
               </FormGroup>
 
               <ModalFooter>
-                <Button color="dark" onClick={() => this.toggle('modalCreate')}>Close</Button>
+                <Button color="dark" onClick={() => this.toggle("modalCreate")}>
+                  Kembali
+                </Button>
                 {/* craete */}
                 <Button color="warning" className="px-5" type="submit">
                   Tambah Data
@@ -534,7 +569,7 @@ function mapStateToProps(state) {
     // DISTRIBUTOR
     dataDistributor: state.reducerDistributor.dataDistributor,
     // TARIF
-    dataTarif: state.reducerTarif.dataTarif,
+    dataTarif: state.reducerTarif.dataTarif
   };
 }
 

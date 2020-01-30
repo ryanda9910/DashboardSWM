@@ -1,14 +1,5 @@
 import React from "react";
-import {
-  Row,
-  Col,
-  Button,
-  FormGroup,
-  Label,
-  Form,
-  Input,
-  CustomInput
-} from "reactstrap";
+import { Row, Col, Button, FormGroup, Label, Form, Input } from "reactstrap";
 // import Formsy from "formsy-react";
 import s from "./editdatakelompokpelanggan.module.scss";
 import { Link, Redirect } from "react-router-dom";
@@ -129,8 +120,8 @@ class Editdatakelompokpelanggan extends React.Component {
   };
 
   render() {
-    console.log(this.state);
-    console.log(this.props);
+    // console.log(this.state);
+    // console.log(this.props);
 
     // redirect jika succes update
     if (this.state.updateStatus === 200) {
@@ -154,6 +145,7 @@ class Editdatakelompokpelanggan extends React.Component {
                 <FormGroup>
                   <Label for="parent_group">Parent Group</Label>
                   <Input
+                    required
                     value={this.state.parent_group}
                     onChange={this.handleChange}
                     id="parent_group"
@@ -166,6 +158,7 @@ class Editdatakelompokpelanggan extends React.Component {
                 <FormGroup>
                   <Label for="group">Group</Label>
                   <Input
+                    required
                     value={this.state.group}
                     onChange={this.handleChange}
                     id="group"
@@ -178,6 +171,7 @@ class Editdatakelompokpelanggan extends React.Component {
                 <FormGroup>
                   <Label for="code">Kode</Label>
                   <Input
+                    required
                     value={this.state.code}
                     onChange={this.handleChange}
                     id="code"
@@ -190,6 +184,7 @@ class Editdatakelompokpelanggan extends React.Component {
                 <FormGroup>
                   <Label for="name">Nama</Label>
                   <Input
+                    required
                     value={this.state.name}
                     onChange={this.handleChange}
                     id="name"
@@ -198,7 +193,7 @@ class Editdatakelompokpelanggan extends React.Component {
                     placeholder="Masukkan Nama"
                   />
                 </FormGroup>
-                {/* isactive */}
+                {/* isactive
                 <FormGroup>
                   <Label for="isactive">is Active</Label>
                   <CustomInput
@@ -209,12 +204,35 @@ class Editdatakelompokpelanggan extends React.Component {
                     name="isactive"
                     label="Turn on this if True"
                   />
-                </FormGroup>
+                </FormGroup> */}
+                <div className={s.root + " align-self-center"}>
+                  <FormGroup className="display-inline-block checkbox-ios">
+                    <Label for="isactive" className="switch">
+                      <Input
+                        required
+                        checked={this.state.isactive}
+                        onChange={this.handleChange}
+                        type="checkbox"
+                        id="isactive"
+                        name="isactive"
+                        className="ios"
+                        label="Turn on this if True"
+                      />
+                      <i />
+                      <Label for="isactive" className="pl-3">
+                        Status
+                      </Label>
+                    </Label>
+                    {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                    {/* <FormText>Example help text that remains unchanged.</FormText> */}
+                  </FormGroup>
+                </div>
                 {/* distributor_id */}
                 <FormGroup>
                   {/* tampilkan distributor name dan id nya sebagai value */}
                   <Label>ID Distributor</Label>
                   <Input
+                    required
                     value={this.state.distributor_id}
                     onChange={this.handleChange}
                     type="select"
@@ -232,6 +250,7 @@ class Editdatakelompokpelanggan extends React.Component {
                   {/* tampilkan distributor name dan id nya sebagai value */}
                   <Label>ID Tarif</Label>
                   <Input
+                    required
                     value={this.state.tarif_id}
                     onChange={this.handleChange}
                     type="select"
@@ -248,6 +267,7 @@ class Editdatakelompokpelanggan extends React.Component {
                 <FormGroup>
                   <Label for="exampleDesc">Deskripsi</Label>
                   <Input
+                    required
                     value={this.state.description}
                     onChange={this.handleChange}
                     type="text"
@@ -260,21 +280,19 @@ class Editdatakelompokpelanggan extends React.Component {
                 </FormGroup>
 
                 <div className="float-right">
-                  <Button
-                    className="my-5 px-5 ml-5"
-                    color="light"
-                    type="button"
-                    onClick={this.goBack}
-                  >
-                    Kembali
-                  </Button>
-                  <Button
-                    className="my-5 px-5 ml-5"
-                    color="primary"
-                    type="submit"
-                  >
-                    Simpan
-                  </Button>
+                  <div className="float-right">
+                    <Button color="dark" onClick={this.goBack}>
+                      Kembali
+                    </Button>
+
+                    <Button
+                      color="warning"
+                      className="my-5 px-5 ml-5"
+                      type="submit"
+                    >
+                      Perbarui Data
+                    </Button>
+                  </div>
                 </div>
               </Form>
             </Widget>

@@ -151,6 +151,7 @@ class Editdatapelanggan extends React.Component {
                 <FormGroup>
                   <Label for="customer_group_id">ID Kelompok Pelanggan</Label>
                   <Input
+                    required
                     value={this.state.customer_group_id}
                     onChange={this.handleChange}
                     type="select"
@@ -168,6 +169,7 @@ class Editdatapelanggan extends React.Component {
                 <FormGroup>
                   <Label for="name">Nama</Label>
                   <Input
+                    required
                     value={this.state.name}
                     onChange={this.handleChange}
                     type="text"
@@ -182,6 +184,7 @@ class Editdatapelanggan extends React.Component {
                 <FormGroup>
                   <Label for="code">Kode</Label>
                   <Input
+                    required
                     value={this.state.code}
                     onChange={this.handleChange}
                     type="text"
@@ -196,6 +199,7 @@ class Editdatapelanggan extends React.Component {
                 <FormGroup>
                   <Label for="email">Email</Label>
                   <Input
+                    required
                     value={this.state.email}
                     onChange={this.handleChange}
                     type="text"
@@ -210,6 +214,7 @@ class Editdatapelanggan extends React.Component {
                 <FormGroup>
                   <Label for="address">Alamat</Label>
                   <Input
+                    required
                     value={this.state.address}
                     onChange={this.handleChange}
                     type="textarea"
@@ -224,6 +229,7 @@ class Editdatapelanggan extends React.Component {
                 <FormGroup>
                   <Label for="phone">Phone</Label>
                   <Input
+                    required
                     value={this.state.phone}
                     onChange={this.handleChange}
                     type="text"
@@ -238,6 +244,7 @@ class Editdatapelanggan extends React.Component {
                 <FormGroup>
                   <Label for="status">Status</Label>
                   <Input
+                    required
                     value={this.state.status}
                     onChange={this.handleChange}
                     type="text"
@@ -252,6 +259,7 @@ class Editdatapelanggan extends React.Component {
                 <FormGroup>
                   <Label for="notes">Catatan</Label>
                   <Input
+                    required
                     value={this.state.notes}
                     onChange={this.handleChange}
                     type="text"
@@ -267,6 +275,7 @@ class Editdatapelanggan extends React.Component {
                   {/* tampilkan distributor name dan id nya sebagai value */}
                   <Label for="distributor_id">Distributor ID </Label>
                   <Input
+                    required
                     value={this.state.distributor_id}
                     onChange={this.handleChange}
                     type="select"
@@ -285,6 +294,7 @@ class Editdatapelanggan extends React.Component {
                   {/* tampilkan distributor name dan id nya sebagai value */}
                   <Label for="exampleKode">Area ID </Label>
                   <Input
+                    required
                     value={this.state.area_id}
                     onChange={this.handleChange}
                     type="select"
@@ -300,20 +310,16 @@ class Editdatapelanggan extends React.Component {
                 </FormGroup>
                 {/* button */}
                 <div className="float-right">
-                  <Button
-                    className="my-5 px-5 ml-5"
-                    color="light"
-                    type="button"
-                    onClick={this.goBack}
-                  >
+                  <Button color="dark" onClick={this.goBack}>
                     Kembali
                   </Button>
+
                   <Button
+                    color="warning"
                     className="my-5 px-5 ml-5"
-                    color="primary"
                     type="submit"
                   >
-                    Simpan
+                    Perbarui Data
                   </Button>
                 </div>
               </Form>

@@ -131,7 +131,8 @@ class Editdataarea extends React.Component {
                 <FormGroup className="bg-danger">{updateError}</FormGroup>
                 <FormGroup>
                   <Label for="nama-input">Kode</Label>
-                  <input
+                  <Input
+                    required
                     value={this.state.code}
                     name="code"
                     onChange={this.handleChange}
@@ -144,7 +145,8 @@ class Editdataarea extends React.Component {
                 </FormGroup>
                 <FormGroup>
                   <Label for="email-input">Nama</Label>
-                  <input
+                  <Input
+                    required
                     value={this.state.name}
                     name="name"
                     onChange={this.handleChange}
@@ -159,6 +161,7 @@ class Editdataarea extends React.Component {
                 <FormGroup>
                   <Label>ID Distributor</Label>
                   <Input
+                    required
                     value={this.state.distributor_id}
                     onChange={this.handleChange}
                     type="select"
@@ -169,17 +172,17 @@ class Editdataarea extends React.Component {
                     })}
                   </Input>
                 </FormGroup>
-                <div>
-                  <a
-                    onClick={this.goBack}
-                    className="text-dark btn btn-light px-5"
-                  >
-                    Kembali
-                  </a>
-                  <Button className="px-5 ml-3" color="primary" type="submit">
-                    Update
-                  </Button>
-                </div>
+                <Button color="dark" onClick={this.goBack}>
+                  Kembali
+                </Button>
+
+                <Button
+                  color="warning"
+                  className="my-5 px-5 ml-5"
+                  type="submit"
+                >
+                  Perbarui Data
+                </Button>
               </Form>
             </Widget>
           </Col>

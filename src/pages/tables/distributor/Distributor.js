@@ -47,10 +47,10 @@ import Widget from "../../../components/Widget/Widget";
 // //   deleteDataKelompokPelanggan
 // "../../../actions/tables/kelompokpelanggan";
 // data distributor
-import { 
-  getDataDistributor, 
-  createDataDistributor, 
-  deleteDataDistributor, 
+import {
+  getDataDistributor,
+  createDataDistributor,
+  deleteDataDistributor
 } from "../../../actions/tables/distributor";
 // data tarif
 // import { getDataTarif } from "../../../actions/tables/tarif";
@@ -93,7 +93,7 @@ class Distributor extends React.Component {
     e.preventDefault();
     let postData = {
       code: this.state.code,
-      isactive: this.state.isactive === true ? 'true' : 'false',
+      isactive: this.state.isactive === true ? "true" : "false",
       name: this.state.name,
       contact: this.state.contact,
       description: this.state.description,
@@ -313,15 +313,12 @@ class Distributor extends React.Component {
             Tambah Data
           </ModalHeader>
           <ModalBody>
-            <Form
-              id="formCreateDataTarif"
-              onSubmit={this.doCreate}
-            >
-              
+            <Form id="formCreateDataTarif" onSubmit={this.doCreate}>
               {/* code */}
               <FormGroup>
                 <Label for="code">Kode</Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="text"
                   name="code"
@@ -332,20 +329,31 @@ class Distributor extends React.Component {
                 {/* <FormText>Example help text that remains unchanged.</FormText> */}
               </FormGroup>
               {/* isactive */}
-              <FormGroup>
-                <Label for="exampleIsActive">is Active</Label>
-                <CustomInput
-                  onChange={this.handleCreateChange}
-                  type="switch"
-                  id="exampleIsActive"
-                  name="isactive"
-                  label="Turn on this if True"
-                />
-              </FormGroup>
+              {/* isactive */}
+              <div className={s.root}>
+                <FormGroup className="display-inline-block checkbox-ios">
+                  <Label for="exampleActive" className="switch">
+                    <Input
+                      required
+                      onChange={this.handleCreateChange}
+                      type="checkbox"
+                      id="exampleActive"
+                      name="isactive"
+                      className="ios"
+                      label="Turn on this if True"
+                    />
+                    <i />
+                    Status
+                  </Label>
+                  {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                  {/* <FormText>Example help text that remains unchanged.</FormText> */}
+                </FormGroup>
+              </div>
               {/* name */}
               <FormGroup>
                 <Label for="name">Nama</Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="text"
                   name="name"
@@ -359,6 +367,7 @@ class Distributor extends React.Component {
               <FormGroup>
                 <Label for="contact">Kontak</Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="text"
                   name="contact"
@@ -373,6 +382,7 @@ class Distributor extends React.Component {
                 {/* tampilkan distributor name dan id nya sebagai value */}
                 <Label for="description">Deskripsi</Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="text"
                   name="description"
@@ -387,6 +397,7 @@ class Distributor extends React.Component {
                 {/* tampilkan distributor name dan id nya sebagai value */}
                 <Label for="phone">Telepon</Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="text"
                   name="phone"
@@ -400,6 +411,7 @@ class Distributor extends React.Component {
               <FormGroup>
                 <Label for="email">Email</Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="text"
                   name="email"
@@ -413,6 +425,7 @@ class Distributor extends React.Component {
               <FormGroup>
                 <Label for="tipe">Tipe</Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="text"
                   name="tipe"

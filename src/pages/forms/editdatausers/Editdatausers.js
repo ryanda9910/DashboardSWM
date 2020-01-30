@@ -1,12 +1,20 @@
 import React from "react";
-import { Row, Col, Button, FormGroup, Label, Form, Input, CustomInput } from "reactstrap";
+import {
+  Row,
+  Col,
+  Button,
+  FormGroup,
+  Label,
+  Form,
+  Input,
+  CustomInput
+} from "reactstrap";
 // import Formsy from "formsy-react";
 import s from "./editdatausers.module.scss";
-import { Link,Redirect } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import axios from "axios";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-
 
 // import InputValidation from "../../../components/InputValidation";
 import Widget from "../../../components/Widget";
@@ -17,7 +25,6 @@ import { getDataDistributor } from "../../../actions/tables/distributor";
 import { getDataRole } from "../../../actions/tables/role";
 
 class Editdatausers extends React.Component {
-
   static propTypes = {
     dispatch: PropTypes.func.isRequired
   };
@@ -54,7 +61,7 @@ class Editdatausers extends React.Component {
         console.log(res);
         this.setState({
           //
-          role_id: res.data.data.role_id,
+          role_id: res.data.data.role_id._id,
           isactive: res.data.data.isactive,
           name: res.data.data.name,
           slug: res.data.data.slug,
@@ -83,15 +90,15 @@ class Editdatausers extends React.Component {
   doUpdateUser = e => {
     e.preventDefault();
     let postData = {
-      role_id: this.state.role_id._id,
-      isactive: this.state.isactive === true ? 'true' : 'false',
+      role_id: this.state.role_id,
+      isactive: this.state.isactive === true ? "true" : "false",
       name: this.state.name,
       slug: this.state.slug,
       description: this.state.description,
       email: this.state.email,
       phone: this.state.phone,
       password: this.state.password,
-      distributor_id: this.state.distributor_id,
+      distributor_id: this.state.distributor_id
     };
 
     console.log(postData);
@@ -132,15 +139,18 @@ class Editdatausers extends React.Component {
   };
 
   render() {
-
     console.log(this.state);
 
-    const {dataDistributor, dataRole} = this.props;
+    const { dataDistributor, dataRole } = this.props;
 
     // redirect jika succes create
     if (this.state.updateStatus === 200 || this.state.updateStatus === 201) {
       return <Redirect to="/app/tables/userdata" />;
     }
+
+    // handle null option
+    const nullOption =
+      this.state.role_id === null ? <option value={null}></option> : null;
 
     return (
       <div className={s.root}>
@@ -156,6 +166,7 @@ class Editdatausers extends React.Component {
                 <FormGroup>
                   <Label for="role_id">Role ID</Label>
                   <Input
+                    required
                     value={this.state.role_id}
                     onChange={this.handleChange}
                     type="select"
@@ -167,24 +178,31 @@ class Editdatausers extends React.Component {
                     })}
                   </Input>
                 </FormGroup>
-                {/* isactive */}
-                <FormGroup>
-                  <Label for="isactive">is Active</Label>
-                  <CustomInput
-                    checked={this.state.isactive}
-                    onChange={this.handleChange}
-                    type="switch"
-                    id="isactive"
-                    name="isactive"
-                    label="Turn on this if True"
-                  />
-                  {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
-                  {/* <FormText>Example help text that remains unchanged.</FormText> */}
-                </FormGroup>
+                <div className={s.root}>
+                  <FormGroup className="display-inline-block checkbox-ios">
+                    <Label for="exampleActive" className="switch">
+                      <Input
+                        required
+                        checked={this.state.isactive}
+                        onChange={this.handleChange}
+                        type="checkbox"
+                        id="exampleActive"
+                        name="isactive"
+                        className="ios"
+                        label="Turn on this if True"
+                      />
+                      <i />
+                      Status
+                    </Label>
+                    {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                    {/* <FormText>Example help text that remains unchanged.</FormText> */}
+                  </FormGroup>
+                </div>
                 {/* name */}
                 <FormGroup>
                   <Label for="name">Nama</Label>
                   <Input
+                    required
                     value={this.state.name}
                     onChange={this.handleChange}
                     type="text"
@@ -199,6 +217,7 @@ class Editdatausers extends React.Component {
                 <FormGroup>
                   <Label for="slug">Slug</Label>
                   <Input
+                    required
                     value={this.state.slug}
                     onChange={this.handleChange}
                     type="text"
@@ -213,6 +232,7 @@ class Editdatausers extends React.Component {
                 <FormGroup>
                   <Label for="description">Deskripsi</Label>
                   <Input
+                    required
                     value={this.state.description}
                     onChange={this.handleChange}
                     type="text"
@@ -225,6 +245,7 @@ class Editdatausers extends React.Component {
                 <FormGroup>
                   <Label for="email">Email</Label>
                   <Input
+                    required
                     value={this.state.email}
                     onChange={this.handleChange}
                     type="text"
@@ -238,6 +259,7 @@ class Editdatausers extends React.Component {
                 <FormGroup>
                   {/* <Label for="password">Password</Label> */}
                   <Input
+                    required
                     value={this.state.password}
                     onChange={this.handleChange}
                     type="hidden"
@@ -251,6 +273,7 @@ class Editdatausers extends React.Component {
                 <FormGroup>
                   <Label for="phone">Telepon </Label>
                   <Input
+                    required
                     value={this.state.phone}
                     onChange={this.handleChange}
                     type="text"
@@ -263,6 +286,7 @@ class Editdatausers extends React.Component {
                 <FormGroup>
                   <Label for="distributor_id">Distributor ID </Label>
                   <Input
+                    required
                     value={this.state.distributor_id}
                     onChange={this.handleChange}
                     type="select"
@@ -278,9 +302,14 @@ class Editdatausers extends React.Component {
                   <Button color="dark" onClick={this.goBack}>
                     Kembali
                   </Button>
-                  {/* craete */}
-                  {/* button */}
-                  <Button type="submit" color="primary">Update</Button>
+
+                  <Button
+                    color="warning"
+                    className="my-5 px-5 ml-5"
+                    type="submit"
+                  >
+                    Perbarui Data
+                  </Button>
                 </FormGroup>
               </Form>
             </Widget>
@@ -296,7 +325,7 @@ function mapStateToProps(state) {
     // DISTRIBUTOR
     dataDistributor: state.reducerDistributor.dataDistributor,
     // ROLE
-    dataRole: state.reducerRole.dataRole,
+    dataRole: state.reducerRole.dataRole
   };
 }
 

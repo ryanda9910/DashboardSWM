@@ -1,9 +1,18 @@
 import React from "react";
-import { Row, Col, Button, FormGroup, Label, Form, Input, CustomInput } from "reactstrap";
+import {
+  Row,
+  Col,
+  Button,
+  FormGroup,
+  Label,
+  Form,
+  Input,
+  CustomInput
+} from "reactstrap";
 // import Formsy from "formsy-react";
 import s from "./editdatarole.module.scss";
-import { Link,Redirect } from "react-router-dom";
-import axios from 'axios';
+import { Link, Redirect } from "react-router-dom";
+import axios from "axios";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 // import InputValidation from "../../../components/InputValidation";
@@ -12,7 +21,6 @@ import Widget from "../../../components/Widget";
 import { getDataDistributor } from "../../../actions/tables/distributor";
 
 class Editdatarole extends React.Component {
-
   static propTypes = {
     dispatch: PropTypes.func.isRequired
   };
@@ -31,63 +39,61 @@ class Editdatarole extends React.Component {
       showAlert: false,
       alertDestroy: false,
       // MODALS
-      modalCreate: false,
+      modal: false,
       // HANDLE MENUACCESS
       tarifversion: false,
       tarif: false,
       customerbilling: false,
-      pelanggan: false,
+      pelanggan: false
     };
     //
     this.goBack = this.goBack.bind(this);
     // // this.handleChange = this.handleChange.bind(this);
   }
-  
-  
-  
+
   componentDidMount() {
     // DATA TARIF SPESIFIC
     // get id
     const id = this.props.match.params.id;
     axios
-    .get("/api/role/" + id)
-    .then(res => {
-      // console.log(res);
-      // HANDLE MENUACCESS
-      // console.log(res.data.data.menuaccess.indexOf('tarif') > -1);
-      if(res.data.data.menuaccess.indexOf('tarif') > -1){
+      .get("/api/role/" + id)
+      .then(res => {
+        // console.log(res);
+        // HANDLE MENUACCESS
+        // console.log(res.data.data.menuaccess.indexOf('tarif') > -1);
+        if (res.data.data.menuaccess.indexOf("tarif") > -1) {
+          this.setState({
+            tarif: true
+          });
+        }
+        if (res.data.data.menuaccess.indexOf("tarifversion") > -1) {
+          this.setState({
+            tarifversion: true
+          });
+        }
+        if (res.data.data.menuaccess.indexOf("pelanggan") > -1) {
+          this.setState({
+            pelanggan: true
+          });
+        }
+        if (res.data.data.menuaccess.indexOf("customerbilling") > -1) {
+          this.setState({
+            customerbilling: true
+          });
+        }
         this.setState({
-          tarif: true
-        })
-      }
-      if(res.data.data.menuaccess.indexOf('tarifversion') > -1){
-        this.setState({
-          tarifversion: true
-        })
-      }
-      if(res.data.data.menuaccess.indexOf('pelanggan') > -1){
-        this.setState({
-          pelanggan: true
-        })
-      }
-      if(res.data.data.menuaccess.indexOf('customerbilling') > -1){
-        this.setState({
-          customerbilling: true
-        })
-      }
-      this.setState({
-        //
-        code: res.data.data.code,
-        isactive: res.data.data.isactive,
-        name: res.data.data.name,
-        description: res.data.data.description,
-        menuaccess: res.data.data.menuaccess,
-        distributor_id: res.data.data.distributor_id,
-        //
-        statusGetSpesificsData: res.data.status,
-        // REACT_TAG_INPUT
-        // tags: res.data.data.menuaccess,
-      });
+          //
+          code: res.data.data.code,
+          isactive: res.data.data.isactive,
+          name: res.data.data.name,
+          description: res.data.data.description,
+          menuaccess: res.data.data.menuaccess,
+          distributor_id: res.data.data.distributor_id,
+          //
+          statusGetSpesificsData: res.data.status
+          // REACT_TAG_INPUT
+          // tags: res.data.data.menuaccess,
+        });
       })
       .catch(err => {
         console.log(err);
@@ -95,87 +101,98 @@ class Editdatarole extends React.Component {
           getError: "Something Wrong"
         });
       });
-      
-      
-      // DATA DISTRIBUTOR
-      this.props.dispatch(getDataDistributor());
-    }
-        
-        // do UPDATE
+
+    // DATA DISTRIBUTOR
+    this.props.dispatch(getDataDistributor());
+  }
+
+  // do UPDATE
   doUpdateRole = e => {
     e.preventDefault();
     // HANDLE MENU ACCESS
-    const tarif = this.state.tarif === true ? 'tarif' : 'popTarif';
-    const tarifversion = this.state.tarifversion === true ? 'tarifversion' : 'popTarifVersion';
-    const customerbilling = this.state.customerbilling === true ? 'customerbilling' : 'popCustomerBilling';
-    const pelanggan = this.state.pelanggan === true ? 'pelanggan' : 'popPelanggan';
-    // 
-    if(this.state.menuaccess.indexOf('tarif') === -1){
-      if(tarif === 'tarif'){
+    const tarif = this.state.tarif === true ? "tarif" : "popTarif";
+    const tarifversion =
+      this.state.tarifversion === true ? "tarifversion" : "popTarifVersion";
+    const customerbilling =
+      this.state.customerbilling === true
+        ? "customerbilling"
+        : "popCustomerBilling";
+    const pelanggan =
+      this.state.pelanggan === true ? "pelanggan" : "popPelanggan";
+    //
+    if (this.state.menuaccess.indexOf("tarif") === -1) {
+      if (tarif === "tarif") {
         this.state.menuaccess.push(tarif);
       }
-    }else{
-      if(tarif === 'popTarif'){
-        this.state.menuaccess.splice(this.state.menuaccess.indexOf('tarif'), 1)
+    } else {
+      if (tarif === "popTarif") {
+        this.state.menuaccess.splice(this.state.menuaccess.indexOf("tarif"), 1);
       }
     }
-    if(this.state.menuaccess.indexOf('tarifversion') === -1){
-      if(tarifversion === 'tarifversion'){
+    if (this.state.menuaccess.indexOf("tarifversion") === -1) {
+      if (tarifversion === "tarifversion") {
         this.state.menuaccess.push(tarifversion);
       }
-    }else{
-      if(tarifversion === 'popTarifVersion'){
-        this.state.menuaccess.splice(this.state.menuaccess.indexOf('tarifversion'), 1)
+    } else {
+      if (tarifversion === "popTarifVersion") {
+        this.state.menuaccess.splice(
+          this.state.menuaccess.indexOf("tarifversion"),
+          1
+        );
       }
     }
-    if(this.state.menuaccess.indexOf('customerbilling') === -1){
-      if(customerbilling === 'customerbilling'){
+    if (this.state.menuaccess.indexOf("customerbilling") === -1) {
+      if (customerbilling === "customerbilling") {
         this.state.menuaccess.push(customerbilling);
       }
-    }else{
-      if(customerbilling === 'popCustomerBilling'){
-        this.state.menuaccess.splice(this.state.menuaccess.indexOf('customerbilling'), 1)
+    } else {
+      if (customerbilling === "popCustomerBilling") {
+        this.state.menuaccess.splice(
+          this.state.menuaccess.indexOf("customerbilling"),
+          1
+        );
       }
     }
-    if(this.state.menuaccess.indexOf('pelanggan') === -1){
-      if(pelanggan === 'pelanggan'){
+    if (this.state.menuaccess.indexOf("pelanggan") === -1) {
+      if (pelanggan === "pelanggan") {
         this.state.menuaccess.push(pelanggan);
       }
-    }else{
-      if(pelanggan === 'popPelanggan'){
-        this.state.menuaccess.splice(this.state.menuaccess.indexOf('pelanggan'), 1)
+    } else {
+      if (pelanggan === "popPelanggan") {
+        this.state.menuaccess.splice(
+          this.state.menuaccess.indexOf("pelanggan"),
+          1
+        );
       }
-    } 
-
-
+    }
 
     let postData = {
       code: this.state.code,
-      isactive: this.state.isactive === true ? 'true' : 'false',
+      isactive: this.state.isactive === true ? "true" : "false",
       name: this.state.name,
       description: this.state.description,
       menuaccess: this.state.menuaccess,
-      distributor_id: this.state.distributor_id,
+      distributor_id: this.state.distributor_id
     };
 
     console.log(postData);
 
     // UPDATE data
-    // const id = this.props.match.params.id;
-    // axios
-    //   .put("/api/role/" + id, postData)
-    //   .then(res => {
-    //     console.log(res);
-    //     this.setState({
-    //       updateStatus: res.status
-    //     });
-    //   })
-    //   .catch(err => {
-    //     console.log(err.response);
-    //     this.setState({
-    //       updateError: "Something Wrong"
-    //     });
-    //   });
+    const id = this.props.match.params.id;
+    axios
+      .put("/api/role/" + id, postData)
+      .then(res => {
+        console.log(res);
+        this.setState({
+          updateStatus: res.status
+        });
+      })
+      .catch(err => {
+        console.log(err.response);
+        this.setState({
+          updateError: "Something Wrong"
+        });
+      });
   };
 
   // track change
@@ -194,14 +211,11 @@ class Editdatarole extends React.Component {
     this.props.history.goBack();
   };
 
-
   render() {
-
     console.log(this.state);
     console.log(this.props);
 
     const { dataDistributor } = this.props;
-
 
     return (
       <div className={s.root}>
@@ -211,14 +225,12 @@ class Editdatarole extends React.Component {
               Edit Data <span className="fw-semi-bold"> Role</span>
             </h1>
             <Widget refresh collapse close className="px-5">
-              <Form
-                id="formCreateDataRolegetDataRole"
-                onSubmit={this.doUpdateRole}
-              >
+              <Form id="formDataRolegetDataRole" onSubmit={this.doUpdateRole}>
                 {/* code */}
                 <FormGroup>
                   <Label for="code">Kode </Label>
                   <Input
+                    required
                     value={this.state.code}
                     onChange={this.handleChange}
                     type="text"
@@ -231,6 +243,7 @@ class Editdatarole extends React.Component {
                 <FormGroup>
                   <Label for="name">Nama</Label>
                   <Input
+                    required
                     value={this.state.name}
                     onChange={this.handleChange}
                     type="text"
@@ -241,24 +254,31 @@ class Editdatarole extends React.Component {
                   {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
                   {/* <FormText>Example help text that remains unchanged.</FormText> */}
                 </FormGroup>
-                {/* isactive */}
-                <FormGroup>
-                  <Label for="isactive">Is Active</Label>
-                  <CustomInput
-                    checked={this.state.isactive}
-                    onChange={this.handleChange}
-                    type="switch"
-                    id="isactive"
-                    name="isactive"
-                    label="Turn on this if True"
-                  />
-                  {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
-                  {/* <FormText>Example help text that remains unchanged.</FormText> */}
-                </FormGroup>
+                <div className={s.root}>
+                  <FormGroup className="display-inline-block checkbox-ios">
+                    <Label for="exampleActive" className="switch">
+                      <Input
+                        required
+                        checked={this.state.isactive}
+                        onChange={this.handleChange}
+                        type="checkbox"
+                        id="exampleActive"
+                        name="isactive"
+                        className="ios"
+                        label="Turn on this if True"
+                      />
+                      <i />
+                      Status
+                    </Label>
+                    {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                    {/* <FormText>Example help text that remains unchanged.</FormText> */}
+                  </FormGroup>
+                </div>
                 {/* description */}
                 <FormGroup>
                   <Label for="exampleKode">Deskripsi</Label>
                   <Input
+                    required
                     value={this.state.description}
                     onChange={this.handleChange}
                     type="text"
@@ -274,6 +294,7 @@ class Editdatarole extends React.Component {
                   {/* tampilkan distributor name dan id nya sebagai value */}
                   <Label for="exampleKode">Distributor ID </Label>
                   <Input
+                    required
                     value={this.state.distributor_id}
                     onChange={this.handleChange}
                     type="select"
@@ -288,55 +309,76 @@ class Editdatarole extends React.Component {
                   {/* <FormText>Example help text that remains unchanged.</FormText> */}
                 </FormGroup>
                 {/* menuaccess */}
-                <Label>Akses Menu</Label>
-                <FormGroup>
-                  <CustomInput
+                <Label>Menu akses</Label>
+                <FormGroup className="checkbox abc-checkbox abc-checkbox-primary">
+                  <Input
                     checked={this.state.tarif}
+                    type="checkbox"
                     onChange={this.handleChange}
-                    type="switch"
                     id="tarif"
                     name="tarif"
                     label="tarif"
+                    value="tarif"
                   />
+                  <Label for="tarif" check>
+                    tarif
+                  </Label>
                 </FormGroup>
-                <FormGroup>
-                  <CustomInput
+
+                <FormGroup className="checkbox abc-checkbox abc-checkbox-primary">
+                  <Input
                     checked={this.state.tarifversion}
+                    type="checkbox"
                     onChange={this.handleChange}
-                    type="switch"
                     id="tarifversion"
                     name="tarifversion"
                     label="tarifversion"
+                    value="tarifversion"
                   />
+                  <Label for="tarifversion" check>
+                    tarif version
+                  </Label>
                 </FormGroup>
-                <FormGroup>
-                  <CustomInput
+                <FormGroup className="checkbox abc-checkbox abc-checkbox-primary">
+                  <Input
                     checked={this.state.customerbilling}
+                    type="checkbox"
                     onChange={this.handleChange}
-                    type="switch"
                     id="customerbilling"
                     name="customerbilling"
                     label="customerbilling"
+                    value="customerbilling"
                   />
+                  <Label for="customerbilling" check>
+                    customer billing
+                  </Label>
                 </FormGroup>
-                <FormGroup>
-                  <CustomInput
+
+                <FormGroup className="checkbox abc-checkbox abc-checkbox-primary">
+                  <Input
                     checked={this.state.pelanggan}
+                    type="checkbox"
                     onChange={this.handleChange}
-                    type="switch"
                     id="pelanggan"
                     name="pelanggan"
                     label="pelanggan"
+                    value="pelanggan"
                   />
+                  <Label for="pelanggan" check>
+                    pelanggan
+                  </Label>
                 </FormGroup>
-                
 
                 <Button color="dark" onClick={this.goBack}>
-                  Close
+                  Kembali
                 </Button>
                 {/* craete */}
-                <Button color="warning" className="px-5" type="submit">
-                  Tambah Data
+                <Button
+                  color="warning"
+                  className="my-5 px-5 ml-5"
+                  type="submit"
+                >
+                  Perbarui Data
                 </Button>
               </Form>
             </Widget>

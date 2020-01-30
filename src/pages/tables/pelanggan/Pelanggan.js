@@ -363,6 +363,7 @@ class Pelanggan extends React.Component {
               <FormGroup>
                 <Label for="customer_group_id">ID Kelompok Pelanggan</Label>
                 <Input
+                  required
                   onChange={this.handleChange}
                   type="select"
                   name="customer_group_id"
@@ -380,6 +381,7 @@ class Pelanggan extends React.Component {
               <FormGroup>
                 <Label for="name">Nama</Label>
                 <Input
+                  required
                   onChange={this.handleChange}
                   type="text"
                   name="name"
@@ -393,6 +395,7 @@ class Pelanggan extends React.Component {
               <FormGroup>
                 <Label for="code">Kode</Label>
                 <Input
+                  required
                   onChange={this.handleChange}
                   type="text"
                   name="code"
@@ -406,6 +409,7 @@ class Pelanggan extends React.Component {
               <FormGroup>
                 <Label for="email">Email</Label>
                 <Input
+                  required
                   onChange={this.handleChange}
                   type="text"
                   name="email"
@@ -419,6 +423,7 @@ class Pelanggan extends React.Component {
               <FormGroup>
                 <Label for="address">Alamat</Label>
                 <Input
+                  required
                   onChange={this.handleChange}
                   type="textarea"
                   name="address"
@@ -432,6 +437,7 @@ class Pelanggan extends React.Component {
               <FormGroup>
                 <Label for="phone">Phone</Label>
                 <Input
+                  required
                   onChange={this.handleChange}
                   type="text"
                   name="phone"
@@ -445,6 +451,7 @@ class Pelanggan extends React.Component {
               <FormGroup>
                 <Label for="status">Status</Label>
                 <Input
+                  required
                   onChange={this.handleChange}
                   type="text"
                   name="status"
@@ -458,6 +465,7 @@ class Pelanggan extends React.Component {
               <FormGroup>
                 <Label for="notes">Catatan</Label>
                 <Input
+                  required
                   onChange={this.handleChange}
                   type="text"
                   name="notes"
@@ -472,6 +480,7 @@ class Pelanggan extends React.Component {
                 {/* tampilkan distributor name dan id nya sebagai value */}
                 <Label for="distributor_id">Distributor ID </Label>
                 <Input
+                  required
                   onChange={this.handleChange}
                   type="select"
                   name="distributor_id"
@@ -490,6 +499,7 @@ class Pelanggan extends React.Component {
                 {/* tampilkan distributor name dan id nya sebagai value */}
                 <Label for="exampleKode">Area ID </Label>
                 <Input
+                  required
                   onChange={this.handleChange}
                   type="select"
                   name="area_id"

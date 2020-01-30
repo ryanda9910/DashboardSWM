@@ -290,6 +290,7 @@ class Area extends React.Component {
               <FormGroup>
                 <Label for="exampleNama">Kode</Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="text"
                   name="code"
@@ -301,6 +302,7 @@ class Area extends React.Component {
               <FormGroup>
                 <Label for="exampleKode">Nama</Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="text"
                   name="name"
@@ -315,6 +317,7 @@ class Area extends React.Component {
                 {/* tampilkan distributor name dan id nya sebagai value */}
                 <Label for="exampleKode">ID Distributor</Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="select"
                   name="distributor_id"

@@ -237,7 +237,7 @@ class kelompokPelanggan extends React.Component {
                 <ol className="breadcrumb">
                   <li className="breadcrumb-item">YOU ARE HERE</li>
                   <li className="breadcrumb-item active">
-                    Data<span>Kelompok Pelanggan</span>
+                    Data <span> Kelompok Pelanggan </span>
                   </li>
                 </ol>
               </Col>
@@ -245,7 +245,7 @@ class kelompokPelanggan extends React.Component {
             <Row className="align-items-center justify-content-between">
               <Col lg={12}>
                 <h3>
-                  Data <span className="fw-semi-bold">Kelompok Pelanggan</span>
+                  Data <span className="fw-semi-bold"> Kelompok Pelanggan</span>
                 </h3>
               </Col>
               <Col lg={4}>
@@ -280,7 +280,7 @@ class kelompokPelanggan extends React.Component {
                           <th>Grup</th>
                           <th>Kode</th>
                           <th>Nama</th>
-                          <th>is Active</th>
+                          <th>Status</th>
                           <th>ID Distributor</th>
                           <th>ID Tarif</th>
                           <th>Deskripsi</th>
@@ -318,6 +318,7 @@ class kelompokPelanggan extends React.Component {
               <FormGroup>
                 <Label for="exampleParent">Parent Grup </Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="text"
                   name="parent_group"
@@ -329,6 +330,7 @@ class kelompokPelanggan extends React.Component {
               <FormGroup>
                 <Label for="exampleGroup">Grup</Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="text"
                   name="group"
@@ -342,6 +344,7 @@ class kelompokPelanggan extends React.Component {
               <FormGroup>
                 <Label for="exampleKode">Kode</Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="text"
                   name="code"
@@ -355,6 +358,7 @@ class kelompokPelanggan extends React.Component {
               <FormGroup>
                 <Label for="exampleName">Name</Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="text"
                   name="name"
@@ -364,24 +368,35 @@ class kelompokPelanggan extends React.Component {
                 {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
                 {/* <FormText>Example help text that remains unchanged.</FormText> */}
               </FormGroup>
-              {/* isacrive */}
-              <FormGroup>
-                <Label for="exampleKode">Is Active</Label>
-                <CustomInput
-                  onChange={this.handleCreateChange}
-                  type="switch"
-                  id="exampleIsActive"
-                  name="isactive"
-                  label="Turn on this if True"
-                />
-                {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
-                {/* <FormText>Example help text that remains unchanged.</FormText> */}
-              </FormGroup>
+              {/* Isactive */}
+              <div className={s.root + " align-self-center"}>
+                <FormGroup className="display-inline-block checkbox-ios">
+                  <Label for="isactive" className="switch">
+                    <Input
+                      required
+                      onChange={this.handleCreateChange}
+                      type="checkbox"
+                      id="isactive"
+                      name="isactive"
+                      className="ios"
+                      label="Turn on this if True"
+                    />
+                    <i />
+                    <Label for="isactive" className="pl-3">
+                      Status
+                    </Label>
+                  </Label>
+                  {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                  {/* <FormText>Example help text that remains unchanged.</FormText> */}
+                </FormGroup>
+              </div>
+
               {/* distributor_id */}
               <FormGroup>
                 {/* tampilkan distributor name dan id nya sebagai value */}
                 <Label>ID Distributor</Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="select"
                   name="distributor_id"
@@ -399,6 +414,7 @@ class kelompokPelanggan extends React.Component {
                 {/* tampilkan distributor name dan id nya sebagai value */}
                 <Label>ID Tarif</Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="select"
                   name="tarif_id"
@@ -415,6 +431,7 @@ class kelompokPelanggan extends React.Component {
               <FormGroup>
                 <Label for="exampleDesc">Deskripsi</Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="text"
                   name="description"

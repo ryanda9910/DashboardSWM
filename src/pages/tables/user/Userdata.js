@@ -14,7 +14,7 @@ import {
   Modal,
   ModalHeader,
   ModalBody,
-  ModalFooter,
+  ModalFooter
 } from "reactstrap";
 import $ from "jquery";
 import {
@@ -30,9 +30,9 @@ import {
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import jwt from "jsonwebtoken";
+
 // MODAL CREATE
-import cx from "classnames";
-import config from "../../../config";
+
 import Loader from "../../../components/Loader/Loader";
 import s from "./Userdata.module.scss";
 
@@ -91,7 +91,7 @@ class Userdata extends React.Component {
     e.preventDefault();
     let postData = {
       role_id: this.state.role_id,
-      isactive: this.state.isactive === true ? 'true' : 'user',
+      isactive: this.state.isactive === true ? "true" : "user",
       name: this.state.name,
       slug: this.state.slug,
       description: this.state.description,
@@ -102,7 +102,7 @@ class Userdata extends React.Component {
     };
     console.log(postData);
     this.props.dispatch(createDataUser(postData));
-    this.setState({modalCreate: false});
+    this.setState({ modalCreate: false });
   };
   // track change
   handleCreateChange = e => {
@@ -209,7 +209,7 @@ class Userdata extends React.Component {
             <td>{item.email}</td>
             {/* <td>{item.password}</td> */}
             <td>{item.phone}</td>
-            <td>{item.distributor_id.name}</td>
+            <td>{item.distributor_id ? item.distributor_id.name : "-"}</td>
             <td>
               <Link
                 to={"/app/forms/editdatausers/" + item._id}
@@ -339,6 +339,7 @@ class Userdata extends React.Component {
               <FormGroup>
                 <Label for="role_id">Role ID</Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="select"
                   name="role_id"
@@ -350,23 +351,30 @@ class Userdata extends React.Component {
                   })}
                 </Input>
               </FormGroup>
-              {/* isactive */}
-              <FormGroup>
-                <Label for="isactive">is Active</Label>
-                <CustomInput
-                  onChange={this.handleCreateChange}
-                  type="switch"
-                  id="isactive"
-                  name="isactive"
-                  label="Turn on this if True"
-                />
-                {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
-                {/* <FormText>Example help text that remains unchanged.</FormText> */}
-              </FormGroup>
+              <div className={s.root}>
+                <FormGroup className="display-inline-block checkbox-ios">
+                  <Label for="exampleActive" className="switch">
+                    <Input
+                      required
+                      onChange={this.handleCreateChange}
+                      type="checkbox"
+                      id="exampleActive"
+                      name="isactive"
+                      className="ios"
+                      label="Turn on this if True"
+                    />
+                    <i />
+                    Status
+                  </Label>
+                  {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                  {/* <FormText>Example help text that remains unchanged.</FormText> */}
+                </FormGroup>
+              </div>
               {/* name */}
               <FormGroup>
                 <Label for="name">Nama</Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="text"
                   name="name"
@@ -380,6 +388,7 @@ class Userdata extends React.Component {
               <FormGroup>
                 <Label for="slug">Slug</Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="text"
                   name="slug"
@@ -393,6 +402,7 @@ class Userdata extends React.Component {
               <FormGroup>
                 <Label for="description">Deskripsi</Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="text"
                   name="description"
@@ -404,6 +414,7 @@ class Userdata extends React.Component {
               <FormGroup>
                 <Label for="email">Email</Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="text"
                   name="email"
@@ -415,6 +426,7 @@ class Userdata extends React.Component {
               <FormGroup>
                 <Label for="password">Password</Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="password"
                   name="password"
@@ -426,6 +438,7 @@ class Userdata extends React.Component {
               <FormGroup>
                 <Label for="phone">Telepon </Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="text"
                   name="phone"
@@ -437,6 +450,7 @@ class Userdata extends React.Component {
               <FormGroup>
                 <Label for="distributor_id">Distributor ID </Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="select"
                   name="distributor_id"
@@ -492,7 +506,7 @@ function mapStateToProps(state) {
     // DISTRIBUTOR
     dataDistributor: state.reducerDistributor.dataDistributor,
     // ROLE
-    dataRole: state.reducerRole.dataRole,
+    dataRole: state.reducerRole.dataRole
   };
 }
 

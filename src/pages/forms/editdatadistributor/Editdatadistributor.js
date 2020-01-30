@@ -38,7 +38,7 @@ class Editdatadistributor extends React.Component {
       phone: "",
       email: "",
       tipe: "",
-      // 
+      //
       distributor_id: null,
       updateStatus: null,
       updateError: null
@@ -80,7 +80,7 @@ class Editdatadistributor extends React.Component {
     e.preventDefault();
     const data = {
       code: this.state.code,
-      isactive: this.state.isactive === true ? 'true' : 'false',
+      isactive: this.state.isactive === true ? "true" : "false",
       name: this.state.name,
       contact: this.state.contact,
       description: this.state.description,
@@ -165,6 +165,7 @@ class Editdatadistributor extends React.Component {
                 <FormGroup>
                   <Label for="code">Kode</Label>
                   <Input
+                    required
                     value={this.state.code}
                     name="code"
                     onChange={this.handleChange}
@@ -173,22 +174,31 @@ class Editdatadistributor extends React.Component {
                     type="text"
                   />
                 </FormGroup>
-                {/* isactive */}
-                <FormGroup>
-                  <Label for="exampleIsActive">Status</Label>
-                  <CustomInput
-                    checked={this.state.isactive}
-                    onChange={this.handleChange}
-                    type="switch"
-                    id="exampleIsActive"
-                    name="isactive"
-                    label="Turn on this if True"
-                  />
-                </FormGroup>
+                <div className={s.root}>
+                  <FormGroup className="display-inline-block checkbox-ios">
+                    <Label for="exampleActive" className="switch">
+                      <Input
+                        required
+                        checked={this.state.isactive}
+                        onChange={this.handleChange}
+                        type="checkbox"
+                        id="exampleActive"
+                        name="isactive"
+                        className="ios"
+                        label="Turn on this if True"
+                      />
+                      <i />
+                      Status
+                    </Label>
+                    {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                    {/* <FormText>Example help text that remains unchanged.</FormText> */}
+                  </FormGroup>
+                </div>
                 {/* name */}
                 <FormGroup>
                   <Label for="name">Nama</Label>
                   <Input
+                    required
                     value={this.state.name}
                     name="name"
                     onChange={this.handleChange}
@@ -201,6 +211,7 @@ class Editdatadistributor extends React.Component {
                 <FormGroup>
                   <Label for="contact">Kontak</Label>
                   <Input
+                    required
                     value={this.state.contact}
                     name="contact"
                     onChange={this.handleChange}
@@ -213,6 +224,7 @@ class Editdatadistributor extends React.Component {
                 <FormGroup>
                   <Label for="description">Deskripsi</Label>
                   <Input
+                    required
                     value={this.state.description}
                     name="description"
                     onChange={this.handleChange}
@@ -225,6 +237,7 @@ class Editdatadistributor extends React.Component {
                 <FormGroup>
                   <Label for="phone">Telepon</Label>
                   <Input
+                    required
                     value={this.state.phone}
                     name="phone"
                     onChange={this.handleChange}
@@ -236,6 +249,7 @@ class Editdatadistributor extends React.Component {
                 <FormGroup>
                   <Label for="email">Email</Label>
                   <Input
+                    required
                     value={this.state.email}
                     name="email"
                     onChange={this.handleChange}
@@ -248,6 +262,7 @@ class Editdatadistributor extends React.Component {
                 <FormGroup>
                   <Label for="tipe">Tipe</Label>
                   <Input
+                    required
                     value={this.state.tipe}
                     name="tipe"
                     onChange={this.handleChange}
@@ -257,17 +272,17 @@ class Editdatadistributor extends React.Component {
                   />
                 </FormGroup>
 
-                <div>
-                  <a
-                    onClick={this.goBack}
-                    className="text-dark btn btn-light px-5"
-                  >
-                    Kembali
-                  </a>
-                  <Button className="px-5 ml-3" color="primary" type="submit">
-                    Update
-                  </Button>
-                </div>
+                <Button color="dark" onClick={this.goBack}>
+                  Kembali
+                </Button>
+
+                <Button
+                  color="warning"
+                  className="my-5 px-5 ml-5"
+                  type="submit"
+                >
+                  Perbarui Data
+                </Button>
               </Form>
             </Widget>
           </Col>

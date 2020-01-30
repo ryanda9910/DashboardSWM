@@ -199,7 +199,7 @@ class Userdata extends React.Component {
         );
         return (
           <tr>
-            <td>{item.role_id.name}</td>
+            <td>{item.role_id ? item.role_id.name : '-'}</td>
             {/* <td>{item.distributor_id.code}</td> */}
             {/* <td>{isactive}</td> */}
             <td>{isactive}</td>

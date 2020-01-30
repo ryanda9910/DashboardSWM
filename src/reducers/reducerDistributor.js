@@ -10,6 +10,12 @@ const defaultState = {
   getSuccess: false,
   getError: false,
   dataDistributor: [],
+  // CREATE
+  createSuccess: false,
+  createError: false,
+  // DELETE
+  deleteSuccess: false,
+  deleteError: false,
 };
 
 export default function reducerTarifPelanggan(state = defaultState, action) {
@@ -35,20 +41,17 @@ export default function reducerTarifPelanggan(state = defaultState, action) {
         ...state,
         createSuccess: true,
         createError: false,
-        alertMessage: action.data
       };
       case CREATE_DISTRIBUTOR_ERROR:
         return {
           ...state,
           createSuccess: false,
           createError: action.payload,
-          alertMessage: null
         };
       // DELETE
       case DELETE_DISTRIBUTOR_SUCCESS:
         return {
           ...state,
-          alertMessage: action.data,
           deleteSuccess: true,
           deleteError: false
         };
@@ -56,7 +59,7 @@ export default function reducerTarifPelanggan(state = defaultState, action) {
         return {
           ...state,
           deleteSuccess: false,
-          deleteError: true
+          deleteError: action.payload
         };
       default:
           return state;

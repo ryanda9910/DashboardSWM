@@ -75,14 +75,13 @@ export const createDataRole = postData => {
           // ketika Error masuk kesini, backend
           // dispatch(createSuccess(res.data.status))
           dispatch(createRoleSuccess(res.data.message.data));
-        } else {
-          // jika validasi dari server error
-          // dispatch(createRoleError(res.data.message))
         }
         dispatch(getDataRole());
       })
       .catch(err => {
-        dispatch(createRoleError(err.response.status));
+        if (err.response) {
+          dispatch(createRoleError(err.response.status));
+        }
       });
   };
 };
@@ -98,7 +97,9 @@ export const deleteDataRole = id => {
         dispatch(getDataRole());
       })
       .catch(err => {
-        dispatch(deleteRoleError(err.response.status));
+        if (err.response) {
+          dispatch(deleteRoleError(err.response.status));
+        }
       });
   };
 };

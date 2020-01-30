@@ -189,7 +189,7 @@ class Distributor extends React.Component {
     });
 
     // table data
-    const tableData = dataDistributor ? (
+    const tableData = dataDistributor.length > 0 ? (
       dataDistributor.map(item => {
         console.log(item);
         const isactive = item.isactive ? (
@@ -292,7 +292,7 @@ class Distributor extends React.Component {
                       </thead>
                       <tbody id="myTable" className="position-relative">
                         {/* eslint-disable */}
-                        {this.props.getSuccess ? tableData : null}
+                        {this.props.dataDistributor ? tableData : null}
                       </tbody>
                       {/* eslint-enable */}
                     </Table>

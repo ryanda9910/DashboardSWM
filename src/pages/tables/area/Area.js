@@ -175,7 +175,7 @@ class Area extends React.Component {
     });
 
     // table data
-    const tableData = dataArea ? (
+    const tableData = dataArea.length > 0 ? (
       dataArea.map(item => {
         console.log(item);
         // const isactive = item.isactive ? (
@@ -264,7 +264,7 @@ class Area extends React.Component {
                       </thead>
                       <tbody id="myTable" className="position-relative">
                         {/* eslint-disable */}
-                        {this.props.getSuccess ? tableData : null}
+                        {this.props.dataArea ? tableData : null}
                       </tbody>
                       {/* eslint-enable */}
                     </Table>

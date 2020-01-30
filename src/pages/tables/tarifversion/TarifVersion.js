@@ -240,7 +240,7 @@ class Tarif extends React.Component {
 
     // table data
     const tableData =
-      this.props.dataTarifVersion ? (
+      this.props.dataTarifVersion.length > 0 ? (
         this.props.dataTarifVersion.map(item => {
           console.log(item);
           const isactive = item.isactive ? (
@@ -356,7 +356,7 @@ class Tarif extends React.Component {
                       </thead>
                       <tbody id="myTable" className="position-relative">
                         {/* eslint-disable */}
-                        {this.props.getSuccess ? tableData : null}
+                        {this.props.dataTarifVersion ? tableData : null}
                       </tbody>
                       {/* eslint-enable */}
                     </Table>

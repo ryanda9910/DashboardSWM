@@ -40,23 +40,37 @@ class App extends React.PureComponent {
     // HANDLE 401
     // note: karena setiapi request selalu mendapat 401, padahal token nya muncul di headers
     const { 
-      // TARIF VERSION
-      getTarifVersionError, createTarifVersionError, deleteTarifVersionError,
-      // TARIF
-      getTarifError, createTarifError, deleteTarifError,
+      // AREA
+      getAreaError, createAreaError, deleteAreaError,
       // DISTRIBUTOR
       getDistributorError, createDistributorError, deleteDistributorError,
+      // KELOMPOK PELANGGAN
+      getKelompokPelangganError, createKelompokPelangganError, deleteKelompokPelangganError,
+      // PELANGGAN
+      getPelangganError, createPelangganError, deletePelangganError,
+      // ROLE
+      getRoleError, createRoleError, deleteRoleError,
+      // TARIF
+      getTarifError, createTarifError, deleteTarifError,
+      // TARIF VERSION
+      getTarifVersionError, createTarifVersionError, deleteTarifVersionError,
+      // USER
+      getUserError, createUserError, deleteUserError,
     } = this.props;
     if(
+        getAreaError === 401 || createAreaError === 401 || deleteAreaError === 401 ||
+        getDistributorError === 401 || createDistributorError === 401 || deleteDistributorError === 401 ||
+        getKelompokPelangganError === 401 || createKelompokPelangganError === 401 || deleteKelompokPelangganError === 401 ||
+        getPelangganError === 401 || createPelangganError === 401 || deletePelangganError === 401 ||
+        getRoleError === 401 || createRoleError === 401 || deleteRoleError === 401 ||
         getTarifVersionError === 401 || createTarifVersionError === 401 || deleteTarifVersionError === 401 ||
         getTarifError === 401 || createTarifError === 401 || deleteTarifError === 401 ||
-        getDistributorError === 401 || createDistributorError === 401 || deleteDistributorError === 401
+        getUserError === 401 || createUserError === 401 || deleteUserError === 401
     ){
       // hapus token
       localStorage.removeItem('token');
       window.location.reload();
     }
-
 
     return (
         <div>
@@ -87,19 +101,38 @@ class App extends React.PureComponent {
 const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
   // 401
-  // TARIF VERSION
-  getTarifVersionError: state.reducerTarifVersion.getError,
-  createTarifVersionError: state.reducerTarifVersion.createError,
-  deleteTarifVersionError: state.reducerTarifVersion.deleteError,
-  // TARIF
-  getTarifError: state.reducerTarif.getError,
-  createTarifError: state.reducerTarif.createError,
-  deleteTarifError: state.reducerTarif.deleteError,
+  // AREA
+  getAreaError: state.reducerArea.getError,
+  createAreaError: state.reducerArea.createError,
+  deleteAreaError: state.reducerArea.deleteError,
   // DISTRIBUTOR
   getDistributorError: state.reducerDistributor.getError,
   createDistributorError: state.reducerDistributor.createError,
   deleteDistributorError: state.reducerDistributor.deleteError,
-
+  // KELOMPOK PELANGGAN
+  getKelompokPelangganError: state.reducerKelompokPelanggan.getError,
+  createKelompokPelangganError: state.reducerKelompokPelanggan.createError,
+  deleteKelompokPelangganError: state.reducerKelompokPelanggan.deleteError,
+  // PELANGGAN
+  getPelangganError: state.reducerPelanggan.getError,
+  createPelangganError: state.reducerPelanggan.createError,
+  deletePelangganError: state.reducerPelanggan.deleteError,
+  // ROLE
+  getRoleError: state.reducerRole.getError,
+  createRoleError: state.reducerRole.createError,
+  deleteRoleError: state.reducerRole.deleteError,
+  // TARIF
+  getTarifError: state.reducerTarif.getError,
+  createTarifError: state.reducerTarif.createError,
+  deleteTarifError: state.reducerTarif.deleteError,
+  // TARIF VERSION
+  getTarifVersionError: state.reducerTarifVersion.getError,
+  createTarifVersionError: state.reducerTarifVersion.createError,
+  deleteTarifVersionError: state.reducerTarifVersion.deleteError,
+  // USER
+  getUserError: state.reducerUser.getError,
+  createUserError: state.reducerUser.createError,
+  deleteUserError: state.reducerUser.deleteError,
 });
 
 export default connect(mapStateToProps)(App);

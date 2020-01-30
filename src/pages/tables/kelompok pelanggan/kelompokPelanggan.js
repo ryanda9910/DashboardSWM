@@ -186,7 +186,7 @@ class kelompokPelanggan extends React.Component {
     });
 
     // table data
-    const tableData = dataKelompokPelanggan ? (
+    const tableData = dataKelompokPelanggan.length > 0 ? (
       dataKelompokPelanggan.map(item => {
         console.log(item);
         const isactive = item.isactive ? (
@@ -289,7 +289,7 @@ class kelompokPelanggan extends React.Component {
                       </thead>
                       <tbody id="myTable" className="position-relative">
                         {/* eslint-disable */}
-                        {this.props.getSuccess ? tableData : null}
+                        {this.props.dataKelompokPelanggan ? tableData : null}
                       </tbody>
                       {/* eslint-enable */}
                     </Table>

@@ -9,8 +9,6 @@ import {
 } from "../actions/tables/tarif";
 //
 const defaultState = {
-  // ALERT
-  alertMessage: "",
   // GET
   getSuccess: false,
   getError: false,
@@ -19,12 +17,12 @@ const defaultState = {
   createSuccess: false,
   createError: false,
   // SHOW
-  showSuccess: false,
-  showError: false,
-  showData: [],
   // DELETE
   deleteSuccess: false,
   deleteError: false
+  // showSuccess: false,
+  // showError: false,
+  // showData: [],
 };
 
 export default function reducerTarif(state = defaultState, action) {
@@ -50,20 +48,17 @@ export default function reducerTarif(state = defaultState, action) {
         ...state,
         createSuccess: true,
         createError: false,
-        alertMessage: action.data
       };
     case CREATE_TARIF_ERROR:
       return {
         ...state,
         createSuccess: false,
         createError: action.payload,
-        alertMessage: null
       };
     // DELETE
     case DELETE_TARIF_SUCCESS:
       return {
         ...state,
-        alertMessage: action.data,
         deleteSuccess: true,
         deleteError: false
       };
@@ -71,7 +66,7 @@ export default function reducerTarif(state = defaultState, action) {
       return {
         ...state,
         deleteSuccess: false,
-        deleteError: true
+        deleteError: action.payload
       };
     default:
       return state;

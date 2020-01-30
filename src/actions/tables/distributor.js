@@ -94,7 +94,7 @@ export const deleteDataDistributor = (id) => {
       })
       .catch(err => {
       if(err.response){
-        dispatch(getDistributorError(err.response.status));
+        dispatch(deleteDistributorError(err.response.status));
       }        
       });
   };

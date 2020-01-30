@@ -212,7 +212,7 @@ class Pelanggan extends React.Component {
     });
 
     // table data
-    const tableData = this.props.dataPelanggan ? (
+    const tableData = this.props.dataPelanggan.length > 0 ? (
       this.props.dataPelanggan.map(item => {
         console.log(item);
         // const isactive = item.isactive ? (
@@ -332,7 +332,7 @@ class Pelanggan extends React.Component {
                         </tr>
                       </thead>
                       <tbody id="myTable" className="position-relative">
-                        {dataPelanggan.length > 0 ? tableData : null}
+                        {dataPelanggan ? tableData : null}
                       </tbody>
 
                       {/* emptyData */}

@@ -19,7 +19,7 @@ import UserData from "../../pages/tables/user/Userdata";
 import Distributor from "../../pages/tables/distributor/Distributor";
 
 //EDIT TABLES DATA
-import EditDataKelompokPelanggan from "../../pages/forms/editdatakelompokpelanggan/EditdatakelompokPelanggan";
+import EditDataKelompokPelanggan from "../../pages/forms/editdatakelompokpelanggan/Editdatakelompokpelanggan";
 import EditDataTarifPelanggan from "../../pages/forms/editdatatarifpelanggan/Editdatatarifpelanggan";
 import EditDataTarifVersion from "../../pages/forms/editdatatarifversion/Editdatatarifversion";
 import EditDataUsers from "../../pages/forms/editdatausers/Editdatausers";
@@ -103,7 +103,7 @@ class Layout extends React.Component {
                     <Route
                       path="/app"
                       exact
-                      render={() => <Redirect to="/dashboard" />}
+                      render={() => <Redirect to="/app/dashboard" />}
                     />
                     <Route path="/app/dashboard" exact component={Dashboard} />
 

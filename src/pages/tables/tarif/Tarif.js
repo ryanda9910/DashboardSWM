@@ -235,7 +235,6 @@ class Tarif extends React.Component {
           return (
             <tr>
               <td>{item.name}</td>
-              {/* <td>{item.distributor_id.code}</td> */}
               <td>{item.distributor_id.name}</td>
               <td>{isactive}</td>
               <td>{item.description}</td>
@@ -357,6 +356,7 @@ class Tarif extends React.Component {
               <FormGroup>
                 <Label for="exampleNama">Nama</Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="text"
                   name="name"
@@ -374,6 +374,7 @@ class Tarif extends React.Component {
                 {/* tampilkan distributor name dan id nya sebagai value */}
                 <Label for="exampleKode">ID Distributor</Label>
                 <Input
+                  required
                   value={this.state.distributor_id}
                   onChange={this.handleCreateChange}
                   name="distributor_id"
@@ -397,6 +398,7 @@ class Tarif extends React.Component {
                 <FormGroup className="display-inline-block checkbox-ios">
                   <Label for="exampleActive" className="switch">
                     <Input
+                      required
                       onChange={this.handleCreateChange}
                       type="checkbox"
                       id="exampleActive"
@@ -405,7 +407,7 @@ class Tarif extends React.Component {
                       label="Turn on this if True"
                     />
                     <i />
-                    Is Active
+                    Status
                   </Label>
                   {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
                   {/* <FormText>Example help text that remains unchanged.</FormText> */}
@@ -415,6 +417,7 @@ class Tarif extends React.Component {
               <FormGroup>
                 <Label for="exampleKode">Deskripsi</Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="text"
                   name="description"

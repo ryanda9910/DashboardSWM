@@ -48,42 +48,43 @@ export const deleteAreaError = payload => {
 
 // pengeksekusi, fungsi yang berhubungan langsung dengan server
 export const getDataArea = () => {
-  return dispatch => {
-    axios
-      .get("/api/area")
-      .then(res => {
-        console.log(res.data);
-        return dispatch(getAreaSuccess(res.data.message.data));
-      })
-      .catch(err => {
-        console.log(err.response);
-        // dispatch(getAreaError(err.response.status));
-      });
-  };
-};
-
-export const createDataArea = postData => {
-  return dispatch => {
-    axios
-      .post("/api/area/", postData)
-      .then(res => {
-        // jika success
-        if (res.data.code >= 200 || res.data.code < 300) {
-          console.log(res);
-          // ketika Error masuk kesini, backend
-          // dispatch(createSuccess(res.data.status))
-          dispatch(createAreaSuccess(res.data.message.data));
-        } else {
-          // jika validasi dari server error
-          // dispatch(createAreaError(res.data.message))
-        }
-        dispatch(getDataArea());
-      })
-      .catch(err => {
-        dispatch(createAreaError(err.response.status));
-      });
-  };
-};
+  return (dispatch) => {
+    axios.get('/api/area')
+    .then(res => {
+      console.log(res.data);
+      return dispatch(getAreaSuccess(res.data.message.data));
+    })
+    .catch(err => {
+      console.log(err.response);
+      if(err.response){
+        dispatch(getAreaError(err.response.status));
+      }
+    });
+  }
+}
+export const createDataArea = (postData) => {
+  return (dispatch) => {
+    axios.post("/api/area/", postData)
+    .then(res => {
+      // jika success
+      if (res.data.code >= 200 || res.data.code < 300) {
+        console.log(res)
+        // ketika Error masuk kesini, backend
+        // dispatch(createSuccess(res.data.status))
+        dispatch(createAreaSuccess(res.data.message.data))
+      }else{
+        // jika validasi dari server error
+        // dispatch(createAreaError(res.data.message))
+      }
+      dispatch(getDataArea())
+    })
+    .catch(err => {
+      if(err.response){
+        dispatch(createAreaError(err.response.status))     
+      }
+    });
+  }
+}
 export const deleteDataArea = id => {
   return dispatch => {
     axios
@@ -96,7 +97,9 @@ export const deleteDataArea = id => {
         dispatch(getDataArea());
       })
       .catch(err => {
-        // dispatch(deleteAreaError(err.response.status))
+        if(err.response){
+          dispatch(deleteAreaError(err.response.status))
+        }
       });
   };
 };

@@ -29,6 +29,7 @@ class Editdatadistributor extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      // data
       code: "",
       isactive: "",
       name: "",
@@ -37,6 +38,7 @@ class Editdatadistributor extends React.Component {
       phone: "",
       email: "",
       tipe: "",
+      //
       distributor_id: null,
       updateStatus: null,
       updateError: null
@@ -50,19 +52,19 @@ class Editdatadistributor extends React.Component {
     // id
     const id = this.props.match.params.id;
     axios
-      .get(config.remote + "/api/area/" + id)
+      .get(config.remote + "/api/distributor/" + id)
       .then(res => {
         console.log(res);
         //
         this.setState({
-          code: this.state.code,
-          isactive: this.state.isactive,
-          name: this.state.name,
-          contact: this.state.contact,
-          description: this.state.description,
-          phone: this.state.phone,
-          email: this.state.email,
-          tipe: this.state.tipe
+          code: res.data.data.code,
+          isactive: res.data.data.isactive,
+          name: res.data.data.name,
+          contact: res.data.data.contact,
+          description: res.data.data.description,
+          phone: res.data.data.phone,
+          email: res.data.data.email,
+          tipe: res.data.data.tipe
         });
       })
       .catch(err => {
@@ -78,7 +80,7 @@ class Editdatadistributor extends React.Component {
     e.preventDefault();
     const data = {
       code: this.state.code,
-      isactive: this.state.isactive,
+      isactive: this.state.isactive === true ? "true" : "false",
       name: this.state.name,
       contact: this.state.contact,
       description: this.state.description,
@@ -86,6 +88,8 @@ class Editdatadistributor extends React.Component {
       email: this.state.email,
       tipe: this.state.tipe
     };
+
+    console.log(data);
 
     // PUT
     const id = this.props.match.params.id;
@@ -95,7 +99,6 @@ class Editdatadistributor extends React.Component {
         console.log(res);
         //
         if (res.status >= 200 || res.status < 300) {
-          alert(res.data.status);
           this.setState({
             updateStatus: res.status
           });
@@ -109,9 +112,13 @@ class Editdatadistributor extends React.Component {
       });
   };
 
+  // track change
   handleChange = e => {
-    let name = e.target.name;
-    let value = e.target.value;
+    // handle checkedbox: https://stackoverflow.com/questions/55530348/react-how-to-pass-the-condition-when-checkbox-is-checked
+    const target = e.target;
+    const value = target.type === "checkbox" ? target.checked : target.value;
+    const name = target.name;
+    console.log(value);
     this.setState({
       [name]: value
     });
@@ -154,108 +161,128 @@ class Editdatadistributor extends React.Component {
               <Form onSubmit={this.doUpdateDataArea} className="mt-4">
                 {/* show ERROR */}
                 <FormGroup className="bg-danger">{updateError}</FormGroup>
+                {/* code */}
                 <FormGroup>
-                  <Label for="nama-input">Kode</Label>
-                  <input
+                  <Label for="code">Kode</Label>
+                  <Input
+                    required
                     value={this.state.code}
                     name="code"
                     onChange={this.handleChange}
-                    className="form-control"
-                    id="inputlg"
+                    id="code"
                     placeholder="Masukkan Kode "
                     type="text"
-                    style={{ color: "#FFF" }}
                   />
                 </FormGroup>
+                <div className={s.root}>
+                  <FormGroup className="display-inline-block checkbox-ios">
+                    <Label for="exampleActive" className="switch">
+                      <Input
+                        required
+                        checked={this.state.isactive}
+                        onChange={this.handleChange}
+                        type="checkbox"
+                        id="exampleActive"
+                        name="isactive"
+                        className="ios"
+                        label="Turn on this if True"
+                      />
+                      <i />
+                      Status
+                    </Label>
+                    {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                    {/* <FormText>Example help text that remains unchanged.</FormText> */}
+                  </FormGroup>
+                </div>
+                {/* name */}
                 <FormGroup>
-                  <Label for="exampleIsActive">Status</Label>
-                  <CustomInput
-                    checked={this.state.isactive}
-                    onChange={this.handleChange}
-                    type="switch"
-                    id="exampleIsActive"
-                    name="isactive"
-                    label="Turn on this if True"
-                  />
-                </FormGroup>
-                {/* distributor_id */}
-                <FormGroup>
-                  <Label for="nama-input">Nama</Label>
-                  <input
+                  <Label for="name">Nama</Label>
+                  <Input
+                    required
                     value={this.state.name}
-                    name="code"
+                    name="name"
                     onChange={this.handleChange}
-                    className="form-control"
-                    id="inputlg"
+                    id="name"
                     placeholder="Masukkan Nama"
                     type="text"
-                    style={{ color: "#FFF" }}
                   />
                 </FormGroup>
+                {/* contact */}
                 <FormGroup>
-                  <Label for="nama-input">Kontak</Label>
-                  <input
+                  <Label for="contact">Kontak</Label>
+                  <Input
+                    required
                     value={this.state.contact}
-                    name="code"
+                    name="contact"
                     onChange={this.handleChange}
-                    className="form-control"
-                    id="inputlg"
+                    id="contact"
                     placeholder="Masukkan Kontak "
                     type="text"
-                    style={{ color: "#FFF" }}
                   />
                 </FormGroup>
+                {/* description */}
                 <FormGroup>
-                  <Label for="nama-input">Deskripsi</Label>
-                  <input
+                  <Label for="description">Deskripsi</Label>
+                  <Input
+                    required
                     value={this.state.description}
-                    name="code"
+                    name="description"
                     onChange={this.handleChange}
-                    className="form-control"
-                    id="inputlg"
-                    placeholder="Masukkan Kode "
+                    id="description"
+                    placeholder="Masukkan Deskripsi"
                     type="text"
-                    style={{ color: "#FFF" }}
                   />
                 </FormGroup>
+                {/* phone */}
                 <FormGroup>
-                  <Label for="nama-input">Telepon</Label>
-                  <input
+                  <Label for="phone">Telepon</Label>
+                  <Input
+                    required
                     value={this.state.phone}
-                    name="code"
+                    name="phone"
                     onChange={this.handleChange}
-                    className="form-control"
-                    id="inputlg"
-                    placeholder="Masukkan Telepon "
-                    type="text"
-                    style={{ color: "#FFF" }}
+                    id="phone"
+                    placeholder="Masukkan Telepon"
                   />
                 </FormGroup>
+                {/* email */}
                 <FormGroup>
-                  <Label for="nama-input">Email</Label>
-                  <input
+                  <Label for="email">Email</Label>
+                  <Input
+                    required
                     value={this.state.email}
-                    name="code"
+                    name="email"
                     onChange={this.handleChange}
-                    className="form-control"
-                    id="inputlg"
-                    placeholder="Masukkan Kode "
+                    id="email"
+                    placeholder="Masukkan Email"
                     type="text"
-                    style={{ color: "#FFF" }}
+                  />
+                </FormGroup>
+                {/* tipe */}
+                <FormGroup>
+                  <Label for="tipe">Tipe</Label>
+                  <Input
+                    required
+                    value={this.state.tipe}
+                    name="tipe"
+                    onChange={this.handleChange}
+                    id="tipe"
+                    placeholder="Masukkan tipe"
+                    type="text"
                   />
                 </FormGroup>
 
-                <div>
-                  <a
-                    onClick={this.goBack}
-                    className="text-dark btn btn-light px-5"
-                  >
-                    Kembali
-                  </a>
-                  <Button className="px-5 ml-3" color="primary" type="submit">
-                    Update
-                  </Button>
-                </div>
+                <Button color="dark" onClick={this.goBack}>
+                  Kembali
+                </Button>
+
+                <Button
+                  color="warning"
+                  className="my-5 px-5 ml-5"
+                  type="submit"
+                >
+                  Perbarui Data
+                </Button>
               </Form>
             </Widget>
           </Col>
@@ -268,7 +295,7 @@ class Editdatadistributor extends React.Component {
 function mapStateToProps(state) {
   return {
     // DISTRIBUTOR
-    dataDistributor: state.reducerDistributor.dataDistributor
+    // dataDistributor: state.reducerDistributor.dataDistributor
   };
 }
 

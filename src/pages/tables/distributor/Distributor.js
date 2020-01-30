@@ -47,7 +47,11 @@ import Widget from "../../../components/Widget/Widget";
 // //   deleteDataKelompokPelanggan
 // "../../../actions/tables/kelompokpelanggan";
 // data distributor
-import { getDataDistributor } from "../../../actions/tables/distributor";
+import {
+  getDataDistributor,
+  createDataDistributor,
+  deleteDataDistributor
+} from "../../../actions/tables/distributor";
 // data tarif
 // import { getDataTarif } from "../../../actions/tables/tarif";
 
@@ -85,11 +89,12 @@ class Distributor extends React.Component {
   }
 
   // CREATE Tarif
-  doCreateDistributor = e => {
+  doCreate = e => {
     e.preventDefault();
     let postData = {
       code: this.state.code,
-      isactive: this.state.isactive,
+      isactive: this.state.isactive === true ? "true" : "false",
+      name: this.state.name,
       contact: this.state.contact,
       description: this.state.description,
       phone: this.state.phone,
@@ -99,7 +104,7 @@ class Distributor extends React.Component {
       // long: this.state.long,
     };
     console.log(postData);
-    // this.props.dispatch(createDataDistributor(postData));
+    this.props.dispatch(createDataDistributor(postData));
     this.setState({
       modalCreate: false
     });
@@ -121,7 +126,7 @@ class Distributor extends React.Component {
     let confirm = window.confirm("delete data, are you sure?");
     console.log(confirm);
     if (confirm) {
-      //   this.props.dispatch(deleteDataDistributor(id));
+      this.props.dispatch(deleteDataDistributor(id));
     }
   }
 
@@ -159,12 +164,12 @@ class Distributor extends React.Component {
     const { dataDistributor } = this.props;
 
     // create error
-    const createError =
-      this.props.createError === false ? null : (
-        <div className="text-center w-100 py-2">
-          <small className="text-white">{this.props.createError}</small>
-        </div>
-      );
+    // const createError =
+    //   this.props.createError === false ? null : (
+    //     <div className="text-center w-100 py-2">
+    //       <small className="text-white">{this.props.createError}</small>
+    //     </div>
+    //   );
 
     // search
     $(document).ready(function() {
@@ -308,121 +313,123 @@ class Distributor extends React.Component {
             Tambah Data
           </ModalHeader>
           <ModalBody>
-            <Form
-              id="formCreateDataTarif"
-              onSubmit={this.doCreateKelompokPelanggan}
-            >
-              {/* Kode */}
-              <FormGroup>
-                <Label for="exampleParent">Kode</Label>
-                <Input
-                  onChange={this.handleCreateChange}
-                  type="text"
-                  name="code"
-                  id="exampleCode"
-                  placeholder=" Masukkan Kode"
-                />
-              </FormGroup>
-              {/* group */}
-              <FormGroup>
-                <Label for="exampleGroup">Grup</Label>
-                <Input
-                  onChange={this.handleCreateChange}
-                  type="text"
-                  name="group"
-                  id="exampleGroup"
-                  placeholder="Masukkan Grup"
-                />
-                {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
-                {/* <FormText>Example help text that remains unchanged.</FormText> */}
-              </FormGroup>
+            <Form id="formCreateDataTarif" onSubmit={this.doCreate}>
               {/* code */}
               <FormGroup>
-                <Label for="exampleKode">Kode</Label>
+                <Label for="code">Kode</Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="text"
                   name="code"
-                  id="exampleKode"
+                  id="code"
                   placeholder="Masukkan Kode"
                 />
                 {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
                 {/* <FormText>Example help text that remains unchanged.</FormText> */}
               </FormGroup>
+              {/* isactive */}
+              {/* isactive */}
+              <div className={s.root}>
+                <FormGroup className="display-inline-block checkbox-ios">
+                  <Label for="exampleActive" className="switch">
+                    <Input
+                      required
+                      onChange={this.handleCreateChange}
+                      type="checkbox"
+                      id="exampleActive"
+                      name="isactive"
+                      className="ios"
+                      label="Turn on this if True"
+                    />
+                    <i />
+                    Status
+                  </Label>
+                  {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                  {/* <FormText>Example help text that remains unchanged.</FormText> */}
+                </FormGroup>
+              </div>
               {/* name */}
               <FormGroup>
-                <Label for="exampleName">Nama</Label>
+                <Label for="name">Nama</Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="text"
                   name="name"
-                  id="exampleName"
+                  id="name"
                   placeholder="Masukkan Nama"
                 />
                 {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
                 {/* <FormText>Example help text that remains unchanged.</FormText> */}
               </FormGroup>
-              {/* isacrive */}
+              {/* contact */}
               <FormGroup>
-                <Label for="exampleKode">Kontak</Label>
+                <Label for="contact">Kontak</Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="text"
                   name="contact"
-                  id="exampleContact"
+                  id="contact"
                   placeholder="Masukkan Kontak"
-                />
-                {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
-                {/* <FormText>Example help text that remains unchanged.</FormText> */}
-              </FormGroup>
-              {/* distributor_id */}
-              <FormGroup>
-                {/* tampilkan distributor name dan id nya sebagai value */}
-                <Label>Deskripsir</Label>
-                <Input
-                  onChange={this.handleCreateChange}
-                  type="text"
-                  name="description"
-                  id="exampleDescription"
-                  placeholder="Masukkan Deskripsi"
-                />
-                {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
-                {/* <FormText>Example help text that remains unchanged.</FormText> */}
-              </FormGroup>
-              {/* tarif_id */}
-              <FormGroup>
-                {/* tampilkan distributor name dan id nya sebagai value */}
-                <Label>Telepon</Label>
-                <Input
-                  onChange={this.handleCreateChange}
-                  type="text"
-                  name="phone"
-                  id="examplePhone"
-                  placeholder="Masukkan Telepon"
                 />
                 {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
                 {/* <FormText>Example help text that remains unchanged.</FormText> */}
               </FormGroup>
               {/* description */}
               <FormGroup>
-                <Label for="exampleDesc">Email</Label>
+                {/* tampilkan distributor name dan id nya sebagai value */}
+                <Label for="description">Deskripsi</Label>
                 <Input
+                  required
+                  onChange={this.handleCreateChange}
+                  type="text"
+                  name="description"
+                  id="description"
+                  placeholder="Masukkan Deskripsi"
+                />
+                {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                {/* <FormText>Example help text that remains unchanged.</FormText> */}
+              </FormGroup>
+              {/* phone */}
+              <FormGroup>
+                {/* tampilkan distributor name dan id nya sebagai value */}
+                <Label for="phone">Telepon</Label>
+                <Input
+                  required
+                  onChange={this.handleCreateChange}
+                  type="text"
+                  name="phone"
+                  id="phone"
+                  placeholder="Masukkan Telepon"
+                />
+                {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                {/* <FormText>Example help text that remains unchanged.</FormText> */}
+              </FormGroup>
+              {/* email */}
+              <FormGroup>
+                <Label for="email">Email</Label>
+                <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="text"
                   name="email"
-                  id="exampleEmail"
+                  id="email"
                   placeholder="Masukkan Email"
                 />
                 {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
                 {/* <FormText>Example help text that remains unchanged.</FormText> */}
               </FormGroup>
+              {/* tipe */}
               <FormGroup>
-                <Label for="exampleDesc">Tipe</Label>
+                <Label for="tipe">Tipe</Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="text"
                   name="tipe"
-                  id="exampleTipe"
+                  id="tipe"
                   placeholder="Masukkan Tipe"
                 />
                 {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}

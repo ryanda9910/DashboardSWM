@@ -318,6 +318,7 @@ class kelompokPelanggan extends React.Component {
               <FormGroup>
                 <Label for="exampleParent">Parent Grup </Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="text"
                   name="parent_group"
@@ -329,6 +330,7 @@ class kelompokPelanggan extends React.Component {
               <FormGroup>
                 <Label for="exampleGroup">Grup</Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="text"
                   name="group"
@@ -342,6 +344,7 @@ class kelompokPelanggan extends React.Component {
               <FormGroup>
                 <Label for="exampleKode">Kode</Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="text"
                   name="code"
@@ -355,6 +358,7 @@ class kelompokPelanggan extends React.Component {
               <FormGroup>
                 <Label for="exampleName">Name</Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="text"
                   name="name"
@@ -369,6 +373,7 @@ class kelompokPelanggan extends React.Component {
                 <FormGroup className="display-inline-block checkbox-ios">
                   <Label for="isactive" className="switch">
                     <Input
+                      required
                       onChange={this.handleCreateChange}
                       type="checkbox"
                       id="isactive"
@@ -391,6 +396,7 @@ class kelompokPelanggan extends React.Component {
                 {/* tampilkan distributor name dan id nya sebagai value */}
                 <Label>ID Distributor</Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="select"
                   name="distributor_id"
@@ -408,6 +414,7 @@ class kelompokPelanggan extends React.Component {
                 {/* tampilkan distributor name dan id nya sebagai value */}
                 <Label>ID Tarif</Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="select"
                   name="tarif_id"
@@ -424,6 +431,7 @@ class kelompokPelanggan extends React.Component {
               <FormGroup>
                 <Label for="exampleDesc">Deskripsi</Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="text"
                   name="description"

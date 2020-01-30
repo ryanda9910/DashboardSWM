@@ -17,6 +17,7 @@
 // CUSTOM
 
 const hostApi = "http://swm-apis.herokuapp.com";
+// const hostApi = "http://192.168.6.22:5000";
 // const portApi = 5000;
 const portApi = "";
 const baseURLApi = `${hostApi}${portApi ? `:${portApi}` : ``}`;

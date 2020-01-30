@@ -152,19 +152,16 @@ class Editdatatarifpelanggan extends React.Component {
           <Col lg={7}>
             <Widget refresh collapse close className="px-5">
               <Col lg={7} className="px-1 pb-3">
-                <a
-                  onClick={this.goBack}
-                  className="btn btn-light text-dark"
-                  type="submit"
-                >
+                <Button onClick={this.goBack} color="dark" type="button">
                   Kembali
-                </a>
+                </Button>
               </Col>
               <Form onSubmit={this.doUpdateTarif}>
                 {/* name */}
                 <FormGroup>
                   <Label for="exampleNama">Nama</Label>
                   <Input
+                    required
                     value={this.state.name}
                     onChange={this.handleChange}
                     type="text"
@@ -177,6 +174,7 @@ class Editdatatarifpelanggan extends React.Component {
                 <FormGroup>
                   <Label for="exampleKode">ID Distributor</Label>
                   <Input
+                    required
                     value={this.state.distributor_id}
                     onChange={this.handleChange}
                     type="select"
@@ -193,6 +191,7 @@ class Editdatatarifpelanggan extends React.Component {
                   <FormGroup className="display-inline-block checkbox-ios">
                     <Label for="isactive" className="switch">
                       <Input
+                        required
                         checked={this.state.isactive}
                         onChange={this.handleChange}
                         type="checkbox"
@@ -214,6 +213,7 @@ class Editdatatarifpelanggan extends React.Component {
                 <FormGroup>
                   <Label for="exampleDescription">Description</Label>
                   <Input
+                    required
                     value={this.state.description}
                     onChange={this.handleChange}
                     type="textarea"
@@ -227,7 +227,7 @@ class Editdatatarifpelanggan extends React.Component {
                 <FormGroup row>{updateError}</FormGroup>
 
                 {/* button */}
-                <Button color="primary">Update</Button>
+                <Button color="warning">Perbarui Data</Button>
               </Form>
             </Widget>
           </Col>

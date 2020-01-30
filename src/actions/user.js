@@ -105,12 +105,14 @@ export function loginUser(creds) {
               return dispatch(receiveToken(token));
             }).catch(err => {
               // console.log(err.response.data.message)
-              dispatch(loginError(err.response.data.message));
+              if (err.response) {
+                dispatch(loginError(err.response.data.message));      
+              }              
             })
-
-          } else {
-            dispatch(loginError('Something was wrong. Try again'));
-          }
+          } 
+          // else {
+          //   dispatch(loginError('Something was wrong. Try again'));
+          // }
         }
     };
 }

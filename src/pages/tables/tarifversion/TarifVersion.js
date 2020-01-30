@@ -391,6 +391,7 @@ class Tarif extends React.Component {
               <FormGroup>
                 <Label for="name">Nama</Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="text"
                   name="name"
@@ -408,6 +409,7 @@ class Tarif extends React.Component {
                 {/* tampilkan distributor name dan id nya sebagai value */}
                 <Label>ID Distributor</Label>
                 <Input
+                  required
                   value={this.state.distributor_id}
                   onChange={this.handleCreateChange}
                   name="distributor_id"
@@ -429,6 +431,7 @@ class Tarif extends React.Component {
               <FormGroup>
                 <Label>ID Tarif</Label>
                 <Input
+                  required
                   value={this.state.tarif_id}
                   onChange={this.handleCreateChange}
                   name="tarif_id"
@@ -450,6 +453,7 @@ class Tarif extends React.Component {
               <FormGroup>
                 <Label for="volume1">Volume 1</Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="number"
                   name="volume1"
@@ -461,6 +465,7 @@ class Tarif extends React.Component {
               <FormGroup>
                 <Label for="price1">Price 1</Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="number"
                   name="price1"
@@ -472,6 +477,7 @@ class Tarif extends React.Component {
               <FormGroup>
                 <Label for="volume2">Volume 2</Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="number"
                   name="volume2"
@@ -483,6 +489,7 @@ class Tarif extends React.Component {
               <FormGroup>
                 <Label for="price2">Price 2</Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="number"
                   name="price2"
@@ -494,6 +501,7 @@ class Tarif extends React.Component {
               <FormGroup>
                 <Label for="volume3">Volume 2</Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="number"
                   name="volume3"
@@ -505,6 +513,7 @@ class Tarif extends React.Component {
               <FormGroup>
                 <Label for="price3">Price 2</Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="number"
                   name="price3"
@@ -516,6 +525,7 @@ class Tarif extends React.Component {
               <FormGroup>
                 <Label for="validFrom">Valid From</Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="date"
                   name="validFrom"
@@ -531,7 +541,7 @@ class Tarif extends React.Component {
 
               <ModalFooter>
                 <Button color="dark" onClick={() => this.toggle("modalCreate")}>
-                  Close
+                  Kembali
                 </Button>
                 {/* craete */}
                 <Button color="warning" className="px-5" type="submit">

@@ -51,7 +51,11 @@ class App extends React.PureComponent {
       // TARIF
       getTarifError,
       createTarifError,
-      deleteTarifError
+      deleteTarifError,
+      // DISTRIBUTOR
+      getDistributorError,
+      createDistributorError,
+      deleteDistributorError
     } = this.props;
     if (
       getTarifVersionError === 401 ||
@@ -59,7 +63,10 @@ class App extends React.PureComponent {
       deleteTarifVersionError === 401 ||
       getTarifError === 401 ||
       createTarifError === 401 ||
-      deleteTarifError === 401
+      deleteTarifError === 401 ||
+      getDistributorError === 401 ||
+      createDistributorError === 401 ||
+      deleteDistributorError === 401
     ) {
       // hapus token
       localStorage.removeItem("token");
@@ -106,7 +113,11 @@ const mapStateToProps = state => ({
   // TARIF
   getTarifError: state.reducerTarif.getError,
   createTarifError: state.reducerTarif.createError,
-  deleteTarifError: state.reducerTarif.deleteError
+  deleteTarifError: state.reducerTarif.deleteError,
+  // DISTRIBUTOR
+  getDistributorError: state.reducerDistributor.getError,
+  createDistributorError: state.reducerDistributor.createError,
+  deleteDistributorError: state.reducerDistributor.deleteError
 });
 
 export default connect(mapStateToProps)(App);

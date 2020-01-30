@@ -52,41 +52,43 @@ export const deleteKelompokPelangganError = payload => {
 
 // pengeksekusi, fungsi yang berhubungan langsung dengan server
 export const getDataKelompokPelanggan = () => {
-  return dispatch => {
-    axios
-      .get("/api/custgroup")
-      .then(res => {
-        console.log(res.data);
-        return dispatch(getKelompokPelangganSuccess(res.data.message.data));
-      })
-      .catch(err => {
-        console.log(err.response);
-        // dispatch(getKelompokPelangganError(err.response.status));
-      });
-  };
-};
-export const createDataKelompokPelanggan = postData => {
-  return dispatch => {
-    axios
-      .post("/api/custgroup/", postData)
-      .then(res => {
-        // jika success
-        if (res.data.code >= 200 || res.data.code < 300) {
-          console.log(res);
-          // ketika Error masuk kesini, backend
-          // dispatch(createSuccess(res.data.status))
-          dispatch(createKelompokPelangganSuccess(res.data.message.data));
-        } else {
-          // jika validasi dari server error
-          // dispatch(createKelompokPelangganError(res.data.message))
-        }
-        dispatch(getDataKelompokPelanggan());
-      })
-      .catch(err => {
-        dispatch(createKelompokPelangganError(err.response.status));
-      });
-  };
-};
+  return (dispatch) => {
+    axios.get('/api/custgroup')
+    .then(res => {
+      console.log(res.data);
+      return dispatch(getKelompokPelangganSuccess(res.data.message.data));
+    })
+    .catch(err => {
+      console.log(err.response);
+      if(err.response){
+        dispatch(getKelompokPelangganError(err.response.status));
+      }
+    });
+  }
+}
+export const createDataKelompokPelanggan = (postData) => {
+  return (dispatch) => {
+    axios.post("/api/custgroup/", postData)
+    .then(res => {
+      // jika success
+      if (res.data.code >= 200 || res.data.code < 300) {
+        console.log(res)
+        // ketika Error masuk kesini, backend
+        // dispatch(createSuccess(res.data.status))
+        dispatch(createKelompokPelangganSuccess(res.data.message.data))
+      }else{
+        // jika validasi dari server error
+        // dispatch(createKelompokPelangganError(res.data.message))
+      }
+      dispatch(getDataKelompokPelanggan())
+    })
+    .catch(err => {
+      if(err.response){
+        dispatch(createKelompokPelangganError(err.response.status))     
+      }
+    });
+  }
+}
 export const deleteDataKelompokPelanggan = id => {
   return dispatch => {
     axios
@@ -99,7 +101,9 @@ export const deleteDataKelompokPelanggan = id => {
         dispatch(getDataKelompokPelanggan());
       })
       .catch(err => {
-        dispatch(deleteKelompokPelangganError(err.response.status));
+        if(err.response){
+          dispatch(deleteKelompokPelangganError(err.response.status))
+        }
       });
   };
 };

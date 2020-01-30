@@ -55,15 +55,6 @@ class Roledata extends React.Component {
     dispatch: PropTypes.func.isRequired
   };
 
-  static isAuthenticated(token) {
-    // We check if app runs with backend mode
-    // if (!config.isBackend && token) return true;
-    if (!token) return;
-    const date = new Date().getTime() / 1000;
-    const data = jwt.decode(token);
-    return date < data.exp;
-  }
-
   constructor(props) {
     super(props);
     this.state = {
@@ -72,37 +63,95 @@ class Roledata extends React.Component {
       isactive: "",
       name: "",
       description: "",
-      menuaccess: "",
+      menuaccess: [],
       distributor_id: "",
       // ALERT
       showAlert: false,
       alertDestroy: false,
       // MODALS
-      modalCreate: false
+      modalCreate: false,
+      // HANDLE MENUACCESS
+      tarifversion: false,
+      tarif: false,
+      cutomerbilling: false,
+      pelanggan: false
     };
     //
     this.handleCreateChange = this.handleCreateChange.bind(this);
   }
 
   componentDidMount() {
-    // masih race condition, harusnya pas modals muncul aja
     // GET data
     this.props.dispatch(getDataRole());
     // GET data distributor
     // if(this.state.modalCreate === true){
     this.props.dispatch(getDataDistributor());
     // }
-
-    // ALERT
-    // return this.props.alertMessage ? this.onShowAlert() : null;
   }
 
   // CREATE Role
   doCreateRole = e => {
     e.preventDefault();
+    // HANDLE MENU ACCESS
+    const tarif = this.state.tarif === true ? "tarif" : "popTarif";
+    const tarifversion =
+      this.state.tarifversion === true ? "tarifversion" : "popTarifVersion";
+    const customerbilling =
+      this.state.customerbilling === true
+        ? "customerbilling"
+        : "popCustomerBilling";
+    const pelanggan =
+      this.state.pelanggan === true ? "pelanggan" : "popPelanggan";
+    //
+    if (this.state.menuaccess.indexOf("tarif") === -1) {
+      if (tarif === "tarif") {
+        this.state.menuaccess.push(tarif);
+      }
+    } else {
+      if (tarif === "popTarif") {
+        this.state.menuaccess.splice(this.state.menuaccess.indexOf("tarif"), 1);
+      }
+    }
+    if (this.state.menuaccess.indexOf("tarifversion") === -1) {
+      if (tarifversion === "tarifversion") {
+        this.state.menuaccess.push(tarifversion);
+      }
+    } else {
+      if (tarifversion === "popTarifVersion") {
+        this.state.menuaccess.splice(
+          this.state.menuaccess.indexOf("tarifversion"),
+          1
+        );
+      }
+    }
+    if (this.state.menuaccess.indexOf("customerbilling") === -1) {
+      if (customerbilling === "customerbilling") {
+        this.state.menuaccess.push(customerbilling);
+      }
+    } else {
+      if (customerbilling === "popCustomerBilling") {
+        this.state.menuaccess.splice(
+          this.state.menuaccess.indexOf("customerbilling"),
+          1
+        );
+      }
+    }
+    if (this.state.menuaccess.indexOf("pelanggan") === -1) {
+      if (pelanggan === "pelanggan") {
+        this.state.menuaccess.push(pelanggan);
+      }
+    } else {
+      if (pelanggan === "popPelanggan") {
+        this.state.menuaccess.splice(
+          this.state.menuaccess.indexOf("pelanggan"),
+          1
+        );
+      }
+    }
+
     let postData = {
       code: this.state.code,
-      isactive: this.state.isactive,
+      isactive: this.state.isactive === true ? "true" : "false",
       name: this.state.name,
       description: this.state.description,
       menuaccess: this.state.menuaccess,
@@ -110,6 +159,7 @@ class Roledata extends React.Component {
     };
     console.log(postData);
     this.props.dispatch(createDataRole(postData));
+    this.setState({ modalCreate: false });
   };
   // track change
   handleCreateChange = e => {
@@ -148,7 +198,6 @@ class Roledata extends React.Component {
         }, 2000);
       }
     );
-    localStorage.removeItem("isCreated");
   };
 
   toggle(id) {
@@ -160,11 +209,6 @@ class Roledata extends React.Component {
   render() {
     console.log(this.state);
     console.log(this.props);
-
-    // jika error karena 401 atau lainnya, tendang user dengan hapus cookie
-    // if(this.props.getError){
-    //   return document.cookie = 'token=;expires=Thu, 01 Jan 1970 00:00:01 GMT;'
-    // }
 
     const { modalCreate } = this.state;
     const { createSuccess, dataDistributor } = this.props;
@@ -198,27 +242,26 @@ class Roledata extends React.Component {
     const tableData =
       this.props.dataRole.length > 0 ? (
         this.props.dataRole.map(item => {
-          console.log(item);
+          // console.log(item);
+          // handle isactive
           const isactive = item.isactive ? (
             <span className="badge btn-success">TRUE</span>
           ) : (
             <span className="badge btn-danger">FALSE</span>
           );
-          let menuaccess = "";
-          for (var a = 0; a < item.menuaccess.length; a++) {
-            menuaccess += item.menuaccess[a];
-          }
-          console.log(menuaccess);
+          // handle menuaccess
+          // let menuaccess = "";
+          // for (var a = 0; a < item.menuaccess.length; a++) {
+          //   menuaccess += item.menuaccess[a]+" ";
+          // }
           return (
             <tr>
               <td>{item.code}</td>
-              {/* <td>{item.distributor_id.code}</td> */}
-              <td>{isactive}</td>
-              {/* <td>{item.isactive}</td> */}
               <td>{item.name}</td>
+              <td>{isactive}</td>
+              {/* <td>{menuaccess}</td> */}
+              <td>{item.distributor_id.name}</td>
               <td>{item.description}</td>
-              <td>{menuaccess}</td>
-              <td>{item.distributor_id._id}</td>
               <td>
                 <Link
                   to={"/app/forms/editdatarole/" + item._id}
@@ -309,11 +352,11 @@ class Roledata extends React.Component {
                       <thead>
                         <tr>
                           <th>Kode</th>
-                          <th>Status</th>
                           <th>Nama</th>
-                          <th>Deskripsi</th>
-                          <th>Akses Menu</th>
+                          <th>Status</th>
+                          {/* <th>Akses Menu</th> */}
                           <th>ID Distributor</th>
+                          <th>Deskripsi</th>
                           <th>Aksi</th>
                         </tr>
                       </thead>
@@ -346,52 +389,55 @@ class Roledata extends React.Component {
             >
               {/* code */}
               <FormGroup>
-                <Label for="exampleNama">Kode </Label>
+                <Label for="code">Kode </Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="text"
                   name="code"
-                  id="exampleCode"
+                  id="code"
                   placeholder=" Masukkan Kode"
                 />
               </FormGroup>
-              {/* Isactive */}
-              <div className={s.root + " align-self-center"}>
-                <FormGroup className="display-inline-block checkbox-ios">
-                  <Label for="isactive" className="switch">
-                    <Input
-                      onChange={this.handleCreateChange}
-                      type="checkbox"
-                      id="isactive"
-                      name="isactive"
-                      className="ios"
-                      label="Turn on this if True"
-                    />
-                    <i />
-                    <Label for="isactive" className="pl-3">
-                      Status
-                    </Label>
-                  </Label>
-                  {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
-                  {/* <FormText>Example help text that remains unchanged.</FormText> */}
-                </FormGroup>
-              </div>
-
+              {/* name */}
               <FormGroup>
-                <Label for="exampleKode">Nama</Label>
+                <Label for="name">Nama</Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="text"
                   name="name"
-                  id="exampleName"
+                  id="name"
                   placeholder="Masukkan Nama"
                 />
                 {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
                 {/* <FormText>Example help text that remains unchanged.</FormText> */}
               </FormGroup>
+              {/* isactive */}
+              <div className={s.root}>
+                <FormGroup className="display-inline-block checkbox-ios">
+                  <Label for="exampleActive" className="switch">
+                    <Input
+                      required
+                      onChange={this.handleCreateChange}
+                      type="checkbox"
+                      id="exampleActive"
+                      name="isactive"
+                      className="ios"
+                      label="Turn on this if True"
+                    />
+                    <i />
+                    Status
+                  </Label>
+                  {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                  {/* <FormText>Example help text that remains unchanged.</FormText> */}
+                </FormGroup>
+              </div>
+              {/* description */}
               <FormGroup>
                 <Label for="exampleKode">Deskripsi</Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="text"
                   name="description"
@@ -401,29 +447,18 @@ class Roledata extends React.Component {
                 {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
                 {/* <FormText>Example help text that remains unchanged.</FormText> */}
               </FormGroup>
-              <FormGroup>
-                <Label for="exampleKode">Akses Menu</Label>
-                <Input
-                  onChange={this.handleCreateChange}
-                  type="select"
-                  name="tarif_id"
-                  id="exampleSelect"
-                >
-                  {dataDistributor.map(item => {
-                    return <option value={item._id}>{item.name}</option>;
-                  })}
-                </Input>
-              </FormGroup>
               {/* distributor_id */}
               <FormGroup>
                 {/* tampilkan distributor name dan id nya sebagai value */}
                 <Label for="exampleKode">Distributor ID </Label>
                 <Input
+                  required
                   onChange={this.handleCreateChange}
                   type="select"
                   name="distributor_id"
                   id="exampleSelect"
                 >
+                  <option value={null}></option>
                   {dataDistributor.map(item => {
                     return <option value={item._id}>{item.name}</option>;
                   })}
@@ -431,6 +466,63 @@ class Roledata extends React.Component {
                 {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
                 {/* <FormText>Example help text that remains unchanged.</FormText> */}
               </FormGroup>
+              {/* menuaccess */}
+              <Label>Menu akses</Label>
+              <FormGroup className="checkbox abc-checkbox abc-checkbox-primary">
+                <Input
+                  type="checkbox"
+                  onChange={this.handleCreateChange}
+                  id="tarif"
+                  name="tarif"
+                  label="tarif"
+                  value="tarif"
+                />
+                <Label for="tarif" check>
+                  tarif
+                </Label>
+              </FormGroup>
+
+              <FormGroup className="checkbox abc-checkbox abc-checkbox-primary">
+                <Input
+                  type="checkbox"
+                  onChange={this.handleCreateChange}
+                  id="tarifversion"
+                  name="tarifversion"
+                  label="tarifversion"
+                  value="tarifversion"
+                />
+                <Label for="tarifversion" check>
+                  tarif version
+                </Label>
+              </FormGroup>
+              <FormGroup className="checkbox abc-checkbox abc-checkbox-primary">
+                <Input
+                  type="checkbox"
+                  onChange={this.handleCreateChange}
+                  id="customerbilling"
+                  name="customerbilling"
+                  label="customerbilling"
+                  value="customerbilling"
+                />
+                <Label for="customerbilling" check>
+                  customer billing
+                </Label>
+              </FormGroup>
+
+              <FormGroup className="checkbox abc-checkbox abc-checkbox-primary">
+                <Input
+                  type="checkbox"
+                  onChange={this.handleCreateChange}
+                  id="pelanggan"
+                  name="pelanggan"
+                  label="pelanggan"
+                  value="pelanggan"
+                />
+                <Label for="pelanggan" check>
+                  pelanggan
+                </Label>
+              </FormGroup>
+
               {/* show ERROR */}
               <FormGroup row className="bg-danger">
                 {createError}

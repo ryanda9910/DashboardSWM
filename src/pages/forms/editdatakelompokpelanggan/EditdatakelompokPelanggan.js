@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import axios from "axios";
 
 // import InputValidation from "../../../components/InputValidation";
-import Widget from "../../../components/Widget";
+import Widget from "../../../components/Widget/Widget";
 
 // data distributor
 import { getDataDistributor } from "../../../actions/tables/distributor";
@@ -145,6 +145,7 @@ class Editdatakelompokpelanggan extends React.Component {
                 <FormGroup>
                   <Label for="parent_group">Parent Group</Label>
                   <Input
+                    required
                     value={this.state.parent_group}
                     onChange={this.handleChange}
                     id="parent_group"
@@ -157,6 +158,7 @@ class Editdatakelompokpelanggan extends React.Component {
                 <FormGroup>
                   <Label for="group">Group</Label>
                   <Input
+                    required
                     value={this.state.group}
                     onChange={this.handleChange}
                     id="group"
@@ -169,6 +171,7 @@ class Editdatakelompokpelanggan extends React.Component {
                 <FormGroup>
                   <Label for="code">Kode</Label>
                   <Input
+                    required
                     value={this.state.code}
                     onChange={this.handleChange}
                     id="code"
@@ -181,6 +184,7 @@ class Editdatakelompokpelanggan extends React.Component {
                 <FormGroup>
                   <Label for="name">Nama</Label>
                   <Input
+                    required
                     value={this.state.name}
                     onChange={this.handleChange}
                     id="name"
@@ -205,6 +209,7 @@ class Editdatakelompokpelanggan extends React.Component {
                   <FormGroup className="display-inline-block checkbox-ios">
                     <Label for="isactive" className="switch">
                       <Input
+                        required
                         checked={this.state.isactive}
                         onChange={this.handleChange}
                         type="checkbox"
@@ -227,6 +232,7 @@ class Editdatakelompokpelanggan extends React.Component {
                   {/* tampilkan distributor name dan id nya sebagai value */}
                   <Label>ID Distributor</Label>
                   <Input
+                    required
                     value={this.state.distributor_id}
                     onChange={this.handleChange}
                     type="select"
@@ -244,6 +250,7 @@ class Editdatakelompokpelanggan extends React.Component {
                   {/* tampilkan distributor name dan id nya sebagai value */}
                   <Label>ID Tarif</Label>
                   <Input
+                    required
                     value={this.state.tarif_id}
                     onChange={this.handleChange}
                     type="select"
@@ -260,6 +267,7 @@ class Editdatakelompokpelanggan extends React.Component {
                 <FormGroup>
                   <Label for="exampleDesc">Deskripsi</Label>
                   <Input
+                    required
                     value={this.state.description}
                     onChange={this.handleChange}
                     type="text"
@@ -272,21 +280,19 @@ class Editdatakelompokpelanggan extends React.Component {
                 </FormGroup>
 
                 <div className="float-right">
-                  <Button
-                    className="my-5 px-5 ml-5"
-                    color="light"
-                    type="button"
-                    onClick={this.goBack}
-                  >
-                    Kembali
-                  </Button>
-                  <Button
-                    className="my-5 px-5 ml-5"
-                    color="primary"
-                    type="submit"
-                  >
-                    Update
-                  </Button>
+                  <div className="float-right">
+                    <Button color="dark" onClick={this.goBack}>
+                      Kembali
+                    </Button>
+
+                    <Button
+                      color="warning"
+                      className="my-5 px-5 ml-5"
+                      type="submit"
+                    >
+                      Perbarui Data
+                    </Button>
+                  </div>
                 </div>
               </Form>
             </Widget>

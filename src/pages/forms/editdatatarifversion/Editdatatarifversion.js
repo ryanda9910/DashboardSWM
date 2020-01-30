@@ -179,19 +179,16 @@ class Editdatatarifpelanggan extends React.Component {
           <Col lg={7}>
             <Widget refresh collapse close className="px-5">
               <Col lg={7} className="px-1 pb-3">
-                <a
-                  onClick={this.goBack}
-                  className="btn btn-light text-dark"
-                  type="submit"
-                >
+                <Button onClick={this.goBack} color="dark" type="button">
                   Kembali
-                </a>
+                </Button>
               </Col>
               <Form onSubmit={this.doUpdateTarif}>
                 {/* name */}
                 <FormGroup>
                   <Label for="exampleNama">Nama</Label>
                   <Input
+                    required
                     value={this.state.name}
                     onChange={this.handleChange}
                     type="text"
@@ -204,6 +201,7 @@ class Editdatatarifpelanggan extends React.Component {
                 <FormGroup>
                   <Label>ID Tarif</Label>
                   <Input
+                    required
                     value={this.state.tarif_id}
                     onChange={this.handleChange}
                     type="select"
@@ -219,6 +217,7 @@ class Editdatatarifpelanggan extends React.Component {
                 <FormGroup>
                   <Label>ID Distributor</Label>
                   <Input
+                    required
                     value={this.state.distributor_id}
                     onChange={this.handleChange}
                     type="select"
@@ -235,6 +234,7 @@ class Editdatatarifpelanggan extends React.Component {
                   <FormGroup className="display-inline-block checkbox-ios">
                     <Label for="isactive" className="switch">
                       <Input
+                        required
                         checked={this.state.isactive}
                         onChange={this.handleChange}
                         type="checkbox"
@@ -256,6 +256,7 @@ class Editdatatarifpelanggan extends React.Component {
                 <FormGroup>
                   <Label for="exampleVolume1">Volume 1</Label>
                   <Input
+                    required
                     value={this.state.volume1}
                     onChange={this.handleChange}
                     type="number"
@@ -268,6 +269,7 @@ class Editdatatarifpelanggan extends React.Component {
                 <FormGroup>
                   <Label for="examplePrice1">Price 1</Label>
                   <Input
+                    required
                     value={this.state.price1}
                     onChange={this.handleChange}
                     type="number"
@@ -280,6 +282,7 @@ class Editdatatarifpelanggan extends React.Component {
                 <FormGroup>
                   <Label for="exampleVolume2">Volume 2</Label>
                   <Input
+                    required
                     value={this.state.volume2}
                     onChange={this.handleChange}
                     type="number"
@@ -292,6 +295,7 @@ class Editdatatarifpelanggan extends React.Component {
                 <FormGroup>
                   <Label for="examplePrice2">Price 2</Label>
                   <Input
+                    required
                     value={this.state.price2}
                     onChange={this.handleChange}
                     type="number"
@@ -304,6 +308,7 @@ class Editdatatarifpelanggan extends React.Component {
                 <FormGroup>
                   <Label for="exampleVolume3">Volume 3</Label>
                   <Input
+                    required
                     value={this.state.volume3}
                     onChange={this.handleChange}
                     type="number"
@@ -316,6 +321,7 @@ class Editdatatarifpelanggan extends React.Component {
                 <FormGroup>
                   <Label for="examplePrice3">Price 3</Label>
                   <Input
+                    required
                     value={this.state.price3}
                     onChange={this.handleChange}
                     type="number"
@@ -329,6 +335,7 @@ class Editdatatarifpelanggan extends React.Component {
                 <FormGroup>
                   <Label for="validFrom">Valid From</Label>
                   <Input
+                    required
                     value={this.state.validFrom}
                     onChange={this.handleChange}
                     type="date"
@@ -342,7 +349,7 @@ class Editdatatarifpelanggan extends React.Component {
                 <FormGroup row>{updateError}</FormGroup>
 
                 {/* button */}
-                <Button color="primary">Update</Button>
+                <Button color="warning">Perbarui Data</Button>
               </Form>
             </Widget>
           </Col>

@@ -201,8 +201,8 @@ class kelompokPelanggan extends React.Component {
             <td>{item.code}</td>
             <td>{item.name}</td>
             <td>{isactive}</td>
-            <td>{item.distributor_id.name}</td>
-            <td>{item.tarif_id.name}</td>
+            <td>{item.distributor_id ? item.distributor_id.name : '-'}</td>
+            <td>{item.tarif_id ? item.tarif_id.name : '-'}</td>
             <td>{item.description}</td>
             <td>
               <Link

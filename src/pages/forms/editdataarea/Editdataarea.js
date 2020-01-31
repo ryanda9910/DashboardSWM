@@ -5,6 +5,8 @@ import { Link, Redirect } from "react-router-dom";
 import axios from "axios";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+// actions
+import { detailDataArea } from "../../../actions/tables/area";
 import { getDataDistributor } from "../../../actions/tables/distributor";
 
 import s from "./editdataarea.module.scss";
@@ -34,8 +36,9 @@ class Editdataarea extends React.Component {
   componentDidMount() {
     // id
     const id = this.props.match.params.id;
+    // this.props.dispatch(detailDataArea(id));
     axios
-      .get(config.remote + "/api/area/" + id)
+      .get("/api/area/" + id)
       .then(res => {
         console.log(res);
         //
@@ -65,7 +68,7 @@ class Editdataarea extends React.Component {
     // PUT
     const id = this.props.match.params.id;
     axios
-      .put(config.remote + "/api/area/" + id, data)
+      .put("/api/area/" + id, data)
       .then(res => {
         console.log(res);
         //
@@ -195,7 +198,9 @@ class Editdataarea extends React.Component {
 function mapStateToProps(state) {
   return {
     // DISTRIBUTOR
-    dataDistributor: state.reducerDistributor.dataDistributor
+    dataDistributor: state.reducerDistributor.dataDistributor,
+    // AREA DETAIL
+    // detailData: state.reducerArea.detailData,
   };
 }
 

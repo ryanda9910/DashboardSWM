@@ -19,7 +19,6 @@ import {
   InputGroupAddon,
   InputGroupText
 } from "reactstrap";
-import axios from "axios";
 import $ from "jquery";
 import {
   BrowserRouter as Router,
@@ -39,6 +38,9 @@ import cx from "classnames";
 import config from "../../../config";
 import Loader from "../../../components/Loader/Loader";
 import s from "./Area.module.scss";
+// paginate
+import ReactPaginate from 'react-paginate';
+
 
 import Widget from "../../../components/Widget/Widget";
 // actions
@@ -67,7 +69,12 @@ class Area extends React.Component {
       showAlert: false,
       alertDestroy: false,
       // MODALS
-      modalCreate: false
+      modalCreate: false,
+      // PAGINATE
+      offset: 0,
+      perPage: 25,
+      currentPage: 0,
+      pageCount: 0,
     };
     //
     this.handleCreateChange = this.handleCreateChange.bind(this);
@@ -76,8 +83,26 @@ class Area extends React.Component {
   componentDidMount() {
     // masih race condition, harusnya pas modals muncul aja
     // GET data
-    this.props.dispatch(getDataArea());
+    this.receiveData();
+    if(this.props.getSuccess){
+      this.pageCount();
+    }
   }
+  pageCount(){
+    this.setState({
+      pageCount: this.props.dataAreaPaginate.pages
+    })
+  }
+  // RECEIVE DATA
+  receiveData(){
+    this.props.dispatch(getDataArea(this.state.currentPage));
+  }
+  handlePageClick = (data) => {
+    const selectedPage = data.selected;
+    const offset = selectedPage * this.state.perPage;
+    this.setState({ currentPage: selectedPage, offset: offset });
+  }
+
 
   // CREATE Tarif
   doCreateArea = e => {
@@ -157,6 +182,7 @@ class Area extends React.Component {
         </div>
       );
 
+
     // search
     $(document).ready(function() {
       $("#myInput").on("keyup", function() {
@@ -177,17 +203,12 @@ class Area extends React.Component {
     // table data
     const tableData = dataArea.length > 0 ? (
       dataArea.map(item => {
-        console.log(item);
-        // const isactive = item.isactive ? (
-        //   <span className="badge btn-success">TRUE</span>
-        // ) : (
-        //   <span className="badge btn-danger">FALSE</span>
-        // );
+        // console.log(item);
         return (
           <tr>
             <td>{item.code}</td>
             <td>{item.name}</td>
-            <td>{item.distributor_id.name}</td>
+            <td>{item.distributor_id ? item.distributor_id.name : '-'}</td>
             <td>
               <Link to={"/app/forms/editdataarea/" + item._id} className="mr-1">
                 <span className="text-success">
@@ -264,11 +285,27 @@ class Area extends React.Component {
                       </thead>
                       <tbody id="myTable" className="position-relative">
                         {/* eslint-disable */}
-                        {this.props.dataArea ? tableData : null}
+                        {dataArea ? tableData : null}
                       </tbody>
                       {/* eslint-enable */}
                     </Table>
                   </div>
+                  <Col lg={12}>
+                    {/* react-paginate */}
+                    <ReactPaginate
+                      previousLabel={"← Previous"}
+                      nextLabel={"Next →"}
+                      breakLabel={<span className="gap">...</span>}
+                      pageCount={this.state.pageCount}
+                      onPageChange={this.handlePageClick}
+                      forcePage={this.state.currentPage}
+                      containerClassName={"pagination"}
+                      previousLinkClassName={"previous_page"}
+                      nextLinkClassName={"next_page"}
+                      disabledClassName={"disabled"}
+                      activeClassName={"active"}
+                    />
+                  </Col>
                 </Widget>
               </Col>
             </Row>
@@ -362,6 +399,7 @@ function mapStateToProps(state) {
     getSuccess: state.reducerArea.getSuccess,
     getError: state.reducerArea.getError,
     dataArea: state.reducerArea.dataArea,
+    dataAreaPaginate: state.reducerArea.dataAreaPaginate,
     // CREATE
     createSuccess: state.reducerArea.createSuccess,
     createError: state.reducerArea.createError,

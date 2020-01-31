@@ -6,6 +6,8 @@ import {
   CREATE_AREA_ERROR,
   DELETE_AREA_SUCCESS,
   DELETE_AREA_ERROR,
+  // DETAIL_AREA_SUCCESS,
+  // DETAIL_AREA_ERROR,
 } from "../actions/tables/area";
 //
 const defaultState = {
@@ -18,11 +20,11 @@ const defaultState = {
   createError: false,
   // DELETE
   deleteSuccess: false,
-  deleteError: false
-  // SHOW
-  // showSuccess: false,
-  // showError: false,
-  // showData: [],
+  deleteError: false,
+  // DETAIL
+  // detailSuccess: false,
+  // detailError: false,
+  // detailData: [],
 };
 
 export default function reducerArea(state = defaultState, action) {
@@ -33,14 +35,16 @@ export default function reducerArea(state = defaultState, action) {
         ...state,
         getSuccess: true,
         getError: false,
-        dataArea: action.data
+        dataArea: action.data.data,
+        dataAreaPaginate: action.data.meta,
       };
-    case GET_AREA_ERROR:
+      case GET_AREA_ERROR:
       return {
         ...state,
         getSuccess: false,
         getError: action.payload,
-        dataArea: null
+        dataArea: null,
+        dataAreaPaginate: action.data.meta,
       };
     // CREATE
     case CREATE_AREA_SUCCESS:
@@ -68,6 +72,22 @@ export default function reducerArea(state = defaultState, action) {
         deleteSuccess: false,
         deleteError: action.payload
       };
+    // DETAIL
+    // case DETAIL_AREA_SUCCESS:
+    //   return {
+    //     ...state,
+    //     detailSuccess: true,
+    //     detailError: false,
+    //     detailData: action.data,
+    //   };
+    //   case DETAIL_AREA_ERROR:
+    //   return {
+    //     ...state,
+    //     detailSuccess: false,
+    //     detailError: action.payload,
+    //     detailData: null,
+    //   };
+    // DEFAUL
     default:
       return state;
   }

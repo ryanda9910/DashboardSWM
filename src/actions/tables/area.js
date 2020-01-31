@@ -7,6 +7,9 @@ export const CREATE_AREA_SUCCESS = "CREATE_AREA_SUCCESS";
 export const CREATE_AREA_ERROR = "CREATE_AREA_ERROR";
 export const DELETE_AREA_SUCCESS = "DELETE_AREA_SUCCESS";
 export const DELETE_AREA_ERROR = "DELETE_AREA_ERROR";
+export const DETAIL_AREA_SUCCESS = "DETAIL_AREA_SUCCESS";
+export const DETAIL_AREA_ERROR = "DETAIL_AREA_ERROR";
+
 
 // pengolah bahan, fungsi yang mengembalikan bahan
 export const getAreaSuccess = data => {
@@ -45,14 +48,30 @@ export const deleteAreaError = payload => {
     payload
   };
 };
+// export const detailAreaSuccess = data => {
+//   return {
+//     type: DETAIL_AREA_SUCCESS,
+//     data
+//   };
+// };
+// export const detailAreaError = payload => {
+//   return {
+//     type: DETAIL_AREA_ERROR,
+//     payload
+//   };
+// };
+
 
 // pengeksekusi, fungsi yang berhubungan langsung dengan server
-export const getDataArea = () => {
+export const getDataArea = (currentPage) => {
+  // pagination
+
   return (dispatch) => {
-    axios.get('/api/area')
+    // axios.get('/api/area?page=2')
+    axios.get('/api/area?page='+currentPage)
     .then(res => {
       console.log(res.data);
-      return dispatch(getAreaSuccess(res.data.message.data));
+      dispatch(getAreaSuccess(res.data.message));
     })
     .catch(err => {
       console.log(err.response);
@@ -103,3 +122,18 @@ export const deleteDataArea = id => {
       });
   };
 };
+// export const detailDataArea = id => {
+//   return dispatch => {
+//     axios
+//       .get("/api/area/" + id)
+//       .then(res => {
+//         console.log(res.data);
+//         dispatch(detailAreaSuccess(res.data.data));
+//       })
+//       .catch(err => {
+//         if(err.response){
+//           dispatch(detailAreaError(err.response.status))
+//         }
+//       });
+//   };
+// };

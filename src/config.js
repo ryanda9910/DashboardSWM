@@ -16,8 +16,10 @@
 
 // CUSTOM
 
-const hostApi = "http://swm-apis.herokuapp.com";
-// const hostApi = "http://192.168.6.22:5000";
+// nusa fox
+const hostApi = "https://s01.nusafox.com:6661";
+// local hendri
+// const hostApi = "http://swm-apis.herokuapp.com";
 // const portApi = 5000;
 const portApi = "";
 const baseURLApi = `${hostApi}${portApi ? `:${portApi}` : ``}`;

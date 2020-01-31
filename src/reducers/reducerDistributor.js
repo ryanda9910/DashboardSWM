@@ -18,7 +18,7 @@ const defaultState = {
   deleteError: false,
 };
 
-export default function reducerTarifPelanggan(state = defaultState, action) {
+export default function reducerDistributor(state = defaultState, action) {
   switch (action.type) {
       // GET
       case GET_DISTRIBUTOR_SUCCESS:

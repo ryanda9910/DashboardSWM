@@ -251,8 +251,8 @@ class Tarif extends React.Component {
           return (
             <tr>
               <td>{item.name}</td>
-              <td>{item.tarif_id.name}</td>
-              <td>{item.distributor_id.name}</td>
+              <td>{item.tarif_id ? item.tarif_id.name : '-'}</td>
+              <td>{item.distributor_id ? item.distributor_id.name : '-'}</td>
               <td>{isactive}</td>
               <td>{item.volume1}M<sup>3</sup></td>
               <td>{item.price1}</td>

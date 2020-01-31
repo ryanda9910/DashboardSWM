@@ -226,12 +226,9 @@ class Pelanggan extends React.Component {
             {/* <td>{isactive}</td> */}
             <td>{item.name}</td>
             <td>{item.code}</td>
-            <td>{item.customer_group_id.name}</td>
-            {/* <td>{item.customer_grup_id}</td> */}
-            <td>{item.distributor_id.name}</td>
-            {/* <td>{item.distributor_id}</td> */}
-            <td>{item.area_id.name}</td>
-            {/* <td>{item.area_id}</td> */}
+            <td>{item.customer_group_id ? item.customer_group_id.name : '-'}</td>
+            <td>{item.distributor_id ? item.distributor_id.name : '-' }</td>
+            <td>{item.area_id ? item.area_id.name : '-'}</td>
             <td>{item.email}</td>
             <td>{item.address}</td>
             <td>{item.phone}</td>

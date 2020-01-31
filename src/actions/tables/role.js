@@ -55,6 +55,7 @@ export const getDataRole = () => {
     axios
       .get("/api/role")
       .then(res => {
+        console.log(res.data);
         dispatch(getRoleSuccess(res.data.message.data));
       })
       .catch(err => {

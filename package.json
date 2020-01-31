@@ -110,6 +110,7 @@
     "react-images": "^0.5.19",
     "react-maskedinput": "^4.0.1",
     "react-mde": "2.3.4",
+    "react-paginate": "^6.3.2",
     "react-redux": "^5.0.7",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",

@@ -35,7 +35,7 @@ class Editdataarea extends React.Component {
     // id
     const id = this.props.match.params.id;
     axios
-      .get(config.remote + "/api/area/" + id)
+      .get("/api/area/" + id)
       .then(res => {
         console.log(res);
         //
@@ -65,7 +65,7 @@ class Editdataarea extends React.Component {
     // PUT
     const id = this.props.match.params.id;
     axios
-      .put(config.remote + "/api/area/" + id, data)
+      .put("/api/area/" + id, data)
       .then(res => {
         console.log(res);
         //

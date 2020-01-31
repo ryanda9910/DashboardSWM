@@ -104,21 +104,21 @@ class Editdatausers extends React.Component {
     console.log(postData);
 
     // UPDATE data
-    // const id = this.props.match.params.id;
-    // axios
-    //   .put("/api/user/" + id, postData)
-    //   .then(res => {
-    //     console.log(res);
-    //     this.setState({
-    //       updateStatus: res.status
-    //     });
-    //   })
-    //   .catch(err => {
-    //     console.log(err.response);
-    //     this.setState({
-    //       updateError: "Something Wrong"
-    //     });
-    //   });
+    const id = this.props.match.params.id;
+    axios
+      .put("/api/user/" + id, postData)
+      .then(res => {
+        console.log(res);
+        this.setState({
+          updateStatus: res.status
+        });
+      })
+      .catch(err => {
+        console.log(err.response);
+        this.setState({
+          updateError: "Something Wrong"
+        });
+      });
   };
 
   // track change
@@ -183,7 +183,6 @@ class Editdatausers extends React.Component {
                   <FormGroup className="display-inline-block checkbox-ios">
                     <Label for="exampleActive" className="switch">
                       <Input
-                        required
                         checked={this.state.isactive}
                         onChange={this.handleChange}
                         type="checkbox"

@@ -25,7 +25,7 @@ class Metertesting extends React.Component {
     super(props);
     this.state = {
       valveControl: 0,
-      nameplate: "19178802",
+      nameplate: "19178802"
     };
     //
     this.goBack = this.goBack.bind(this);

@@ -13,11 +13,7 @@ import {
   Form,
   FormGroup,
   Label,
-  Input,
-  CustomInput,
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText
+  Input
 } from "reactstrap";
 import axios from "axios";
 import $ from "jquery";
@@ -418,7 +414,6 @@ class Roledata extends React.Component {
                 <FormGroup className="display-inline-block checkbox-ios">
                   <Label for="exampleActive" className="switch">
                     <Input
-                      required
                       onChange={this.handleCreateChange}
                       type="checkbox"
                       id="exampleActive"
@@ -532,7 +527,7 @@ class Roledata extends React.Component {
                 <Button color="dark" onClick={() => this.toggle("modalCreate")}>
                   Close
                 </Button>
-                {/* craete */}
+                {/* create */}
                 <Button color="warning" className="px-5" type="submit">
                   Tambah Data
                 </Button>

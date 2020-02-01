@@ -52,7 +52,7 @@ class Editdatadistributor extends React.Component {
     // id
     const id = this.props.match.params.id;
     axios
-      .get(config.remote + "/api/distributor/" + id)
+      .get("/api/distributor/" + id)
       .then(res => {
         console.log(res);
         //
@@ -94,7 +94,7 @@ class Editdatadistributor extends React.Component {
     // PUT
     const id = this.props.match.params.id;
     axios
-      .put(config.remote + "/api/distributor/" + id, data)
+      .put("/api/distributor/" + id, data)
       .then(res => {
         console.log(res);
         //
@@ -178,7 +178,6 @@ class Editdatadistributor extends React.Component {
                   <FormGroup className="display-inline-block checkbox-ios">
                     <Label for="exampleActive" className="switch">
                       <Input
-                        required
                         checked={this.state.isactive}
                         onChange={this.handleChange}
                         type="checkbox"

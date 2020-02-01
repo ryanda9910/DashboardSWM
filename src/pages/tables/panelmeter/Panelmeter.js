@@ -526,7 +526,7 @@ class Panelmeter extends React.Component {
                 <Button color="dark" onClick={() => this.toggle("modalCreate")}>
                   Close
                 </Button>
-                {/* craete */}
+                {/* create */}
                 <Button color="warning" className="px-5" type="submit">
                   Tambah Data
                 </Button>

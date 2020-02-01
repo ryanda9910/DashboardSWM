@@ -84,9 +84,12 @@ class Area extends React.Component {
     // masih race condition, harusnya pas modals muncul aja
     // GET data
     this.receiveData();
-    if(this.props.getSuccess){
-      this.pageCount();
-    }
+  }
+  componentWillReceiveProps(nextProps){
+    // 
+    this.setState({
+      pageCount: nextProps.dataAreaPaginate.pages
+    })
   }
   pageCount(){
     this.setState({
@@ -98,7 +101,7 @@ class Area extends React.Component {
     this.props.dispatch(getDataArea(this.state.currentPage));
   }
   handlePageClick = (data) => {
-    const selectedPage = data.selected;
+    const selectedPage = data.selected+1;
     const offset = selectedPage * this.state.perPage;
     this.setState({ currentPage: selectedPage, offset: offset });
   }
@@ -378,7 +381,7 @@ class Area extends React.Component {
                 <Button color="dark" onClick={() => this.toggle("modalCreate")}>
                   Close
                 </Button>
-                {/* craete */}
+                {/* create */}
                 <Button color="warning" className="px-5" type="submit">
                   Tambah Data
                 </Button>

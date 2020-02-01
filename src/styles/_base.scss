@@ -9,7 +9,7 @@ td{
   font-weight: 300;
   line-height: 1;
   /* stylelint-disable-next-line */
-  margin: 11px 0 (1.5*$spacer);
+  margin: 11px 0 (1.5 * $spacer);
 
   small {
     color: rgba($white, 0.7);
@@ -33,7 +33,8 @@ td{
 
 .form-control {
   color: $content-color;
-  &:focus,&:active {
+  &:focus,
+  &:active {
     color: $content-color;
   }
   &.input-transparent {
@@ -47,9 +48,8 @@ td{
     &:focus {
       background-color: $bg-custom-dark !important;
 
-      @include box-shadow(inset 0 1px 1px rgba(0,0,0,0.2));
+      @include box-shadow(inset 0 1px 1px rgba(0, 0, 0, 0.2));
     }
-
 
     &[disabled],
     &[readonly],
@@ -58,7 +58,6 @@ td{
     }
   }
 }
-
 
 .input-group.focus {
   .input-group-addon,
@@ -79,7 +78,7 @@ td{
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: theme-color('danger');
+  background-color: theme-color("danger");
 }
 
 #notification-buttons {
@@ -242,14 +241,14 @@ table > thead > tr > th {
   margin: -1px -1px calc(#{$grid-gutter-width} - 1px) -1px;
 }
 
-.sortable-chosen { 
-  opacity: 1!important
+.sortable-chosen {
+  opacity: 1 !important;
 }
 
 .widget-placeholder-react {
-  background: rgba($white, 0.4)!important;
-  border: 1px dashed $gray-600!important;
-  margin: -1px -1px calc(#{$grid-gutter-width} - 1px) -1px!important;
+  background: rgba($white, 0.4) !important;
+  border: 1px dashed $gray-600 !important;
+  margin: -1px -1px calc(#{$grid-gutter-width} - 1px) -1px !important;
   > * {
     opacity: 0;
   }
@@ -271,7 +270,7 @@ table > thead > tr > th {
     + li {
       &::before {
         color: #999;
-        content: '\25cf';
+        content: "\25cf";
         padding: 0 8px;
       }
     }

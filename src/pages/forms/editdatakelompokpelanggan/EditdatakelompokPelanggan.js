@@ -209,7 +209,6 @@ class Editdatakelompokpelanggan extends React.Component {
                   <FormGroup className="display-inline-block checkbox-ios">
                     <Label for="isactive" className="switch">
                       <Input
-                        required
                         checked={this.state.isactive}
                         onChange={this.handleChange}
                         type="checkbox"

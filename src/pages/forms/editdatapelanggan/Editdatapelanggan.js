@@ -169,7 +169,6 @@ class Editdatapelanggan extends React.Component {
                 <FormGroup>
                   <Label for="name">Nama</Label>
                   <Input
-                    required
                     value={this.state.name}
                     onChange={this.handleChange}
                     type="text"

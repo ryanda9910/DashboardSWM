@@ -44,7 +44,7 @@ export default function reducerArea(state = defaultState, action) {
         getSuccess: false,
         getError: action.payload,
         dataArea: null,
-        dataAreaPaginate: action.data.meta,
+        dataAreaPaginate: null,
       };
     // CREATE
     case CREATE_AREA_SUCCESS:

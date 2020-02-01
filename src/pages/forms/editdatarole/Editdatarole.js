@@ -258,7 +258,6 @@ class Editdatarole extends React.Component {
                   <FormGroup className="display-inline-block checkbox-ios">
                     <Label for="exampleActive" className="switch">
                       <Input
-                        required
                         checked={this.state.isactive}
                         onChange={this.handleChange}
                         type="checkbox"
@@ -372,7 +371,7 @@ class Editdatarole extends React.Component {
                 <Button color="dark" onClick={this.goBack}>
                   Kembali
                 </Button>
-                {/* craete */}
+                {/* create */}
                 <Button
                   color="warning"
                   className="my-5 px-5 ml-5"

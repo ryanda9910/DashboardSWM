@@ -24,19 +24,19 @@ const hostApi = "https://s01.nusafox.com:6661";
 const portApi = "";
 const baseURLApi = `${hostApi}${portApi ? `:${portApi}` : ``}`;
 const baseURLApp = window.location.origin;
-const token = localStorage.getItem('token');
+const token = localStorage.getItem("token");
 // const userName='';
 // if(token){
 //   userName = jwt.decode(token).user_name;
 // }
 const axiosConfig = {
   headers: {
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-      'Accept' : 'application/json',
-      'Authorization': 'Bearer ' + token
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*",
+    Accept: "application/json",
+    Authorization: "Bearer " + token
   }
-}
+};
 
 export default {
   hostApi,
@@ -52,5 +52,5 @@ export default {
   // CUSTOM
   baseURLApp,
   token,
-  axiosConfig,
+  axiosConfig
 };

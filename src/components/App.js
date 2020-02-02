@@ -43,34 +43,73 @@ class App extends React.PureComponent {
 
     // HANDLE 401
     // note: karena setiapi request selalu mendapat 401, padahal token nya muncul di headers
-    const { 
+    const {
       // AREA
-      getAreaError, createAreaError, deleteAreaError,
+      getAreaError,
+      createAreaError,
+      deleteAreaError,
       // DISTRIBUTOR
-      getDistributorError, createDistributorError, deleteDistributorError,
+      getDistributorError,
+      createDistributorError,
+      deleteDistributorError,
       // KELOMPOK PELANGGAN
-      getKelompokPelangganError, createKelompokPelangganError, deleteKelompokPelangganError,
+      getKelompokPelangganError,
+      createKelompokPelangganError,
+      deleteKelompokPelangganError,
       // PELANGGAN
-      getPelangganError, createPelangganError, deletePelangganError,
+      getPelangganError,
+      createPelangganError,
+      deletePelangganError,
       // ROLE
-      getRoleError, createRoleError, deleteRoleError,
+      getRoleError,
+      createRoleError,
+      deleteRoleError,
       // TARIF
-      getTarifError, createTarifError, deleteTarifError,
+      getTarifError,
+      createTarifError,
+      deleteTarifError,
       // TARIF VERSION
-      getTarifVersionError, createTarifVersionError, deleteTarifVersionError,
+      getTarifVersionError,
+      createTarifVersionError,
+      deleteTarifVersionError,
       // USER
-      getUserError, createUserError, deleteUserError,
+      getUserError,
+      createUserError,
+      deleteUserError,
+      //PERANGKAT
+      getPerangkatError,
+      createPerangkatError,
+      deletePerangkatError
     } = this.props;
-    if(
-        getAreaError === 401 || createAreaError === 401 || deleteAreaError === 401 ||
-        getDistributorError === 401 || createDistributorError === 401 || deleteDistributorError === 401 ||
-        getKelompokPelangganError === 401 || createKelompokPelangganError === 401 || deleteKelompokPelangganError === 401 ||
-        getPelangganError === 401 || createPelangganError === 401 || deletePelangganError === 401 ||
-        getRoleError === 401 || createRoleError === 401 || deleteRoleError === 401 ||
-        getTarifVersionError === 401 || createTarifVersionError === 401 || deleteTarifVersionError === 401 ||
-        getTarifError === 401 || createTarifError === 401 || deleteTarifError === 401 ||
-        getUserError === 401 || createUserError === 401 || deleteUserError === 401
-    ){
+    if (
+      getAreaError === 401 ||
+      createAreaError === 401 ||
+      deleteAreaError === 401 ||
+      getDistributorError === 401 ||
+      createDistributorError === 401 ||
+      deleteDistributorError === 401 ||
+      getKelompokPelangganError === 401 ||
+      createKelompokPelangganError === 401 ||
+      deleteKelompokPelangganError === 401 ||
+      getPelangganError === 401 ||
+      createPelangganError === 401 ||
+      deletePelangganError === 401 ||
+      getRoleError === 401 ||
+      createRoleError === 401 ||
+      deleteRoleError === 401 ||
+      getTarifVersionError === 401 ||
+      createTarifVersionError === 401 ||
+      deleteTarifVersionError === 401 ||
+      getTarifError === 401 ||
+      createTarifError === 401 ||
+      deleteTarifError === 401 ||
+      getUserError === 401 ||
+      createUserError === 401 ||
+      deleteUserError === 401 ||
+      getPerangkatError === 401 ||
+      createPerangkatError === 401 ||
+      deletePerangkatError === 401
+    ) {
       // hapus token
       localStorage.removeItem("token");
       window.location.reload();
@@ -141,6 +180,10 @@ const mapStateToProps = state => ({
   getUserError: state.reducerUser.getError,
   createUserError: state.reducerUser.createError,
   deleteUserError: state.reducerUser.deleteError,
+  //PERANGKAT
+  getPerangkatError: state.reducerPerangkat.getError,
+  createPerangkatError: state.reducerPerangkat.createError,
+  deletePerangkatError: state.reducerPerangkat.deleteError
 });
 
 export default connect(mapStateToProps)(App);

@@ -235,7 +235,7 @@ class Tarif extends React.Component {
           return (
             <tr>
               <td>{item.name}</td>
-              <td>{item.distributor_id ? item.distributor_id.name : '-'}</td>
+              <td>{item.distributor_id ? item.distributor_id.name : "-"}</td>
               <td>{isactive}</td>
               <td>{item.description}</td>
               <td>
@@ -244,13 +244,13 @@ class Tarif extends React.Component {
                   className="mr-1"
                 >
                   <span className="text-success">
-                    <i class="far fa-edit"></i>
+                    <i className="far fa-edit"></i>
                     Ubah
                   </span>
                 </Link>
                 <a onClick={() => this.handleDelete(item._id)} className="ml-1">
                   <span className="text-danger">
-                    <i class="fas fa-trash"></i>
+                    <i className="fas fa-trash"></i>
                     Hapus
                   </span>
                 </a>
@@ -271,7 +271,7 @@ class Tarif extends React.Component {
                 <ol className="breadcrumb">
                   <li className="breadcrumb-item">YOU ARE HERE</li>
                   <li className="breadcrumb-item active">
-                    Tarif<span> Pelanggan </span>
+                    Data<span> Tarif Pelanggan </span>
                   </li>
                 </ol>
                 {/* alert */}
@@ -294,8 +294,8 @@ class Tarif extends React.Component {
                 </h3>
               </Col>
               <Col lg={4}>
-                <input
-                  class="form-control my-3"
+                <Input
+                  className="form-control my-3"
                   id="myInput"
                   placeholder="Search"
                   aria-label="Search"

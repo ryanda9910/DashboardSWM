@@ -5,7 +5,7 @@ import {
   CREATE_AREA_SUCCESS,
   CREATE_AREA_ERROR,
   DELETE_AREA_SUCCESS,
-  DELETE_AREA_ERROR,
+  DELETE_AREA_ERROR
   // DETAIL_AREA_SUCCESS,
   // DETAIL_AREA_ERROR,
 } from "../actions/tables/area";
@@ -20,7 +20,7 @@ const defaultState = {
   createError: false,
   // DELETE
   deleteSuccess: false,
-  deleteError: false,
+  deleteError: false
   // DETAIL
   // detailSuccess: false,
   // detailError: false,
@@ -36,28 +36,28 @@ export default function reducerArea(state = defaultState, action) {
         getSuccess: true,
         getError: false,
         dataArea: action.data.data,
-        dataAreaPaginate: action.data.meta,
+        dataAreaPaginate: action.data.meta
       };
-      case GET_AREA_ERROR:
+    case GET_AREA_ERROR:
       return {
         ...state,
         getSuccess: false,
         getError: action.payload,
         dataArea: null,
-        dataAreaPaginate: null,
+        dataAreaPaginate: null
       };
     // CREATE
     case CREATE_AREA_SUCCESS:
       return {
         ...state,
         createSuccess: true,
-        createError: false,
+        createError: false
       };
     case CREATE_AREA_ERROR:
       return {
         ...state,
         createSuccess: false,
-        createError: action.payload,
+        createError: action.payload
       };
     // DELETE
     case DELETE_AREA_SUCCESS:

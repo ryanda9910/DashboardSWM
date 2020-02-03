@@ -52,7 +52,7 @@ export const getDataDistributor = () => {
     axios.get('/api/distributor')
     .then(res => {
       // console.log(res.data.message.data);
-      return dispatch(getDistributorSuccess(res.data.message.data));
+      dispatch(getDistributorSuccess(res.data.message.data));
     })
     .catch(err => {
       console.log(err.response);

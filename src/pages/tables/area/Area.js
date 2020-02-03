@@ -41,8 +41,11 @@ import s from "./Area.module.scss";
 // paginate
 import ReactPaginate from "react-paginate";
 // react-pagination-library
-import Pagination from "react-pagination-library";
-import "react-pagination-library/build/css/index.css";
+// import Pagination from "react-pagination-library";
+// import "react-pagination-library/build/css/index.css";
+// react-js-pagination
+import Pagination from "react-js-pagination";
+
 
 import Widget from "../../../components/Widget/Widget";
 // actions
@@ -78,8 +81,14 @@ class Area extends React.Component {
       // pageCount: 0,
       // currentPage: 0,
       // react-pagination-library
-      pageCount: 0,
+      // pageCount: 0,
+      // currentPage: 1,
+      // triggerPaginate: false,
+      // react-js-paginate
       currentPage: 1,
+      pageCount: 0,
+      limit: 0,
+      total: 0,
       triggerPaginate: false,
     };
     //
@@ -91,14 +100,15 @@ class Area extends React.Component {
     // GET data
     this.receiveData();
   }
-  componentWillUnmount(){
-    this.receiveData().cancel();
-  }
   componentWillReceiveProps(nextProps) {
     //
-    this.setState({
-      pageCount: nextProps.dataAreaPaginate.pages
-    });
+    if(nextProps.dataAreaPaginate){
+      this.setState({
+        pageCount: nextProps.dataAreaPaginate.pages,
+        limit: nextProps.dataAreaPaginate.limit,
+        total: nextProps.dataAreaPaginate.total
+      });
+    }
   }
   componentDidUpdate(prevProps, prevState){
     if(this.props.dataAreaPaginate.page !== this.state.currentPage){
@@ -127,6 +137,7 @@ class Area extends React.Component {
   // }
   // react-pagination-library
   changeCurrentPage = numPage => {
+    console.log(`active page is ${numPage}`);
     this.setState({ currentPage: numPage, triggerPaginate: true });
     //fetch a data
     //or update a query to get data
@@ -340,11 +351,19 @@ class Area extends React.Component {
                       activeClassName={"active"}
                     /> */}
                     {/* react-pagination-library */}
-                    <Pagination
+                    {/* <Pagination
                       currentPage={this.state.currentPage}
                       totalPages={this.state.pageCount}
                       changeCurrentPage={this.changeCurrentPage}
-                      theme="bottom-border"
+                      theme="square"
+                    /> */}
+                    {/* react-js-pagination */}
+                    <Pagination
+                      activePage={this.state.currentPage}
+                      itemsCountPerPage={this.state.limit}
+                      totalItemsCount={this.state.total}
+                      pageRangeDisplayed={this.state.pageCount}
+                      onChange={this.changeCurrentPage.bind(this)}
                     />
                   </Col>
                 </Widget>

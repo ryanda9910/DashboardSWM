@@ -104,6 +104,8 @@ class Area extends React.Component {
     const selectedPage = data.selected+1;
     const offset = selectedPage * this.state.perPage;
     this.setState({ currentPage: selectedPage, offset: offset });
+    // 
+    this.props.dispatch(getDataArea(this.state.currentPage));
   }
 
 

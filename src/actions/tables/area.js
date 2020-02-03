@@ -68,8 +68,11 @@ export const getDataArea = (currentPage) => {
 
   return (dispatch) => {
     // axios.get('/api/area?page=2')
-    axios.get('/api/area?page='+currentPage)
+    let url = currentPage ? '/api/area?page='+currentPage : '/api/area';
+    console.log(currentPage);
+    axios.get(url)
     .then(res => {
+      console.log(url);
       console.log(res.data);
       dispatch(getAreaSuccess(res.data.message));
     })

@@ -204,8 +204,6 @@ class Editdatatarifpelanggan extends React.Component {
                         Status
                       </Label>
                     </Label>
-                    {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
-                    {/* <FormText>Example help text that remains unchanged.</FormText> */}
                   </FormGroup>
                 </div>
                 {/* description */}

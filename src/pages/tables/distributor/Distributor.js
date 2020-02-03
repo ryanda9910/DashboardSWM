@@ -88,7 +88,7 @@ class Distributor extends React.Component {
     this.props.dispatch(getDataDistributor());
   }
 
-  // CREATE Tarif
+  // CREATE distributor
   doCreate = e => {
     e.preventDefault();
     let postData = {
@@ -189,47 +189,48 @@ class Distributor extends React.Component {
     });
 
     // table data
-    const tableData = dataDistributor.length > 0 ? (
-      dataDistributor.map(item => {
-        console.log(item);
-        const isactive = item.isactive ? (
-          <span className="badge btn-success">TRUE</span>
-        ) : (
-          <span className="badge btn-danger">FALSE</span>
-        );
-        return (
-          <tr>
-            <td>{item.code}</td>
-            <td>{isactive}</td>
-            <td>{item.name}</td>
-            <td>{item.contact}</td>
-            <td>{item.description}</td>
-            <td>{item.phone}</td>
-            <td>{item.email}</td>
-            <td>{item.tipe}</td>
-            <td>
-              <Link
-                to={"/app/forms/editdatadistributor/" + item._id}
-                className="mr-1"
-              >
-                <span className="text-success">
-                  <i class="far fa-edit"></i>
-                  Ubah
-                </span>
-              </Link>
-              <a onClick={() => this.handleDelete(item._id)} className="ml-1">
-                <span className="text-danger">
-                  <i class="fas fa-trash"></i>
-                  Hapus
-                </span>
-              </a>
-            </td>
-          </tr>
-        );
-      })
-    ) : (
-      <Loader size={35} className="pt-5 position-absolute" />
-    );
+    const tableData =
+      dataDistributor.length > 0 ? (
+        dataDistributor.map(item => {
+          console.log(item);
+          const isactive = item.isactive ? (
+            <span className="badge btn-success">TRUE</span>
+          ) : (
+            <span className="badge btn-danger">FALSE</span>
+          );
+          return (
+            <tr>
+              <td>{item.code}</td>
+              <td>{isactive}</td>
+              <td>{item.name}</td>
+              <td>{item.contact}</td>
+              <td>{item.description}</td>
+              <td>{item.phone}</td>
+              <td>{item.email}</td>
+              <td>{item.tipe}</td>
+              <td>
+                <Link
+                  to={"/app/forms/editdatadistributor/" + item._id}
+                  className="mr-1"
+                >
+                  <span className="text-success">
+                    <i className="far fa-edit"></i>
+                    Ubah
+                  </span>
+                </Link>
+                <a onClick={() => this.handleDelete(item._id)} className="ml-1">
+                  <span className="text-danger">
+                    <i className="fas fa-trash"></i>
+                    Hapus
+                  </span>
+                </a>
+              </td>
+            </tr>
+          );
+        })
+      ) : (
+        <Loader size={35} className="pt-5 position-absolute" />
+      );
 
     return (
       <div className={s.root}>
@@ -240,7 +241,7 @@ class Distributor extends React.Component {
                 <ol className="breadcrumb">
                   <li className="breadcrumb-item">YOU ARE HERE</li>
                   <li className="breadcrumb-item active">
-                    Data<span>Distributor</span>
+                    Data<span> Distributor</span>
                   </li>
                 </ol>
               </Col>
@@ -252,8 +253,8 @@ class Distributor extends React.Component {
                 </h3>
               </Col>
               <Col lg={4}>
-                <input
-                  class="form-control my-3"
+                <Input
+                  className="form-control my-3"
                   id="myInput"
                   placeholder="Search"
                   aria-label="Search"
@@ -477,7 +478,7 @@ function mapStateToProps(state) {
 
     // DISTRIBUTOR
     dataDistributor: state.reducerDistributor.dataDistributor,
-    // DISTRIBUTOR
+    // TARIF
     dataTarif: state.reducerTarif.dataTarif
   };
 }

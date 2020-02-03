@@ -264,13 +264,13 @@ class Roledata extends React.Component {
                   className="mr-1"
                 >
                   <span className="text-success">
-                    <i class="far fa-edit"></i>
+                    <i className="far fa-edit"></i>
                     Ubah
                   </span>
                 </Link>
                 <a onClick={() => this.handleDelete(item._id)} className="ml-1">
                   <span className="text-danger">
-                    <i class="fas fa-trash"></i>
+                    <i className="fas fa-trash"></i>
                     Hapus
                   </span>
                 </a>
@@ -291,7 +291,7 @@ class Roledata extends React.Component {
                 <ol className="breadcrumb">
                   <li className="breadcrumb-item">YOU ARE HERE</li>
                   <li className="breadcrumb-item active">
-                    Data<span>Role</span>
+                    Data<span> Role</span>
                   </li>
                 </ol>
                 {/* alert */}
@@ -312,8 +312,8 @@ class Roledata extends React.Component {
                 </h3>
               </Col>
               <Col lg={4}>
-                <input
-                  class="form-control my-3"
+                <Input
+                  className="form-control my-3"
                   id="myInput"
                   placeholder="Search"
                   aria-label="Search"

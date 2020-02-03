@@ -5,7 +5,7 @@ import {
   CREATE_KELOMPOK_PELANGGAN_SUCCESS,
   CREATE_KELOMPOK_PELANGGAN_ERROR,
   DELETE_KELOMPOK_PELANGGAN_SUCCESS,
-  DELETE_KELOMPOK_PELANGGAN_ERROR,
+  DELETE_KELOMPOK_PELANGGAN_ERROR
 } from "../actions/tables/kelompokpelanggan";
 //
 const defaultState = {
@@ -25,7 +25,7 @@ const defaultState = {
   // showData: [],
 };
 
-export default function reducerArea(state = defaultState, action) {
+export default function reducerKelompokPelanggan(state = defaultState, action) {
   switch (action.type) {
     // GET
     case GET_KELOMPOK_PELANGGAN_SUCCESS:
@@ -47,13 +47,13 @@ export default function reducerArea(state = defaultState, action) {
       return {
         ...state,
         createSuccess: true,
-        createError: false,
+        createError: false
       };
     case CREATE_KELOMPOK_PELANGGAN_ERROR:
       return {
         ...state,
         createSuccess: false,
-        createError: action.payload,
+        createError: action.payload
       };
     // DELETE
     case DELETE_KELOMPOK_PELANGGAN_SUCCESS:

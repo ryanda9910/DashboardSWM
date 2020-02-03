@@ -43,12 +43,15 @@ import s from "./Panelmeter.module.scss";
 import Widget from "../../../components/Widget/Widget";
 // actions
 import {
-  getDataTarif,
-  createDataTarif,
-  deleteDataTarif
-} from "../../../actions/tables/tarif";
+  getDataPerangkat,
+  createDataPerangkat,
+  deleteDataPerangkat
+} from "../../../actions/tables/perangkat";
 // ambil distributor untuk create dan update
 import { getDataDistributor } from "../../../actions/tables/distributor";
+
+//ambil data pelanggan untuk create dan update
+import { getDataPelanggan } from "../../../actions/tables/pelanggan";
 
 class Panelmeter extends React.Component {
   static propTypes = {
@@ -77,7 +80,7 @@ class Panelmeter extends React.Component {
       long: "",
       valve: "",
       status: "",
-      distributor_id: "",
+      distributor_id: null,
       // ALERT
       showAlert: false,
       alertDestroy: false,
@@ -91,33 +94,38 @@ class Panelmeter extends React.Component {
   componentDidMount() {
     // masih race condition, harusnya pas modals muncul aja
     // GET data
-    this.props.dispatch(getDataTarif());
+    this.props.dispatch(getDataPerangkat());
     // GET data distributor
     // if(this.state.modalCreate === true){
     this.props.dispatch(getDataDistributor());
+    //GET data Pelanggan
+    this.props.dispatch(getDataPelanggan());
     // }
 
     // ALERT
     // return this.props.alertMessage ? this.onShowAlert() : null;
   }
 
-  // CREATE Tarif
-  doCreateTarif = e => {
+  // CREATE Perangkat
+  doCreatePerangkat = e => {
     e.preventDefault();
     let postData = {
+      // API DATA NOT FIX YET
       costumer_id: this.state.costumer_id,
       code: this.state.code,
-      tipe: this.state.tipe,
+      // tipe: this.state.tipe,
+      serial_number: this.state.serial_number,
       model: this.state.model,
-      manufaktur: this.state.manufaktur,
+      manufacture: this.state.manufaktur,
       lat: this.state.lat,
       long: this.state.long,
-      valve: this.state.valve,
-      status: this.state.status,
+      valve: this.state.valve === true ? "true" : "false",
+      status: this.state.status === true ? "true" : "false",
       distributor_id: this.state.distributor_id
     };
     console.log(postData);
-    // this.props.dispatch(createDataTarif(postData))
+    this.props.dispatch(createDataPerangkat(postData));
+    this.setState({ modalCreate: false });
   };
   // track change
   handleCreateChange = e => {
@@ -136,9 +144,9 @@ class Panelmeter extends React.Component {
     let confirm = window.confirm("delete data, are you sure?");
     console.log(confirm);
     if (confirm) {
-      this.props.dispatch(deleteDataTarif(id));
+      this.props.dispatch(deleteDataPerangkat(id));
       this.onShowAlert();
-      this.props.dispatch(getDataTarif());
+      this.props.dispatch(getDataPerangkat());
     }
   }
 
@@ -175,7 +183,7 @@ class Panelmeter extends React.Component {
     // }
 
     const { modalCreate } = this.state;
-    const { createSuccess, dataDistributor } = this.props;
+    const { dataPelanggan, dataDistributor } = this.props;
 
     // create error
     const createError =
@@ -204,9 +212,19 @@ class Panelmeter extends React.Component {
 
     // table data
     const tableData =
-      this.props.dataTarif.length > 0 ? (
-        this.props.dataTarif.map(item => {
+      this.props.dataPerangkat.length > 0 ? (
+        this.props.dataPerangkat.map(item => {
           console.log(item);
+          const status = item.status ? (
+            <span className="badge btn-success">OPEN</span>
+          ) : (
+            <span className="badge btn-danger">CLOSE</span>
+          );
+          const valve = item.valve ? (
+            <span className="badge btn-success">ON</span>
+          ) : (
+            <span className="badge btn-danger">OFF</span>
+          );
           // const isactive = item.isactive ? (
           //   <span className="badge btn-success">TRUE</span>
           // ) : (
@@ -214,31 +232,30 @@ class Panelmeter extends React.Component {
           // );
           return (
             <tr>
+              {/* API DATA NOT FIX YET  */}
               <td>{item.costumer_id}</td>
-              {/* <td>{item.distributor_id.code}</td> */}
-              {/* <td>{isactive}</td> */}
               <td>{item.code}</td>
               <td>{item.tipe}</td>
               <td>{item.model}</td>
-              <td>{item.manufaktur}</td>
+              <td>{item.manufacture}</td>
               <td>{item.lat}</td>
               <td>{item.long}</td>
-              <td>{item.valve}</td>
-              <td>{item.status}</td>
-              <td>{item.distributor_id}</td>
+              <td>{valve}</td>
+              <td>{status}</td>
+              <td>{item.distributor_id.name}</td>
               <td>
                 <Link
-                  to={"/app/forms/editdataarea/" + item._id}
+                  to={"/app/forms/editdataperangkat/" + item._id}
                   className="mr-1"
                 >
                   <span className="text-success">
-                    <i class="far fa-edit"></i>
+                    <i className="far fa-edit"></i>
                     Ubah
                   </span>
                 </Link>
                 <a onClick={() => this.handleDelete(item._id)} className="ml-1">
                   <span className="text-danger">
-                    <i class="fas fa-trash"></i>
+                    <i className="fas fa-trash"></i>
                     Hapus
                   </span>
                 </a>
@@ -259,7 +276,7 @@ class Panelmeter extends React.Component {
                 <ol className="breadcrumb">
                   <li className="breadcrumb-item">YOU ARE HERE</li>
                   <li className="breadcrumb-item active">
-                    Data<span>Area</span>
+                    Data<span>Perangkat</span>
                   </li>
                 </ol>
                 {/* alert */}
@@ -280,8 +297,8 @@ class Panelmeter extends React.Component {
                 </h3>
               </Col>
               <Col lg={4}>
-                <input
-                  class="form-control my-3"
+                <Input
+                  className="form-control my-3"
                   id="myInput"
                   placeholder="Search"
                   aria-label="Search"
@@ -330,7 +347,7 @@ class Panelmeter extends React.Component {
                       </thead>
                       <tbody id="myTable" className="position-relative">
                         {/* eslint-disable */}
-                        {this.props.dataTarifVersion ? tableData : null}
+                        {this.props.dataPerangkat ? tableData : null}
                       </tbody>
                       {/* eslint-enable */}
                     </Table>
@@ -351,21 +368,30 @@ class Panelmeter extends React.Component {
             Tambah Data
           </ModalHeader>
           <ModalBody>
-            <Form id="formCreateDataTarif" onSubmit={this.doCreateTarif}>
+            <Form
+              id="formCreateDataPerangkat"
+              onSubmit={this.doCreatePerangkat}
+            >
               {/* code */}
               <FormGroup>
-                <Label for="exampleNama">Costumer ID </Label>
+                {/* tampilkan distributor name dan id nya sebagai value */}
+                <Label for="exampleSelect">Costumer ID </Label>
                 <Input
                   onChange={this.handleCreateChange}
-                  type="text"
+                  type="select"
                   name="costumer_id"
-                  id="exampleCostumer"
-                  placeholder=" Masukkan Costumer_id"
-                />
+                  id="exampleSelect"
+                >
+                  {dataPelanggan.map(item => {
+                    return <option value={item._id}>{item.code}</option>;
+                  })}
+                </Input>
+                {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                {/* <FormText>Example help text that remains unchanged.</FormText> */}
               </FormGroup>
               {/* nama */}
               <FormGroup>
-                <Label for="exampleKode">Kode</Label>
+                <Label for="exampleCode">Kode</Label>
                 <Input
                   onChange={this.handleCreateChange}
                   type="text"
@@ -377,7 +403,7 @@ class Panelmeter extends React.Component {
                 {/* <FormText>Example help text that remains unchanged.</FormText> */}
               </FormGroup>
               <FormGroup>
-                <Label for="exampleKode">Tipe</Label>
+                <Label for="exampleTipe">Tipe</Label>
                 <Input
                   onChange={this.handleCreateChange}
                   type="text"
@@ -389,7 +415,7 @@ class Panelmeter extends React.Component {
                 {/* <FormText>Example help text that remains unchanged.</FormText> */}
               </FormGroup>
               <FormGroup>
-                <Label for="exampleKode">Model</Label>
+                <Label for="exampleModel">Model</Label>
                 <Input
                   onChange={this.handleCreateChange}
                   type="text"
@@ -401,7 +427,7 @@ class Panelmeter extends React.Component {
                 {/* <FormText>Example help text that remains unchanged.</FormText> */}
               </FormGroup>
               <FormGroup>
-                <Label for="exampleKode">Manufaktur</Label>
+                <Label for="exampleManufaktur">Manufaktur</Label>
                 <Input
                   onChange={this.handleCreateChange}
                   type="text"
@@ -425,7 +451,7 @@ class Panelmeter extends React.Component {
                 {/* <FormText>Example help text that remains unchanged.</FormText> */}
               </FormGroup>
               <FormGroup>
-                <Label for="exampleKode">Longitude</Label>
+                <Label for="exampleLong">Longitude</Label>
                 <Input
                   onChange={this.handleCreateChange}
                   type="text"
@@ -457,20 +483,20 @@ class Panelmeter extends React.Component {
                   {/* <FormText>Example help text that remains unchanged.</FormText> */}
                 </FormGroup>
               </div>
-              {/* isactive */}
+              {/* status*/}
               <div className={s.root}>
                 <FormGroup className="display-inline-block checkbox-ios">
-                  <Label for="isactive" className="switch">
+                  <Label for="status" className="switch">
                     <Input
                       onChange={this.handleCreateChange}
                       type="checkbox"
-                      id="isactive"
-                      name="isactive"
+                      id="status"
+                      name="status"
                       className="ios"
                       label="Turn on this if True"
                     />
                     <i />
-                    <Label for="isactive" className="pl-3">
+                    <Label for="status" className="pl-3">
                       Status
                     </Label>
                   </Label>
@@ -502,7 +528,7 @@ class Panelmeter extends React.Component {
               {/* distributor_id */}
               <FormGroup>
                 {/* tampilkan distributor name dan id nya sebagai value */}
-                <Label for="exampleKode">Distributor ID </Label>
+                <Label for="exampleSelect">Distributor ID </Label>
                 <Input
                   onChange={this.handleCreateChange}
                   type="select"
@@ -542,247 +568,25 @@ class Panelmeter extends React.Component {
 function mapStateToProps(state) {
   return {
     // ALERT
-    alertMessage: state.reducerTarif.alertMessage,
+    alertMessage: state.reducerPerangkat.alertMessage,
     // GET
-    getSuccess: state.reducerTarif.getSuccess,
-    getError: state.reducerTarif.getError,
-    dataTarif: state.reducerTarif.dataTarif,
+    getSuccess: state.reducerPerangkat.getSuccess,
+    getError: state.reducerPerangkat.getError,
+    dataPerangkat: state.reducerPerangkat.dataPerangkat,
     // CREATE
-    createSuccess: state.reducerTarif.createSuccess,
-    createError: state.reducerTarif.createError,
+    createSuccess: state.reducerPerangkat.createSuccess,
+    createError: state.reducerPerangkat.createError,
     // UPDATE
-    updateSuccess: state.reducerTarif.updateSuccess,
-    updateError: state.reducerTarif.updateError,
+    updateSuccess: state.reducerPerangkat.updateSuccess,
+    updateError: state.reducerPerangkat.updateError,
     // DELETE
-    deleteSuccess: state.reducerTarif.deleteSuccess,
-    deleteError: state.reducerTarif.deleteError,
-
+    deleteSuccess: state.reducerPerangkat.deleteSuccess,
+    deleteError: state.reducerPerangkat.deleteError,
     // DISTRIBUTOR
-    dataDistributor: state.reducerDistributor.dataDistributor
+    dataDistributor: state.reducerDistributor.dataDistributor,
+    // PELANGGAN
+    dataPelanggan: state.reducerPelanggan.dataPelanggan
   };
 }
 
 export default withRouter(connect(mapStateToProps)(Panelmeter));
-
-// /// DUMMY PRESENTATION
-
-// import React from "react";
-// import {
-//   Row,
-//   Col,
-//   Table
-//   // Progress,
-//   // Button,
-//   // UncontrolledButtonDropdown,
-//   // DropdownMenu,
-//   // DropdownToggle,
-//   // DropdownItem,
-//   // Input,
-//   // Label,
-//   // Badge
-// } from "reactstrap";
-// import $ from "jquery";
-
-// import Widget from "../../../components/Widget";
-// import s from "./Panelmeter.module.scss";
-// import { Link } from "react-router-dom";
-// import { fromArray } from "@amcharts/amcharts4/.internal/core/utils/Iterator";
-
-// class Panelmeter extends React.Component {
-//   constructor(props) {
-//     super(props);
-
-//     this.state = {
-//       // image: require("../../../images/tables/1.png"), // eslint-disable-line global-require
-//       // new Date("September 14, 2012")
-//       dataPerangkat: [
-//         {
-//           kode: "191799999",
-//           serialNumber: "	1155522254446528",
-//           tipe: "Meter Air",
-//           model: "Meter Air DN15",
-//           parent: "22556625",
-//           lastUpdate: new Date("September 14, 2012"),
-//           valve: "Open/Closed",
-//           signal: "21",
-//           batteryVoltage: "3.7354",
-//           wilayahArea: "Tangerang",
-//           status: "Online/Offline",
-//           exp: new Date("September 14, 2022")
-//         },
-//         {
-//           kode: "19178802",
-//           serialNumber: "	1155522254446528",
-//           tipe: "Meter Air",
-//           model: "Meter Air DN15",
-//           parent: "22556625",
-//           lastUpdate: new Date("September 14, 2012"),
-//           valve: "Open/Closed",
-//           signal: "21",
-//           batteryVoltage: "3.7354",
-//           wilayahArea: "Tangerang Selatan",
-//           status: "Online/Offline",
-//           exp: new Date("September 14, 2022")
-//         },
-//         {
-//           kode: "1916663535",
-//           serialNumber: "	1155522254446528",
-//           tipe: "Meter Air",
-//           model: "Meter Air DN15",
-//           parent: "22556625",
-//           lastUpdate: new Date("September 14, 2012"),
-//           valve: "Open/Closed",
-//           signal: "21",
-//           batteryVoltage: "3.7354",
-//           wilayahArea: "Jakarta",
-//           status: "Online/Offline",
-//           exp: new Date("September 14, 2022")
-//         }
-//       ]
-//     };
-
-//     // this.checkAll = this.checkAll.bind(this);
-//   }
-
-//   parseDate(date) {
-//     this.dateSet = date.toDateString().split(" ");
-
-//     return `${date.toLocaleString("en-us", { month: "long" })} ${
-//       this.dateSet[2]
-//     }, ${this.dateSet[3]}`;
-//   }
-
-//   render() {
-//     // search
-//     $(document).ready(function() {
-//       $("#myInput").on("keyup", function() {
-//         var value = $(this)
-//           .val()
-//           .toLowerCase();
-//         $("#myTable tr").filter(function() {
-//           $(this).toggle(
-//             $(this)
-//               .text()
-//               .toLowerCase()
-//               .indexOf(value) > -1
-//           );
-//         });
-//       });
-//     });
-//     return (
-//       <div className>
-//         <Col lg={12}>
-//           <Row>
-//             <Col lg={12}>
-//               <ol className="breadcrumb">
-//                 <li className="breadcrumb-item">YOU ARE HERE</li>
-//                 <li className="breadcrumb-item active">Perangkat </li>
-//               </ol>
-//             </Col>
-//           </Row>
-//           <Row>
-//             <Col lg={12}>
-//               <h3>
-//                 Data <span className="fw-semi-bold">Perangkat</span>
-//               </h3>
-//             </Col>
-//           </Row>
-//           <Row className="align-items-center justify-content-between">
-//             <Col lg={4}>
-//               <input
-//                 className="form-control my-3 text-white"
-//                 id="myInput"
-//                 placeholder="Search"
-//                 type="text"
-//               />
-//             </Col>
-//             <Col lg={4} className="text-right">
-//               <button className="btn btn-warning">Tambah Data </button>
-//             </Col>
-//           </Row>
-//           <Row className={s.rowTable}>
-//             <Col lg={12}>
-//               <Widget refresh collapse close className="px-2">
-//                 <div>
-//                   <Table className="table-responsive">
-//                     <thead>
-//                       <tr>
-//                         <th>Kode</th>
-//                         <th>Nomor Seri</th>
-//                         <th>Tipe</th>
-//                         <th>Model</th>
-//                         <th>Parent</th>
-//                         <th>Last Update</th>
-//                         <th>Valve</th>
-//                         <th>Signal</th>
-//                         <th>Battery Voltage</th>
-//                         <th>Wilayah/Area</th>
-//                         <th>Status</th>
-//                         <th>EXP</th>
-//                         <th>Aksi</th>
-//                         {/* <th>Lokasi</th> */}
-//                       </tr>
-//                     </thead>
-//                     {/* eslint-disable */}
-//                     <tbody id="myTable">
-//                       {this.state.dataPerangkat ? (
-//                         this.state.dataPerangkat.map(item => {
-//                           return (
-//                             <tr>
-//                               <td>{item.kode}</td>
-//                               <td>{item.serialNumber}</td>
-//                               <td>{item.tipe}</td>
-//                               <td>{item.model}</td>
-//                               <td>{item.parent}</td>
-//                               <td>{this.parseDate(item.lastUpdate)}</td>
-//                               <td>{item.valve}</td>
-//                               <td>{item.signal}</td>
-//                               <td>{item.batteryVoltage}</td>
-//                               <td>{item.wilayahArea}</td>
-//                               <td>{item.status}</td>
-//                               <td>{this.parseDate(item.exp)}</td>
-//                               <td>
-//                                 <Link to="/app/forms/editdataperangkat/">
-//                                   <a href="#" className="mr-1">
-//                                     <span className="text-success">
-//                                       <i class="far fa-edit"></i>
-//                                       Ubah
-//                                     </span>
-//                                   </a>
-//                                 </Link>
-//                                 <a href="#" className="ml-1">
-//                                   <span className="text-danger">
-//                                     <i class="fas fa-trash"></i>
-//                                     Hapus
-//                                   </span>
-//                                 </a>
-//                               </td>
-//                               {/* <td>
-//                               <a href="#" className="ml-1">
-//                                 <span className="text-d">
-//                                   <i class="fas fa-globe pl-3"></i>
-//                                 </span>
-//                               </a>
-//                             </td> */}
-//                             </tr>
-//                           );
-//                         })
-//                       ) : (
-//                         <div>
-//                           <h2>Loading..</h2>
-//                         </div>
-//                       )}
-//                     </tbody>
-//                     {/* eslint-enable */}
-//                   </Table>
-//                 </div>
-//               </Widget>
-//             </Col>
-//           </Row>
-//         </Col>
-//       </div>
-//     );
-//   }
-// }
-
-// export default Panelmeter;

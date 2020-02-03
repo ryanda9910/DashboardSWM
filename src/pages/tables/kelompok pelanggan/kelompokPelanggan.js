@@ -186,47 +186,48 @@ class kelompokPelanggan extends React.Component {
     });
 
     // table data
-    const tableData = dataKelompokPelanggan.length > 0 ? (
-      dataKelompokPelanggan.map(item => {
-        console.log(item);
-        const isactive = item.isactive ? (
-          <span className="badge btn-success">TRUE</span>
-        ) : (
-          <span className="badge btn-danger">FALSE</span>
-        );
-        return (
-          <tr>
-            <td>{item.parent_group}</td>
-            <td>{item.group}</td>
-            <td>{item.code}</td>
-            <td>{item.name}</td>
-            <td>{isactive}</td>
-            <td>{item.distributor_id ? item.distributor_id.name : '-'}</td>
-            <td>{item.tarif_id ? item.tarif_id.name : '-'}</td>
-            <td>{item.description}</td>
-            <td>
-              <Link
-                to={"/app/forms/editdatakelompokpelanggan/" + item._id}
-                className="mr-1"
-              >
-                <span className="text-success">
-                  <i class="far fa-edit"></i>
-                  Ubah
-                </span>
-              </Link>
-              <a onClick={() => this.handleDelete(item._id)} className="ml-1">
-                <span className="text-danger">
-                  <i class="fas fa-trash"></i>
-                  Hapus
-                </span>
-              </a>
-            </td>
-          </tr>
-        );
-      })
-    ) : (
-      <Loader size={35} className="pt-5 position-absolute" />
-    );
+    const tableData =
+      dataKelompokPelanggan.length > 0 ? (
+        dataKelompokPelanggan.map(item => {
+          console.log(item);
+          const isactive = item.isactive ? (
+            <span className="badge btn-success">TRUE</span>
+          ) : (
+            <span className="badge btn-danger">FALSE</span>
+          );
+          return (
+            <tr>
+              <td>{item.parent_group}</td>
+              <td>{item.group}</td>
+              <td>{item.code}</td>
+              <td>{item.name}</td>
+              <td>{isactive}</td>
+              <td>{item.distributor_id ? item.distributor_id.name : "-"}</td>
+              <td>{item.tarif_id ? item.tarif_id.name : "-"}</td>
+              <td>{item.description}</td>
+              <td>
+                <Link
+                  to={"/app/forms/editdatakelompokpelanggan/" + item._id}
+                  className="mr-1"
+                >
+                  <span className="text-success">
+                    <i className="far fa-edit"></i>
+                    Ubah
+                  </span>
+                </Link>
+                <a onClick={() => this.handleDelete(item._id)} className="ml-1">
+                  <span className="text-danger">
+                    <i className="fas fa-trash"></i>
+                    Hapus
+                  </span>
+                </a>
+              </td>
+            </tr>
+          );
+        })
+      ) : (
+        <Loader size={35} className="pt-5 position-absolute" />
+      );
 
     return (
       <div className={s.root}>
@@ -249,8 +250,8 @@ class kelompokPelanggan extends React.Component {
                 </h3>
               </Col>
               <Col lg={4}>
-                <input
-                  class="form-control my-3"
+                <Input
+                  className="form-control my-3"
                   id="myInput"
                   placeholder="Search"
                   aria-label="Search"

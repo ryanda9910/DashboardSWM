@@ -14,6 +14,7 @@ import reducerKelompokPelanggan from "./reducerKelompokPelanggan";
 import reducerPelanggan from "./reducerPelanggan";
 import reducerRole from "./reducerRole";
 import reducerUser from "./reducerUser";
+import reducerPerangkat from "./reducerPerangkat";
 
 export default combineReducers({
   alerts,
@@ -30,5 +31,6 @@ export default combineReducers({
   reducerKelompokPelanggan,
   reducerPelanggan,
   reducerRole,
-  reducerUser
+  reducerUser,
+  reducerPerangkat
 });

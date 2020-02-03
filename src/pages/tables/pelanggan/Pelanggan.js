@@ -212,51 +212,54 @@ class Pelanggan extends React.Component {
     });
 
     // table data
-    const tableData = this.props.dataPelanggan.length > 0 ? (
-      this.props.dataPelanggan.map(item => {
-        console.log(item);
-        // const isactive = item.isactive ? (
-        //   <span className="badge btn-success">TRUE</span>
-        // ) : (
-        //   <span className="badge btn-danger">FALSE</span>
-        // );
-        return (
-          <tr>
-            {/* <td>{item.distributor_id.name}</td> */}
-            {/* <td>{isactive}</td> */}
-            <td>{item.name}</td>
-            <td>{item.code}</td>
-            <td>{item.customer_group_id ? item.customer_group_id.name : '-'}</td>
-            <td>{item.distributor_id ? item.distributor_id.name : '-' }</td>
-            <td>{item.area_id ? item.area_id.name : '-'}</td>
-            <td>{item.email}</td>
-            <td>{item.address}</td>
-            <td>{item.phone}</td>
-            <td>{item.status}</td>
-            <td>{item.notes}</td>
-            <td>
-              <Link
-                to={"/app/forms/editdatapelanggan/" + item._id}
-                className="mr-1"
-              >
-                <span className="text-success">
-                  <i class="far fa-edit"></i>
-                  Ubah
-                </span>
-              </Link>
-              <a onClick={() => this.handleDelete(item._id)} className="ml-1">
-                <span className="text-danger">
-                  <i class="fas fa-trash"></i>
-                  Hapus
-                </span>
-              </a>
-            </td>
-          </tr>
-        );
-      })
-    ) : (
-      <Loader size={35} className="pt-5 position-absolute" />
-    );
+    const tableData =
+      this.props.dataPelanggan.length > 0 ? (
+        this.props.dataPelanggan.map(item => {
+          console.log(item);
+          // const isactive = item.isactive ? (
+          //   <span className="badge btn-success">TRUE</span>
+          // ) : (
+          //   <span className="badge btn-danger">FALSE</span>
+          // );
+          return (
+            <tr>
+              {/* <td>{item.distributor_id.name}</td> */}
+              {/* <td>{isactive}</td> */}
+              <td>{item.name}</td>
+              <td>{item.code}</td>
+              <td>
+                {item.customer_group_id ? item.customer_group_id.name : "-"}
+              </td>
+              <td>{item.distributor_id ? item.distributor_id.name : "-"}</td>
+              <td>{item.area_id ? item.area_id.name : "-"}</td>
+              <td>{item.email}</td>
+              <td>{item.address}</td>
+              <td>{item.phone}</td>
+              <td>{item.status}</td>
+              <td>{item.notes}</td>
+              <td>
+                <Link
+                  to={"/app/forms/editdatapelanggan/" + item._id}
+                  className="mr-1"
+                >
+                  <span className="text-success">
+                    <i class="far fa-edit"></i>
+                    Ubah
+                  </span>
+                </Link>
+                <a onClick={() => this.handleDelete(item._id)} className="ml-1">
+                  <span className="text-danger">
+                    <i class="fas fa-trash"></i>
+                    Hapus
+                  </span>
+                </a>
+              </td>
+            </tr>
+          );
+        })
+      ) : (
+        <Loader size={35} className="pt-5 position-absolute" />
+      );
 
     return (
       <div className={s.root}>
@@ -267,7 +270,7 @@ class Pelanggan extends React.Component {
                 <ol className="breadcrumb">
                   <li className="breadcrumb-item">YOU ARE HERE</li>
                   <li className="breadcrumb-item active">
-                    Data<span>Area</span>
+                    Data<span> Pelanggan</span>
                   </li>
                 </ol>
                 {/* alert */}
@@ -288,8 +291,8 @@ class Pelanggan extends React.Component {
                 </h3>
               </Col>
               <Col lg={4}>
-                <input
-                  class="form-control my-3"
+                <Input
+                  className="form-control my-3"
                   id="myInput"
                   placeholder="Search"
                   aria-label="Search"

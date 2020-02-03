@@ -39,8 +39,7 @@ import config from "../../../config";
 import Loader from "../../../components/Loader/Loader";
 import s from "./Area.module.scss";
 // paginate
-import ReactPaginate from 'react-paginate';
-
+import ReactPaginate from "react-paginate";
 
 import Widget from "../../../components/Widget/Widget";
 // actions
@@ -74,7 +73,7 @@ class Area extends React.Component {
       offset: 0,
       perPage: 25,
       currentPage: 0,
-      pageCount: 0,
+      pageCount: 0
     };
     //
     this.handleCreateChange = this.handleCreateChange.bind(this);
@@ -85,23 +84,23 @@ class Area extends React.Component {
     // GET data
     this.receiveData();
   }
-  componentWillReceiveProps(nextProps){
-    // 
+  componentWillReceiveProps(nextProps) {
+    //
     this.setState({
       pageCount: nextProps.dataAreaPaginate.pages
-    })
+    });
   }
-  pageCount(){
+  pageCount() {
     this.setState({
       pageCount: this.props.dataAreaPaginate.pages
-    })
+    });
   }
   // RECEIVE DATA
-  receiveData(){
+  receiveData() {
     this.props.dispatch(getDataArea(this.state.currentPage));
   }
-  handlePageClick = (data) => {
-    const selectedPage = data.selected+1;
+  handlePageClick = data => {
+    const selectedPage = data.selected + 1;
     const offset = selectedPage * this.state.perPage;
     this.setState({ currentPage: selectedPage, offset: offset });
     // 
@@ -187,7 +186,6 @@ class Area extends React.Component {
         </div>
       );
 
-
     // search
     $(document).ready(function() {
       $("#myInput").on("keyup", function() {
@@ -206,34 +204,38 @@ class Area extends React.Component {
     });
 
     // table data
-    const tableData = dataArea.length > 0 ? (
-      dataArea.map(item => {
-        // console.log(item);
-        return (
-          <tr>
-            <td>{item.code}</td>
-            <td>{item.name}</td>
-            <td>{item.distributor_id ? item.distributor_id.name : '-'}</td>
-            <td>
-              <Link to={"/app/forms/editdataarea/" + item._id} className="mr-1">
-                <span className="text-success">
-                  <i class="far fa-edit"></i>
-                  Ubah
-                </span>
-              </Link>
-              <a onClick={() => this.handleDelete(item._id)} className="ml-1">
-                <span className="text-danger">
-                  <i class="fas fa-trash"></i>
-                  Hapus
-                </span>
-              </a>
-            </td>
-          </tr>
-        );
-      })
-    ) : (
-      <Loader size={35} className="pt-5 position-absolute" />
-    );
+    const tableData =
+      dataArea.length > 0 ? (
+        dataArea.map(item => {
+          // console.log(item);
+          return (
+            <tr>
+              <td>{item.code}</td>
+              <td>{item.name}</td>
+              <td>{item.distributor_id ? item.distributor_id.name : "-"}</td>
+              <td>
+                <Link
+                  to={"/app/forms/editdataarea/" + item._id}
+                  className="mr-1"
+                >
+                  <span className="text-success">
+                    <i className="far fa-edit"></i>
+                    Ubah
+                  </span>
+                </Link>
+                <a onClick={() => this.handleDelete(item._id)} className="ml-1">
+                  <span className="text-danger">
+                    <i className="fas fa-trash"></i>
+                    Hapus
+                  </span>
+                </a>
+              </td>
+            </tr>
+          );
+        })
+      ) : (
+        <Loader size={35} className="pt-5 position-absolute" />
+      );
 
     return (
       <div className={s.root}>
@@ -244,7 +246,7 @@ class Area extends React.Component {
                 <ol className="breadcrumb">
                   <li className="breadcrumb-item">YOU ARE HERE</li>
                   <li className="breadcrumb-item active">
-                    Data<span>Area</span>
+                    Data<span> Area</span>
                   </li>
                 </ol>
               </Col>
@@ -256,8 +258,8 @@ class Area extends React.Component {
                 </h3>
               </Col>
               <Col lg={4}>
-                <input
-                  class="form-control my-3"
+                <Input
+                  className="form-control my-3"
                   id="myInput"
                   placeholder="Search"
                   aria-label="Search"

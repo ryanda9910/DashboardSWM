@@ -246,19 +246,28 @@ class Tarif extends React.Component {
           ) : (
             <span className="badge btn-danger">FALSE</span>
           );
-          const validFrom =  item.validFrom;
-          const validFromChange = validFrom.substr(0, validFrom.lastIndexOf('T'));
+          const validFrom = item.validFrom;
+          const validFromChange = validFrom.substr(
+            0,
+            validFrom.lastIndexOf("T")
+          );
           return (
             <tr>
               <td>{item.name}</td>
-              <td>{item.tarif_id ? item.tarif_id.name : '-'}</td>
-              <td>{item.distributor_id ? item.distributor_id.name : '-'}</td>
+              <td>{item.tarif_id ? item.tarif_id.name : "-"}</td>
+              <td>{item.distributor_id ? item.distributor_id.name : "-"}</td>
               <td>{isactive}</td>
-              <td>{item.volume1}M<sup>3</sup></td>
+              <td>
+                {item.volume1}M<sup>3</sup>
+              </td>
               <td>{item.price1}</td>
-              <td>{item.volume2}M<sup>3</sup></td>
+              <td>
+                {item.volume2}M<sup>3</sup>
+              </td>
               <td>{item.price2}</td>
-              <td>{item.volume3}M<sup>3</sup></td>
+              <td>
+                {item.volume3}M<sup>3</sup>
+              </td>
               <td>{item.price3}</td>
               <td>{item.validFrom === null ? "-" : validFromChange}</td>
               <td>
@@ -267,13 +276,13 @@ class Tarif extends React.Component {
                   className="mr-1"
                 >
                   <span className="text-success">
-                    <i class="far fa-edit"></i>
+                    <i className="far fa-edit"></i>
                     Ubah
                   </span>
                 </Link>
                 <a onClick={() => this.handleDelete(item._id)} className="ml-1">
                   <span className="text-danger">
-                    <i class="fas fa-trash"></i>
+                    <i className="fas fa-trash"></i>
                     Hapus
                   </span>
                 </a>
@@ -294,7 +303,7 @@ class Tarif extends React.Component {
                 <ol className="breadcrumb">
                   <li className="breadcrumb-item">YOU ARE HERE</li>
                   <li className="breadcrumb-item active">
-                    Tarif <span>Version</span>
+                    Data <span> Tarif Version</span>
                   </li>
                 </ol>
                 {/* alert */}
@@ -317,8 +326,8 @@ class Tarif extends React.Component {
                 </h3>
               </Col>
               <Col lg={4}>
-                <input
-                  class="form-control my-3"
+                <Input
+                  className="form-control my-3"
                   id="myInput"
                   placeholder="Search"
                   aria-label="Search"

@@ -251,7 +251,7 @@ class Roledata extends React.Component {
           //   menuaccess += item.menuaccess[a]+" ";
           // }
           return (
-            <tr>
+            <tr key={item._id}>
               <td>{item.code}</td>
               <td>{item.name}</td>
               <td>{isactive}</td>

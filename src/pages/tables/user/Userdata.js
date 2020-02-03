@@ -198,7 +198,7 @@ class Userdata extends React.Component {
           <span className="badge btn-danger">FALSE</span>
         );
         return (
-          <tr>
+          <tr key={item._id}>
             <td>{item.role_id ? item.role_id.name : "-"}</td>
             {/* <td>{item.distributor_id.code}</td> */}
             {/* <td>{isactive}</td> */}

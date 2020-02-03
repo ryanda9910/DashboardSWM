@@ -231,7 +231,7 @@ class Panelmeter extends React.Component {
           //   <span className="badge btn-danger">FALSE</span>
           // );
           return (
-            <tr>
+            <tr key={item._id}>
               {/* API DATA NOT FIX YET  */}
               <td>{item.costumer_id}</td>
               <td>{item.code}</td>

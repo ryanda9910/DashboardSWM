@@ -222,7 +222,7 @@ class Pelanggan extends React.Component {
           //   <span className="badge btn-danger">FALSE</span>
           // );
           return (
-            <tr>
+            <tr key={item._id}>
               {/* <td>{item.distributor_id.name}</td> */}
               {/* <td>{isactive}</td> */}
               <td>{item.name}</td>
@@ -243,13 +243,13 @@ class Pelanggan extends React.Component {
                   className="mr-1"
                 >
                   <span className="text-success">
-                    <i class="far fa-edit"></i>
+                    <i className="far fa-edit"></i>
                     Ubah
                   </span>
                 </Link>
                 <a onClick={() => this.handleDelete(item._id)} className="ml-1">
                   <span className="text-danger">
-                    <i class="fas fa-trash"></i>
+                    <i className="fas fa-trash"></i>
                     Hapus
                   </span>
                 </a>

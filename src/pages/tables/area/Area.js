@@ -103,10 +103,9 @@ class Area extends React.Component {
     const selectedPage = data.selected + 1;
     const offset = selectedPage * this.state.perPage;
     this.setState({ currentPage: selectedPage, offset: offset });
-    // 
+    //
     this.props.dispatch(getDataArea(this.state.currentPage));
-  }
-
+  };
 
   // CREATE Tarif
   doCreateArea = e => {
@@ -209,7 +208,7 @@ class Area extends React.Component {
         dataArea.map(item => {
           // console.log(item);
           return (
-            <tr>
+            <tr key={item._id}>
               <td>{item.code}</td>
               <td>{item.name}</td>
               <td>{item.distributor_id ? item.distributor_id.name : "-"}</td>

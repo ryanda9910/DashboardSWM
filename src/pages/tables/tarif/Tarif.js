@@ -233,7 +233,7 @@ class Tarif extends React.Component {
             <span className="badge btn-danger">FALSE</span>
           );
           return (
-            <tr>
+            <tr key={item._id}>
               <td>{item.name}</td>
               <td>{item.distributor_id ? item.distributor_id.name : "-"}</td>
               <td>{isactive}</td>

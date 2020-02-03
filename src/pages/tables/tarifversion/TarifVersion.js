@@ -252,7 +252,7 @@ class Tarif extends React.Component {
             validFrom.lastIndexOf("T")
           );
           return (
-            <tr>
+            <tr key={item._id}>
               <td>{item.name}</td>
               <td>{item.tarif_id ? item.tarif_id.name : "-"}</td>
               <td>{item.distributor_id ? item.distributor_id.name : "-"}</td>

@@ -199,7 +199,7 @@ class Distributor extends React.Component {
             <span className="badge btn-danger">FALSE</span>
           );
           return (
-            <tr>
+            <tr key={item._id}>
               <td>{item.code}</td>
               <td>{isactive}</td>
               <td>{item.name}</td>

@@ -13,6 +13,7 @@ const defaultState = {
   getSuccess: false,
   getError: false,
   dataKelompokPelanggan: [],
+  dataKelompokPelangganPaginate: null,
   // CREATE
   createSuccess: false,
   createError: false,
@@ -33,14 +34,16 @@ export default function reducerKelompokPelanggan(state = defaultState, action) {
         ...state,
         getSuccess: true,
         getError: false,
-        dataKelompokPelanggan: action.data
+        dataKelompokPelanggan: action.data.data,
+        dataKelompokPelangganPaginate: action.data.meta
       };
     case GET_KELOMPOK_PELANGGAN_ERROR:
       return {
         ...state,
         getSuccess: false,
         getError: action.payload,
-        dataKelompokPelanggan: null
+        dataKelompokPelanggan: null,
+        dataKelompokPelangganPaginate: null
       };
     // CREATE
     case CREATE_KELOMPOK_PELANGGAN_SUCCESS:

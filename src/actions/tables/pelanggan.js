@@ -47,13 +47,16 @@ export const deletePelangganError = payload => {
 };
 
 // pengeksekusi, fungsi yang berhubungan langsung dengan server
-export const getDataPelanggan = () => {
+export const getDataPelanggan = currentPage => {
   return dispatch => {
+    let url = currentPage
+      ? "/api/customer?page=" + currentPage
+      : "/api/customer";
     axios
-      .get("/api/customer")
+      .get(url)
       .then(res => {
         console.log(res.data);
-        return dispatch(getPelangganSuccess(res.data.message.data));
+        return dispatch(getPelangganSuccess(res.data.message));
       })
       .catch(err => {
         console.log(err.response);

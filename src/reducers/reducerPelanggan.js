@@ -13,6 +13,7 @@ const defaultState = {
   getSuccess: false,
   getError: false,
   dataPelanggan: [],
+  dataPelangganPaginate: null,
   // CREATE
   createSuccess: false,
   createError: false,
@@ -33,14 +34,16 @@ export default function reducerPelanggan(state = defaultState, action) {
         ...state,
         getSuccess: true,
         getError: false,
-        dataPelanggan: action.data
+        dataPelanggan: action.data.data,
+        dataPelangganPaginate: action.data.meta
       };
     case GET_PELANGGAN_ERROR:
       return {
         ...state,
         getSuccess: false,
         getError: action.payload,
-        dataPelanggan: null
+        dataPelanggan: null,
+        dataPelangganPaginate: null
       };
     // CREATE
     case CREATE_PELANGGAN_SUCCESS:

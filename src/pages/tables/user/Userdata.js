@@ -47,6 +47,8 @@ import {
 import { getDataDistributor } from "../../../actions/tables/distributor";
 // role
 import { getDataRole } from "../../../actions/tables/role";
+// react-pagination-library
+import Pagination from "react-pagination-library";
 
 class Userdata extends React.Component {
   static propTypes = {
@@ -70,7 +72,11 @@ class Userdata extends React.Component {
       showAlert: false,
       alertDestroy: false,
       // MODALS
-      modalCreate: false
+      modalCreate: false,
+      // react-pagination-library
+      pageCount: 0,
+      currentPage: 1,
+      triggerPaginate: false
     };
     //
     this.handleCreateChange = this.handleCreateChange.bind(this);
@@ -85,6 +91,47 @@ class Userdata extends React.Component {
     // GET data role
     this.props.dispatch(getDataRole());
   }
+  componentWillReceiveProps(nextProps) {
+    // if (nextProps.dataUserPaginate) {
+    this.setState({
+      pageCount: nextProps.dataUserPaginate.pages
+    });
+    // }
+    //
+  }
+  componentDidUpdate() {
+    if (this.props.dataUserPaginate.page !== this.state.currentPage) {
+      this.receiveData();
+    }
+    // console.log(this.props);
+    // console.log(prevProps);
+    // console.log(prevState.currentPage);
+    // console.log(this.state.currentPage);
+  }
+  pageCount() {
+    this.setState({
+      pageCount: this.props.dataUserPaginate.pages
+    });
+  }
+  // RECEIVE DATA
+  receiveData() {
+    this.props.dispatch(getDataUser(this.state.currentPage));
+  }
+  // handlePageClick = data => {
+  //   const selectedPage = data.selected + 1;
+  //   const offset = selectedPage * this.state.perPage;
+  //   this.setState({ currentPage: selectedPage, offset: offset });
+  //   //
+  // this.props.dispatch(getDataArea(this.state.currentPage));
+  // }
+  // react-pagination-library
+  changeCurrentPage = numPage => {
+    this.setState({ currentPage: numPage, triggerPaginate: true });
+    //fetch a data
+    //or update a query to get data
+    // this.props.dispatch(getDataArea(this.state.currentPage));
+    // this.receiveData();
+  };
 
   // CREATE User
   doCreateUser = e => {
@@ -188,51 +235,52 @@ class Userdata extends React.Component {
     });
 
     // table data
-    const tableData = this.props.dataUser.data ? (
-      this.props.dataUser.data.map(item => {
-        console.log(item);
+    const tableData =
+      this.props.dataUser.length > 0 ? (
+        this.props.dataUser.map(item => {
+          console.log(item);
 
-        const isactive = item.isactive ? (
-          <span className="badge btn-success">TRUE</span>
-        ) : (
-          <span className="badge btn-danger">FALSE</span>
-        );
-        return (
-          <tr key={item._id}>
-            <td>{item.role_id ? item.role_id.name : "-"}</td>
-            {/* <td>{item.distributor_id.code}</td> */}
-            {/* <td>{isactive}</td> */}
-            <td>{isactive}</td>
-            <td>{item.name}</td>
-            <td>{item.slug}</td>
-            <td>{item.description}</td>
-            <td>{item.email}</td>
-            {/* <td>{item.password}</td> */}
-            <td>{item.phone}</td>
-            <td>{item.distributor_id ? item.distributor_id.name : "-"}</td>
-            <td>
-              <Link
-                to={"/app/forms/editdatausers/" + item._id}
-                className="mr-1"
-              >
-                <span className="text-success">
-                  <i className="far fa-edit"></i>
-                  Ubah
-                </span>
-              </Link>
-              <a onClick={() => this.handleDelete(item._id)} className="ml-1">
-                <span className="text-danger">
-                  <i className="fas fa-trash"></i>
-                  Hapus
-                </span>
-              </a>
-            </td>
-          </tr>
-        );
-      })
-    ) : (
-      <Loader size={35} className="pt-5 position-absolute" />
-    );
+          const isactive = item.isactive ? (
+            <span className="badge btn-success">TRUE</span>
+          ) : (
+            <span className="badge btn-danger">FALSE</span>
+          );
+          return (
+            <tr key={item._id}>
+              <td>{item.role_id ? item.role_id.name : "-"}</td>
+              {/* <td>{item.distributor_id.code}</td> */}
+              {/* <td>{isactive}</td> */}
+              <td>{isactive}</td>
+              <td>{item.name}</td>
+              <td>{item.slug}</td>
+              <td>{item.description}</td>
+              <td>{item.email}</td>
+              {/* <td>{item.password}</td> */}
+              <td>{item.phone}</td>
+              <td>{item.distributor_id ? item.distributor_id.name : "-"}</td>
+              <td>
+                <Link
+                  to={"/app/forms/editdatausers/" + item._id}
+                  className="mr-1"
+                >
+                  <span className="text-success">
+                    <i className="far fa-edit"></i>
+                    Ubah
+                  </span>
+                </Link>
+                <a onClick={() => this.handleDelete(item._id)} className="ml-1">
+                  <span className="text-danger">
+                    <i className="fas fa-trash"></i>
+                    Hapus
+                  </span>
+                </a>
+              </td>
+            </tr>
+          );
+        })
+      ) : (
+        <Loader size={35} className="pt-5 position-absolute" />
+      );
 
     return (
       <div className={s.root}>
@@ -295,6 +343,15 @@ class Userdata extends React.Component {
             <Row>
               <Col lg={12}>
                 <Widget refresh collapse close className="px-2">
+                  <Col lg={12}>
+                    {/* react-pagination-library */}
+                    <Pagination
+                      currentPage={this.state.currentPage}
+                      totalPages={this.state.pageCount}
+                      changeCurrentPage={this.changeCurrentPage}
+                      theme="bottom-border"
+                    />
+                  </Col>
                   <div className="table-responsive">
                     <Table className="table-hover">
                       <thead>
@@ -492,6 +549,7 @@ function mapStateToProps(state) {
     getSuccess: state.reducerUser.getSuccess,
     getError: state.reducerUser.getError,
     dataUser: state.reducerUser.dataUser,
+    dataUserPaginate: state.reducerUser.dataUserPaginate,
     // CREATE
     createSuccess: state.reducerUser.createSuccess,
     createError: state.reducerUser.createError,

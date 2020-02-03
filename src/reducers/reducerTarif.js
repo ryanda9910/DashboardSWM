@@ -5,7 +5,7 @@ import {
   CREATE_TARIF_SUCCESS,
   CREATE_TARIF_ERROR,
   DELETE_TARIF_SUCCESS,
-  DELETE_TARIF_ERROR,
+  DELETE_TARIF_ERROR
 } from "../actions/tables/tarif";
 //
 const defaultState = {
@@ -13,6 +13,7 @@ const defaultState = {
   getSuccess: false,
   getError: false,
   dataTarif: [],
+  dataTarifPaginate: null,
   // CREATE
   createSuccess: false,
   createError: false,
@@ -33,27 +34,29 @@ export default function reducerTarif(state = defaultState, action) {
         ...state,
         getSuccess: true,
         getError: false,
-        dataTarif: action.data
+        dataTarif: action.data.data,
+        dataTarifPaginate: action.data.meta
       };
     case GET_TARIF_ERROR:
       return {
         ...state,
         getSuccess: false,
         getError: action.payload,
-        dataTarif: null
+        dataTarif: null,
+        dataTarifPaginate: null
       };
     // CREATE
     case CREATE_TARIF_SUCCESS:
       return {
         ...state,
         createSuccess: true,
-        createError: false,
+        createError: false
       };
     case CREATE_TARIF_ERROR:
       return {
         ...state,
         createSuccess: false,
-        createError: action.payload,
+        createError: action.payload
       };
     // DELETE
     case DELETE_TARIF_SUCCESS:

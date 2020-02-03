@@ -39,6 +39,8 @@ import cx from "classnames";
 import config from "../../../config";
 import Loader from "../../../components/Loader/Loader";
 import s from "./Panelmeter.module.scss";
+// react-pagination-library
+import Pagination from "react-pagination-library";
 
 import Widget from "../../../components/Widget/Widget";
 // actions
@@ -85,7 +87,11 @@ class Panelmeter extends React.Component {
       showAlert: false,
       alertDestroy: false,
       // MODALS
-      modalCreate: false
+      modalCreate: false,
+      // react-pagination-library
+      pageCount: 0,
+      currentPage: 1,
+      triggerPaginate: false
     };
     //
     this.handleCreateChange = this.handleCreateChange.bind(this);
@@ -105,6 +111,47 @@ class Panelmeter extends React.Component {
     // ALERT
     // return this.props.alertMessage ? this.onShowAlert() : null;
   }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      pageCount: nextProps.dataPerangkatPaginate.pages
+    });
+
+    //
+  }
+  componentDidUpdate() {
+    if (this.props.dataPerangkatPaginate.page !== this.state.currentPage) {
+      this.receiveData();
+    }
+    // console.log(this.props);
+    // console.log(prevProps);
+    // console.log(prevState.currentPage);
+    // console.log(this.state.currentPage);
+  }
+  pageCount() {
+    this.setState({
+      pageCount: this.props.dataPerangkatPaginate.pages
+    });
+  }
+  // RECEIVE DATA
+  receiveData() {
+    this.props.dispatch(getDataPerangkat(this.state.currentPage));
+  }
+  // handlePageClick = data => {
+  //   const selectedPage = data.selected + 1;
+  //   const offset = selectedPage * this.state.perPage;
+  //   this.setState({ currentPage: selectedPage, offset: offset });
+  //   //
+  // this.props.dispatch(getDataArea(this.state.currentPage));
+  // }
+  // react-pagination-library
+  changeCurrentPage = numPage => {
+    this.setState({ currentPage: numPage, triggerPaginate: true });
+    //fetch a data
+    //or update a query to get data
+    // this.props.dispatch(getDataArea(this.state.currentPage));
+    // this.receiveData();
+  };
 
   // CREATE Perangkat
   doCreatePerangkat = e => {
@@ -328,6 +375,15 @@ class Panelmeter extends React.Component {
             <Row>
               <Col lg={12}>
                 <Widget refresh collapse close className="px-2">
+                  <Col lg={12}>
+                    {/* react-pagination-library */}
+                    <Pagination
+                      currentPage={this.state.currentPage}
+                      totalPages={this.state.pageCount}
+                      changeCurrentPage={this.changeCurrentPage}
+                      theme="bottom-border"
+                    />
+                  </Col>
                   <div className="table-responsive">
                     <Table className="table-hover">
                       <thead>
@@ -573,6 +629,7 @@ function mapStateToProps(state) {
     getSuccess: state.reducerPerangkat.getSuccess,
     getError: state.reducerPerangkat.getError,
     dataPerangkat: state.reducerPerangkat.dataPerangkat,
+    dataPerangkatPaginate: state.reducerPerangkat.dataPerangkatPaginate,
     // CREATE
     createSuccess: state.reducerPerangkat.createSuccess,
     createError: state.reducerPerangkat.createError,

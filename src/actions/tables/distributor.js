@@ -45,57 +45,65 @@ export const deleteDistributorError = payload => {
     payload
   };
 };
-
 // pengeksekusi, fungsi yang berhubungan langsung dengan server
-export const getDataDistributor = () => {
-  return (dispatch) => {
-    axios.get('/api/distributor')
-    .then(res => {
-      // console.log(res.data.message.data);
-      return dispatch(getDistributorSuccess(res.data.message.data));
-    })
-    .catch(err => {
-      console.log(err.response);
-      if(err.response){
-        dispatch(getDistributorError(err.response.status));
-      }
-    });
-  }
-}
-export const createDataDistributor = (postData) => {
-  return (dispatch) => {
-    axios.post("/api/distributor/", postData)
-    .then(res => {
-      // jika success
-      if (res.data.code >= 200 || res.data.code < 300) {
-        console.log(res)
-        // ketika Error masuk kesini, backend
-        // dispatch(createSuccess(res.data.status))
-        dispatch(createDistributorSuccess(res.data.message.data))
-      }else{
-        // jika validasi dari server error
-        // dispatch(createDistributorError(res.data.message))
-      }
-      dispatch(getDataDistributor())
-    })
-    .catch(err => {
-      if(err.response){
-        dispatch(createDistributorError(err.response.status)) 
-      }    
-    });
-  }
-}
-export const deleteDataDistributor = (id) => {
-  return (dispatch) => {
-    axios.delete("/api/Distributor/" + id)
+export const getDataDistributor = currentPage => {
+  // pagination
+
+  return dispatch => {
+    let url = currentPage
+      ? "/api/distributor?page=" + currentPage
+      : "/api/distributor";
+    console.log(currentPage);
+    axios
+      .get(url)
       .then(res => {
-        dispatch(getDistributorSuccess(res.data.message.data));
-        dispatch(getDataDistributor())
+        // console.log(res.data.message.data);
+        return dispatch(getDistributorSuccess(res.data.message));
       })
       .catch(err => {
-      if(err.response){
-        dispatch(deleteDistributorError(err.response.status));
-      }        
+        console.log(err.response);
+        if (err.response) {
+          dispatch(getDistributorError(err.response.status));
+        }
+      });
+  };
+};
+export const createDataDistributor = postData => {
+  return dispatch => {
+    axios
+      .post("/api/distributor/", postData)
+      .then(res => {
+        // jika success
+        if (res.data.code >= 200 || res.data.code < 300) {
+          console.log(res);
+          // ketika Error masuk kesini, backend
+          // dispatch(createSuccess(res.data.status))
+          dispatch(createDistributorSuccess(res.data.message.data));
+        } else {
+          // jika validasi dari server error
+          // dispatch(createDistributorError(res.data.message))
+        }
+        dispatch(getDataDistributor());
+      })
+      .catch(err => {
+        if (err.response) {
+          dispatch(createDistributorError(err.response.status));
+        }
+      });
+  };
+};
+export const deleteDataDistributor = id => {
+  return dispatch => {
+    axios
+      .delete("/api/Distributor/" + id)
+      .then(res => {
+        dispatch(getDistributorSuccess(res.data.message.data));
+        dispatch(getDataDistributor());
+      })
+      .catch(err => {
+        if (err.response) {
+          dispatch(deleteDistributorError(err.response.status));
+        }
       });
   };
 };

@@ -13,6 +13,7 @@ const defaultState = {
   getSuccess: false,
   getError: false,
   dataPerangkat: [],
+  dataPerangkatPaginate: null,
   // CREATE
   createSuccess: false,
   createError: false,
@@ -33,14 +34,16 @@ export default function reducerPerangkat(state = defaultState, action) {
         ...state,
         getSuccess: true,
         getError: false,
-        dataPerangkat: action.data
+        dataPerangkat: action.data.data,
+        dataPerangkatPaginate: action.data.meta
       };
     case GET_PERANGKAT_ERROR:
       return {
         ...state,
         getSuccess: false,
         getError: action.payload,
-        dataPerangkat: null
+        dataPerangkat: null,
+        dataPerangkatPaginate: null
       };
     // CREATE
     case CREATE_PERANGKAT_SUCCESS:

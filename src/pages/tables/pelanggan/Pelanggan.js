@@ -54,6 +54,9 @@ import { getDataKelompokPelanggan } from "../../../actions/tables/kelompokpelang
 // data area
 import { getDataArea } from "../../../actions/tables/area";
 
+// react-pagination-library
+import Pagination from "react-pagination-library";
+
 class Pelanggan extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired
@@ -79,7 +82,11 @@ class Pelanggan extends React.Component {
       // MODALS
       modalCreate: false,
       // EMPTY DATA
-      emptyData: ""
+      emptyData: "",
+      // react-pagination-library
+      pageCount: 0,
+      currentPage: 1,
+      triggerPaginate: false
     };
     //
     this.handleChange = this.handleChange.bind(this);
@@ -97,6 +104,50 @@ class Pelanggan extends React.Component {
     // area
     this.props.dispatch(getDataArea());
   }
+  componentWillReceiveProps(nextProps) {
+    // if (
+    //   nextProps.dataPerangkatPaginate !== null ||
+    //   nextProps.dataPerangkatPaginate.length > 0
+    // ) {
+    //
+    this.setState({
+      pageCount: nextProps.dataPelangganPaginate.pages
+    });
+    // }
+  }
+  componentDidUpdate() {
+    if (this.props.dataPelangganPaginate.page !== this.state.currentPage) {
+      this.receiveData();
+    }
+    // console.log(this.props);
+    // console.log(prevProps);
+    // console.log(prevState.currentPage);
+    // console.log(this.state.currentPage);
+  }
+  pageCount() {
+    this.setState({
+      pageCount: this.props.dataPelangganPaginate.pages
+    });
+  }
+  // RECEIVE DATA
+  receiveData() {
+    this.props.dispatch(getDataPelanggan(this.state.currentPage));
+  }
+  // handlePageClick = data => {
+  //   const selectedPage = data.selected + 1;
+  //   const offset = selectedPage * this.state.perPage;
+  //   this.setState({ currentPage: selectedPage, offset: offset });
+  //   //
+  // this.props.dispatch(getDataArea(this.state.currentPage));
+  // }
+  // react-pagination-library
+  changeCurrentPage = numPage => {
+    this.setState({ currentPage: numPage, triggerPaginate: true });
+    //fetch a data
+    //or update a query to get data
+    // this.props.dispatch(getDataArea(this.state.currentPage));
+    // this.receiveData();
+  };
 
   // CREATE Pelanggan
   doCreatePelanggan = e => {
@@ -314,6 +365,15 @@ class Pelanggan extends React.Component {
             <Row>
               <Col lg={12}>
                 <Widget refresh collapse close className="px-2">
+                  {/* react-pagination-library */}
+                  <Col lg={12}>
+                    <Pagination
+                      currentPage={this.state.currentPage}
+                      totalPages={this.state.pageCount}
+                      changeCurrentPage={this.changeCurrentPage}
+                      theme="bottom-border"
+                    />
+                  </Col>
                   <div className="table-responsive">
                     <Table className="table-hover">
                       <thead>
@@ -543,6 +603,7 @@ function mapStateToProps(state) {
     getSuccess: state.reducerPelanggan.getSuccess,
     getError: state.reducerPelanggan.getError,
     dataPelanggan: state.reducerPelanggan.dataPelanggan,
+    dataPelangganPaginate: state.reducerPelanggan.dataPelangganPaginate,
     // CREATE
     createSuccess: state.reducerPelanggan.createSuccess,
     createError: state.reducerPelanggan.createError,

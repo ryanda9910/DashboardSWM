@@ -10110,6 +10110,11 @@ react-paginate@^6.3.2:
   dependencies:
     prop-types "^15.6.1"
 
+react-pagination-library@^0.1.14:
+  version "0.1.14"
+  resolved "https://registry.yarnpkg.com/react-pagination-library/-/react-pagination-library-0.1.14.tgz#e66d0be6fbab898a2b204d2e05fc81ba8d4d9d51"
+  integrity sha512-1IQt5ia45FIJMXaaOldtS7r2tSPMtvgJASLA5mS63iDkweTLQ24tDzXoOcEKhSi7y4+JcjhyB2UiKhmdsRNpOQ==
+
 react-popper@^0.10.4:
   version "0.10.4"
   resolved "https://registry.yarnpkg.com/react-popper/-/react-popper-0.10.4.tgz#af2a415ea22291edd504678d7afda8a6ee3295aa"

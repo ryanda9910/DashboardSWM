@@ -13,6 +13,7 @@ const defaultState = {
   getSuccess: false,
   getError: false,
   dataTarifVersion: [],
+  dataTarifVersionPaginate: null,
   // CREATE
   createSuccess: false,
   createError: false,
@@ -33,14 +34,16 @@ export default function reducerTarifVersion(state = defaultState, action) {
         ...state,
         getSuccess: true,
         getError: false,
-        dataTarifVersion: action.data
+        dataTarifVersion: action.data.data,
+        dataTarifVersionPaginate: action.data.meta
       };
     case GET_TARIF_VERSION_ERROR:
       return {
         ...state,
         getSuccess: false,
         getError: action.payload,
-        dataTarifVersion: null
+        dataTarifVersion: null,
+        dataTarifVersionPaginate: null
       };
     // CREATE
     case CREATE_TARIF_VERSION_SUCCESS:

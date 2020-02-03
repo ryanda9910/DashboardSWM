@@ -40,6 +40,9 @@ import Loader from "../../../components/Loader/Loader";
 import s from "./Area.module.scss";
 // paginate
 import ReactPaginate from "react-paginate";
+// react-pagination-library
+import Pagination from "react-pagination-library";
+import "react-pagination-library/build/css/index.css";
 
 import Widget from "../../../components/Widget/Widget";
 // actions
@@ -70,10 +73,14 @@ class Area extends React.Component {
       // MODALS
       modalCreate: false,
       // PAGINATE
-      offset: 0,
-      perPage: 25,
-      currentPage: 0,
-      pageCount: 0
+      // offset: 0,
+      // perPage: 25,
+      // pageCount: 0,
+      // currentPage: 0,
+      // react-pagination-library
+      pageCount: 0,
+      currentPage: 1,
+      triggerPaginate: false
     };
     //
     this.handleCreateChange = this.handleCreateChange.bind(this);
@@ -90,6 +97,15 @@ class Area extends React.Component {
       pageCount: nextProps.dataAreaPaginate.pages
     });
   }
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.dataAreaPaginate.page !== this.state.currentPage) {
+      this.receiveData();
+    }
+    // console.log(this.props);
+    // console.log(prevProps);
+    // console.log(prevState.currentPage);
+    // console.log(this.state.currentPage);
+  }
   pageCount() {
     this.setState({
       pageCount: this.props.dataAreaPaginate.pages
@@ -99,12 +115,20 @@ class Area extends React.Component {
   receiveData() {
     this.props.dispatch(getDataArea(this.state.currentPage));
   }
-  handlePageClick = data => {
-    const selectedPage = data.selected + 1;
-    const offset = selectedPage * this.state.perPage;
-    this.setState({ currentPage: selectedPage, offset: offset });
-    //
-    this.props.dispatch(getDataArea(this.state.currentPage));
+  // handlePageClick = data => {
+  //   const selectedPage = data.selected + 1;
+  //   const offset = selectedPage * this.state.perPage;
+  //   this.setState({ currentPage: selectedPage, offset: offset });
+  //   //
+  // this.props.dispatch(getDataArea(this.state.currentPage));
+  // }
+  // react-pagination-library
+  changeCurrentPage = numPage => {
+    this.setState({ currentPage: numPage, triggerPaginate: true });
+    //fetch a data
+    //or update a query to get data
+    // this.props.dispatch(getDataArea(this.state.currentPage));
+    // this.receiveData();
   };
 
   // CREATE Tarif
@@ -298,7 +322,7 @@ class Area extends React.Component {
                   </div>
                   <Col lg={12}>
                     {/* react-paginate */}
-                    <ReactPaginate
+                    {/* <ReactPaginate
                       previousLabel={"← Previous"}
                       nextLabel={"Next →"}
                       breakLabel={<span className="gap">...</span>}
@@ -310,6 +334,13 @@ class Area extends React.Component {
                       nextLinkClassName={"next_page"}
                       disabledClassName={"disabled"}
                       activeClassName={"active"}
+                    /> */}
+                    {/* react-pagination-library */}
+                    <Pagination
+                      currentPage={this.state.currentPage}
+                      totalPages={this.state.pageCount}
+                      changeCurrentPage={this.changeCurrentPage}
+                      theme="bottom-border"
                     />
                   </Col>
                 </Widget>

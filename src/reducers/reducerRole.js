@@ -13,6 +13,7 @@ const defaultState = {
   getSuccess: false,
   getError: false,
   dataRole: [],
+  dataRolePaginate: null,
   // CREATE
   createSuccess: false,
   createError: false,
@@ -33,27 +34,29 @@ export default function reducerRole(state = defaultState, action) {
         ...state,
         getSuccess: true,
         getError: false,
-        dataRole: action.data
+        dataRole: action.data.data,
+        dataRolePaginate: action.data.meta
       };
     case GET_ROLE_ERROR:
       return {
         ...state,
         getSuccess: false,
         getError: action.payload,
-        dataRole: null
+        dataRole: null,
+        dataRolePaginate: null
       };
     // CREATE
     case CREATE_ROLE_SUCCESS:
       return {
         ...state,
         createSuccess: true,
-        createError: false,
+        createError: false
       };
     case CREATE_ROLE_ERROR:
       return {
         ...state,
         createSuccess: false,
-        createError: action.payload,
+        createError: action.payload
       };
     // DELETE
     case DELETE_ROLE_SUCCESS:

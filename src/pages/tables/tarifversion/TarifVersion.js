@@ -44,8 +44,8 @@ import {
 import { getDataDistributor } from "../../../actions/tables/distributor";
 // ambil data tarif
 import { getDataTarif } from "../../../actions/tables/tarif";
-// react-pagination-library
-import Pagination from "react-pagination-library";
+// react-js-pagination
+import Pagination from "react-js-pagination";;
 class Tarif extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired
@@ -79,6 +79,8 @@ class Tarif extends React.Component {
       // react-pagination-library
       pageCount: 0,
       currentPage: 1,
+      limit: 0,
+      total: 0,
       triggerPaginate: false
     };
     //
@@ -112,10 +114,15 @@ class Tarif extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    //
-    this.setState({
-      pageCount: nextProps.dataTarifVersionPaginate.pages
-    });
+    if (nextProps.dataTarifVersionPaginate !== null) {
+      this.setState({
+        pageCount: nextProps.dataTarifVersionPaginate.pages,
+        limit: nextProps.dataTarifVersionPaginate.limit,
+        total: nextProps.dataTarifVersionPaginate.total
+      });
+    } else {
+      window.location.reload();
+    }
   }
   componentDidUpdate() {
     if (this.props.dataTarifVersionPaginate.page !== this.state.currentPage) {
@@ -142,7 +149,7 @@ class Tarif extends React.Component {
   //   //
   // this.props.dispatch(getDataArea(this.state.currentPage));
   // }
-  // react-pagination-library
+  // react-js-pagination
   changeCurrentPage = numPage => {
     this.setState({ currentPage: numPage, triggerPaginate: true });
     //fetch a data
@@ -265,12 +272,12 @@ class Tarif extends React.Component {
       );
 
     // search
-    $(document).ready(function() {
-      $("#myInput").on("keyup", function() {
+    $(document).ready(function () {
+      $("#myInput").on("keyup", function () {
         var value = $(this)
           .val()
           .toLowerCase();
-        $("#myTable tr").filter(function() {
+        $("#myTable tr").filter(function () {
           $(this).toggle(
             $(this)
               .text()
@@ -289,8 +296,8 @@ class Tarif extends React.Component {
           const isactive = item.isactive ? (
             <span className="badge btn-success">TRUE</span>
           ) : (
-            <span className="badge btn-danger">FALSE</span>
-          );
+              <span className="badge btn-danger">FALSE</span>
+            );
           const validFrom = item.validFrom;
           const validFromChange = validFrom.substr(
             0,
@@ -336,8 +343,8 @@ class Tarif extends React.Component {
           );
         })
       ) : (
-        <Loader size={35} className="pt-5 position-absolute" />
-      );
+          <Loader size={35} className="pt-5 position-absolute" />
+        );
 
     return (
       <div className={s.root}>
@@ -394,15 +401,6 @@ class Tarif extends React.Component {
             <Row>
               <Col lg={12}>
                 <Widget refresh collapse close className="px-2">
-                  {/* react-pagination-library */}
-                  <Col lg={12}>
-                    <Pagination
-                      currentPage={this.state.currentPage}
-                      totalPages={this.state.pageCount}
-                      changeCurrentPage={this.changeCurrentPage}
-                      theme="bottom-border"
-                    />
-                  </Col>
                   <div className="table-responsive">
                     <Table className="table-hover">
                       <thead>
@@ -428,6 +426,17 @@ class Tarif extends React.Component {
                       {/* eslint-enable */}
                     </Table>
                   </div>
+                  {/* react-pagination-library */}
+                  <Col lg={12} className="pt-3">
+                    {/* react-js-pagination */}
+                    <Pagination
+                      activePage={this.state.currentPage}
+                      itemsCountPerPage={this.state.limit}
+                      totalItemsCount={this.state.total}
+                      pageRangeDisplayed={this.state.pageCount}
+                      onChange={this.changeCurrentPage.bind(this)}
+                    />
+                  </Col>
                 </Widget>
               </Col>
             </Row>

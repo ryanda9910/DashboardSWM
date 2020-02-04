@@ -47,8 +47,8 @@ import {
 import { getDataDistributor } from "../../../actions/tables/distributor";
 // role
 import { getDataRole } from "../../../actions/tables/role";
-// react-pagination-library
-import Pagination from "react-pagination-library";
+// react-js-pagination
+import Pagination from "react-js-pagination";
 
 class Userdata extends React.Component {
   static propTypes = {
@@ -73,9 +73,11 @@ class Userdata extends React.Component {
       alertDestroy: false,
       // MODALS
       modalCreate: false,
-      // react-pagination-library
+      // react-js-pagination
       pageCount: 0,
       currentPage: 1,
+      limit: 0,
+      total: 0,
       triggerPaginate: false
     };
     //
@@ -86,11 +88,13 @@ class Userdata extends React.Component {
     this.receiveData();
   }
   componentWillReceiveProps(nextProps) {
-    if(nextProps.dataUserPaginate !== null){
+    if (nextProps.dataUserPaginate !== null) {
       this.setState({
-        pageCount: nextProps.dataUserPaginate.pages
+        pageCount: nextProps.dataUserPaginate.pages,
+        limit: nextProps.dataUserPaginate.limit,
+        total: nextProps.dataUserPaginate.total
       });
-    }else{
+    } else {
       window.location.reload();
     }
   }
@@ -101,7 +105,7 @@ class Userdata extends React.Component {
     }
   }
   // END LIFE CIRCLE
-  
+
   pageCount() {
     this.setState({
       pageCount: this.props.dataUserPaginate.pages
@@ -113,7 +117,7 @@ class Userdata extends React.Component {
     this.props.dispatch(getDataDistributor());
     this.props.dispatch(getDataRole());
   }
-  // react-pagination-library
+  // react-js-pagination
   changeCurrentPage = numPage => {
     this.setState({ currentPage: numPage, triggerPaginate: true });
     //fetch a data
@@ -188,12 +192,12 @@ class Userdata extends React.Component {
       );
 
     // search
-    $(document).ready(function() {
-      $("#myInput").on("keyup", function() {
+    $(document).ready(function () {
+      $("#myInput").on("keyup", function () {
         var value = $(this)
           .val()
           .toLowerCase();
-        $("#myTable tr").filter(function() {
+        $("#myTable tr").filter(function () {
           $(this).toggle(
             $(this)
               .text()
@@ -213,8 +217,8 @@ class Userdata extends React.Component {
           const isactive = item.isactive ? (
             <span className="badge btn-success">TRUE</span>
           ) : (
-            <span className="badge btn-danger">FALSE</span>
-          );
+              <span className="badge btn-danger">FALSE</span>
+            );
           return (
             <tr key={item._id}>
               <td>{item.role_id ? item.role_id.name : "-"}</td>
@@ -249,8 +253,8 @@ class Userdata extends React.Component {
           );
         })
       ) : (
-        <Loader size={35} className="pt-5 position-absolute" />
-      );
+          <Loader size={35} className="pt-5 position-absolute" />
+        );
 
     return (
       <div className={s.root}>
@@ -313,15 +317,6 @@ class Userdata extends React.Component {
             <Row>
               <Col lg={12}>
                 <Widget refresh collapse close className="px-2">
-                  <Col lg={12}>
-                    {/* react-pagination-library */}
-                    <Pagination
-                      currentPage={this.state.currentPage}
-                      totalPages={this.state.pageCount}
-                      changeCurrentPage={this.changeCurrentPage}
-                      theme="bottom-border"
-                    />
-                  </Col>
                   <div className="table-responsive">
                     <Table className="table-hover">
                       <thead>
@@ -345,6 +340,16 @@ class Userdata extends React.Component {
                       {/* eslint-enable */}
                     </Table>
                   </div>
+                  <Col lg={12} className="pt-3">
+                    {/* react-js-pagination */}
+                    <Pagination
+                      activePage={this.state.currentPage}
+                      itemsCountPerPage={this.state.limit}
+                      totalItemsCount={this.state.total}
+                      pageRangeDisplayed={this.state.pageCount}
+                      onChange={this.changeCurrentPage.bind(this)}
+                    />
+                  </Col>
                 </Widget>
               </Col>
             </Row>

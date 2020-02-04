@@ -39,8 +39,8 @@ import cx from "classnames";
 import config from "../../../config";
 import Loader from "../../../components/Loader/Loader";
 import s from "./Panelmeter.module.scss";
-// react-pagination-library
-import Pagination from "react-pagination-library";
+// react-js-pagination
+import Pagination from "react-js-pagination";
 
 import Widget from "../../../components/Widget/Widget";
 // actions
@@ -88,9 +88,11 @@ class Panelmeter extends React.Component {
       alertDestroy: false,
       // MODALS
       modalCreate: false,
-      // react-pagination-library
+      // react-js-pagination
       pageCount: 0,
       currentPage: 1,
+      limit: 0,
+      total: 0,
       triggerPaginate: false
     };
     //
@@ -102,13 +104,17 @@ class Panelmeter extends React.Component {
     this.props.dispatch(getDataDistributor());
     this.props.dispatch(getDataPelanggan());
   }
-  
+
   componentWillReceiveProps(nextProps) {
-    this.setState({
-      pageCount: nextProps.dataPerangkatPaginate.pages
-    });
-    
-    //
+    if (nextProps.dataPerangkatPaginate !== null) {
+      this.setState({
+        pageCount: nextProps.dataPerangkatPaginate.pages,
+        limit: nextProps.dataPerangkatPaginate.limit,
+        total: nextProps.dataPerangkatPaginate.total
+      });
+    } else {
+      window.location.reload();
+    }
   }
   componentDidUpdate() {
     if (this.props.dataPerangkatPaginate.page !== this.state.currentPage) {
@@ -137,7 +143,7 @@ class Panelmeter extends React.Component {
   //   //
   // this.props.dispatch(getDataArea(this.state.currentPage));
   // }
-  // react-pagination-library
+  // react-js-pagination
   changeCurrentPage = numPage => {
     this.setState({ currentPage: numPage, triggerPaginate: true });
     //fetch a data
@@ -368,15 +374,6 @@ class Panelmeter extends React.Component {
             <Row>
               <Col lg={12}>
                 <Widget refresh collapse close className="px-2">
-                  <Col lg={12}>
-                    {/* react-pagination-library */}
-                    <Pagination
-                      currentPage={this.state.currentPage}
-                      totalPages={this.state.pageCount}
-                      changeCurrentPage={this.changeCurrentPage}
-                      theme="bottom-border"
-                    />
-                  </Col>
                   <div className="table-responsive">
                     <Table className="table-hover">
                       <thead>
@@ -401,6 +398,16 @@ class Panelmeter extends React.Component {
                       {/* eslint-enable */}
                     </Table>
                   </div>
+                  <Col lg={12} className="pt-3">
+                    {/* react-js-pagination */}
+                    <Pagination
+                      activePage={this.state.currentPage}
+                      itemsCountPerPage={this.state.limit}
+                      totalItemsCount={this.state.total}
+                      pageRangeDisplayed={this.state.pageCount}
+                      onChange={this.changeCurrentPage.bind(this)}
+                    />
+                  </Col>
                 </Widget>
               </Col>
             </Row>

@@ -84,18 +84,11 @@ class Roledata extends React.Component {
 
   componentDidMount() {
     // GET data
-    this.props.dispatch(getDataRole());
+    this.receiveData();
     // GET data distributor
-    // if(this.state.modalCreate === true){
     this.props.dispatch(getDataDistributor());
-    // }
   }
   componentWillReceiveProps(nextProps) {
-    // if (
-    //   nextProps.dataPerangkatPaginate !== null ||
-    //   nextProps.dataPerangkatPaginate.length > 0
-    // ) {
-    //
     this.setState({
       pageCount: nextProps.dataRolePaginate.pages
     });
@@ -103,11 +96,8 @@ class Roledata extends React.Component {
   componentDidUpdate() {
     if (this.props.dataRolePaginate.page !== this.state.currentPage) {
       this.receiveData();
+      this.props.dispatch(getDataDistributor());
     }
-    // console.log(this.props);
-    // console.log(prevProps);
-    // console.log(prevState.currentPage);
-    // console.log(this.state.currentPage);
   }
   pageCount() {
     this.setState({
@@ -118,13 +108,6 @@ class Roledata extends React.Component {
   receiveData() {
     this.props.dispatch(getDataRole(this.state.currentPage));
   }
-  // handlePageClick = data => {
-  //   const selectedPage = data.selected + 1;
-  //   const offset = selectedPage * this.state.perPage;
-  //   this.setState({ currentPage: selectedPage, offset: offset });
-  //   //
-  // this.props.dispatch(getDataArea(this.state.currentPage));
-  // }
   // react-pagination-library
   changeCurrentPage = numPage => {
     this.setState({ currentPage: numPage, triggerPaginate: true });
@@ -256,7 +239,7 @@ class Roledata extends React.Component {
     console.log(this.props);
 
     const { modalCreate } = this.state;
-    const { createSuccess, dataDistributor } = this.props;
+    const { dataRole, dataDistributor } = this.props;
 
     // create error
     const createError =
@@ -285,8 +268,8 @@ class Roledata extends React.Component {
 
     // table data
     const tableData =
-      this.props.dataRole.length > 0 ? (
-        this.props.dataRole.map(item => {
+      dataRole.length > 0 ? (
+        dataRole.map(item => {
           // console.log(item);
           // handle isactive
           const isactive = item.isactive ? (

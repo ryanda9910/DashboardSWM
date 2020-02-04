@@ -87,7 +87,7 @@ class Tarif extends React.Component {
   componentDidMount() {
     // masih race condition, harusnya pas modals muncul aja
     // GET data
-    this.props.dispatch(getDataTarif());
+    this.receiveData();
   }
 
   componentWillReceiveProps() {

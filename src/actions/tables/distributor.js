@@ -47,8 +47,6 @@ export const deleteDistributorError = payload => {
 };
 // pengeksekusi, fungsi yang berhubungan langsung dengan server
 export const getDataDistributor = currentPage => {
-  // pagination
-
   return dispatch => {
     let url = currentPage
       ? "/api/distributor?page=" + currentPage

@@ -87,15 +87,18 @@ class kelompokPelanggan extends React.Component {
   }
 
   componentDidMount() {
-    // masih race condition, harusnya pas modals muncul aja
     // GET data
-    this.props.dispatch(getDataKelompokPelanggan());
+    this.receiveData();
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({
-      pageCount: nextProps.dataKelompokPelangganPaginate.pages
-    });
+    if(nextProps.dataUserPaginate !== null){
+      this.setState({
+        pageCount: nextProps.dataKelompokPelangganPaginate.pages
+      });
+    }else{
+      window.location.reload();
+    }
   }
   componentDidUpdate() {
     if (

@@ -98,30 +98,23 @@ class Panelmeter extends React.Component {
   }
 
   componentDidMount() {
-    // masih race condition, harusnya pas modals muncul aja
-    // GET data
-    this.props.dispatch(getDataPerangkat());
-    // GET data distributor
-    // if(this.state.modalCreate === true){
+    this.receiveData();
     this.props.dispatch(getDataDistributor());
-    //GET data Pelanggan
     this.props.dispatch(getDataPelanggan());
-    // }
-
-    // ALERT
-    // return this.props.alertMessage ? this.onShowAlert() : null;
   }
-
+  
   componentWillReceiveProps(nextProps) {
     this.setState({
       pageCount: nextProps.dataPerangkatPaginate.pages
     });
-
+    
     //
   }
   componentDidUpdate() {
     if (this.props.dataPerangkatPaginate.page !== this.state.currentPage) {
       this.receiveData();
+      this.props.dispatch(getDataDistributor());
+      this.props.dispatch(getDataPelanggan());
     }
     // console.log(this.props);
     // console.log(prevProps);

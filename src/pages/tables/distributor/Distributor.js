@@ -74,41 +74,44 @@ class Distributor extends React.Component {
       phone: "",
       email: "",
       tipe: "",
-      // ALERT
-      showAlert: false,
-      alertDestroy: false,
       // MODALS
       modalCreate: false,
       // react-pagination-library
       pageCount: 0,
       currentPage: 1,
-      triggerPaginate: false
+      triggerPaginate: false,
+      // RACE CONDITION HANDLE
+      dataDistributorPaginate: [],
     };
     //
     this.handleCreateChange = this.handleCreateChange.bind(this);
   }
-
+  // LIFE CIRCLE
   componentDidMount() {
-    // masih race condition, harusnya pas modals muncul aja
     // GET data
-    this.props.dispatch(getDataDistributor());
+    this.receiveData();
   }
-
+  shouldComponentUpdate(nextProps, nextState) {
+    // only update component if there is a new props
+    // so when new props comes in there is NO rerender
+    return nextProps.dataDistributorPaginate !== null || nextProps.dataDistributorPaginate.length > 0;
+  }
   componentWillReceiveProps(nextProps) {
-    //
-    this.setState({
-      pageCount: nextProps.dataDistributorPaginate.pages
-    });
+    if(nextProps.dataUserPaginate !== null){
+      this.setState({
+        pageCount: nextProps.dataDistributorPaginate.pages
+      });
+    }else{
+      window.location.reload();
+    }
   }
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
+    console.log(prevProps);
     if (this.props.dataDistributorPaginate.page !== this.state.currentPage) {
       this.receiveData();
     }
-    // console.log(this.props);
-    // console.log(prevProps);
-    // console.log(prevState.currentPage);
-    // console.log(this.state.currentPage);
   }
+  // END LIFE CIRCLE
   pageCount() {
     this.setState({
       pageCount: this.props.dataDistributorPaginate.pages

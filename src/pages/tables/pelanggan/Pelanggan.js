@@ -88,41 +88,27 @@ class Pelanggan extends React.Component {
       currentPage: 1,
       triggerPaginate: false
     };
-    //
     this.handleChange = this.handleChange.bind(this);
-    // this.emptyData = this.emptyData.bind(this);
   }
 
   componentDidMount() {
-    // masih race condition, harusnya pas modals muncul aja
-    // GET data
-    this.props.dispatch(getDataPelanggan());
-    // distributor
+    this.receiveData();
     this.props.dispatch(getDataDistributor());
-    // kelompok planggan
     this.props.dispatch(getDataKelompokPelanggan());
-    // area
     this.props.dispatch(getDataArea());
   }
   componentWillReceiveProps(nextProps) {
-    // if (
-    //   nextProps.dataPerangkatPaginate !== null ||
-    //   nextProps.dataPerangkatPaginate.length > 0
-    // ) {
-    //
     this.setState({
       pageCount: nextProps.dataPelangganPaginate.pages
     });
-    // }
   }
   componentDidUpdate() {
     if (this.props.dataPelangganPaginate.page !== this.state.currentPage) {
       this.receiveData();
+      this.props.dispatch(getDataDistributor());
+      this.props.dispatch(getDataKelompokPelanggan());
+      this.props.dispatch(getDataArea());
     }
-    // console.log(this.props);
-    // console.log(prevProps);
-    // console.log(prevState.currentPage);
-    // console.log(this.state.currentPage);
   }
   pageCount() {
     this.setState({
@@ -133,13 +119,6 @@ class Pelanggan extends React.Component {
   receiveData() {
     this.props.dispatch(getDataPelanggan(this.state.currentPage));
   }
-  // handlePageClick = data => {
-  //   const selectedPage = data.selected + 1;
-  //   const offset = selectedPage * this.state.perPage;
-  //   this.setState({ currentPage: selectedPage, offset: offset });
-  //   //
-  // this.props.dispatch(getDataArea(this.state.currentPage));
-  // }
   // react-pagination-library
   changeCurrentPage = numPage => {
     this.setState({ currentPage: numPage, triggerPaginate: true });

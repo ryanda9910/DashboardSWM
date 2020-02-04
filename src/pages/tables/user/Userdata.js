@@ -81,33 +81,27 @@ class Userdata extends React.Component {
     //
     this.handleCreateChange = this.handleCreateChange.bind(this);
   }
-
+  // LIFE CIRCLE
   componentDidMount() {
-    // masih race condition, harusnya pas modals muncul aja
-    // GET data
-    this.props.dispatch(getDataUser());
-    // GET data distributor
-    this.props.dispatch(getDataDistributor());
-    // GET data role
-    this.props.dispatch(getDataRole());
+    this.receiveData();
   }
   componentWillReceiveProps(nextProps) {
-    // if (nextProps.dataUserPaginate) {
-    this.setState({
-      pageCount: nextProps.dataUserPaginate.pages
-    });
-    // }
-    //
+    if(nextProps.dataUserPaginate !== null){
+      this.setState({
+        pageCount: nextProps.dataUserPaginate.pages
+      });
+    }else{
+      window.location.reload();
+    }
   }
   componentDidUpdate() {
+    // handle content per page
     if (this.props.dataUserPaginate.page !== this.state.currentPage) {
       this.receiveData();
     }
-    // console.log(this.props);
-    // console.log(prevProps);
-    // console.log(prevState.currentPage);
-    // console.log(this.state.currentPage);
   }
+  // END LIFE CIRCLE
+  
   pageCount() {
     this.setState({
       pageCount: this.props.dataUserPaginate.pages
@@ -116,21 +110,14 @@ class Userdata extends React.Component {
   // RECEIVE DATA
   receiveData() {
     this.props.dispatch(getDataUser(this.state.currentPage));
+    this.props.dispatch(getDataDistributor());
+    this.props.dispatch(getDataRole());
   }
-  // handlePageClick = data => {
-  //   const selectedPage = data.selected + 1;
-  //   const offset = selectedPage * this.state.perPage;
-  //   this.setState({ currentPage: selectedPage, offset: offset });
-  //   //
-  // this.props.dispatch(getDataArea(this.state.currentPage));
-  // }
   // react-pagination-library
   changeCurrentPage = numPage => {
     this.setState({ currentPage: numPage, triggerPaginate: true });
     //fetch a data
     //or update a query to get data
-    // this.props.dispatch(getDataArea(this.state.currentPage));
-    // this.receiveData();
   };
 
   // CREATE User
@@ -173,23 +160,6 @@ class Userdata extends React.Component {
       this.props.dispatch(getDataUser());
     }
   }
-
-  onShowAlert = () => {
-    this.setState(
-      {
-        showAlert: true
-      },
-      () => {
-        window.setTimeout(() => {
-          this.setState({
-            showAlert: false,
-            alertDestroy: false
-          });
-        }, 2000);
-      }
-    );
-    localStorage.removeItem("isCreated");
-  };
 
   toggle(id) {
     this.setState(prevState => ({

@@ -88,16 +88,10 @@ class Distributor extends React.Component {
   }
   // LIFE CIRCLE
   componentDidMount() {
-    // GET data
     this.receiveData();
   }
-  shouldComponentUpdate(nextProps, nextState) {
-    // only update component if there is a new props
-    // so when new props comes in there is NO rerender
-    return nextProps.dataDistributorPaginate !== null || nextProps.dataDistributorPaginate.length > 0;
-  }
   componentWillReceiveProps(nextProps) {
-    if(nextProps.dataUserPaginate !== null){
+    if(nextProps.dataDistributorPaginate !== null){
       this.setState({
         pageCount: nextProps.dataDistributorPaginate.pages
       });
@@ -106,7 +100,6 @@ class Distributor extends React.Component {
     }
   }
   componentDidUpdate(prevProps) {
-    console.log(prevProps);
     if (this.props.dataDistributorPaginate.page !== this.state.currentPage) {
       this.receiveData();
     }

@@ -59,16 +59,6 @@ class Panelmeter extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired
   };
-
-  static isAuthenticated(token) {
-    // We check if app runs with backend mode
-    // if (!config.isBackend && token) return true;
-    if (!token) return;
-    const date = new Date().getTime() / 1000;
-    const data = jwt.decode(token);
-    return date < data.exp;
-  }
-
   constructor(props) {
     super(props);
     this.state = {
@@ -93,60 +83,53 @@ class Panelmeter extends React.Component {
       currentPage: 1,
       triggerPaginate: false
     };
-    //
     this.handleCreateChange = this.handleCreateChange.bind(this);
   }
-
+  // LIFE CYCLE
   componentDidMount() {
     this.receiveData();
+  }
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.dataPerangkatPaginate !== null){
+      this.setState({
+        pageCount: nextProps.dataPerangkatPaginate.pages
+      });
+    }else{
+      window.location.reload();
+    }
+  }
+  componentDidUpdate() {
+    if(this.props.dataPerangkatPaginate.page !== this.state.currentPage){
+      this.receiveData();
+    }
+  }
+  // END LIFE CYCLE
+  
+  // RECEIVE DATA
+  receiveData() {
+    this.props.dispatch(getDataPerangkat(this.state.currentPage));
     this.props.dispatch(getDataDistributor());
     this.props.dispatch(getDataPelanggan());
   }
-  
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      pageCount: nextProps.dataPerangkatPaginate.pages
-    });
-    
-    //
-  }
-  componentDidUpdate() {
-    if (this.props.dataPerangkatPaginate.page !== this.state.currentPage) {
-      this.receiveData();
-      this.props.dispatch(getDataDistributor());
-      this.props.dispatch(getDataPelanggan());
-    }
-    // console.log(this.props);
-    // console.log(prevProps);
-    // console.log(prevState.currentPage);
-    // console.log(this.state.currentPage);
-  }
+  // COUNT PAGE
   pageCount() {
     this.setState({
       pageCount: this.props.dataPerangkatPaginate.pages
     });
   }
-  // RECEIVE DATA
-  receiveData() {
-    this.props.dispatch(getDataPerangkat(this.state.currentPage));
-  }
-  // handlePageClick = data => {
-  //   const selectedPage = data.selected + 1;
-  //   const offset = selectedPage * this.state.perPage;
-  //   this.setState({ currentPage: selectedPage, offset: offset });
-  //   //
-  // this.props.dispatch(getDataArea(this.state.currentPage));
-  // }
-  // react-pagination-library
+  // CURRENT PAGE
   changeCurrentPage = numPage => {
     this.setState({ currentPage: numPage, triggerPaginate: true });
-    //fetch a data
-    //or update a query to get data
-    // this.props.dispatch(getDataArea(this.state.currentPage));
-    // this.receiveData();
   };
-
-  // CREATE Perangkat
+  
+  // MODAL
+  toggle(id) {
+    this.setState(prevState => ({
+      [id]: !prevState[id]
+    }));
+  }
+  
+  // CREATE
   doCreatePerangkat = e => {
     e.preventDefault();
     let postData = {
@@ -167,18 +150,6 @@ class Panelmeter extends React.Component {
     this.props.dispatch(createDataPerangkat(postData));
     this.setState({ modalCreate: false });
   };
-  // track change
-  handleCreateChange = e => {
-    console.log(e.target);
-    const target = e.target;
-    const value = target.type === "checkbox" ? target.checked : target.value;
-    const name = target.name;
-
-    this.setState({
-      [name]: value
-    });
-  };
-
   // DELETE
   handleDelete(id) {
     let confirm = window.confirm("delete data, are you sure?");
@@ -189,29 +160,17 @@ class Panelmeter extends React.Component {
       this.props.dispatch(getDataPerangkat());
     }
   }
+  // TRACK CHANGE
+  handleCreateChange = e => {
+    console.log(e.target);
+    const target = e.target;
+    const value = target.type === "checkbox" ? target.checked : target.value;
+    const name = target.name;
 
-  onShowAlert = () => {
-    this.setState(
-      {
-        showAlert: true
-      },
-      () => {
-        window.setTimeout(() => {
-          this.setState({
-            showAlert: false,
-            alertDestroy: false
-          });
-        }, 2000);
-      }
-    );
-    localStorage.removeItem("isCreated");
+    this.setState({
+      [name]: value
+    });
   };
-
-  toggle(id) {
-    this.setState(prevState => ({
-      [id]: !prevState[id]
-    }));
-  }
 
   render() {
     console.log(this.state);

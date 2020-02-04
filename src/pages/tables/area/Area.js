@@ -94,14 +94,12 @@ class Area extends React.Component {
     //
     this.handleCreateChange = this.handleCreateChange.bind(this);
   }
-
+  // LIFE CYCLE
   componentDidMount() {
-    // masih race condition, harusnya pas modals muncul aja
-    // GET data
     this.receiveData();
   }
   componentWillReceiveProps(nextProps) {
-    if(nextProps.dataUserPaginate !== null){
+    if(nextProps.dataAreaPaginate !== null){
       this.setState({
         pageCount: nextProps.dataAreaPaginate.pages,
         limit: nextProps.dataAreaPaginate.limit,
@@ -116,6 +114,7 @@ class Area extends React.Component {
       this.receiveData();
     }
   }
+  // END LIFE CYCLE
   pageCount() {
     this.setState({
       pageCount: this.props.dataAreaPaginate.pages

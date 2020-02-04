@@ -82,54 +82,56 @@ class Roledata extends React.Component {
     this.handleCreateChange = this.handleCreateChange.bind(this);
   }
 
+  // LIFE CYCLE
   componentDidMount() {
-    // GET data
-    this.receiveData();
-    // GET data distributor
-    this.props.dispatch(getDataDistributor());
+    this.receiveData();    
   }
   componentWillReceiveProps(nextProps) {
-    this.setState({
-      pageCount: nextProps.dataRolePaginate.pages
-    });
+    if(nextProps.dataRolePaginate !== null){
+      this.setState({
+        pageCount: nextProps.dataRolePaginate.pages
+      });
+    }else{
+      window.location.reload();
+    }
   }
   componentDidUpdate() {
     if (this.props.dataRolePaginate.page !== this.state.currentPage) {
       this.receiveData();
-      this.props.dispatch(getDataDistributor());
     }
   }
+  // END LIFE CYCLE
+
+  // RECEIVE DATA
+  receiveData() {
+    this.props.dispatch(getDataRole(this.state.currentPage));
+    this.props.dispatch(getDataDistributor());
+  }
+  // COUNT PAGE
   pageCount() {
     this.setState({
       pageCount: this.props.dataRolePaginate.pages
     });
   }
-  // RECEIVE DATA
-  receiveData() {
-    this.props.dispatch(getDataRole(this.state.currentPage));
-  }
-  // react-pagination-library
+  // CURRENT PAGE
   changeCurrentPage = numPage => {
     this.setState({ currentPage: numPage, triggerPaginate: true });
-    //fetch a data
-    //or update a query to get data
-    // this.props.dispatch(getDataArea(this.state.currentPage));
-    // this.receiveData();
   };
 
-  // CREATE Role
+  // MODAL
+  toggle(id) {
+    this.setState(prevState => ({
+      [id]: !prevState[id]
+    }));
+  }
+  // CREATE
   doCreateRole = e => {
     e.preventDefault();
     // HANDLE MENU ACCESS
     const tarif = this.state.tarif === true ? "tarif" : "popTarif";
-    const tarifversion =
-      this.state.tarifversion === true ? "tarifversion" : "popTarifVersion";
-    const customerbilling =
-      this.state.customerbilling === true
-        ? "customerbilling"
-        : "popCustomerBilling";
-    const pelanggan =
-      this.state.pelanggan === true ? "pelanggan" : "popPelanggan";
+    const tarifversion = this.state.tarifversion === true ? "tarifversion" : "popTarifVersion";
+    const customerbilling = this.state.customerbilling === true ? "customerbilling" : "popCustomerBilling";
+    const pelanggan = this.state.pelanggan === true ? "pelanggan" : "popPelanggan";
     //
     if (this.state.menuaccess.indexOf("tarif") === -1) {
       if (tarif === "tarif") {
@@ -147,9 +149,7 @@ class Roledata extends React.Component {
     } else {
       if (tarifversion === "popTarifVersion") {
         this.state.menuaccess.splice(
-          this.state.menuaccess.indexOf("tarifversion"),
-          1
-        );
+          this.state.menuaccess.indexOf("tarifversion"),1);
       }
     }
     if (this.state.menuaccess.indexOf("customerbilling") === -1) {
@@ -159,9 +159,7 @@ class Roledata extends React.Component {
     } else {
       if (customerbilling === "popCustomerBilling") {
         this.state.menuaccess.splice(
-          this.state.menuaccess.indexOf("customerbilling"),
-          1
-        );
+          this.state.menuaccess.indexOf("customerbilling"),1);
       }
     }
     if (this.state.menuaccess.indexOf("pelanggan") === -1) {
@@ -171,12 +169,10 @@ class Roledata extends React.Component {
     } else {
       if (pelanggan === "popPelanggan") {
         this.state.menuaccess.splice(
-          this.state.menuaccess.indexOf("pelanggan"),
-          1
-        );
+          this.state.menuaccess.indexOf("pelanggan"),1);
       }
     }
-
+    // data to post
     let postData = {
       code: this.state.code,
       isactive: this.state.isactive === true ? "true" : "false",
@@ -185,22 +181,10 @@ class Roledata extends React.Component {
       menuaccess: this.state.menuaccess,
       distributor_id: this.state.distributor_id
     };
-    console.log(postData);
+    // console.log(postData);
     this.props.dispatch(createDataRole(postData));
     this.setState({ modalCreate: false });
   };
-  // track change
-  handleCreateChange = e => {
-    console.log(e.target);
-    const target = e.target;
-    const value = target.type === "checkbox" ? target.checked : target.value;
-    const name = target.name;
-
-    this.setState({
-      [name]: value
-    });
-  };
-
   // DELETE
   handleDelete(id) {
     let confirm = window.confirm("delete data, are you sure?");
@@ -212,27 +196,17 @@ class Roledata extends React.Component {
     }
   }
 
-  onShowAlert = () => {
-    this.setState(
-      {
-        showAlert: true
-      },
-      () => {
-        window.setTimeout(() => {
-          this.setState({
-            showAlert: false,
-            alertDestroy: false
-          });
-        }, 2000);
-      }
-    );
+  // TRACK CHANGE
+  handleCreateChange = e => {
+    console.log(e.target);
+    const target = e.target;
+    const value = target.type === "checkbox" ? target.checked : target.value;
+    const name = target.name;
+    this.setState({
+      [name]: value
+    });
   };
 
-  toggle(id) {
-    this.setState(prevState => ({
-      [id]: !prevState[id]
-    }));
-  }
 
   render() {
     console.log(this.state);

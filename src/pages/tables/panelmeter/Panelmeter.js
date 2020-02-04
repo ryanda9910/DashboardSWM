@@ -241,12 +241,12 @@ class Panelmeter extends React.Component {
       );
 
     // search
-    $(document).ready(function() {
-      $("#myInput").on("keyup", function() {
+    $(document).ready(function () {
+      $("#myInput").on("keyup", function () {
         var value = $(this)
           .val()
           .toLowerCase();
-        $("#myTable tr").filter(function() {
+        $("#myTable tr").filter(function () {
           $(this).toggle(
             $(this)
               .text()
@@ -265,13 +265,13 @@ class Panelmeter extends React.Component {
           const status = item.status ? (
             <span className="badge btn-success">OPEN</span>
           ) : (
-            <span className="badge btn-danger">CLOSE</span>
-          );
+              <span className="badge btn-danger">CLOSE</span>
+            );
           const valve = item.valve ? (
             <span className="badge btn-success">ON</span>
           ) : (
-            <span className="badge btn-danger">OFF</span>
-          );
+              <span className="badge btn-danger">OFF</span>
+            );
           // const isactive = item.isactive ? (
           //   <span className="badge btn-success">TRUE</span>
           // ) : (
@@ -311,8 +311,8 @@ class Panelmeter extends React.Component {
           );
         })
       ) : (
-        <Loader size={35} className="pt-5 position-absolute" />
-      );
+          <Loader size={35} className="pt-5 position-absolute" />
+        );
 
     return (
       <div className={s.root}>

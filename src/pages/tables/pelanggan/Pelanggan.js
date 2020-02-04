@@ -246,12 +246,12 @@ class Pelanggan extends React.Component {
       );
 
     // search
-    $(document).ready(function() {
-      $("#myInput").on("keyup", function() {
+    $(document).ready(function () {
+      $("#myInput").on("keyup", function () {
         var value = $(this)
           .val()
           .toLowerCase();
-        $("#myTable tr").filter(function() {
+        $("#myTable tr").filter(function () {
           $(this).toggle(
             $(this)
               .text()
@@ -309,8 +309,8 @@ class Pelanggan extends React.Component {
           );
         })
       ) : (
-        <Loader size={35} className="pt-5 position-absolute" />
-      );
+          <Loader size={35} className="pt-5 position-absolute" />
+        );
 
     return (
       <div className={s.root}>

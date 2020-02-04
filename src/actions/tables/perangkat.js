@@ -47,13 +47,14 @@ export const deletePerangkatError = payload => {
 };
 
 // pengeksekusi, fungsi yang berhubungan langsung dengan server
-export const getDataPerangkat = () => {
+export const getDataPerangkat = currentPage => {
   return dispatch => {
+    let url = currentPage ? "/api/device?page=" + currentPage : "/api/device";
+    console.log(currentPage);
     axios
-      .get("/api/device")
+      .get(url)
       .then(res => {
-        console.log(res.data);
-        return dispatch(getPerangkatSuccess(res.data.message.data));
+        return dispatch(getPerangkatSuccess(res.data.message));
       })
       .catch(err => {
         console.log(err.response);

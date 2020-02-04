@@ -117,7 +117,7 @@ class Metertesting extends React.Component {
                 className="bg-danger mr-2"
                 color="transparent"
               >
-                <i class="fa fa-refresh"></i> Refresh
+                <i className="fa fa-refresh"></i> Refresh
               </Button>
               <Button
                 onClick={this.getDataMeter}

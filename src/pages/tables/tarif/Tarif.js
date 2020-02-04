@@ -47,6 +47,8 @@ import {
 } from "../../../actions/tables/tarif";
 // ambil distributor untuk create dan update
 import { getDataDistributor } from "../../../actions/tables/distributor";
+// react-pagination-library
+import Pagination from "react-pagination-library";
 
 class Tarif extends React.Component {
   static propTypes = {
@@ -69,7 +71,11 @@ class Tarif extends React.Component {
       alertMessage: "data get action",
       alertBackground: "success",
       // MODALS
-      modalCreate: false
+      modalCreate: false,
+      // react-pagination-library
+      pageCount: 0,
+      currentPage: 1,
+      triggerPaginate: false
     };
     //
     this.handleCreateChange = this.handleCreateChange.bind(this);
@@ -81,7 +87,7 @@ class Tarif extends React.Component {
   componentDidMount() {
     // masih race condition, harusnya pas modals muncul aja
     // GET data
-    this.props.dispatch(getDataTarif());
+    this.receiveData();
   }
 
   componentWillReceiveProps() {
@@ -100,6 +106,45 @@ class Tarif extends React.Component {
       return this.onShowAlert();
     }
   }
+  componentWillReceiveProps(nextProps) {
+    //
+    this.setState({
+      pageCount: nextProps.dataTarifPaginate.pages
+    });
+  }
+  componentDidUpdate() {
+    if (this.props.dataTarifPaginate.page !== this.state.currentPage) {
+      this.receiveData();
+    }
+    // console.log(this.props);
+    // console.log(prevProps);
+    // console.log(prevState.currentPage);
+    // console.log(this.state.currentPage);
+  }
+  pageCount() {
+    this.setState({
+      pageCount: this.props.dataTarifPaginate.pages
+    });
+  }
+  // RECEIVE DATA
+  receiveData() {
+    this.props.dispatch(getDataTarif(this.state.currentPage));
+  }
+  // handlePageClick = data => {
+  //   const selectedPage = data.selected + 1;
+  //   const offset = selectedPage * this.state.perPage;
+  //   this.setState({ currentPage: selectedPage, offset: offset });
+  //   //
+  // this.props.dispatch(getDataArea(this.state.currentPage));
+  // }
+  // react-pagination-library
+  changeCurrentPage = numPage => {
+    this.setState({ currentPage: numPage, triggerPaginate: true });
+    //fetch a data
+    //or update a query to get data
+    // this.props.dispatch(getDataArea(this.state.currentPage));
+    // this.receiveData();
+  };
 
   // CREATE Tarif
   doCreateTarif = e => {
@@ -233,7 +278,7 @@ class Tarif extends React.Component {
             <span className="badge btn-danger">FALSE</span>
           );
           return (
-            <tr>
+            <tr key={item._id}>
               <td>{item.name}</td>
               <td>{item.distributor_id ? item.distributor_id.name : "-"}</td>
               <td>{isactive}</td>
@@ -317,6 +362,15 @@ class Tarif extends React.Component {
             <Row>
               <Col lg={12}>
                 <Widget refresh collapse close className="px-2">
+                  {/* react-pagination-library */}
+                  <Col lg={12}>
+                    <Pagination
+                      currentPage={this.state.currentPage}
+                      totalPages={this.state.pageCount}
+                      changeCurrentPage={this.changeCurrentPage}
+                      theme="bottom-border"
+                    />
+                  </Col>
                   <div className="table-responsive">
                     <Table className="table-hover">
                       <thead>
@@ -460,6 +514,7 @@ function mapStateToProps(state) {
     getSuccess: state.reducerTarif.getSuccess,
     getError: state.reducerTarif.getError,
     dataTarif: state.reducerTarif.dataTarif,
+    dataTarifPaginate: state.reducerTarif.dataTarifPaginate,
     // CREATE
     createSuccess: state.reducerTarif.createSuccess,
     createError: state.reducerTarif.createError,

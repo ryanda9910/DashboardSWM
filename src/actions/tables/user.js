@@ -50,10 +50,12 @@ export const deleteUserError = payload => {
 };
 
 // pengeksekusi, fungsi yang berhubungan langsung dengan server
-export const getDataUser = () => {
+export const getDataUser = currentPage => {
   return dispatch => {
+    let url = currentPage ? "/api/user?page=" + currentPage : "/api/user";
+    console.log(currentPage);
     axios
-      .get("/api/user")
+      .get(url)
       .then(res => {
         dispatch(getUserSuccess(res.data.data));
       })

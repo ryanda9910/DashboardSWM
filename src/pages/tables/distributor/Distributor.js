@@ -39,6 +39,8 @@ import cx from "classnames";
 import config from "../../../config";
 import Loader from "../../../components/Loader/Loader";
 import s from "./Distributor.module.scss";
+// react-pagination-library
+import Pagination from "react-pagination-library";
 
 import Widget from "../../../components/Widget/Widget";
 // actions
@@ -72,21 +74,68 @@ class Distributor extends React.Component {
       phone: "",
       email: "",
       tipe: "",
-      // ALERT
-      showAlert: false,
-      alertDestroy: false,
       // MODALS
-      modalCreate: false
+      modalCreate: false,
+      // react-pagination-library
+      pageCount: 0,
+      currentPage: 1,
+      triggerPaginate: false,
+      // RACE CONDITION HANDLE
+      dataDistributorPaginate: [],
     };
     //
     this.handleCreateChange = this.handleCreateChange.bind(this);
   }
-
+  // LIFE CIRCLE
   componentDidMount() {
-    // masih race condition, harusnya pas modals muncul aja
     // GET data
-    this.props.dispatch(getDataDistributor());
+    this.receiveData();
   }
+  shouldComponentUpdate(nextProps, nextState) {
+    // only update component if there is a new props
+    // so when new props comes in there is NO rerender
+    return nextProps.dataDistributorPaginate !== null || nextProps.dataDistributorPaginate.length > 0;
+  }
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.dataUserPaginate !== null){
+      this.setState({
+        pageCount: nextProps.dataDistributorPaginate.pages
+      });
+    }else{
+      window.location.reload();
+    }
+  }
+  componentDidUpdate(prevProps) {
+    console.log(prevProps);
+    if (this.props.dataDistributorPaginate.page !== this.state.currentPage) {
+      this.receiveData();
+    }
+  }
+  // END LIFE CIRCLE
+  pageCount() {
+    this.setState({
+      pageCount: this.props.dataDistributorPaginate.pages
+    });
+  }
+  // RECEIVE DATA
+  receiveData() {
+    this.props.dispatch(getDataDistributor(this.state.currentPage));
+  }
+  // handlePageClick = data => {
+  //   const selectedPage = data.selected + 1;
+  //   const offset = selectedPage * this.state.perPage;
+  //   this.setState({ currentPage: selectedPage, offset: offset });
+  //   //
+  // this.props.dispatch(getDataArea(this.state.currentPage));
+  // }
+  // react-pagination-library
+  changeCurrentPage = numPage => {
+    this.setState({ currentPage: numPage, triggerPaginate: true });
+    //fetch a data
+    //or update a query to get data
+    // this.props.dispatch(getDataArea(this.state.currentPage));
+    // this.receiveData();
+  };
 
   // CREATE distributor
   doCreate = e => {
@@ -199,7 +248,7 @@ class Distributor extends React.Component {
             <span className="badge btn-danger">FALSE</span>
           );
           return (
-            <tr>
+            <tr key={item._id}>
               <td>{item.code}</td>
               <td>{isactive}</td>
               <td>{item.name}</td>
@@ -276,6 +325,15 @@ class Distributor extends React.Component {
             <Row>
               <Col lg={12}>
                 <Widget refresh collapse close className="px-2">
+                  <Col lg={12}>
+                    {/* react-pagination-library */}
+                    <Pagination
+                      currentPage={this.state.currentPage}
+                      totalPages={this.state.pageCount}
+                      changeCurrentPage={this.changeCurrentPage}
+                      theme="bottom-border"
+                    />
+                  </Col>
                   <div className="table-responsive">
                     <Table className="table-hover">
                       <thead>
@@ -465,6 +523,7 @@ function mapStateToProps(state) {
     // GET
     getSuccess: state.reducerDistributor.getSuccess,
     getError: state.reducerDistributor.getError,
+    dataDistributorPaginate: state.reducerDistributor.dataDistributorPaginate,
     // dataKelompokPelanggan: state.reducerKelompokPelanggan.dataKelompokPelanggan,
     // // CREATE
     // createSuccess: state.reducerKelompokPelanggan.createSuccess,

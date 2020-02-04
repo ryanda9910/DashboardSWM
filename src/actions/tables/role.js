@@ -50,13 +50,14 @@ export const deleteRoleError = payload => {
 };
 
 // pengeksekusi, fungsi yang berhubungan langsung dengan server
-export const getDataRole = () => {
+export const getDataRole = currentPage => {
   return dispatch => {
+    let url = currentPage ? "/api/role?page=" + currentPage : "/api/role";
+    console.log(currentPage);
     axios
-      .get("/api/role")
+      .get(url)
       .then(res => {
-        console.log(res.data);
-        dispatch(getRoleSuccess(res.data.message.data));
+        dispatch(getRoleSuccess(res.data.message));
       })
       .catch(err => {
         if (err.response) {

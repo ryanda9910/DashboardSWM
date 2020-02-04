@@ -39,6 +39,8 @@ import cx from "classnames";
 import config from "../../../config";
 import Loader from "../../../components/Loader/Loader";
 import s from "./kelompokPelanggan.module.scss";
+// react-pagination-library
+import Pagination from "react-pagination-library";
 
 import Widget from "../../../components/Widget/Widget";
 // actions
@@ -73,18 +75,51 @@ class kelompokPelanggan extends React.Component {
       showAlert: false,
       alertDestroy: false,
       // MODALS
-      modalCreate: false
+      modalCreate: false,
+
+      //react-pagination-library
+      pageCount: 0,
+      currentPage: 1,
+      triggerPaginate: false
     };
     //
     this.handleCreateChange = this.handleCreateChange.bind(this);
   }
 
   componentDidMount() {
-    // masih race condition, harusnya pas modals muncul aja
     // GET data
-    this.props.dispatch(getDataKelompokPelanggan());
+    this.receiveData();
   }
 
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.dataUserPaginate !== null){
+      this.setState({
+        pageCount: nextProps.dataKelompokPelangganPaginate.pages
+      });
+    }else{
+      window.location.reload();
+    }
+  }
+  componentDidUpdate() {
+    if (
+      this.props.dataKelompokPelangganPaginate.page !== this.state.currentPage
+    ) {
+      this.receiveData();
+    }
+  }
+  pageCount() {
+    this.setState({
+      pageCount: this.props.dataKelompokPelangganPaginate.pages
+    });
+  }
+  //RECEIVE DATA
+  receiveData() {
+    this.props.dispatch(getDataKelompokPelanggan(this.state.currentPage));
+  }
+  // react-pagination-library
+  changeCurrentPage = numPage => {
+    this.setState({ currentPage: numPage, triggerPaginate: true });
+  };
   // CREATE Tarif
   doCreateKelompokPelanggan = e => {
     e.preventDefault();
@@ -127,21 +162,21 @@ class kelompokPelanggan extends React.Component {
     }
   }
 
-  onShowAlert = () => {
-    this.setState(
-      {
-        showAlert: true
-      },
-      () => {
-        window.setTimeout(() => {
-          this.setState({
-            showAlert: false,
-            alertDestroy: false
-          });
-        }, 2000);
-      }
-    );
-  };
+  // onShowAlert = () => {
+  //   this.setState(
+  //     {
+  //       showAlert: true
+  //     },
+  //     () => {
+  //       window.setTimeout(() => {
+  //         this.setState({
+  //           showAlert: false,
+  //           alertDestroy: false
+  //         });
+  //       }, 2000);
+  //     }
+  //   );
+  // };
 
   toggle(id) {
     this.setState(prevState => ({
@@ -196,7 +231,7 @@ class kelompokPelanggan extends React.Component {
             <span className="badge btn-danger">FALSE</span>
           );
           return (
-            <tr>
+            <tr key={item._id}>
               <td>{item.parent_group}</td>
               <td>{item.group}</td>
               <td>{item.code}</td>
@@ -273,6 +308,15 @@ class kelompokPelanggan extends React.Component {
             <Row>
               <Col lg={12}>
                 <Widget refresh collapse close className="px-2">
+                  <Col lg={12}>
+                    {/* react-pagination-library */}
+                    <Pagination
+                      currentPage={this.state.currentPage}
+                      totalPages={this.state.pageCount}
+                      changeCurrentPage={this.changeCurrentPage}
+                      theme="bottom-border"
+                    />
+                  </Col>
                   <div className="table-responsive">
                     <Table className="table-hover">
                       <thead>
@@ -472,6 +516,8 @@ function mapStateToProps(state) {
     getSuccess: state.reducerKelompokPelanggan.getSuccess,
     getError: state.reducerKelompokPelanggan.getError,
     dataKelompokPelanggan: state.reducerKelompokPelanggan.dataKelompokPelanggan,
+    dataKelompokPelangganPaginate:
+      state.reducerKelompokPelanggan.dataKelompokPelangganPaginate,
     // CREATE
     createSuccess: state.reducerKelompokPelanggan.createSuccess,
     createError: state.reducerKelompokPelanggan.createError,

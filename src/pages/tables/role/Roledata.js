@@ -35,6 +35,8 @@ import jwt from "jsonwebtoken";
 // import config from "../../../config";
 import Loader from "../../../components/Loader/Loader";
 import s from "./Roledata.module.scss";
+// react-pagination-library
+import Pagination from "react-pagination-library";
 
 import Widget from "../../../components/Widget/Widget";
 // actions
@@ -70,7 +72,11 @@ class Roledata extends React.Component {
       tarifversion: false,
       tarif: false,
       cutomerbilling: false,
-      pelanggan: false
+      pelanggan: false,
+      // react-pagination-library
+      pageCount: 0,
+      currentPage: 1,
+      triggerPaginate: false
     };
     //
     this.handleCreateChange = this.handleCreateChange.bind(this);
@@ -78,12 +84,38 @@ class Roledata extends React.Component {
 
   componentDidMount() {
     // GET data
-    this.props.dispatch(getDataRole());
+    this.receiveData();
     // GET data distributor
-    // if(this.state.modalCreate === true){
     this.props.dispatch(getDataDistributor());
-    // }
   }
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      pageCount: nextProps.dataRolePaginate.pages
+    });
+  }
+  componentDidUpdate() {
+    if (this.props.dataRolePaginate.page !== this.state.currentPage) {
+      this.receiveData();
+      this.props.dispatch(getDataDistributor());
+    }
+  }
+  pageCount() {
+    this.setState({
+      pageCount: this.props.dataRolePaginate.pages
+    });
+  }
+  // RECEIVE DATA
+  receiveData() {
+    this.props.dispatch(getDataRole(this.state.currentPage));
+  }
+  // react-pagination-library
+  changeCurrentPage = numPage => {
+    this.setState({ currentPage: numPage, triggerPaginate: true });
+    //fetch a data
+    //or update a query to get data
+    // this.props.dispatch(getDataArea(this.state.currentPage));
+    // this.receiveData();
+  };
 
   // CREATE Role
   doCreateRole = e => {
@@ -207,7 +239,7 @@ class Roledata extends React.Component {
     console.log(this.props);
 
     const { modalCreate } = this.state;
-    const { createSuccess, dataDistributor } = this.props;
+    const { dataRole, dataDistributor } = this.props;
 
     // create error
     const createError =
@@ -236,8 +268,8 @@ class Roledata extends React.Component {
 
     // table data
     const tableData =
-      this.props.dataRole.length > 0 ? (
-        this.props.dataRole.map(item => {
+      dataRole.length > 0 ? (
+        dataRole.map(item => {
           // console.log(item);
           // handle isactive
           const isactive = item.isactive ? (
@@ -251,7 +283,7 @@ class Roledata extends React.Component {
           //   menuaccess += item.menuaccess[a]+" ";
           // }
           return (
-            <tr>
+            <tr key={item._id}>
               <td>{item.code}</td>
               <td>{item.name}</td>
               <td>{isactive}</td>
@@ -343,6 +375,15 @@ class Roledata extends React.Component {
             <Row>
               <Col lg={12}>
                 <Widget refresh collapse close className="px-2">
+                  {/* react-pagination-library */}
+                  <Col lg={12}>
+                    <Pagination
+                      currentPage={this.state.currentPage}
+                      totalPages={this.state.pageCount}
+                      changeCurrentPage={this.changeCurrentPage}
+                      theme="bottom-border"
+                    />
+                  </Col>
                   <div className="table-responsive">
                     <Table className="table-hover">
                       <thead>
@@ -548,6 +589,7 @@ function mapStateToProps(state) {
     getSuccess: state.reducerRole.getSuccess,
     getError: state.reducerRole.getError,
     dataRole: state.reducerRole.dataRole,
+    dataRolePaginate: state.reducerRole.dataRolePaginate,
     // CREATE
     createSuccess: state.reducerRole.createSuccess,
     createError: state.reducerRole.createError,

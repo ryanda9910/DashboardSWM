@@ -54,6 +54,9 @@ import { getDataKelompokPelanggan } from "../../../actions/tables/kelompokpelang
 // data area
 import { getDataArea } from "../../../actions/tables/area";
 
+// react-pagination-library
+import Pagination from "react-pagination-library";
+
 class Pelanggan extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired
@@ -79,24 +82,51 @@ class Pelanggan extends React.Component {
       // MODALS
       modalCreate: false,
       // EMPTY DATA
-      emptyData: ""
+      emptyData: "",
+      // react-pagination-library
+      pageCount: 0,
+      currentPage: 1,
+      triggerPaginate: false
     };
-    //
     this.handleChange = this.handleChange.bind(this);
-    // this.emptyData = this.emptyData.bind(this);
   }
 
   componentDidMount() {
-    // masih race condition, harusnya pas modals muncul aja
-    // GET data
-    this.props.dispatch(getDataPelanggan());
-    // distributor
+    this.receiveData();
     this.props.dispatch(getDataDistributor());
-    // kelompok planggan
     this.props.dispatch(getDataKelompokPelanggan());
-    // area
     this.props.dispatch(getDataArea());
   }
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      pageCount: nextProps.dataPelangganPaginate.pages
+    });
+  }
+  componentDidUpdate() {
+    if (this.props.dataPelangganPaginate.page !== this.state.currentPage) {
+      this.receiveData();
+      this.props.dispatch(getDataDistributor());
+      this.props.dispatch(getDataKelompokPelanggan());
+      this.props.dispatch(getDataArea());
+    }
+  }
+  pageCount() {
+    this.setState({
+      pageCount: this.props.dataPelangganPaginate.pages
+    });
+  }
+  // RECEIVE DATA
+  receiveData() {
+    this.props.dispatch(getDataPelanggan(this.state.currentPage));
+  }
+  // react-pagination-library
+  changeCurrentPage = numPage => {
+    this.setState({ currentPage: numPage, triggerPaginate: true });
+    //fetch a data
+    //or update a query to get data
+    // this.props.dispatch(getDataArea(this.state.currentPage));
+    // this.receiveData();
+  };
 
   // CREATE Pelanggan
   doCreatePelanggan = e => {
@@ -222,7 +252,7 @@ class Pelanggan extends React.Component {
           //   <span className="badge btn-danger">FALSE</span>
           // );
           return (
-            <tr>
+            <tr key={item._id}>
               {/* <td>{item.distributor_id.name}</td> */}
               {/* <td>{isactive}</td> */}
               <td>{item.name}</td>
@@ -243,13 +273,13 @@ class Pelanggan extends React.Component {
                   className="mr-1"
                 >
                   <span className="text-success">
-                    <i class="far fa-edit"></i>
+                    <i className="far fa-edit"></i>
                     Ubah
                   </span>
                 </Link>
                 <a onClick={() => this.handleDelete(item._id)} className="ml-1">
                   <span className="text-danger">
-                    <i class="fas fa-trash"></i>
+                    <i className="fas fa-trash"></i>
                     Hapus
                   </span>
                 </a>
@@ -314,6 +344,15 @@ class Pelanggan extends React.Component {
             <Row>
               <Col lg={12}>
                 <Widget refresh collapse close className="px-2">
+                  {/* react-pagination-library */}
+                  <Col lg={12}>
+                    <Pagination
+                      currentPage={this.state.currentPage}
+                      totalPages={this.state.pageCount}
+                      changeCurrentPage={this.changeCurrentPage}
+                      theme="bottom-border"
+                    />
+                  </Col>
                   <div className="table-responsive">
                     <Table className="table-hover">
                       <thead>
@@ -543,6 +582,7 @@ function mapStateToProps(state) {
     getSuccess: state.reducerPelanggan.getSuccess,
     getError: state.reducerPelanggan.getError,
     dataPelanggan: state.reducerPelanggan.dataPelanggan,
+    dataPelangganPaginate: state.reducerPelanggan.dataPelangganPaginate,
     // CREATE
     createSuccess: state.reducerPelanggan.createSuccess,
     createError: state.reducerPelanggan.createError,

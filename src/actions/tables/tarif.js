@@ -50,53 +50,58 @@ export const deleteTarifError = payload => {
 };
 
 // pengeksekusi, fungsi yang berhubungan langsung dengan server
-export const getDataTarif = () => {
-  return (dispatch) => {
-    axios.get('/api/tarif')
-    .then(res => {
-      dispatch(getTarifSuccess(res.data.message.data));
-    })
-    .catch(err => {
-      if(err.response){
-        dispatch(getTarifError(err.response.status))
-      }
-    });
-  }
-}
-export const createDataTarif = (postData) => {
-  return (dispatch) => {
-    axios.post("/api/tarif/", postData)
-    .then(res => {
-      // jika success
-      if (res.data.code >= 200 || res.data.code < 300) {
-        console.log(res)
-        // ketika Error masuk kesini, backend
-        // dispatch(createSuccess(res.data.status))
-        dispatch(createTarifSuccess(res.data.message.data))
-      }else{
-        // jika validasi dari server error
-        // dispatch(createTarifError(res.data.message))
-      }
-      dispatch(getDataTarif())
-    })
-    .catch(err => {
-      if(err.response){
-        dispatch(createTarifError(err.response.status)) 
-      }    
-    });
-  }
-}
-export const deleteDataTarif = (id) => {
-  return (dispatch) => {
-    axios.delete("/api/tarif/" + id)
+export const getDataTarif = currentPage => {
+  return dispatch => {
+    let url = currentPage ? "/api/tarif?page=" + currentPage : "/api/tarif";
+    console.log(currentPage);
+    axios
+      .get(url)
       .then(res => {
-        dispatch(getTarifSuccess(res.data.message.data));
-        dispatch(getDataTarif())
+        dispatch(getTarifSuccess(res.data.message));
       })
       .catch(err => {
-      if(err.response){
-        dispatch(getTarifError(err.response.status));
-      }
+        if (err.response) {
+          dispatch(getTarifError(err.response.status));
+        }
+      });
+  };
+};
+export const createDataTarif = postData => {
+  return dispatch => {
+    axios
+      .post("/api/tarif/", postData)
+      .then(res => {
+        // jika success
+        if (res.data.code >= 200 || res.data.code < 300) {
+          console.log(res);
+          // ketika Error masuk kesini, backend
+          // dispatch(createSuccess(res.data.status))
+          dispatch(createTarifSuccess(res.data.message.data));
+        } else {
+          // jika validasi dari server error
+          // dispatch(createTarifError(res.data.message))
+        }
+        dispatch(getDataTarif());
+      })
+      .catch(err => {
+        if (err.response) {
+          dispatch(createTarifError(err.response.status));
+        }
+      });
+  };
+};
+export const deleteDataTarif = id => {
+  return dispatch => {
+    axios
+      .delete("/api/tarif/" + id)
+      .then(res => {
+        dispatch(getTarifSuccess(res.data.message.data));
+        dispatch(getDataTarif());
+      })
+      .catch(err => {
+        if (err.response) {
+          dispatch(getTarifError(err.response.status));
+        }
       });
   };
 };

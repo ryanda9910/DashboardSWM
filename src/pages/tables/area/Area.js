@@ -94,30 +94,27 @@ class Area extends React.Component {
     //
     this.handleCreateChange = this.handleCreateChange.bind(this);
   }
-  
+
   componentDidMount() {
     // masih race condition, harusnya pas modals muncul aja
     // GET data
     this.receiveData();
   }
   componentWillReceiveProps(nextProps) {
-    //
-    if(nextProps.dataAreaPaginate){
+    if(nextProps.dataUserPaginate !== null){
       this.setState({
         pageCount: nextProps.dataAreaPaginate.pages,
         limit: nextProps.dataAreaPaginate.limit,
         total: nextProps.dataAreaPaginate.total
       });
+    }else{
+      window.location.reload();
     }
   }
-  componentDidUpdate(prevProps, prevState){
-    if(this.props.dataAreaPaginate.page !== this.state.currentPage){
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.dataAreaPaginate.page !== this.state.currentPage) {
       this.receiveData();
     }
-    // console.log(this.props);
-    // console.log(prevProps);
-    // console.log(prevState.currentPage);
-    // console.log(this.state.currentPage);
   }
   pageCount() {
     this.setState({
@@ -128,23 +125,13 @@ class Area extends React.Component {
   receiveData() {
     this.props.dispatch(getDataArea(this.state.currentPage));
   }
-  // handlePageClick = data => {
-  //   const selectedPage = data.selected + 1;
-  //   const offset = selectedPage * this.state.perPage;
-  //   this.setState({ currentPage: selectedPage, offset: offset });
-  //   // 
-    // this.props.dispatch(getDataArea(this.state.currentPage));
-  // }
   // react-pagination-library
   changeCurrentPage = numPage => {
     console.log(`active page is ${numPage}`);
     this.setState({ currentPage: numPage, triggerPaginate: true });
     //fetch a data
     //or update a query to get data
-    // this.props.dispatch(getDataArea(this.state.currentPage));
-    // this.receiveData();
   };
-
 
   // CREATE Tarif
   doCreateArea = e => {
@@ -247,7 +234,7 @@ class Area extends React.Component {
         dataArea.map(item => {
           // console.log(item);
           return (
-            <tr>
+            <tr key={item._id}>
               <td>{item.code}</td>
               <td>{item.name}</td>
               <td>{item.distributor_id ? item.distributor_id.name : "-"}</td>
@@ -335,28 +322,7 @@ class Area extends React.Component {
                       {/* eslint-enable */}
                     </Table>
                   </div>
-                  <Col lg={12}>
-                    {/* react-paginate */}
-                    {/* <ReactPaginate
-                      previousLabel={"← Previous"}
-                      nextLabel={"Next →"}
-                      breakLabel={<span className="gap">...</span>}
-                      pageCount={this.state.pageCount}
-                      onPageChange={this.handlePageClick}
-                      forcePage={this.state.currentPage}
-                      containerClassName={"pagination"}
-                      previousLinkClassName={"previous_page"}
-                      nextLinkClassName={"next_page"}
-                      disabledClassName={"disabled"}
-                      activeClassName={"active"}
-                    /> */}
-                    {/* react-pagination-library */}
-                    {/* <Pagination
-                      currentPage={this.state.currentPage}
-                      totalPages={this.state.pageCount}
-                      changeCurrentPage={this.changeCurrentPage}
-                      theme="square"
-                    /> */}
+                  <Col lg={12} className="pt-3">
                     {/* react-js-pagination */}
                     <Pagination
                       activePage={this.state.currentPage}

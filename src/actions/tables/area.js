@@ -10,7 +10,6 @@ export const DELETE_AREA_ERROR = "DELETE_AREA_ERROR";
 export const DETAIL_AREA_SUCCESS = "DETAIL_AREA_SUCCESS";
 export const DETAIL_AREA_ERROR = "DETAIL_AREA_ERROR";
 
-
 // pengolah bahan, fungsi yang mengembalikan bahan
 export const getAreaSuccess = data => {
   return {
@@ -61,52 +60,53 @@ export const deleteAreaError = payload => {
 //   };
 // };
 
-
 // pengeksekusi, fungsi yang berhubungan langsung dengan server
-export const getDataArea = (currentPage) => {
+export const getDataArea = currentPage => {
   // pagination
 
-  return (dispatch) => {
+  return dispatch => {
     // axios.get('/api/area?page=2')
-    let url = currentPage ? '/api/area?page='+currentPage : '/api/area';
+    let url = currentPage ? "/api/area?page=" + currentPage : "/api/area";
     console.log(currentPage);
-    axios.get(url)
-    .then(res => {
-      console.log(url);
-      console.log(res.data);
-      dispatch(getAreaSuccess(res.data.message));
-    })
-    .catch(err => {
-      console.log(err.response);
-      if(err.response){
-        dispatch(getAreaError(err.response.status));
-      }
-    });
-  }
-}
-export const createDataArea = (postData) => {
-  return (dispatch) => {
-    axios.post("/api/area/", postData)
-    .then(res => {
-      // jika success
-      if (res.data.code >= 200 || res.data.code < 300) {
-        console.log(res)
-        // ketika Error masuk kesini, backend
-        // dispatch(createSuccess(res.data.status))
-        dispatch(createAreaSuccess(res.data.message.data))
-      }else{
-        // jika validasi dari server error
-        // dispatch(createAreaError(res.data.message))
-      }
-      dispatch(getDataArea())
-    })
-    .catch(err => {
-      if(err.response){
-        dispatch(createAreaError(err.response.status))     
-      }
-    });
-  }
-}
+    axios
+      .get(url)
+      .then(res => {
+        // console.log(url);
+        console.log(res.data);
+        dispatch(getAreaSuccess(res.data.message));
+      })
+      .catch(err => {
+        console.log(err.response);
+        if (err.response) {
+          dispatch(getAreaError(err.response.status));
+        }
+      });
+  };
+};
+export const createDataArea = postData => {
+  return dispatch => {
+    axios
+      .post("/api/area/", postData)
+      .then(res => {
+        // jika success
+        if (res.data.code >= 200 || res.data.code < 300) {
+          console.log(res);
+          // ketika Error masuk kesini, backend
+          // dispatch(createSuccess(res.data.status))
+          dispatch(createAreaSuccess(res.data.message.data));
+        } else {
+          // jika validasi dari server error
+          // dispatch(createAreaError(res.data.message))
+        }
+        dispatch(getDataArea());
+      })
+      .catch(err => {
+        if (err.response) {
+          dispatch(createAreaError(err.response.status));
+        }
+      });
+  };
+};
 export const deleteDataArea = id => {
   return dispatch => {
     axios
@@ -119,8 +119,8 @@ export const deleteDataArea = id => {
         dispatch(getDataArea());
       })
       .catch(err => {
-        if(err.response){
-          dispatch(deleteAreaError(err.response.status))
+        if (err.response) {
+          dispatch(deleteAreaError(err.response.status));
         }
       });
   };

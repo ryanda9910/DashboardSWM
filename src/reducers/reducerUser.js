@@ -13,6 +13,7 @@ const defaultState = {
   getSuccess: false,
   getError: false,
   dataUser: [],
+  dataUserPaginate: null,
   // CREATE
   createSuccess: false,
   createError: false,
@@ -33,27 +34,29 @@ export default function reducerUser(state = defaultState, action) {
         ...state,
         getSuccess: true,
         getError: false,
-        dataUser: action.data
+        dataUser: action.data.data,
+        dataUserPaginate: action.data.meta
       };
     case GET_USER_ERROR:
       return {
         ...state,
         getSuccess: false,
         getError: action.payload,
-        dataUser: null
+        dataUser: null,
+        dataUserPaginate: null
       };
     // CREATE
     case CREATE_USER_SUCCESS:
       return {
         ...state,
         createSuccess: true,
-        createError: false,
+        createError: false
       };
     case CREATE_USER_ERROR:
       return {
         ...state,
         createSuccess: false,
-        createError: action.payload,
+        createError: action.payload
       };
     // DELETE
     case DELETE_USER_SUCCESS:

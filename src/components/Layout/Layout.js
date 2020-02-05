@@ -32,6 +32,9 @@ import EditDataDistributor from "../../pages/forms/editdatadistributor/Editdatad
 //METER TESTING
 import MeterTesting from "../../pages/tables/metertesting/Metertesting";
 
+import ApexCharts from '../../pages/charts/apex';
+import HighCharts from '../../pages/charts/highcharts';
+
 import Header from "../Header";
 import Sidebar from "../Sidebar";
 import { openSidebar, closeSidebar } from "../../actions/navigation";
@@ -191,6 +194,9 @@ class Layout extends React.Component {
                       exact
                       component={EditDataDistributor}
                     />
+                    <Route path="/app/charts/apex" exact component={ApexCharts} />
+                    <Route path="/app/charts/highcharts" exact component={HighCharts} />
+
                   </Switch>
                 </CSSTransition>
               </TransitionGroup>

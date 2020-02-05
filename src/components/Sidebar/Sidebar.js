@@ -96,6 +96,98 @@ class Sidebar extends React.Component {
               this.props.dispatch(changeActiveSidebarItem(activeItem))
             }
             activeItem={this.props.activeItem}
+            header="Pelanggan "
+            isHeader
+            iconName="flaticon-user"
+            link="/app/tables/pelanggan"
+            index="Pelanggan"
+          />
+          <LinksGroup
+            onActiveSidebarItemChange={t =>
+              this.props.dispatch(changeActiveSidebarItem(t))
+            }
+            activeItem={this.props.activeItem}
+            header="Kelompok Pelanggan"
+            isHeader
+            iconName="flaticon-database-1"
+            link="/app/tables/kelompokpelanggan"
+            index="tables"
+          />
+          <LinksGroup
+            onActiveSidebarItemChange={activeItem =>
+              this.props.dispatch(changeActiveSidebarItem(activeItem))
+            }
+            activeItem={this.props.activeItem}
+            header="Area"
+            isHeader
+            iconName="flaticon-map-location"
+            link="/app/tables/area"
+            index="Area"
+          />
+          <LinksGroup
+            onActiveSidebarItemChange={activeItem =>
+              this.props.dispatch(changeActiveSidebarItem(activeItem))
+            }
+            activeItem={this.props.activeItem}
+            header="Tarif"
+            isHeader
+            iconName="flaticon-notebook-3"
+            link="/app/tarifpelanggan"
+            index="tarifpelanggan"
+            childrenLinks={[
+              {
+                header: "Tarif Pelanggan",
+                link: "/app/tables/tarif"
+              },
+              {
+                header: "Versi Tarif",
+                link: "/app/tables/tarifversion"
+              }
+            ]}
+          />
+          <LinksGroup
+            onActiveSidebarItemChange={activeItem =>
+              this.props.dispatch(changeActiveSidebarItem(activeItem))
+            }
+            activeItem={this.props.activeItem}
+            header="Perangkat"
+            isHeader
+            iconName="flaticon-controls"
+            link="/app/tables/panelmeter"
+            index="Panelmeter"
+          />
+          <LinksGroup
+            header="Meter Testing"
+            link="/app/tables/metertesting"
+            isHeader
+            iconName="flaticon-settings-6"
+          />
+          <LinksGroup
+            onActiveSidebarItemChange={activeItem =>
+              this.props.dispatch(changeActiveSidebarItem(activeItem))
+            }
+            activeItem={this.props.activeItem}
+            header="Laporan"
+            isHeader
+            iconName="flaticon-file"
+            link="/app/laporan"
+            index="laporan"
+            childrenLinks={[
+              {
+                header: "Penjualan",
+                link: "/app/charts/apex"
+              },
+              {
+                header: "Neraca Air",
+                link: "/app/charts/highcharts"
+              }
+            ]}
+          />
+          <LinksGroup
+            onActiveSidebarItemChange={activeItem =>
+              this.props.dispatch(changeActiveSidebarItem(activeItem))
+            }
+            activeItem={this.props.activeItem}
             header="Security"
             link="/app/security"
             isHeader
@@ -115,77 +207,6 @@ class Sidebar extends React.Component {
                 link: "/app/tables/userdata"
               }
             ]}
-          />
-          <LinksGroup
-            onActiveSidebarItemChange={activeItem =>
-              this.props.dispatch(changeActiveSidebarItem(activeItem))
-            }
-            activeItem={this.props.activeItem}
-            header="Area"
-            isHeader
-            iconName="flaticon-map-location"
-            link="/app/tables/area"
-            index="Area"
-          />
-          <LinksGroup
-            onActiveSidebarItemChange={activeItem =>
-              this.props.dispatch(changeActiveSidebarItem(activeItem))
-            }
-            activeItem={this.props.activeItem}
-            header="Perangkat"
-            isHeader
-            iconName="flaticon-controls"
-            link="/app/tables/panelmeter"
-            index="Panelmeter"
-          />
-          <LinksGroup
-            onActiveSidebarItemChange={activeItem =>
-              this.props.dispatch(changeActiveSidebarItem(activeItem))
-            }
-            activeItem={this.props.activeItem}
-            header="Pelanggan "
-            isHeader
-            iconName="flaticon-user"
-            link="/app/tables/pelanggan"
-            index="Pelanggan"
-          />
-          <LinksGroup
-            onActiveSidebarItemChange={activeItem =>
-              this.props.dispatch(changeActiveSidebarItem(activeItem))
-            }
-            activeItem={this.props.activeItem}
-            header="Tarif"
-            isHeader
-            iconName="flaticon-notebook-3"
-            link="/app/tarifpelanggan"
-            index="tarifpelanggan"
-            childrenLinks={[
-              {
-                header: "Tarif Version",
-                link: "/app/tables/tarifversion"
-              },
-              {
-                header: "Tarif Pelanggan",
-                link: "/app/tables/tarif"
-              }
-            ]}
-          />
-          <LinksGroup
-            onActiveSidebarItemChange={t =>
-              this.props.dispatch(changeActiveSidebarItem(t))
-            }
-            activeItem={this.props.activeItem}
-            header="Kelompok Pelanggan"
-            isHeader
-            iconName="flaticon-database-1"
-            link="/app/tables/kelompokpelanggan"
-            index="tables"
-          />
-          <LinksGroup
-            header="Meter Testing"
-            link="/app/tables/metertesting"
-            isHeader
-            iconName="flaticon-settings-6"
           />
           {/* <Link
             onClick={this.doLogout}

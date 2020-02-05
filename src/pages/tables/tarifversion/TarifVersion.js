@@ -355,7 +355,7 @@ class Tarif extends React.Component {
                 <ol className="breadcrumb">
                   <li className="breadcrumb-item">YOU ARE HERE</li>
                   <li className="breadcrumb-item active">
-                    Data <span> Tarif Version</span>
+                    Data <span> Versi Tarif</span>
                   </li>
                 </ol>
                 {/* alert */}
@@ -374,7 +374,7 @@ class Tarif extends React.Component {
             <Row className="align-items-center justify-content-between">
               <Col lg={12}>
                 <h3>
-                  Data <span className="fw-semi-bold">Tarif Version</span>
+                  Data <span className="fw-semi-bold">Versi Tarif</span>
                 </h3>
               </Col>
               <Col lg={4}>

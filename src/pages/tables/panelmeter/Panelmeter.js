@@ -94,12 +94,12 @@ class Panelmeter extends React.Component {
     }
   }
   componentDidUpdate() {
-    if(this.props.dataPerangkatPaginate.page !== this.state.currentPage){
+    if (this.props.dataPerangkatPaginate.page !== this.state.currentPage) {
       this.receiveData();
     }
   }
   // END LIFE CYCLE
-  
+
   // RECEIVE DATA
   receiveData() {
     this.props.dispatch(getDataPerangkat(this.state.currentPage));
@@ -116,14 +116,14 @@ class Panelmeter extends React.Component {
   changeCurrentPage = numPage => {
     this.setState({ currentPage: numPage, triggerPaginate: true });
   };
-  
+
   // MODAL
   toggle(id) {
     this.setState(prevState => ({
       [id]: !prevState[id]
     }));
   }
-  
+
   // CREATE
   doCreatePerangkat = e => {
     e.preventDefault();
@@ -215,7 +215,7 @@ class Panelmeter extends React.Component {
             );
           // const isactive = item.isactive ? (
           //   <span className="badge btn-success">TRUE</span>
-          // ) : (
+          // ) : ( 
           //   <span className="badge btn-danger">FALSE</span>
           // );
           return (
@@ -300,9 +300,11 @@ class Panelmeter extends React.Component {
                 {/* BUTTON MODALS CREATE */}
                 <Button
                   className="mr-sm"
-                  color="warning"
+                  color="default"
+                  outline
                   onClick={() => this.toggle("modalCreate")}
                 >
+                  <i className="fa fa-plus mr-xs mb-xs" />
                   Tambah Data
                 </Button>
               </Col>
@@ -338,13 +340,15 @@ class Panelmeter extends React.Component {
                   </div>
                   <Col lg={12} className="pt-3">
                     {/* react-js-pagination */}
-                    <Pagination
-                      activePage={this.state.currentPage}
-                      itemsCountPerPage={this.state.limit}
-                      totalItemsCount={this.state.total}
-                      pageRangeDisplayed={this.state.pageCount}
-                      onChange={this.changeCurrentPage.bind(this)}
-                    />
+                    <div className={s.rootPaginate + " justify-content-center d-flex "}>
+                      <Pagination
+                        activePage={this.state.currentPage}
+                        itemsCountPerPage={this.state.limit}
+                        totalItemsCount={this.state.total}
+                        pageRangeDisplayed={this.state.pageCount}
+                        onChange={this.changeCurrentPage.bind(this)}
+                      />
+                    </div>
                   </Col>
                 </Widget>
               </Col>

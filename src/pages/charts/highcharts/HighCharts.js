@@ -41,10 +41,9 @@ class HighCharts extends PureComponent {
       <div>
         <Breadcrumb>
           <BreadcrumbItem>YOU ARE HERE</BreadcrumbItem>
-          <BreadcrumbItem>Charts</BreadcrumbItem>
-          <BreadcrumbItem active>Highcharts</BreadcrumbItem>
+          <BreadcrumbItem active>Neraca Air </BreadcrumbItem>
         </Breadcrumb>
-        <h1 className="page-title">Visual - <span className="fw-semi-bold">Highcharts</span></h1>
+        <h1 className="page-title">Visual - <span className="fw-semi-bold">Neraca Air</span></h1>
         <p>For more information please read full <a href="https://github.com/highcharts/highcharts-vue">documentation</a></p>
         <Row>
           <Col lg={12} xs={12}>
@@ -77,16 +76,16 @@ class HighCharts extends PureComponent {
                 <Widget
                   title={<h5>Highcharts <span className="fw-semi-bold">Vector Chart</span></h5>}
                   close collapse
-                  >
-                    <HighchartsReact options={cd.vector} />
-                  </Widget>
+                >
+                  <HighchartsReact options={cd.vector} />
+                </Widget>
               </Col>
               <Col lg={12} xs={12}>
                 <Widget
                   title={<h5>Highcharts <span className="fw-semi-bold">Sunburst Chart</span></h5>}
                   close collapse
-                  >
-                    <HighchartsReact options={cd.wordCloud} />
+                >
+                  <HighchartsReact options={cd.wordCloud} />
                 </Widget>
               </Col>
             </Row>
@@ -95,8 +94,8 @@ class HighCharts extends PureComponent {
             <Widget
               title={<h5>Highcharts <span className="fw-semi-bold">Sunburst Chart</span></h5>}
               close collapse
-              >
-                <HighchartsReact options={cd.sunburst} />
+            >
+              <HighchartsReact options={cd.sunburst} />
             </Widget>
           </Col>
         </Row>

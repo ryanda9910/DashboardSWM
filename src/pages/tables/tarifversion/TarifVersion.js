@@ -92,13 +92,13 @@ class Tarif extends React.Component {
     this.receiveData();
   }
   componentWillReceiveProps(nextProps) {
-    if(nextProps.dataTarifVersionPaginate !== null){
+    if (nextProps.dataTarifVersionPaginate !== null) {
       this.setState({
         pageCount: nextProps.dataTarifVersionPaginate.pages,
         limit: nextProps.dataTarifVersionPaginate.limit,
         total: nextProps.dataTarifVersionPaginate.total,
       });
-    }else{
+    } else {
       window.location.reload();
     }
   }
@@ -123,7 +123,7 @@ class Tarif extends React.Component {
   changeCurrentPage = numPage => {
     this.setState({ currentPage: numPage, triggerPaginate: true });
   };
-  
+
   // MODAL
   toggle(id) {
     this.setState(prevState => ({
@@ -298,7 +298,7 @@ class Tarif extends React.Component {
                 <ol className="breadcrumb">
                   <li className="breadcrumb-item">YOU ARE HERE</li>
                   <li className="breadcrumb-item active">
-                    Data <span> Tarif Version</span>
+                    Data <span> Versi Tarif</span>
                   </li>
                 </ol>
                 {/* alert */}
@@ -317,7 +317,7 @@ class Tarif extends React.Component {
             <Row className="align-items-center justify-content-between">
               <Col lg={12}>
                 <h3>
-                  Data <span className="fw-semi-bold">Tarif Version</span>
+                  Data <span className="fw-semi-bold">Versi Tarif</span>
                 </h3>
               </Col>
               <Col lg={4}>
@@ -334,9 +334,11 @@ class Tarif extends React.Component {
                 {/* BUTTON MODALS CREATE */}
                 <Button
                   className="mr-sm"
-                  color="warning"
+                  color="default"
+                  outline
                   onClick={() => this.toggle("modalCreate")}
                 >
+                  <i className="fa fa-plus mr-xs mb-xs" />
                   Tambah Data
                 </Button>
               </Col>
@@ -371,14 +373,15 @@ class Tarif extends React.Component {
                   </div>
                   {/* react-pagination-library */}
                   <Col lg={12} className="pt-3">
-                    {/* react-js-pagination */}
-                    <Pagination
-                      activePage={this.state.currentPage}
-                      itemsCountPerPage={this.state.limit}
-                      totalItemsCount={this.state.total}
-                      pageRangeDisplayed={this.state.pageCount}
-                      onChange={this.changeCurrentPage.bind(this)}
-                    />
+                    <div className={s.rootPaginate + " justify-content-center d-flex "}>
+                      <Pagination
+                        activePage={this.state.currentPage}
+                        itemsCountPerPage={this.state.limit}
+                        totalItemsCount={this.state.total}
+                        pageRangeDisplayed={this.state.pageCount}
+                        onChange={this.changeCurrentPage.bind(this)}
+                      />
+                    </div>
                   </Col>
                 </Widget>
               </Col>

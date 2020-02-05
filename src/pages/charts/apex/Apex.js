@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { 
-  Col, 
-  Row, 
+import {
+  Col,
+  Row,
   Breadcrumb,
-  BreadcrumbItem, 
+  BreadcrumbItem,
 } from 'reactstrap';
 import ApexChart from 'react-apexcharts';
 import './ApexChart.module.scss';
@@ -15,7 +15,7 @@ class ApexCharts extends Component {
   state = {
     cd: chartsData
   }
- 
+
   render() {
 
     const { cd } = this.state;
@@ -24,10 +24,9 @@ class ApexCharts extends Component {
       <div>
         <Breadcrumb>
           <BreadcrumbItem>YOU ARE HERE</BreadcrumbItem>
-          <BreadcrumbItem>Charts</BreadcrumbItem>
-          <BreadcrumbItem active>Apex chart</BreadcrumbItem>
+          <BreadcrumbItem active>Penjualan</BreadcrumbItem>
         </Breadcrumb>
-        <h1 className="page-title">Visual - <span className="fw-semi-bold">Apex Charts</span></h1>
+        <h1 className="page-title">Visual - <span className="fw-semi-bold">Penjualan</span></h1>
         <p>For more information please read full <a href="https://apexcharts.com/docs/vue-charts/">documentation</a></p>
         <Row>
           <Col xl={6} lg={6} xs={12}>
@@ -35,7 +34,7 @@ class ApexCharts extends Component {
               title={<h5>Apex <span className="fw-semi-bold">Line Chart</span></h5>}
               close collapse
             >
-              <ApexChart 
+              <ApexChart
                 className="sparkline-chart"
                 type={"line"}
                 series={cd.line.series}
@@ -48,7 +47,7 @@ class ApexCharts extends Component {
               title={<h5>Apex <span className="fw-semi-bold">Area Chart</span></h5>}
               close collapse
             >
-              <ApexChart 
+              <ApexChart
                 className="sparkline-chart"
                 type={"area"}
                 series={cd.area.series}
@@ -61,7 +60,7 @@ class ApexCharts extends Component {
               title={<h5>Apex <span className="fw-semi-bold">Column Chart</span></h5>}
               close collapse
             >
-              <ApexChart  
+              <ApexChart
                 className="sparkline-chart"
                 type={"bar"}
                 series={cd.column.series}
@@ -74,7 +73,7 @@ class ApexCharts extends Component {
               title={<h5>Apex <span className="fw-semi-bold">Bar Chart</span></h5>}
               close collapse
             >
-              <ApexChart 
+              <ApexChart
                 className="sparkline-chart"
                 type={"bar"}
                 series={cd.bar.series}
@@ -103,7 +102,7 @@ class ApexCharts extends Component {
                   title={<h5>Apex <span className="fw-semi-bold">Pie Chart</span></h5>}
                   close collapse
                 >
-                  <ApexChart 
+                  <ApexChart
                     className="sparkline-chart"
                     type={"pie"}
                     height={175}
@@ -117,7 +116,7 @@ class ApexCharts extends Component {
                   title={<h5>Apex <span className="fw-semi-bold">Donut Chart</span></h5>}
                   close collapse
                 >
-                  <ApexChart 
+                  <ApexChart
                     className="sparkline-chart"
                     type={"donut"}
                     height={175}
@@ -131,7 +130,7 @@ class ApexCharts extends Component {
                   title={<h5>Apex <span className="fw-semi-bold">Heat Map Chart</span></h5>}
                   close collapse
                 >
-                  <ApexChart 
+                  <ApexChart
                     className="sparkline-chart"
                     type={"heatmap"}
                     height={250}
@@ -143,17 +142,17 @@ class ApexCharts extends Component {
             </Row>
           </Col>
           <Col lg={6} xs={12}>
-          <Widget
-            title={<h5>Apex <span className="fw-semi-bold">Radial Chart</span></h5>}
-            close collapse
-          >
-            <ApexChart 
-              className="sparkline-chart"
-              type={"radialBar"}
-              series={cd.radial.series}
-              options={cd.radial.options}
-            />
-          </Widget>
+            <Widget
+              title={<h5>Apex <span className="fw-semi-bold">Radial Chart</span></h5>}
+              close collapse
+            >
+              <ApexChart
+                className="sparkline-chart"
+                type={"radialBar"}
+                series={cd.radial.series}
+                options={cd.radial.options}
+              />
+            </Widget>
           </Col>
         </Row>
       </div>

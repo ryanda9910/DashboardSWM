@@ -105,7 +105,7 @@ class Userdata extends React.Component {
     }
   }
   // END LIFE CIRCLE
-  
+
   // COUNT PAGE
   pageCount() {
     this.setState({
@@ -301,9 +301,11 @@ class Userdata extends React.Component {
                 {/* BUTTON MODALS CREATE */}
                 <Button
                   className="mr-sm"
-                  color="warning"
+                  color="default"
+                  outline
                   onClick={() => this.toggle("modalCreate")}
                 >
+                  <i className="fa fa-plus mr-xs mb-xs" />
                   Tambah Data
                 </Button>
               </Col>
@@ -336,13 +338,15 @@ class Userdata extends React.Component {
                   </div>
                   <Col lg={12} className="pt-3">
                     {/* react-js-pagination */}
-                    <Pagination
-                      activePage={this.state.currentPage}
-                      itemsCountPerPage={this.state.limit}
-                      totalItemsCount={this.state.total}
-                      pageRangeDisplayed={this.state.pageCount}
-                      onChange={this.changeCurrentPage.bind(this)}
-                    />
+                    <div className={s.rootPaginate + " justify-content-center d-flex "}>
+                      <Pagination
+                        activePage={this.state.currentPage}
+                        itemsCountPerPage={this.state.limit}
+                        totalItemsCount={this.state.total}
+                        pageRangeDisplayed={this.state.pageCount}
+                        onChange={this.changeCurrentPage.bind(this)}
+                      />
+                    </div>
                   </Col>
                 </Widget>
               </Col>

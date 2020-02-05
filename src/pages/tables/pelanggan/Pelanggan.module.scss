@@ -11,6 +11,18 @@
   font-weight: $font-weight-normal;
 }
 
+.rootPaginate{
+  li {
+    border: #474d80 1px solid;  
+    a{
+      padding: 7px 7px;
+      color:  rgba(255,255,255,.7);     
+    }
+  }
+  li:hover{
+    background-color:#474d84;  
+  }
+}
 // .mainTableWidget {
 //   :global {
 //     .table td {

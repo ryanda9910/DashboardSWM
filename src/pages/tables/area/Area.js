@@ -85,7 +85,7 @@ class Area extends React.Component {
     this.receiveData();
   }
   componentWillReceiveProps(nextProps) {
-    if(nextProps.dataAreaPaginate !== null){
+    if (nextProps.dataAreaPaginate !== null) {
       this.setState({
         pageCount: nextProps.dataAreaPaginate.pages,
         limit: nextProps.dataAreaPaginate.limit,
@@ -278,9 +278,11 @@ class Area extends React.Component {
               <Col lg={4} className="text-right">
                 <Button
                   className="mr-sm"
-                  color="warning"
+                  color="default"
+                  outline
                   onClick={() => this.toggle("modalCreate")}
                 >
+                  <i className="fa fa-plus mr-xs mb-xs" />
                   Tambah Data
                 </Button>
               </Col>
@@ -307,13 +309,15 @@ class Area extends React.Component {
                   </div>
                   <Col lg={12} className="pt-3">
                     {/* react-js-pagination */}
-                    <Pagination
-                      activePage={this.state.currentPage}
-                      itemsCountPerPage={this.state.limit}
-                      totalItemsCount={this.state.total}
-                      pageRangeDisplayed={this.state.pageCount}
-                      onChange={this.changeCurrentPage.bind(this)}
-                    />
+                    <div className={s.rootPaginate + " justify-content-center d-flex "}>
+                      <Pagination
+                        activePage={this.state.currentPage}
+                        itemsCountPerPage={this.state.limit}
+                        totalItemsCount={this.state.total}
+                        pageRangeDisplayed={this.state.pageCount}
+                        onChange={this.changeCurrentPage.bind(this)}
+                      />
+                    </div>
                   </Col>
                 </Widget>
               </Col>

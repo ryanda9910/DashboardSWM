@@ -105,7 +105,8 @@ class Userdata extends React.Component {
     }
   }
   // END LIFE CIRCLE
-
+  
+  // COUNT PAGE
   pageCount() {
     this.setState({
       pageCount: this.props.dataUserPaginate.pages

@@ -87,14 +87,12 @@ class kelompokPelanggan extends React.Component {
     //
     this.handleCreateChange = this.handleCreateChange.bind(this);
   }
-
+  // LIFE CYCLE
   componentDidMount() {
-    // GET data
     this.receiveData();
   }
-
   componentWillReceiveProps(nextProps) {
-    if (nextProps.dataKelompokPelangganPaginate !== null) {
+    if(nextProps.dataKelompokPelangganPaginate !== null){
       this.setState({
         pageCount: nextProps.dataKelompokPelangganPaginate.pages,
         limit: nextProps.dataKelompokPelangganPaginate.limit,
@@ -105,12 +103,11 @@ class kelompokPelanggan extends React.Component {
     }
   }
   componentDidUpdate() {
-    if (
-      this.props.dataKelompokPelangganPaginate.page !== this.state.currentPage
-    ) {
+    if(this.props.dataKelompokPelangganPaginate.page !== this.state.currentPage) {
       this.receiveData();
     }
   }
+  // END LIFE CYCLE
   pageCount() {
     this.setState({
       pageCount: this.props.dataKelompokPelangganPaginate.pages

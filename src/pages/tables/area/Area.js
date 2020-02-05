@@ -95,14 +95,12 @@ class Area extends React.Component {
     //
     this.handleCreateChange = this.handleCreateChange.bind(this);
   }
-
+  // LIFE CYCLE
   componentDidMount() {
-    // masih race condition, harusnya pas modals muncul aja
-    // GET data
     this.receiveData();
   }
   componentWillReceiveProps(nextProps) {
-    if (nextProps.dataAreaPaginate !== null) {
+    if(nextProps.dataAreaPaginate !== null){
       this.setState({
         pageCount: nextProps.dataAreaPaginate.pages,
         limit: nextProps.dataAreaPaginate.limit,
@@ -117,6 +115,7 @@ class Area extends React.Component {
       this.receiveData();
     }
   }
+  // END LIFE CYCLE
   pageCount() {
     this.setState({
       pageCount: this.props.dataAreaPaginate.pages
@@ -130,8 +129,6 @@ class Area extends React.Component {
   changeCurrentPage = numPage => {
     console.log(`active page is ${numPage}`);
     this.setState({ currentPage: numPage, triggerPaginate: true });
-    //fetch a data
-    //or update a query to get data
   };
 
   // CREATE Tarif

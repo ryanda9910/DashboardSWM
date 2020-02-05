@@ -91,16 +91,10 @@ class Distributor extends React.Component {
   }
   // LIFE CIRCLE
   componentDidMount() {
-    // GET data
     this.receiveData();
   }
-  shouldComponentUpdate(nextProps, nextState) {
-    // only update component if there is a new props
-    // so when new props comes in there is NO rerender
-    return nextProps.dataDistributorPaginate !== null || nextProps.dataDistributorPaginate.length > 0;
-  }
   componentWillReceiveProps(nextProps) {
-    if (nextProps.dataDistributorPaginate !== null) {
+    if(nextProps.dataDistributorPaginate !== null){
       this.setState({
         pageCount: nextProps.dataDistributorPaginate.pages,
         limit: nextProps.dataDistributorPaginate.limit,
@@ -111,7 +105,6 @@ class Distributor extends React.Component {
     }
   }
   componentDidUpdate(prevProps) {
-    console.log(prevProps);
     if (this.props.dataDistributorPaginate.page !== this.state.currentPage) {
       this.receiveData();
     }
@@ -126,20 +119,9 @@ class Distributor extends React.Component {
   receiveData() {
     this.props.dispatch(getDataDistributor(this.state.currentPage));
   }
-  // handlePageClick = data => {
-  //   const selectedPage = data.selected + 1;
-  //   const offset = selectedPage * this.state.perPage;
-  //   this.setState({ currentPage: selectedPage, offset: offset });
-  //   //
-  // this.props.dispatch(getDataArea(this.state.currentPage));
-  // }
   // react-js-pagination
   changeCurrentPage = numPage => {
     this.setState({ currentPage: numPage, triggerPaginate: true });
-    //fetch a data
-    //or update a query to get data
-    // this.props.dispatch(getDataArea(this.state.currentPage));
-    // this.receiveData();
   };
 
   // CREATE distributor

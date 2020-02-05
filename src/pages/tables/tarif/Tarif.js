@@ -86,36 +86,18 @@ class Tarif extends React.Component {
     // this.handleDelete = this.handleDelete.bind(this);
   }
 
+  // LIFE CYCLE
   componentDidMount() {
-    // masih race condition, harusnya pas modals muncul aja
-    // GET data
     this.receiveData();
   }
-
-  componentWillReceiveProps() {
-    // ALERT
-    if (this.props.deleteSuccess) {
-      this.setState({
-        alertMessage: "delete success"
-      });
-      return this.onShowAlert();
-    }
-    if (this.props.deleteError) {
-      this.setState({
-        alertMessage: "delete error",
-        alertBackground: "danger"
-      });
-      return this.onShowAlert();
-    }
-  }
   componentWillReceiveProps(nextProps) {
-    if (nextProps.dataTarifPaginate !== null) {
+    if(nextProps.dataTarifPaginate !== null){
       this.setState({
         pageCount: nextProps.dataTarifPaginate.pages,
         limit: nextProps.dataTarifPaginate.limit,
-        total: nextProps.dataTarifPaginate.total
+        total: nextProps.dataTarifPaginate.total,
       });
-    } else {
+    }else{
       window.location.reload();
     }
   }
@@ -123,37 +105,35 @@ class Tarif extends React.Component {
     if (this.props.dataTarifPaginate.page !== this.state.currentPage) {
       this.receiveData();
     }
-    // console.log(this.props);
-    // console.log(prevProps);
-    // console.log(prevState.currentPage);
-    // console.log(this.state.currentPage);
   }
+  // END LIFE CYCLE
+
+  // RECEIVE DATA
+  receiveData() {
+    this.props.dispatch(getDataTarif(this.state.currentPage));
+  }
+  // COUNT PAGE
   pageCount() {
     this.setState({
       pageCount: this.props.dataTarifPaginate.pages
     });
   }
-  // RECEIVE DATA
-  receiveData() {
-    this.props.dispatch(getDataTarif(this.state.currentPage));
-  }
-  // handlePageClick = data => {
-  //   const selectedPage = data.selected + 1;
-  //   const offset = selectedPage * this.state.perPage;
-  //   this.setState({ currentPage: selectedPage, offset: offset });
-  //   //
-  // this.props.dispatch(getDataArea(this.state.currentPage));
-  // }
-  // react-js-pagination
+  // CURRENT CHANGE
   changeCurrentPage = numPage => {
     this.setState({ currentPage: numPage, triggerPaginate: true });
-    //fetch a data
-    //or update a query to get data
-    // this.props.dispatch(getDataArea(this.state.currentPage));
-    // this.receiveData();
   };
-
-  // CREATE Tarif
+  
+  // MODAL
+  toggle(id) {
+    this.setState(prevState => ({
+      [id]: !prevState[id],
+      // message validasi akan hilang setiap kali toggle() di klik
+      emptyDistributorIdMsg: ""
+    }));
+    // GET data distributor
+    this.props.dispatch(getDataDistributor());
+  }
+  // CREATE
   doCreateTarif = e => {
     let postData = {
       name: this.state.name,
@@ -163,24 +143,20 @@ class Tarif extends React.Component {
     };
     console.log(postData);
     e.preventDefault();
-    // CREATE VALIDASI
-    if (
-      this.state.distributor_id === null ||
-      this.state.distributor_id === ""
-    ) {
+    if(this.state.distributor_id === null || this.state.distributor_id === ""){
       this.setState({
         emptyDistributorIdMsg: "wajib memasukan distributor!"
       });
       return false;
-    } else if (this.state.name === "") {
+    }else if(this.state.name === ""){
       this.setState({
         emptyCreateName: "Field name harus diisi."
       });
-    } else if (this.state.description === "") {
+    }else if(this.state.description === ""){
       this.setState({
         emptyCreateDescription: "Field description harus diisi."
       });
-    } else {
+    }else{
       e.preventDefault();
       this.props.dispatch(createDataTarif(postData));
       this.setState({
@@ -189,7 +165,16 @@ class Tarif extends React.Component {
       });
     }
   };
-  // track change
+  // DELETE
+  handleDelete(id) {
+    let confirm = window.confirm("delete data, are you sure?");
+    console.log(confirm);
+    if (confirm) {
+      this.props.dispatch(deleteDataTarif(id));
+    }
+  }
+
+  // TRACK CHANGE
   handleCreateChange = e => {
     console.log(e.target);
     const target = e.target;
@@ -200,42 +185,7 @@ class Tarif extends React.Component {
       [name]: value
     });
   };
-
-  // DELETE
-  handleDelete(id) {
-    let confirm = window.confirm("delete data, are you sure?");
-    console.log(confirm);
-    if (confirm) {
-      this.props.dispatch(deleteDataTarif(id));
-      // this.props.dispatch(getDataTarif());
-    }
-  }
-
-  onShowAlert = () => {
-    this.setState(
-      {
-        showAlert: true
-      },
-      () => {
-        window.setTimeout(() => {
-          this.setState({
-            showAlert: false
-            // alertMessage: ''
-          });
-        }, 2000);
-      }
-    );
-  };
-
-  toggle(id) {
-    this.setState(prevState => ({
-      [id]: !prevState[id],
-      // message validasi akan hilang setiap kali toggle() di klik
-      emptyDistributorIdMsg: ""
-    }));
-    // GET data distributor
-    this.props.dispatch(getDataDistributor());
-  }
+  
 
   render() {
     console.log(this.state);

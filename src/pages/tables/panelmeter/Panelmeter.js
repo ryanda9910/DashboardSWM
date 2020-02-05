@@ -273,7 +273,7 @@ class Panelmeter extends React.Component {
             );
           // const isactive = item.isactive ? (
           //   <span className="badge btn-success">TRUE</span>
-          // ) : (
+          // ) : ( 
           //   <span className="badge btn-danger">FALSE</span>
           // );
           return (

@@ -25,10 +25,10 @@
 }
 .rootPaginate{
   li {
-    padding: 0.3rem 0.5rem;
     border: #474d80 1px solid;  
     a{
-      color:  #ffffff;   
+      padding: 7px 7px;
+      color:  rgba(255,255,255,.7);   
     }
   }
   li:hover{

@@ -340,8 +340,6 @@ class Distributor extends React.Component {
                     {/* react-js-pagination */}
                     <div className={s.rootPaginate + " justify-content-center d-flex "}>
                       <Pagination
-                        prevPageText={<i className='glyphicon glyphicon-menu-left' />}
-                        nextPageText={<i className='glyphicon glyphicon-menu-right' />}
                         activePage={this.state.currentPage}
                         itemsCountPerPage={this.state.limit}
                         totalItemsCount={this.state.total}

@@ -375,8 +375,6 @@ class Tarif extends React.Component {
                   <Col lg={12} className="pt-3">
                     <div className={s.rootPaginate + " justify-content-center d-flex "}>
                       <Pagination
-                        prevPageText={<i className='glyphicon glyphicon-menu-left' />}
-                        nextPageText={<i className='glyphicon glyphicon-menu-right' />}
                         activePage={this.state.currentPage}
                         itemsCountPerPage={this.state.limit}
                         totalItemsCount={this.state.total}

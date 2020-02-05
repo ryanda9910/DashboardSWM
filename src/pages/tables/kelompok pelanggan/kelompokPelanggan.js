@@ -302,9 +302,11 @@ class kelompokPelanggan extends React.Component {
                 {/* BUTTON MODALS CREATE */}
                 <Button
                   className="mr-sm"
-                  color="warning"
+                  color="default"
+                  outline
                   onClick={() => this.toggle("modalCreate")}
                 >
+                  <i className="fa fa-plus mr-xs mb-xs" />
                   Tambah Data
                 </Button>
               </Col>

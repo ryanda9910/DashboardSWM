@@ -296,9 +296,11 @@ class Area extends React.Component {
               <Col lg={4} className="text-right">
                 <Button
                   className="mr-sm"
-                  color="warning"
+                  color="default"
+                  outline
                   onClick={() => this.toggle("modalCreate")}
                 >
+                  <i className="fa fa-plus mr-xs mb-xs" />
                   Tambah Data
                 </Button>
               </Col>

@@ -121,8 +121,6 @@ class Userdata extends React.Component {
   // react-js-pagination
   changeCurrentPage = numPage => {
     this.setState({ currentPage: numPage, triggerPaginate: true });
-    //fetch a data
-    //or update a query to get data
   };
 
   // CREATE User
@@ -175,11 +173,6 @@ class Userdata extends React.Component {
   render() {
     console.log(this.state);
     console.log(this.props);
-
-    // jika error karena 401 atau lainnya, tendang user dengan hapus cookie
-    // if(this.props.getError){
-    //   return document.cookie = 'token=;expires=Thu, 01 Jan 1970 00:00:01 GMT;'
-    // }
 
     const { modalCreate } = this.state;
     const { dataRole, dataDistributor } = this.props;

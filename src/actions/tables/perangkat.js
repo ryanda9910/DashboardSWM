@@ -72,8 +72,6 @@ export const createDataPerangkat = postData => {
         // jika success
         if (res.data.code >= 200 || res.data.code < 300) {
           console.log(res);
-          // ketika Error masuk kesini, backend
-          // dispatch(createSuccess(res.data.status))
           dispatch(createPerangkatSuccess(res.data.message.data));
         } else {
           // jika validasi dari server error

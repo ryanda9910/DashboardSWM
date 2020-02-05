@@ -53,6 +53,20 @@
   font-weight: $font-weight-normal;
 }
 
+.rootPaginate{
+  li {
+    padding: 0.3rem 0.5rem;
+    border: #474d80 1px solid;  
+    a{
+      color:  #ffffff;   
+    }
+  }
+  li:hover{
+    background-color:#474d84;  
+  }
+ 
+  
+
 // .mainTableWidget {
 //   :global {
 //     .table td {
@@ -70,4 +84,5 @@ td {
 }
 table {
   overflow-x: scroll;
+}
 }

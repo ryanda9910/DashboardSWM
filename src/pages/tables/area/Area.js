@@ -100,7 +100,7 @@ class Area extends React.Component {
     this.receiveData();
   }
   componentWillReceiveProps(nextProps) {
-    if(nextProps.dataAreaPaginate !== null){
+    if (nextProps.dataAreaPaginate !== null) {
       this.setState({
         pageCount: nextProps.dataAreaPaginate.pages,
         limit: nextProps.dataAreaPaginate.limit,
@@ -324,13 +324,17 @@ class Area extends React.Component {
                   </div>
                   <Col lg={12} className="pt-3">
                     {/* react-js-pagination */}
-                    <Pagination
-                      activePage={this.state.currentPage}
-                      itemsCountPerPage={this.state.limit}
-                      totalItemsCount={this.state.total}
-                      pageRangeDisplayed={this.state.pageCount}
-                      onChange={this.changeCurrentPage.bind(this)}
-                    />
+                    <div className={s.rootPaginate + " justify-content-center d-flex "}>
+                      <Pagination
+                        prevPageText={<i className='glyphicon glyphicon-menu-left' />}
+                        nextPageText={<i className='glyphicon glyphicon-menu-right' />}
+                        activePage={this.state.currentPage}
+                        itemsCountPerPage={this.state.limit}
+                        totalItemsCount={this.state.total}
+                        pageRangeDisplayed={this.state.pageCount}
+                        onChange={this.changeCurrentPage.bind(this)}
+                      />
+                    </div>
                   </Col>
                 </Widget>
               </Col>

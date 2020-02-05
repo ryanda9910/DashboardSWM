@@ -27,6 +27,18 @@
 //     }
 //   }
 // }
+.rootPaginate{
+  li {
+    padding: 0.3rem 0.5rem;
+    border: #474d80 1px solid;  
+    a{
+      color:  #ffffff;   
+    }
+  }
+  li:hover{
+    background-color:#474d84;  
+  }
+ 
 
 th,
 td {
@@ -94,5 +106,6 @@ table {
       padding-left: 20px;
       background: rgb(100, 189, 99);
     }
-  }
+  } 
+ }
 }

@@ -86,7 +86,7 @@ class Roledata extends React.Component {
 
   // LIFE CYCLE
   componentDidMount() {
-    this.receiveData();    
+    this.receiveData();
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.dataRolePaginate !== null) {
@@ -153,7 +153,7 @@ class Roledata extends React.Component {
     } else {
       if (tarifversion === "popTarifVersion") {
         this.state.menuaccess.splice(
-          this.state.menuaccess.indexOf("tarifversion"),1);
+          this.state.menuaccess.indexOf("tarifversion"), 1);
       }
     }
     if (this.state.menuaccess.indexOf("customerbilling") === -1) {
@@ -163,7 +163,7 @@ class Roledata extends React.Component {
     } else {
       if (customerbilling === "popCustomerBilling") {
         this.state.menuaccess.splice(
-          this.state.menuaccess.indexOf("customerbilling"),1);
+          this.state.menuaccess.indexOf("customerbilling"), 1);
       }
     }
     if (this.state.menuaccess.indexOf("pelanggan") === -1) {
@@ -173,7 +173,7 @@ class Roledata extends React.Component {
     } else {
       if (pelanggan === "popPelanggan") {
         this.state.menuaccess.splice(
-          this.state.menuaccess.indexOf("pelanggan"),1);
+          this.state.menuaccess.indexOf("pelanggan"), 1);
       }
     }
     // data to post
@@ -378,13 +378,17 @@ class Roledata extends React.Component {
                   {/* react-pagination-library */}
                   <Col lg={12} className="pt-3">
                     {/* react-js-pagination */}
-                    <Pagination
-                      activePage={this.state.currentPage}
-                      itemsCountPerPage={this.state.limit}
-                      totalItemsCount={this.state.total}
-                      pageRangeDisplayed={this.state.pageCount}
-                      onChange={this.changeCurrentPage.bind(this)}
-                    />
+                    <div className={s.rootPaginate + " justify-content-center d-flex "}>
+                      <Pagination
+                        prevPageText={<i className='glyphicon glyphicon-menu-left' />}
+                        nextPageText={<i className='glyphicon glyphicon-menu-right' />}
+                        activePage={this.state.currentPage}
+                        itemsCountPerPage={this.state.limit}
+                        totalItemsCount={this.state.total}
+                        pageRangeDisplayed={this.state.pageCount}
+                        onChange={this.changeCurrentPage.bind(this)}
+                      />
+                    </div>
                   </Col>
                 </Widget>
               </Col>

@@ -18,7 +18,30 @@
   font-size: 14px;
   font-style: initial;
   font-weight: $font-weight-normal;
+ 
 }
+
+// .rootPaginate li {
+//   padding: 0.3rem 0.5rem;
+//   border: #474d84 1px solid;
+  
+// }
+.rootPaginate{
+  li {
+    padding: 0.3rem 0.5rem;
+    border: #474d80 1px solid;  
+    a{
+      color:  #ffffff;   
+    }
+  }
+  li:hover{
+    background-color:#474d84;  
+  }
+ 
+  // a:active{
+  //   color: blue;
+  // }
+
 
 // .mainTableWidget {
 //   :global {
@@ -37,6 +60,16 @@ td {
 table {
   overflow-x: scroll;
 }
+
+
+
+// .root {
+//   :global{
+//     .box{
+//       background-color: blue;
+//     }
+//   }
+// }
 
 .root {
   :global {
@@ -95,4 +128,5 @@ table {
       background: rgb(100, 189, 99);
     }
   }
+}
 }

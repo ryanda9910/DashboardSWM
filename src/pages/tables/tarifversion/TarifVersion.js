@@ -92,13 +92,13 @@ class Tarif extends React.Component {
     this.receiveData();
   }
   componentWillReceiveProps(nextProps) {
-    if(nextProps.dataTarifVersionPaginate !== null){
+    if (nextProps.dataTarifVersionPaginate !== null) {
       this.setState({
         pageCount: nextProps.dataTarifVersionPaginate.pages,
         limit: nextProps.dataTarifVersionPaginate.limit,
         total: nextProps.dataTarifVersionPaginate.total,
       });
-    }else{
+    } else {
       window.location.reload();
     }
   }
@@ -123,7 +123,7 @@ class Tarif extends React.Component {
   changeCurrentPage = numPage => {
     this.setState({ currentPage: numPage, triggerPaginate: true });
   };
-  
+
   // MODAL
   toggle(id) {
     this.setState(prevState => ({
@@ -373,14 +373,17 @@ class Tarif extends React.Component {
                   </div>
                   {/* react-pagination-library */}
                   <Col lg={12} className="pt-3">
-                    {/* react-js-pagination */}
-                    <Pagination
-                      activePage={this.state.currentPage}
-                      itemsCountPerPage={this.state.limit}
-                      totalItemsCount={this.state.total}
-                      pageRangeDisplayed={this.state.pageCount}
-                      onChange={this.changeCurrentPage.bind(this)}
-                    />
+                    <div className={s.rootPaginate + " justify-content-center d-flex "}>
+                      <Pagination
+                        prevPageText={<i className='glyphicon glyphicon-menu-left' />}
+                        nextPageText={<i className='glyphicon glyphicon-menu-right' />}
+                        activePage={this.state.currentPage}
+                        itemsCountPerPage={this.state.limit}
+                        totalItemsCount={this.state.total}
+                        pageRangeDisplayed={this.state.pageCount}
+                        onChange={this.changeCurrentPage.bind(this)}
+                      />
+                    </div>
                   </Col>
                 </Widget>
               </Col>

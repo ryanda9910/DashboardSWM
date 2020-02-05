@@ -92,7 +92,7 @@ class kelompokPelanggan extends React.Component {
     this.receiveData();
   }
   componentWillReceiveProps(nextProps) {
-    if(nextProps.dataKelompokPelangganPaginate !== null){
+    if (nextProps.dataKelompokPelangganPaginate !== null) {
       this.setState({
         pageCount: nextProps.dataKelompokPelangganPaginate.pages,
         limit: nextProps.dataKelompokPelangganPaginate.limit,
@@ -103,7 +103,7 @@ class kelompokPelanggan extends React.Component {
     }
   }
   componentDidUpdate() {
-    if(this.props.dataKelompokPelangganPaginate.page !== this.state.currentPage) {
+    if (this.props.dataKelompokPelangganPaginate.page !== this.state.currentPage) {
       this.receiveData();
     }
   }
@@ -335,13 +335,17 @@ class kelompokPelanggan extends React.Component {
                   </div>
                   <Col lg={12} className="pt-3">
                     {/* react-js-pagination */}
-                    <Pagination
-                      activePage={this.state.currentPage}
-                      itemsCountPerPage={this.state.limit}
-                      totalItemsCount={this.state.total}
-                      pageRangeDisplayed={this.state.pageCount}
-                      onChange={this.changeCurrentPage.bind(this)}
-                    />
+                    <div className={s.rootPaginate + " justify-content-center d-flex "}>
+                      <Pagination
+                        prevPageText={<i className='glyphicon glyphicon-menu-left' />}
+                        nextPageText={<i className='glyphicon glyphicon-menu-right' />}
+                        activePage={this.state.currentPage}
+                        itemsCountPerPage={this.state.limit}
+                        totalItemsCount={this.state.total}
+                        pageRangeDisplayed={this.state.pageCount}
+                        onChange={this.changeCurrentPage.bind(this)}
+                      />
+                    </div>
                   </Col>
                 </Widget>
               </Col>

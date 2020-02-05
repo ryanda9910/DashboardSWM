@@ -91,13 +91,13 @@ class Tarif extends React.Component {
     this.receiveData();
   }
   componentWillReceiveProps(nextProps) {
-    if(nextProps.dataTarifPaginate !== null){
+    if (nextProps.dataTarifPaginate !== null) {
       this.setState({
         pageCount: nextProps.dataTarifPaginate.pages,
         limit: nextProps.dataTarifPaginate.limit,
         total: nextProps.dataTarifPaginate.total,
       });
-    }else{
+    } else {
       window.location.reload();
     }
   }
@@ -122,7 +122,7 @@ class Tarif extends React.Component {
   changeCurrentPage = numPage => {
     this.setState({ currentPage: numPage, triggerPaginate: true });
   };
-  
+
   // MODAL
   toggle(id) {
     this.setState(prevState => ({
@@ -143,20 +143,20 @@ class Tarif extends React.Component {
     };
     console.log(postData);
     e.preventDefault();
-    if(this.state.distributor_id === null || this.state.distributor_id === ""){
+    if (this.state.distributor_id === null || this.state.distributor_id === "") {
       this.setState({
         emptyDistributorIdMsg: "wajib memasukan distributor!"
       });
       return false;
-    }else if(this.state.name === ""){
+    } else if (this.state.name === "") {
       this.setState({
         emptyCreateName: "Field name harus diisi."
       });
-    }else if(this.state.description === ""){
+    } else if (this.state.description === "") {
       this.setState({
         emptyCreateDescription: "Field description harus diisi."
       });
-    }else{
+    } else {
       e.preventDefault();
       this.props.dispatch(createDataTarif(postData));
       this.setState({
@@ -185,7 +185,7 @@ class Tarif extends React.Component {
       [name]: value
     });
   };
-  
+
 
   render() {
     console.log(this.state);
@@ -342,13 +342,17 @@ class Tarif extends React.Component {
                   {/* react-pagination-library */}
                   <Col lg={12} className="pt-3">
                     {/* react-js-pagination */}
-                    <Pagination
-                      activePage={this.state.currentPage}
-                      itemsCountPerPage={this.state.limit}
-                      totalItemsCount={this.state.total}
-                      pageRangeDisplayed={this.state.pageCount}
-                      onChange={this.changeCurrentPage.bind(this)}
-                    />
+                    <div className={s.rootPaginate + " justify-content-center d-flex "}>
+                      <Pagination
+                        prevPageText={<i className='glyphicon glyphicon-menu-left' />}
+                        nextPageText={<i className='glyphicon glyphicon-menu-right' />}
+                        activePage={this.state.currentPage}
+                        itemsCountPerPage={this.state.limit}
+                        totalItemsCount={this.state.total}
+                        pageRangeDisplayed={this.state.pageCount}
+                        onChange={this.changeCurrentPage.bind(this)}
+                      />
+                    </div>
                   </Col>
                 </Widget>
               </Col>

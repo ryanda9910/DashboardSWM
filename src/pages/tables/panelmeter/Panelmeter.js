@@ -39,8 +39,8 @@ import cx from "classnames";
 import config from "../../../config";
 import Loader from "../../../components/Loader/Loader";
 import s from "./Panelmeter.module.scss";
-// react-pagination-library
-import Pagination from "react-pagination-library";
+// react-js-pagination
+import Pagination from "react-js-pagination";
 
 import Widget from "../../../components/Widget/Widget";
 // actions
@@ -78,9 +78,11 @@ class Panelmeter extends React.Component {
       alertDestroy: false,
       // MODALS
       modalCreate: false,
-      // react-pagination-library
+      // react-js-pagination
       pageCount: 0,
       currentPage: 1,
+      limit: 0,
+      total: 0,
       triggerPaginate: false
     };
     this.handleCreateChange = this.handleCreateChange.bind(this);
@@ -89,12 +91,15 @@ class Panelmeter extends React.Component {
   componentDidMount() {
     this.receiveData();
   }
+
   componentWillReceiveProps(nextProps) {
-    if(nextProps.dataPerangkatPaginate !== null){
+    if (nextProps.dataPerangkatPaginate !== null) {
       this.setState({
-        pageCount: nextProps.dataPerangkatPaginate.pages
+        pageCount: nextProps.dataPerangkatPaginate.pages,
+        limit: nextProps.dataPerangkatPaginate.limit,
+        total: nextProps.dataPerangkatPaginate.total
       });
-    }else{
+    } else {
       window.location.reload();
     }
   }
@@ -193,12 +198,12 @@ class Panelmeter extends React.Component {
       );
 
     // search
-    $(document).ready(function() {
-      $("#myInput").on("keyup", function() {
+    $(document).ready(function () {
+      $("#myInput").on("keyup", function () {
         var value = $(this)
           .val()
           .toLowerCase();
-        $("#myTable tr").filter(function() {
+        $("#myTable tr").filter(function () {
           $(this).toggle(
             $(this)
               .text()
@@ -217,13 +222,13 @@ class Panelmeter extends React.Component {
           const status = item.status ? (
             <span className="badge btn-success">OPEN</span>
           ) : (
-            <span className="badge btn-danger">CLOSE</span>
-          );
+              <span className="badge btn-danger">CLOSE</span>
+            );
           const valve = item.valve ? (
             <span className="badge btn-success">ON</span>
           ) : (
-            <span className="badge btn-danger">OFF</span>
-          );
+              <span className="badge btn-danger">OFF</span>
+            );
           // const isactive = item.isactive ? (
           //   <span className="badge btn-success">TRUE</span>
           // ) : (
@@ -263,8 +268,8 @@ class Panelmeter extends React.Component {
           );
         })
       ) : (
-        <Loader size={35} className="pt-5 position-absolute" />
-      );
+          <Loader size={35} className="pt-5 position-absolute" />
+        );
 
     return (
       <div className={s.root}>
@@ -327,15 +332,6 @@ class Panelmeter extends React.Component {
             <Row>
               <Col lg={12}>
                 <Widget refresh collapse close className="px-2">
-                  <Col lg={12}>
-                    {/* react-pagination-library */}
-                    <Pagination
-                      currentPage={this.state.currentPage}
-                      totalPages={this.state.pageCount}
-                      changeCurrentPage={this.changeCurrentPage}
-                      theme="bottom-border"
-                    />
-                  </Col>
                   <div className="table-responsive">
                     <Table className="table-hover">
                       <thead>
@@ -360,6 +356,16 @@ class Panelmeter extends React.Component {
                       {/* eslint-enable */}
                     </Table>
                   </div>
+                  <Col lg={12} className="pt-3">
+                    {/* react-js-pagination */}
+                    <Pagination
+                      activePage={this.state.currentPage}
+                      itemsCountPerPage={this.state.limit}
+                      totalItemsCount={this.state.total}
+                      pageRangeDisplayed={this.state.pageCount}
+                      onChange={this.changeCurrentPage.bind(this)}
+                    />
+                  </Col>
                 </Widget>
               </Col>
             </Row>

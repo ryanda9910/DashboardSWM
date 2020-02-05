@@ -84,6 +84,7 @@ class Area extends React.Component {
       // pageCount: 0,
       // currentPage: 1,
       // triggerPaginate: false,
+
       // react-js-paginate
       currentPage: 1,
       pageCount: 0,
@@ -105,7 +106,7 @@ class Area extends React.Component {
         limit: nextProps.dataAreaPaginate.limit,
         total: nextProps.dataAreaPaginate.total
       });
-    }else{
+    } else {
       window.location.reload();
     }
   }
@@ -124,12 +125,10 @@ class Area extends React.Component {
   receiveData() {
     this.props.dispatch(getDataArea(this.state.currentPage));
   }
-  // react-pagination-library
+  // react-js-paginate
   changeCurrentPage = numPage => {
     console.log(`active page is ${numPage}`);
     this.setState({ currentPage: numPage, triggerPaginate: true });
-    //fetch a data
-    //or update a query to get data
   };
 
   // CREATE Tarif
@@ -211,12 +210,12 @@ class Area extends React.Component {
       );
 
     // search
-    $(document).ready(function() {
-      $("#myInput").on("keyup", function() {
+    $(document).ready(function () {
+      $("#myInput").on("keyup", function () {
         var value = $(this)
           .val()
           .toLowerCase();
-        $("#myTable tr").filter(function() {
+        $("#myTable tr").filter(function () {
           $(this).toggle(
             $(this)
               .text()
@@ -258,8 +257,8 @@ class Area extends React.Component {
           );
         })
       ) : (
-        <Loader size={35} className="pt-5 position-absolute" />
-      );
+          <Loader size={35} className="pt-5 position-absolute" />
+        );
 
     return (
       <div className={s.root}>

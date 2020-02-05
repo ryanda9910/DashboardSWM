@@ -54,8 +54,8 @@ import { getDataKelompokPelanggan } from "../../../actions/tables/kelompokpelang
 // data area
 import { getDataArea } from "../../../actions/tables/area";
 
-// react-pagination-library
-import Pagination from "react-pagination-library";
+// react-js-pagination
+import Pagination from "react-js-pagination";
 
 class Pelanggan extends React.Component {
   static propTypes = {
@@ -83,9 +83,11 @@ class Pelanggan extends React.Component {
       modalCreate: false,
       // EMPTY DATA
       emptyData: "",
-      // react-pagination-library
+      // react-js-pagination
       pageCount: 0,
       currentPage: 1,
+      limit: 0,
+      total: 0,
       triggerPaginate: false
     };
     this.handleChange = this.handleChange.bind(this);
@@ -96,11 +98,13 @@ class Pelanggan extends React.Component {
     this.receiveData();
   }
   componentWillReceiveProps(nextProps) {
-    if(nextProps.dataPelangganPaginate !== null){
+    if (nextProps.dataPelangganPaginate !== null) {
       this.setState({
-        pageCount: nextProps.dataPelangganPaginate.pages
+        pageCount: nextProps.dataPelangganPaginate.pages,
+        limit: nextProps.dataPelangganPaginate.limit,
+        total: nextProps.dataPelangganPaginate.total,
       });
-    }else{
+    } else {
       window.location.reload();
     }
   }
@@ -199,12 +203,12 @@ class Pelanggan extends React.Component {
       );
 
     // search
-    $(document).ready(function() {
-      $("#myInput").on("keyup", function() {
+    $(document).ready(function () {
+      $("#myInput").on("keyup", function () {
         var value = $(this)
           .val()
           .toLowerCase();
-        $("#myTable tr").filter(function() {
+        $("#myTable tr").filter(function () {
           $(this).toggle(
             $(this)
               .text()
@@ -262,8 +266,8 @@ class Pelanggan extends React.Component {
           );
         })
       ) : (
-        <Loader size={35} className="pt-5 position-absolute" />
-      );
+          <Loader size={35} className="pt-5 position-absolute" />
+        );
 
     return (
       <div className={s.root}>
@@ -319,14 +323,6 @@ class Pelanggan extends React.Component {
               <Col lg={12}>
                 <Widget refresh collapse close className="px-2">
                   {/* react-pagination-library */}
-                  <Col lg={12}>
-                    <Pagination
-                      currentPage={this.state.currentPage}
-                      totalPages={this.state.pageCount}
-                      changeCurrentPage={this.changeCurrentPage}
-                      theme="bottom-border"
-                    />
-                  </Col>
                   <div className="table-responsive">
                     <Table className="table-hover">
                       <thead>
@@ -352,6 +348,16 @@ class Pelanggan extends React.Component {
                       {/* <div><h2>{this.state.emptyData}</h2></div> */}
                     </Table>
                   </div>
+                  <Col lg={12} className="pt-3">
+                    {/* react-js-pagination */}
+                    <Pagination
+                      activePage={this.state.currentPage}
+                      itemsCountPerPage={this.state.limit}
+                      totalItemsCount={this.state.total}
+                      pageRangeDisplayed={this.state.pageCount}
+                      onChange={this.changeCurrentPage.bind(this)}
+                    />
+                  </Col>
                 </Widget>
               </Col>
             </Row>

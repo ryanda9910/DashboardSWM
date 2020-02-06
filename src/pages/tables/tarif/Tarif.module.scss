@@ -20,14 +20,6 @@
   font-weight: $font-weight-normal;
 }
 
-// .mainTableWidget {
-//   :global {
-//     .table td {
-//       border: none;
-//     }
-//   }
-// }
-
 th,
 td {
   font-family: "Assitant" sans-serif;
@@ -108,4 +100,77 @@ table {
     }
   }
  }
+}.rootPaginate{
+  li {
+    border: #474d80 1px solid;  
+    a{
+      padding: 7px 7px;
+      color:  rgba(255,255,255,.7);   
+    }
+  }
+  li:hover{
+    background-color:#474d84;  
+  }
 }
+ 
+
+.root {
+  :global {
+    /*
+     * Switchery.
+     */
+
+    .abc-checkbox,
+    .abc-radio {
+      .form-check-input {
+        position: relative;
+        margin: 0;
+      }
+    }
+
+    .display-inline-block {
+      display: inline-block;
+    }
+
+    .display-none {
+      display: none;
+    }
+
+    .switch {
+      box-sizing: content-box;
+    }
+
+    .switch input {
+      display: none;
+    }
+
+    .switch i {
+      display: inline-block;
+      border: solid 1px #040620;
+      background: rgba(255, 255, 255, .4);
+      cursor: pointer;
+      padding-right: 20px;
+      transition: all ease 0.2s;
+      -webkit-transition: all ease 0.2s;
+      border-radius: 20px;
+      box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.5);
+    }
+
+    .switch i::before {
+      display: block;
+      content: "";
+      width: 20px;
+      height: 20px;
+      padding: 1px;
+      border-radius: 20px;
+      background: white;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    .switch :checked + i {
+      padding-right: 0;
+      padding-left: 20px;
+      background: rgb(100, 189, 99);
+    }
+  }
+ }

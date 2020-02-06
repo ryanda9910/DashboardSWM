@@ -1,6 +1,7 @@
 @import '../../styles/app';
 
 .root {
+  margin-top:50px;
   :global {
     .post-comments footer {
       margin: 0 (-$widget-padding-horizontal) (-$widget-padding-vertical);

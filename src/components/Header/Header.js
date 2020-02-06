@@ -41,8 +41,8 @@ import {
 // import sender3 from "../../images/3.png";
 
 import avatar from "../../images/people/a5.jpg";
-//tab tab 
-import Tab from '../Tab/Tab';
+//REACT TAB  
+import Tabulation from '../Tab/Tabulation';
 
 import s from "./Header.module.scss";
 
@@ -390,7 +390,7 @@ class Header extends React.Component {
         </Nav>
       </Navbar>
       <Row lg={12}>
-        <Tab/>
+        <Tabulation/>
       </Row>
       </div>
     );

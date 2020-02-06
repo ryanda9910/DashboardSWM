@@ -24,7 +24,7 @@ import peopleA1 from '../../images/people/a1.jpg';
 import peopleA2 from '../../images/people/a2.jpg';
 import peopleA5 from '../../images/people/a5.jpg';
 import peopleA4 from '../../images/people/a4.jpg';
-import Tabulation from '../../components/Tab/Tab';
+
 
 class Dashboard extends React.Component {
 

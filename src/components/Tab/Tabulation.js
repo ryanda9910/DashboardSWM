@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Tabs, TabList, Tab, PanelList, Panel} from 'react-tabtab';
 
-import s from './Tab.module.scss'
+import s from './Tabulation.module.scss'
 
 class Tabulation extends Component {
   render() {

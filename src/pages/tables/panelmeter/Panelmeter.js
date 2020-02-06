@@ -14,26 +14,14 @@ import {
   FormGroup,
   Label,
   Input,
-  CustomInput,
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText
 } from "reactstrap";
-import axios from "axios";
 import $ from "jquery";
 import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
   Link,
-  useRouteMatch,
-  useParams,
   withRouter,
-  Redirect
 } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import jwt from "jsonwebtoken";
 // MODAL CREATE
 import cx from "classnames";
 import config from "../../../config";
@@ -63,16 +51,18 @@ class Panelmeter extends React.Component {
     super(props);
     this.state = {
       // CREATE
-      costumer_id: "",
+      customer_id: null,
+      distributor_id: null,
       code: "",
-      tipe: "",
-      model: "",
-      manufaktur: "",
-      lat: "",
-      long: "",
       valve: "",
       status: "",
-      distributor_id: null,
+      signal: "",
+      battery_voltage: "",
+      lat: "",
+      long: "",
+      serial_number: "",
+      model: "",
+      manufacture: "",
       // ALERT
       showAlert: false,
       alertDestroy: false,
@@ -91,7 +81,7 @@ class Panelmeter extends React.Component {
   componentDidMount() {
     this.receiveData();
   }
-
+  
   componentWillReceiveProps(nextProps) {
     if (nextProps.dataPerangkatPaginate !== null) {
       this.setState({
@@ -139,17 +129,18 @@ class Panelmeter extends React.Component {
     e.preventDefault();
     let postData = {
       // API DATA NOT FIX YET
-      costumer_id: this.state.costumer_id,
+      customer_id: this.state.customer_id,
+      distributor_id: this.state.distributor_id,
       code: this.state.code,
-      // tipe: this.state.tipe,
-      serial_number: this.state.serial_number,
-      model: this.state.model,
-      manufacture: this.state.manufaktur,
-      lat: this.state.lat,
-      long: this.state.long,
       valve: this.state.valve === true ? "true" : "false",
       status: this.state.status === true ? "true" : "false",
-      distributor_id: this.state.distributor_id
+      signal: this.state.signal,
+      battery_voltage: this.state.battery_voltage,
+      lat: this.state.lat,
+      long: this.state.long,
+      serial_number: this.state.serial_number,
+      model: this.state.model,
+      manufacture: this.state.manufacture,
     };
     console.log(postData);
     this.props.dispatch(createDataPerangkat(postData));
@@ -161,8 +152,6 @@ class Panelmeter extends React.Component {
     console.log(confirm);
     if (confirm) {
       this.props.dispatch(deleteDataPerangkat(id));
-      this.onShowAlert();
-      this.props.dispatch(getDataPerangkat());
     }
   }
   // TRACK CHANGE
@@ -171,21 +160,16 @@ class Panelmeter extends React.Component {
     const target = e.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
-
+    
     this.setState({
       [name]: value
     });
   };
-
+  
   render() {
     console.log(this.state);
     console.log(this.props);
-
-    // jika error karena 401 atau lainnya, tendang user dengan hapus cookie
-    // if(this.props.getError){
-    //   return document.cookie = 'token=;expires=Thu, 01 Jan 1970 00:00:01 GMT;'
-    // }
-
+    
     const { modalCreate } = this.state;
     const { dataPelanggan, dataDistributor } = this.props;
 
@@ -220,9 +204,9 @@ class Panelmeter extends React.Component {
         this.props.dataPerangkat.map(item => {
           console.log(item);
           const status = item.status ? (
-            <span className="badge btn-success">OPEN</span>
+            <span className="badge btn-success">AKTIF</span>
           ) : (
-              <span className="badge btn-danger">CLOSE</span>
+              <span className="badge btn-danger">TIDAK AKTIF</span>
             );
           const valve = item.valve ? (
             <span className="badge btn-success">ON</span>
@@ -237,16 +221,18 @@ class Panelmeter extends React.Component {
           return (
             <tr key={item._id}>
               {/* API DATA NOT FIX YET  */}
-              <td>{item.costumer_id}</td>
+              <td>{item.customer_id.name}</td>
+              <td>{item.distributor_id.name}</td>
               <td>{item.code}</td>
-              <td>{item.tipe}</td>
-              <td>{item.model}</td>
-              <td>{item.manufacture}</td>
-              <td>{item.lat}</td>
-              <td>{item.long}</td>
               <td>{valve}</td>
               <td>{status}</td>
-              <td>{item.distributor_id.name}</td>
+              <td>{item.signal}</td>
+              <td>{item.battery_voltage}</td>
+              <td>{item.lat}</td>
+              <td>{item.long}</td>
+              <td>{item.model}</td>
+              <td>{item.serial_number}</td>
+              <td>{item.manufacture}</td>
               <td>
                 <Link
                   to={"/app/forms/editdataperangkat/" + item._id}
@@ -311,14 +297,6 @@ class Panelmeter extends React.Component {
                 />
               </Col>
               <Col lg={4} className="text-right">
-                {/* <button className="btn btn-primary">Create</button> */}
-                {/* <CreateModal /> */}
-                {/* <Link
-                  to="/app/forms/createdatatarifpelanggan"
-                  className="btn bg-warning text-white"
-                >
-                  Tambah Data
-                </Link> */}
                 {/* BUTTON MODALS CREATE */}
                 <Button
                   className="mr-sm"
@@ -339,15 +317,17 @@ class Panelmeter extends React.Component {
                       <thead>
                         <tr>
                           <th>ID Costumer</th>
+                          <th>ID Distributor</th>
                           <th>Kode</th>
-                          <th>Tipe</th>
-                          <th>Model</th>
-                          <th>Manufaktur</th>
-                          <th>Latitude</th>
-                          <th>Longitude</th>
                           <th>Valve</th>
                           <th>Status</th>
-                          <th>ID Distributor</th>
+                          <th>Sinyal</th>
+                          <th>Voltase Baterai</th>
+                          <th>Garis Lintang</th>
+                          <th>Garis Bujur</th>
+                          <th>Model</th>
+                          <th>Nomor Serial</th>
+                          <th>Manufaktur</th>
                           <th>Aksi</th>
                         </tr>
                       </thead>
@@ -390,97 +370,54 @@ class Panelmeter extends React.Component {
               id="formCreateDataPerangkat"
               onSubmit={this.doCreatePerangkat}
             >
-              {/* code */}
+              {/* customer_id */}
               <FormGroup>
-                {/* tampilkan distributor name dan id nya sebagai value */}
-                <Label for="exampleSelect">Costumer ID </Label>
+                <Label for="customer_id">Costumer ID </Label>
                 <Input
                   onChange={this.handleCreateChange}
                   type="select"
-                  name="costumer_id"
-                  id="exampleSelect"
+                  name="customer_id"
+                  id="customer_id"
                 >
+                  <option value={null}></option>
                   {dataPelanggan.map(item => {
-                    return <option value={item._id}>{item.code}</option>;
+                    return <option value={item._id}>{item.name}</option>;
                   })}
                 </Input>
                 {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
                 {/* <FormText>Example help text that remains unchanged.</FormText> */}
               </FormGroup>
-              {/* nama */}
+              {/* distributor_id */}
               <FormGroup>
-                <Label for="exampleCode">Kode</Label>
+                <Label for="distributor_id">Distributor ID </Label>
+                <Input
+                  onChange={this.handleCreateChange}
+                  type="select"
+                  name="distributor_id"
+                  id="distributor_id"
+                >
+                  <option value={null}></option>
+                  {dataDistributor.map(item => {
+                    return <option value={item._id}>{item.name}</option>;
+                  })}
+                </Input>
+                {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                {/* <FormText>Example help text that remains unchanged.</FormText> */}
+              </FormGroup>
+              {/* code */}
+              <FormGroup>
+                <Label for="code">Kode</Label>
                 <Input
                   onChange={this.handleCreateChange}
                   type="text"
                   name="code"
-                  id="exampleCode"
+                  id="code"
                   placeholder="Masukkan Kode"
                 />
                 {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
                 {/* <FormText>Example help text that remains unchanged.</FormText> */}
               </FormGroup>
-              <FormGroup>
-                <Label for="exampleTipe">Tipe</Label>
-                <Input
-                  onChange={this.handleCreateChange}
-                  type="text"
-                  name="tipe"
-                  id="exampleTipe"
-                  placeholder="Masukkan Tipe"
-                />
-                {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
-                {/* <FormText>Example help text that remains unchanged.</FormText> */}
-              </FormGroup>
-              <FormGroup>
-                <Label for="exampleModel">Model</Label>
-                <Input
-                  onChange={this.handleCreateChange}
-                  type="text"
-                  name="model"
-                  id="exampleModel"
-                  placeholder="Masukkan Model"
-                />
-                {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
-                {/* <FormText>Example help text that remains unchanged.</FormText> */}
-              </FormGroup>
-              <FormGroup>
-                <Label for="exampleManufaktur">Manufaktur</Label>
-                <Input
-                  onChange={this.handleCreateChange}
-                  type="text"
-                  name="manufaktur"
-                  id="exampleManufaktur"
-                  placeholder="Masukkan Manufaktur"
-                />
-                {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
-                {/* <FormText>Example help text that remains unchanged.</FormText> */}
-              </FormGroup>
-              <FormGroup>
-                <Label for="exampleKode">Latitude</Label>
-                <Input
-                  onChange={this.handleCreateChange}
-                  type="text"
-                  name="lat"
-                  id="exampleLat"
-                  placeholder="Masukkan Latitude"
-                />
-                {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
-                {/* <FormText>Example help text that remains unchanged.</FormText> */}
-              </FormGroup>
-              <FormGroup>
-                <Label for="exampleLong">Longitude</Label>
-                <Input
-                  onChange={this.handleCreateChange}
-                  type="text"
-                  name="long"
-                  id="exampleLong"
-                  placeholder="Masukkan Longitude"
-                />
-                {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
-                {/* <FormText>Example help text that remains unchanged.</FormText> */}
-              </FormGroup>
-              {/* Valve */}
+              {/* valve */}
               <div className={s.root}>
                 <FormGroup className="display-inline-block checkbox-ios pt-4">
                   <Label for="valve" className="switch">
@@ -522,41 +459,94 @@ class Panelmeter extends React.Component {
                   {/* <FormText>Example help text that remains unchanged.</FormText> */}
                 </FormGroup>
               </div>
-
-              {/* <FormGroup>
-                <Label for="exampleIsActive">Valve</Label>
-                <CustomInput
-                  onChange={this.handleCreateChange}
-                  type="switch"
-                  id="exampleValve"
-                  name="valve"
-                  label="Turn on this if True"
-                />
-              </FormGroup> */}
-              {/* <FormGroup>
-                <Label for="exampleIsActive">Status</Label>
-                <CustomInput
-                  onChange={this.handleCreateChange}
-                  type="switch"
-                  id="exampleStatus"
-                  name="status"
-                  label="Turn on this if True"
-                />
-              </FormGroup> */}
-              {/* distributor_id */}
+              {/* signal */}
               <FormGroup>
-                {/* tampilkan distributor name dan id nya sebagai value */}
-                <Label for="exampleSelect">Distributor ID </Label>
+                <Label for="signal">Sinyal</Label>
                 <Input
                   onChange={this.handleCreateChange}
-                  type="select"
-                  name="distributor_id"
-                  id="exampleSelect"
-                >
-                  {dataDistributor.map(item => {
-                    return <option value={item._id}>{item.name}</option>;
-                  })}
-                </Input>
+                  type="text"
+                  name="signal"
+                  id="signal"
+                  placeholder="Masukkan Sinyal"
+                />
+                {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                {/* <FormText>Example help text that remains unchanged.</FormText> */}
+              </FormGroup>
+              {/* battery_voltage */}
+              <FormGroup>
+                <Label for="battery_voltage">Voltase Baterai</Label>
+                <Input
+                  onChange={this.handleCreateChange}
+                  type="text"
+                  name="battery_voltage"
+                  id="battery_voltage"
+                  placeholder="Masukkan Voltase Baterai"
+                />
+                {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                {/* <FormText>Example help text that remains unchanged.</FormText> */}
+              </FormGroup>
+              {/* lat */}
+              <FormGroup>
+                <Label for="lat">Latitude</Label>
+                <Input
+                  onChange={this.handleCreateChange}
+                  type="text"
+                  name="lat"
+                  id="lat"
+                  placeholder="Masukkan Garis Lintang"
+                />
+                {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                {/* <FormText>Example help text that remains unchanged.</FormText> */}
+              </FormGroup>
+              {/* long */}
+              <FormGroup>
+                <Label for="long">Longitude</Label>
+                <Input
+                  onChange={this.handleCreateChange}
+                  type="text"
+                  name="long"
+                  id="long"
+                  placeholder="Masukkan Garis Bujur"
+                />
+                {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                {/* <FormText>Example help text that remains unchanged.</FormText> */}
+              </FormGroup>
+              {/* model */}
+              <FormGroup>
+                <Label for="model">Model</Label>
+                <Input
+                  onChange={this.handleCreateChange}
+                  type="text"
+                  name="model"
+                  id="model"
+                  placeholder="Masukkan Model"
+                />
+                {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                {/* <FormText>Example help text that remains unchanged.</FormText> */}
+              </FormGroup>
+              {/* serial_number */}
+              <FormGroup>
+                <Label for="serial_number">Nomor Serial</Label>
+                <Input
+                  onChange={this.handleCreateChange}
+                  type="text"
+                  name="serial_number"
+                  id="serial_number"
+                  placeholder="Masukkan Nomor Serial"
+                />
+                {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                {/* <FormText>Example help text that remains unchanged.</FormText> */}
+              </FormGroup>
+              {/* manufacture */}
+              <FormGroup>
+                <Label for="manufacture">Manufaktur</Label>
+                <Input
+                  onChange={this.handleCreateChange}
+                  type="text"
+                  name="manufacture"
+                  id="manufacture"
+                  placeholder="Masukkan Manufaktur"
+                />
                 {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
                 {/* <FormText>Example help text that remains unchanged.</FormText> */}
               </FormGroup>

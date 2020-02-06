@@ -23,6 +23,15 @@
   font-style: initial;
   font-weight: $font-weight-normal;
 }
+th,
+td {
+  font-family: "Assitant" sans-serif;
+  text-transform: lowercase;
+  // border: 2 px solid black !important;
+}
+table {
+  overflow-x: scroll;
+}
 .rootPaginate{
   li {
     border: #474d80 1px solid;  
@@ -34,25 +43,8 @@
   li:hover{
     background-color:#474d84;  
   }
+}
  
-
-// .mainTableWidget {
-//   :global {
-//     .table td {
-//       border: none;
-//     }
-//   }
-// }
-
-th,
-td {
-  font-family: "Assitant" sans-serif;
-  text-transform: lowercase;
-  // border: 2 px solid black !important;
-}
-table {
-  overflow-x: scroll;
-}
 
 .root {
   :global {
@@ -86,6 +78,8 @@ table {
 
     .switch i {
       display: inline-block;
+      border: solid 1px #040620;
+      background: rgba(255, 255, 255, .4);
       cursor: pointer;
       padding-right: 20px;
       transition: all ease 0.2s;
@@ -112,4 +106,3 @@ table {
     }
   }
  }
-}

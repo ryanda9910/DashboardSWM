@@ -4,7 +4,6 @@ import {
   Col,
   Table,
   Button,
-  Alert,
   // MODALS
   Modal,
   ModalHeader,
@@ -14,10 +13,6 @@ import {
   FormGroup,
   Label,
   Input,
-  CustomInput,
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText
 } from "reactstrap";
 import $ from "jquery";
 import {
@@ -75,16 +70,6 @@ class Area extends React.Component {
       alertDestroy: false,
       // MODALS
       modalCreate: false,
-      // PAGINATE
-      // offset: 0,
-      // perPage: 25,
-      // pageCount: 0,
-      // currentPage: 0,
-      // react-pagination-library
-      // pageCount: 0,
-      // currentPage: 1,
-      // triggerPaginate: false,
-
       // react-js-paginate
       currentPage: 1,
       pageCount: 0,

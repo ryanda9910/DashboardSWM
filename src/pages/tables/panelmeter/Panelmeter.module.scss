@@ -14,11 +14,11 @@
   background-color: #fff;
 }
 
-.root {
-  font-size: 14px;
-  font-style: initial;
-  font-weight: $font-weight-normal;
-}
+// .root {
+//   font-size: 14px;
+//   font-style: initial;
+//   font-weight: $font-weight-normal;
+// }
 
 // .mainTableWidget {
 //   :global {
@@ -36,6 +36,7 @@ td {
 table {
   overflow-x: scroll;
 }
+
 .rootPaginate{
   li {
     border: #474d80 1px solid;  
@@ -47,7 +48,7 @@ table {
   li:hover{
     background-color:#474d84;  
   }
- 
+}
  
 
 .root {
@@ -82,6 +83,8 @@ table {
 
     .switch i {
       display: inline-block;
+      border: solid 1px #040620;
+      background: rgba(255, 255, 255, .4);
       cursor: pointer;
       padding-right: 20px;
       transition: all ease 0.2s;
@@ -108,4 +111,3 @@ table {
     }
   }
  }
-}

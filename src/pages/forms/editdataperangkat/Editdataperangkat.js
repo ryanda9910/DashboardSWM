@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Col, Button, FormGroup, Label, Form, Input } from "reactstrap";
+import { Row, Col, Button, FormGroup, Label, Form, Input, FormText } from "reactstrap";
 // import Formsy from "formsy-react";
 import s from "./editdataperangkat.module.scss";
 import { Redirect } from "react-router-dom";
@@ -19,25 +19,27 @@ class Editdataperangkat extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // data
-      costumer_id: null,
+      // UPDATE
+      customer_id: null,
+      distributor_id: null,
       code: "",
-      tipe: "",
-      model: "",
-      manufaktur: "",
-      lat: "",
-      long: "",
       valve: "",
       status: "",
-      distributor_id: null,
-      //
+      signal: "",
+      battery_voltage: "",
+      lat: "",
+      long: "",
+      serial_number: "",
+      model: "",
+      manufacture: "",
+      // 
       updateStatus: null,
       updateError: null
     };
     this.goBack = this.goBack.bind(this);
   }
 
-  // GET data
+  // SHOW data
   componentDidMount() {
     // id
     const id = this.props.match.params.id;
@@ -45,18 +47,19 @@ class Editdataperangkat extends React.Component {
       .get("/api/device/" + id)
       .then(res => {
         console.log(res);
-        //
         this.setState({
           customer_id: res.data.data.customer_id,
+          distributor_id: res.data.data.distributor_id,
           code: res.data.data.code,
-          tipe: res.data.data.tipe,
-          model: res.data.data.model,
-          manufaktur: res.data.data.manufaktur,
-          lat: res.data.data.lat,
-          long: res.data.data.long,
           valve: res.data.data.valve,
           status: res.data.data.status,
-          distributor_id: res.data.data.distributor_id
+          signal: res.data.data.signal,
+          battery_voltage: res.data.data.battery_voltage,
+          lat: res.data.data.lat,
+          long: res.data.data.long,
+          serial_number: res.data.data.serial_number,
+          model: res.data.data.model,
+          manufacture: res.data.data.manufacture,
         });
       })
       .catch(err => {
@@ -74,25 +77,26 @@ class Editdataperangkat extends React.Component {
     e.preventDefault();
     const data = {
       customer_id: this.state.customer_id,
+      distributor_id: this.state.distributor_id,
       code: this.state.code,
-      tipe: this.state.tipe,
-      model: this.state.model,
-      manufaktur: this.state.manufaktur,
+      valve: this.state.valve,
+      status: this.state.status,
+      signal: this.state.signal,
+      battery_voltage: this.state.battery_voltage,
       lat: this.state.lat,
       long: this.state.long,
-      status: this.state.status,
-      distributor_id: this.state.distributor_id
+      serial_number: this.state.serial_number,
+      model: this.state.model,
+      manufacture: this.state.manufacture,
     };
 
     console.log(data);
-
     // PUT
     const id = this.props.match.params.id;
     axios
       .put("/api/device/" + id, data)
       .then(res => {
         console.log(res);
-        //
         if (res.status >= 200 || res.status < 300) {
           this.setState({
             updateStatus: res.status
@@ -107,9 +111,8 @@ class Editdataperangkat extends React.Component {
       });
   };
 
-  // track change
+  // TRACK CHANGE
   handleChange = e => {
-    // handle checkedbox: https://stackoverflow.com/questions/55530348/react-how-to-pass-the-condition-when-checkbox-is-checked
     const target = e.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
@@ -118,7 +121,7 @@ class Editdataperangkat extends React.Component {
       [name]: value
     });
   };
-
+  // KEMBALI
   goBack = () => {
     this.props.history.goBack();
   };
@@ -132,7 +135,7 @@ class Editdataperangkat extends React.Component {
       return <Redirect to="/app/tables/panelmeter" />;
     }
 
-    const { dataPerangkat, dataDistributor, dataPelanggan } = this.props;
+    const { dataDistributor, dataPelanggan } = this.props;
 
     return (
       <div className={s.root}>
@@ -144,9 +147,8 @@ class Editdataperangkat extends React.Component {
               <Form onSubmit={this.doUpdateData}>
                 {/* customer_id */}
                 <FormGroup>
-                  <Label for="customer_group_id">Costumer ID </Label>
+                  <Label for="customer_id">Costumer ID </Label>
                   <Input
-                    required
                     value={this.state.customer_id}
                     onChange={this.handleChange}
                     type="select"
@@ -154,13 +156,30 @@ class Editdataperangkat extends React.Component {
                     id="customer_id"
                   >
                     {dataPelanggan.map(item => {
-                      return <option value={item._id}>{item.code}</option>;
+                      return <option value={item._id}>{item.name}</option>;
                     })}
                   </Input>
                   {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
                   {/* <FormText>Example help text that remains unchanged.</FormText> */}
                 </FormGroup>
-                {/* name */}
+                {/* distributor_id */}
+                <FormGroup>
+                  <Label for="distributor_id">Distributor ID </Label>
+                  <Input
+                    value={this.state.distributor_id}
+                    onChange={this.handleChange}
+                    type="select"
+                    name="distributor_id"
+                    id="distributor_id"
+                  >
+                    {dataDistributor.map(item => {
+                      return <option value={item._id}>{item.name}</option>;
+                    })}
+                  </Input>
+                  {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                  {/* <FormText>Example help text that remains unchanged.</FormText> */}
+                </FormGroup>
+                {/* code */}
                 <FormGroup>
                   <Label for="code">Kode</Label>
                   <Input
@@ -174,92 +193,18 @@ class Editdataperangkat extends React.Component {
                   {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
                   {/* <FormText>Example help text that remains unchanged.</FormText> */}
                 </FormGroup>
-                {/* code */}
-                <FormGroup>
-                  <Label for="tipe">tipe</Label>
-                  <Input
-                    required
-                    value={this.state.tipe}
-                    onChange={this.handleChange}
-                    type="text"
-                    name="tipe"
-                    id="tipe"
-                    placeholder="Masukkan Tipe"
-                  />
-                  {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
-                  {/* <FormText>Example help text that remains unchanged.</FormText> */}
-                </FormGroup>
-                {/* email */}
-                <FormGroup>
-                  <Label for="email">Model</Label>
-                  <Input
-                    required
-                    value={this.state.model}
-                    onChange={this.handleChange}
-                    type="text"
-                    name="model"
-                    id="model"
-                    placeholder="Masukkan Model"
-                  />
-                  {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
-                  {/* <FormText>Example help text that remains unchanged.</FormText> */}
-                </FormGroup>
-                {/* address */}
-                <FormGroup>
-                  <Label for="manufaktur">Manufaktur</Label>
-                  <Input
-                    required
-                    value={this.state.manufaktur}
-                    onChange={this.handleChange}
-                    type="text"
-                    name="manufaktur"
-                    id="manufaktur"
-                    placeholder="Masukkan Manfaktur"
-                  />
-                  {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
-                  {/* <FormText>Example help text that remains unchanged.</FormText> */}
-                </FormGroup>
-                {/* latitude */}
-                <FormGroup>
-                  <Label for="lat">Latitude</Label>
-                  <Input
-                    required
-                    value={this.state.lat}
-                    onChange={this.handleChange}
-                    type="text"
-                    name="lat"
-                    id="lat"
-                    placeholder="Masukkan Latitude"
-                  />
-                  {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
-                  {/* <FormText>Example help text that remains unchanged.</FormText> */}
-                </FormGroup>
-                {/* status */}
-                <FormGroup>
-                  <Label for="long">Longitude</Label>
-                  <Input
-                    required
-                    value={this.state.long}
-                    onChange={this.handleChange}
-                    type="text"
-                    name="long"
-                    id="long"
-                    placeholder="Masukkan Longitude"
-                  />
-                  {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
-                  {/* <FormText>Example help text that remains unchanged.</FormText> */}
-                </FormGroup>
-                {/* Valve */}
+                {/* valve */}
                 <div className={s.root}>
-                  <FormGroup className="display-inline-block checkbox-ios">
+                  <FormGroup className="display-inline-block checkbox-ios pt-4">
                     <Label for="valve" className="switch">
                       <Input
-                        checked={this.state.isactive}
+                        checked={this.state.valve}
                         onChange={this.handleChange}
                         type="checkbox"
                         id="valve"
                         name="valve"
                         className="ios"
+                        label="Turn on this if True"
                       />
                       <i />
                       <Label for="valve" className="pl-3">
@@ -270,7 +215,7 @@ class Editdataperangkat extends React.Component {
                     {/* <FormText>Example help text that remains unchanged.</FormText> */}
                   </FormGroup>
                 </div>
-                {/* status */}
+                {/* status*/}
                 <div className={s.root}>
                   <FormGroup className="display-inline-block checkbox-ios">
                     <Label for="status" className="switch">
@@ -281,6 +226,7 @@ class Editdataperangkat extends React.Component {
                         id="status"
                         name="status"
                         className="ios"
+                        label="Turn on this if True"
                       />
                       <i />
                       <Label for="status" className="pl-3">
@@ -291,22 +237,101 @@ class Editdataperangkat extends React.Component {
                     {/* <FormText>Example help text that remains unchanged.</FormText> */}
                   </FormGroup>
                 </div>
-                {/* distributor_id */}
+                {/* signal */}
                 <FormGroup>
-                  {/* tampilkan distributor name dan id nya sebagai value */}
-                  <Label for="distributor_id">Distributor ID </Label>
+                  <Label for="signal">Sinyal</Label>
                   <Input
-                    required
-                    value={this.state.distributor_id}
+                    value={this.state.signal}
                     onChange={this.handleChange}
-                    type="select"
-                    name="distributor_id"
-                    id="distributor_id"
-                  >
-                    {dataDistributor.map(item => {
-                      return <option value={item._id}>{item.name}</option>;
-                    })}
-                  </Input>
+                    type="text"
+                    name="signal"
+                    id="signal"
+                    placeholder="Masukkan Sinyal"
+                  />
+                  {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                  {/* <FormText>Example help text that remains unchanged.</FormText> */}
+                </FormGroup>
+                {/* battery_voltage */}
+                <FormGroup>
+                  <Label for="battery_voltage">Voltase Baterai</Label>
+                  <Input
+                    value={this.state.battery_voltage}
+                    onChange={this.handleChange}
+                    type="text"
+                    name="battery_voltage"
+                    id="battery_voltage"
+                    placeholder="Masukkan Voltase Baterai"
+                  />
+                  {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                  {/* <FormText>Example help text that remains unchanged.</FormText> */}
+                </FormGroup>
+                {/* lat */}
+                <FormGroup>
+                  <Label for="lat">Latitude</Label>
+                  <Input
+                    value={this.state.lat}
+                    onChange={this.handleChange}
+                    type="text"
+                    name="lat"
+                    id="lat"
+                    placeholder="Masukkan Garis Lintang"
+                  />
+                  {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                  {/* <FormText>Example help text that remains unchanged.</FormText> */}
+                </FormGroup>
+                {/* long */}
+                <FormGroup>
+                  <Label for="long">Longitude</Label>
+                  <Input
+                    value={this.state.long}
+                    onChange={this.handleChange}
+                    type="text"
+                    name="long"
+                    id="long"
+                    placeholder="Masukkan Garis Bujur"
+                  />
+                  {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                  {/* <FormText>Example help text that remains unchanged.</FormText> */}
+                </FormGroup>
+                {/* model */}
+                <FormGroup>
+                  <Label for="model">Model</Label>
+                  <Input
+                    value={this.state.model}
+                    onChange={this.handleChange}
+                    type="text"
+                    name="model"
+                    id="model"
+                    placeholder="Masukkan Model"
+                  />
+                  {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                  {/* <FormText>Example help text that remains unchanged.</FormText> */}
+                </FormGroup>
+                {/* serial_number */}
+                <FormGroup>
+                  <Label for="serial_number">Nomor Serial</Label>
+                  <Input
+                    value={this.state.serial_number}
+                    onChange={this.handleChange}
+                    type="text"
+                    name="serial_number"
+                    id="serial_number"
+                    placeholder="Masukkan Nomor Serial"
+                  />
+                  {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                  {/* <FormText>Example help text that remains unchanged.</FormText> */}
+                </FormGroup>
+                {/* manufacture */}
+                <FormGroup>
+                  <Label for="manufacture">Manufaktur</Label>
+                  <Input
+                    value={this.state.manufacture}
+                    onChange={this.handleChange}
+                    type="text"
+                    name="manufacture"
+                    id="manufacture"
+                    placeholder="Masukkan Manufaktur"
+                  />
                   {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
                   {/* <FormText>Example help text that remains unchanged.</FormText> */}
                 </FormGroup>

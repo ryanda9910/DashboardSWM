@@ -17,8 +17,6 @@ import Widget from "../../components/Widget";
 import { loginUser, receiveToken } from "../../actions/user";
 import jwt from "jsonwebtoken";
 
-// import microsoft from '../../images/microsoft.png';
-// import config from "../../config";// assets
 import logoMuzli from "../../images/Muzli-logo-1.svg";
 
 class Login extends React.Component {
@@ -27,8 +25,7 @@ class Login extends React.Component {
   };
 
   static isAuthenticated(token) {
-    // We check if app runs with backend mode
-    // if (!config.isBackend && token) return true;
+ 
     if (!token) return;
     const date = new Date().getTime() / 1000;
     const data = jwt.decode(token);

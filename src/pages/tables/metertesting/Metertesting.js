@@ -16,8 +16,7 @@ import axios from "axios";
 import s from "./metertesting.module.scss";
 
 import config from "../../../config";
-// import InputValidation fro m "../../../components/InputValidation";
-// import InputValidation from "../../../components/InputValidation";
+
 import Widget from "../../../components/Widget/Widget";
 
 class Metertesting extends React.Component {

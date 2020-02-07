@@ -33,12 +33,7 @@ import cx from "classnames";
 import config from "../../../config";
 import Loader from "../../../components/Loader/Loader";
 import s from "./Area.module.scss";
-// paginate
-import ReactPaginate from "react-paginate";
-// react-pagination-library
-// import Pagination from "react-pagination-library";
-// import "react-pagination-library/build/css/index.css";
-// react-js-pagination
+
 import Pagination from "react-js-pagination";
 
 

@@ -33,14 +33,11 @@ import cx from "classnames";
 import config from "../../../config";
 import Loader from "../../../components/Loader/Loader";
 import s from "./Area.module.scss";
-// paginate
-import ReactPaginate from "react-paginate";
-// react-pagination-library
-// import Pagination from "react-pagination-library";
-// import "react-pagination-library/build/css/index.css";
 // react-js-pagination
 import Pagination from "react-js-pagination";
-
+// sweetalert2-react-content
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 
 import Widget from "../../../components/Widget/Widget";
 // actions
@@ -115,7 +112,7 @@ class Area extends React.Component {
     console.log(`active page is ${numPage}`);
     this.setState({ currentPage: numPage, triggerPaginate: true });
   };
-
+  
   // CREATE Tarif
   doCreateArea = e => {
     e.preventDefault();
@@ -125,13 +122,53 @@ class Area extends React.Component {
       distributor_id: this.state.distributor_id
     };
     console.log(postData);
-    this.props.dispatch(createDataArea(postData));
     this.setState({
       modalCreate: false,
       emptyDistributorIdMsg: ""
     });
+    const MySwal = withReactContent(Swal);
+    MySwal.fire({
+      title: 'Berhasil',
+      text: 'Data baru ditambahkan.',
+      icon: 'success',
+    }).then(result => {
+      console.log(result)
+      this.props.dispatch(createDataArea(postData));
+    })
   };
-  // track change
+  
+  // DELETE
+  handleDelete(id) {
+    const MySwal = withReactContent(Swal);
+    MySwal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#58d777',
+      cancelButtonColor: '#f45722',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      console.log(result.value);
+      if (result.value) {
+        MySwal.fire(
+          'Deleted!',
+          'Your file has been deleted.',
+          'success',
+        )
+        this.props.dispatch(deleteDataArea(id));
+        // handle kondisi ketika contoh: page 2 data nya tinggal 1 dan ketika di hapus di page 2 selalu loading harusnya langsung ke page 1
+        // console.log(this.state.pageCount);
+        // console.log(this.state.currentPage);
+        // console.log(this.props.dataAreaPaginate.pages);
+        // console.log(this.props.dataAreaPaginate.page);
+        // if(this.state.pageCount < this.state.currentPage){
+        //    this.props.dispatch(getDataArea(this.state.pageCount));
+        // }
+      }
+    })
+  }
+  // TRACK CHANGE
   handleCreateChange = e => {
     console.log(e.target);
     const target = e.target;
@@ -143,41 +180,13 @@ class Area extends React.Component {
     });
   };
 
-  // DELETE
-  handleDelete(id) {
-    let confirm = window.confirm("delete data, are you sure?");
-    console.log(confirm);
-    if (confirm) {
-      this.props.dispatch(deleteDataArea(id));
-    }
-  }
-
-  onShowAlert = () => {
-    this.setState(
-      {
-        showAlert: true
-      },
-      () => {
-        window.setTimeout(() => {
-          this.setState({
-            showAlert: false,
-            alertDestroy: false
-          });
-        }, 2000);
-      }
-    );
-    localStorage.removeItem("isCreated");
-  };
-
   toggle(id) {
     this.setState(prevState => ({
       [id]: !prevState[id]
     }));
-    // GET data distributor
-    // if(this.state.modalCreate === true){
     this.props.dispatch(getDataDistributor());
-    // }
   }
+
 
   render() {
     console.log(this.state);

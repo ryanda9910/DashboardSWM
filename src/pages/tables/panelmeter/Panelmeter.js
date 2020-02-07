@@ -54,7 +54,7 @@ class Panelmeter extends React.Component {
       customer_id: null,
       distributor_id: null,
       code: "",
-      valve: "",
+      valves: [],
       status: "",
       signal: "",
       battery_voltage: "",
@@ -63,6 +63,7 @@ class Panelmeter extends React.Component {
       serial_number: "",
       model: "",
       manufacture: "",
+      data_com: "",
       // ALERT
       showAlert: false,
       alertDestroy: false,
@@ -141,6 +142,8 @@ class Panelmeter extends React.Component {
       serial_number: this.state.serial_number,
       model: this.state.model,
       manufacture: this.state.manufacture,
+      data_com: this.state.data_com,
+
     };
     console.log(postData);
     this.props.dispatch(createDataPerangkat(postData));
@@ -165,6 +168,26 @@ class Panelmeter extends React.Component {
       [name]: value
     });
   };
+
+  // TRACK CHANGE VALVE
+  handleChange = e => {
+    console.log(e.target);
+    const target = e.target;
+    const value = target.type === "checkbox" ? target.checked : target.value;
+    const name = target.name;
+    
+    this.setState({
+      valves: [
+        ...this.state.valves,
+        {
+          name: name,
+          valve: value
+        }
+      ]
+    });
+  };
+  // POST VALVE
+
   
   render() {
     console.log(this.state);
@@ -202,17 +225,20 @@ class Panelmeter extends React.Component {
     const tableData =
       this.props.dataPerangkat.length > 0 ? (
         this.props.dataPerangkat.map(item => {
-          console.log(item);
           const status = item.status ? (
             <span className="badge btn-success">AKTIF</span>
           ) : (
               <span className="badge btn-danger">TIDAK AKTIF</span>
             );
           const valve = item.valve ? (
-            <span className="badge btn-success">ON</span>
+            <a onClick={() => alert(`ok ${item._id}`)}>
+              <span className="badge btn-success">ON</span>
+            </a>
           ) : (
+            <a onClick={() => alert(`ok ${item._id}`)}>
               <span className="badge btn-danger">OFF</span>
-            );
+            </a>
+          );
           // const isactive = item.isactive ? (
           //   <span className="badge btn-success">TRUE</span>
           // ) : ( 
@@ -225,6 +251,21 @@ class Panelmeter extends React.Component {
               <td>{item.distributor_id.name}</td>
               <td>{item.code}</td>
               <td>{valve}</td>
+              <td>{item.data_com}</td>
+              {/* <td>
+                <FormGroup className="checkbox-ios">
+                  <Label key={item._id} for="valve" className="switch">
+                    <Input
+                      onChange={this.handleChange}
+                      type="checkbox"
+                      id="valve"
+                      name={item._id}
+                      className="ios"
+                    />
+                    <i />
+                  </Label>
+                </FormGroup>
+              </td> */}
               <td>{status}</td>
               <td>{item.signal}</td>
               <td>{item.battery_voltage}</td>
@@ -320,6 +361,7 @@ class Panelmeter extends React.Component {
                           <th>ID Distributor</th>
                           <th>Kode</th>
                           <th>Valve</th>
+                          <th>Data Com</th>
                           <th>Status</th>
                           <th>Sinyal</th>
                           <th>Voltase Baterai</th>
@@ -546,6 +588,19 @@ class Panelmeter extends React.Component {
                   name="manufacture"
                   id="manufacture"
                   placeholder="Masukkan Manufaktur"
+                />
+                {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
+                {/* <FormText>Example help text that remains unchanged.</FormText> */}
+              </FormGroup>
+              {/* manufacture */}
+              <FormGroup>
+                <Label for="data_com">Data Comunication</Label>
+                <Input
+                  onChange={this.handleCreateChange}
+                  type="text"
+                  name="data_com"
+                  id="data_com"
+                  placeholder="Masukkan Data Com"
                 />
                 {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
                 {/* <FormText>Example help text that remains unchanged.</FormText> */}

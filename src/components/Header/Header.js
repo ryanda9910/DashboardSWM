@@ -39,9 +39,8 @@ import {
 // import sender1 from "../../images/1.png";
 // import sender2 from "../../images/2.png";
 // import sender3 from "../../images/3.png";
-
 import avatar from "../../images/people/a5.jpg";
-//REACT TAB  
+// REACT TAB  
 import Tabulation from '../Tab/Tabulation';
 
 import s from "./Header.module.scss";
@@ -389,9 +388,13 @@ class Header extends React.Component {
           </NavItem>
         </Nav>
       </Navbar>
-      <Row lg={12}>
-        <Tabulation/>
-      </Row>
+      {/* TAB */}
+      {/* <Row>
+        <Col lg={12} className="bg-danger">
+          {console.log(this.props.location.pathname)}
+          <Tabulation locationPath={this.props.location.pathname} />
+        </Col>
+      </Row> */}
       </div>
     );
   }

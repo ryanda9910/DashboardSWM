@@ -70,8 +70,7 @@ class Editdataarea extends React.Component {
 
     // PUT
     const id = this.props.match.params.id;
-    axios
-      .put("/api/area/" + id, data)
+    axios.put("/api/area/" + id, data)
       .then(res => {
         console.log(res);
         //
@@ -79,7 +78,7 @@ class Editdataarea extends React.Component {
           this.setState({
             updateStatus: res.status
           });
-          // alert
+          // ALERT
           const MySwal = withReactContent(Swal);
           MySwal.fire({
             title: 'Berhasil',

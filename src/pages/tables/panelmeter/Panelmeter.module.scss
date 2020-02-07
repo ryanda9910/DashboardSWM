@@ -10,23 +10,9 @@
 }
 
 // CUSTOM
-.rowWhite {
-  background-color: #fff;
-}
 
-// .root {
-//   font-size: 14px;
-//   font-style: initial;
-//   font-weight: $font-weight-normal;
-// }
 
-// .mainTableWidget {
-//   :global {
-//     .table td {
-//       border: none;
-//     }
-//   }
-// }
+
 
 th,
 td {
@@ -34,7 +20,7 @@ td {
   // text-transform: lowercase;
 }
 table {
-  overflow-x: scroll;
+  // overflow-x: scroll;
 }
 
 .rootPaginate{

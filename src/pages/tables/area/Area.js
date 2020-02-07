@@ -126,6 +126,7 @@ class Area extends React.Component {
       modalCreate: false,
       emptyDistributorIdMsg: ""
     });
+    // ALERT
     const MySwal = withReactContent(Swal);
     MySwal.fire({
       title: 'Berhasil',
@@ -139,6 +140,7 @@ class Area extends React.Component {
   
   // DELETE
   handleDelete(id) {
+    // ALERT
     const MySwal = withReactContent(Swal);
     MySwal.fire({
       title: 'Are you sure?',

@@ -50,6 +50,10 @@ import { getDataDistributor } from "../../../actions/tables/distributor";
 // react-js-pagination
 import Pagination from "react-js-pagination";
 
+// sweetalert2-react-content
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+
 class Tarif extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired
@@ -164,16 +168,49 @@ class Tarif extends React.Component {
         emptyDistributorIdMsg: ""
       });
     }
+   // ALERT
+    const MySwal = withReactContent(Swal);
+    MySwal.fire({
+      title: 'Berhasil',
+      text: 'Data baru ditambahkan.',
+      icon: 'success',
+    }).then(result => {
+      console.log(result)
+    })
   };
-  // DELETE
+  
+// DELETE
   handleDelete(id) {
-    let confirm = window.confirm("delete data, are you sure?");
-    console.log(confirm);
-    if (confirm) {
-      this.props.dispatch(deleteDataTarif(id));
-    }
+    // ALERT
+    const MySwal = withReactContent(Swal);
+    MySwal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#58d777',
+      cancelButtonColor: '#f45722',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      console.log(result.value);
+      if (result.value) {
+        MySwal.fire(
+          'Deleted!',
+          'Your file has been deleted.',
+          'success',
+        )
+        this.props.dispatch(deleteDataTarif(id));
+        // handle kondisi ketika contoh: page 2 data nya tinggal 1 dan ketika di hapus di page 2 selalu loading harusnya langsung ke page 1
+        // console.log(this.state.pageCount);
+        // console.log(this.state.currentPage);
+        // console.log(this.props.dataAreaPaginate.pages);
+        // console.log(this.props.dataAreaPaginate.page);
+        // if(this.state.pageCount < this.state.currentPage){
+        //    this.props.dispatch(getDataArea(this.state.pageCount));
+        // }
+      }
+    })
   }
-
   // TRACK CHANGE
   handleCreateChange = e => {
     console.log(e.target);
@@ -471,8 +508,8 @@ class Tarif extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    // ALERT
-    // alertMessage: state.reducerTarif.alertMessage,
+  
+    alertMessage: state.reducerTarif.alertMessage,
     // GET
     getSuccess: state.reducerTarif.getSuccess,
     getError: state.reducerTarif.getError,

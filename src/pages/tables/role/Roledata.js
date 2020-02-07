@@ -38,6 +38,10 @@ import s from "./Roledata.module.scss";
 // react-js-pagination
 import Pagination from "react-js-pagination";
 
+// sweetalert2-react-content
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+
 import Widget from "../../../components/Widget/Widget";
 // actions
 import {
@@ -188,16 +192,48 @@ class Roledata extends React.Component {
     // console.log(postData);
     this.props.dispatch(createDataRole(postData));
     this.setState({ modalCreate: false });
+  // ALERT
+    const MySwal = withReactContent(Swal);
+    MySwal.fire({
+      title: 'Berhasil',
+      text: 'Data baru ditambahkan.',
+      icon: 'success',
+    }).then(result => {
+      console.log(result)
+    })
   };
-  // DELETE
+
+ // DELETE
   handleDelete(id) {
-    let confirm = window.confirm("delete data, are you sure?");
-    console.log(confirm);
-    if (confirm) {
-      this.props.dispatch(deleteDataRole(id));
-      this.onShowAlert();
-      this.props.dispatch(getDataRole());
-    }
+    // ALERT
+    const MySwal = withReactContent(Swal);
+    MySwal.fire({ 
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#58d777',
+      cancelButtonColor: '#f45722',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      console.log(result.value);
+      if (result.value) {
+        MySwal.fire(
+          'Deleted!',
+          'Your file has been deleted.',
+          'success',
+        )
+        this.props.dispatch(deleteDataRole(id));
+        // handle kondisi ketika contoh: page 2 data nya tinggal 1 dan ketika di hapus di page 2 selalu loading harusnya langsung ke page 1
+        // console.log(this.state.pageCount);
+        // console.log(this.state.currentPage);
+        // console.log(this.props.dataAreaPaginate.pages);
+        // console.log(this.props.dataAreaPaginate.page);
+        // if(this.state.pageCount < this.state.currentPage){
+        //    this.props.dispatch(getDataArea(this.state.pageCount));
+        // }
+      }
+    })
   }
 
   // TRACK CHANGE

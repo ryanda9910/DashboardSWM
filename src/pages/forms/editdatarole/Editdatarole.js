@@ -19,6 +19,9 @@ import PropTypes from "prop-types";
 import Widget from "../../../components/Widget";
 // distributor
 import { getDataDistributor } from "../../../actions/tables/distributor";
+// sweetalert2-react-content
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 
 class Editdatarole extends React.Component {
   static propTypes = {

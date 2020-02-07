@@ -9,6 +9,10 @@
   @import "../../../../node_modules/react-mde/lib/styles/scss/react-mde-all";
 }
 
+// CUSTOM
+
+
+
 
 th,
 td {
@@ -16,7 +20,7 @@ td {
   // text-transform: lowercase;
 }
 table {
-  overflow-x: scroll;
+  // overflow-x: scroll;
 }
 
 .rootPaginate{

@@ -24,7 +24,8 @@ class Metertesting extends React.Component {
     super(props);
     this.state = {
       valveControl: 0,
-      nameplate: "19178802"
+      nameplate: "19178802",
+      // id: '5e3d18803b74ff46ed204d48',
     };
     //
     this.goBack = this.goBack.bind(this);
@@ -57,14 +58,15 @@ class Metertesting extends React.Component {
   doChangeValveControl = e => {
     e.preventDefault();
     const postData = {
-      // valveControl: this.state.valveControl === true ? 1 : 0,
-      valveControl: this.state.valveControl,
+      valveControl: this.state.valveControl === true ? 1 : 0,
+      // valveControl: this.state.valveControl,
       nameplate: this.state.nameplate
     };
 
     console.log(postData);
 
     axios
+      // .post("/api/device/control/"+this.state.id, postData)
       .post("/api/meter/valve", postData)
       // .post("/api/meter/lora/valve")
       .then(res => {

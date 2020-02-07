@@ -5,10 +5,13 @@ import { Link, Redirect } from "react-router-dom";
 import axios from "axios";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+// sweetalert2-react-content
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+
 // actions
 import { detailDataArea } from "../../../actions/tables/area";
 import { getDataDistributor } from "../../../actions/tables/distributor";
-
 import s from "./editdataarea.module.scss";
 import config from "../../../config";
 // import InputValidation from "../../../components/InputValidation";
@@ -67,16 +70,21 @@ class Editdataarea extends React.Component {
 
     // PUT
     const id = this.props.match.params.id;
-    axios
-      .put("/api/area/" + id, data)
+    axios.put("/api/area/" + id, data)
       .then(res => {
         console.log(res);
         //
         if (res.status >= 200 || res.status < 300) {
-          alert(res.data.status);
           this.setState({
             updateStatus: res.status
           });
+          // ALERT
+          const MySwal = withReactContent(Swal);
+          MySwal.fire({
+            title: 'Berhasil',
+            text: 'Data diubah.',
+            icon: 'success',
+          })
         }
       })
       .catch(err => {
@@ -105,6 +113,7 @@ class Editdataarea extends React.Component {
     console.log(this.state);
 
     const { dataDistributor } = this.props;
+
 
     // redirect jika succes update
     if (this.state.updateStatus === 200) {

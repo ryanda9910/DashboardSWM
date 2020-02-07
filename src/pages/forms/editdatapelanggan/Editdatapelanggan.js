@@ -6,6 +6,11 @@ import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import axios from "axios";
 
+
+// sweetalert2-react-content
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+
 // import avatar from "../../images/people/a5.jpg";
 // import { Image } from "@amcharts/amcharts4/core";
 // import InputValidation from "../../../components/InputValidation";
@@ -102,6 +107,13 @@ class Editdatapelanggan extends React.Component {
           this.setState({
             updateStatus: res.status
           });
+              // ALERT
+          const MySwal = withReactContent(Swal);
+          MySwal.fire({
+            title: 'Berhasil',
+            text: 'Data diubah.',
+            icon: 'success',
+          })
         }
       })
       .catch(err => {

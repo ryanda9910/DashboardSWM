@@ -9,6 +9,10 @@ import axios from "axios";
 // import InputValidation from "../../../components/InputValidation";
 import Widget from "../../../components/Widget/Widget";
 
+// sweetalert2-react-content
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+
 // data distributor
 import { getDataDistributor } from "../../../actions/tables/distributor";
 // data tarif
@@ -93,6 +97,13 @@ class Editdatakelompokpelanggan extends React.Component {
           this.setState({
             updateStatus: res.status
           });
+              // ALERT
+          const MySwal = withReactContent(Swal);
+          MySwal.fire({
+            title: 'Berhasil',
+            text: 'Data diubah.',
+            icon: 'success',
+          })
         }
       })
       .catch(err => {

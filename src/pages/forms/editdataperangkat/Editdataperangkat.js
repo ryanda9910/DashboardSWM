@@ -125,6 +125,46 @@ class Editdataperangkat extends React.Component {
   goBack = () => {
     this.props.history.goBack();
   };
+  
+  // VALVE CHANGE
+  handleValveChange = e => {
+    const target = e.target;
+    const value = target.type === "checkbox" ? target.checked : target.value;
+    const name = target.name;
+    console.log(value);
+    this.setState({
+      [name]: value
+    });
+    // post update value
+    const id = this.props.match.params.id;
+    if(value){
+      axios.post('/api/device/control/'+id).then(res => {
+        console.log(id)
+        console.log(res)
+      }).catch(err => {
+        console.log(err)
+      })
+    }else{
+      axios.post('/api/device/control/'+id).then(res => {
+        console.log(id)
+        console.log(res)
+      }).catch(err => {
+        console.log(err)
+      })
+    }
+  };
+  // GET TOKEN
+  getTokenMeter = e => {
+    e.preventDefault();
+    axios
+      .post("/api/meter/login")
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err.response);
+      });
+  };
 
   render() {
     console.log(this.state);
@@ -140,10 +180,46 @@ class Editdataperangkat extends React.Component {
     return (
       <div className={s.root}>
         <Row className="py-5 justify-content-center">
+          <Col lg={4}>
+            <Form>
+              <Widget className="px-3">
+                <h3 className="mb-5">Ubah Valve Meter</h3>
+                <Button
+                  onClick={this.getTokenMeter}
+                  className="bg-danger mr-2"
+                  color="transparent"
+                >
+                <i className="fa fa-refresh"></i> Resfresh
+                </Button>
+                <div className={s.root}>
+                  <FormGroup className="display-inline-block checkbox-ios pt-4">
+                    <Label for="valve" className="switch">
+                      <Input
+                        checked={this.state.valve}
+                        onChange={this.handleValveChange}
+                        type="checkbox"
+                        id="valve"
+                        name="valve"
+                        className="ios"
+                        label="Turn on this if True"
+                      />
+                      <i />
+                      <Label for="valve" className="pl-3">
+                        Valve
+                      </Label>
+                    </Label>
+                  </FormGroup>
+                </div>
+                <Button color="dark" onClick={this.goBack}>
+                  Kembali
+                </Button>
+              </Widget>
+            </Form>
+          </Col>
           <Col lg={6}>
-            <h3 className="page-title fw-semi-bold">Edit Data Perangkat</h3>
             {/* <img src={avatar} alt="..." /> */}
             <Widget refresh collapse close className="px-5">
+              <h3 className="page-title mb-5">Edit Data Perangkat</h3>
               <Form onSubmit={this.doUpdateData}>
                 {/* customer_id */}
                 <FormGroup>
@@ -194,7 +270,7 @@ class Editdataperangkat extends React.Component {
                   {/* <FormText>Example help text that remains unchanged.</FormText> */}
                 </FormGroup>
                 {/* valve */}
-                <div className={s.root}>
+                {/* <div className={s.root}>
                   <FormGroup className="display-inline-block checkbox-ios pt-4">
                     <Label for="valve" className="switch">
                       <Input
@@ -211,11 +287,9 @@ class Editdataperangkat extends React.Component {
                         Valve
                       </Label>
                     </Label>
-                    {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
-                    {/* <FormText>Example help text that remains unchanged.</FormText> */}
                   </FormGroup>
-                </div>
-                {/* status*/}
+                </div> */}
+                {/* status */}
                 <div className={s.root}>
                   <FormGroup className="display-inline-block checkbox-ios">
                     <Label for="status" className="switch">
@@ -344,7 +418,7 @@ class Editdataperangkat extends React.Component {
 
                   <Button
                     color="warning"
-                    className="my-5 px-5 ml-5"
+                    className="px-5 ml-5"
                     type="submit"
                   >
                     Perbarui Data

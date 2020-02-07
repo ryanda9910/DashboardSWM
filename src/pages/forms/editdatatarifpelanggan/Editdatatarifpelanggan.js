@@ -17,6 +17,9 @@ import s from "./editdatatarifpelanggan.module.scss";
 import axios from "axios";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+// sweetalert2-react-content
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 // config
 import config from "../../../config";
 import { Redirect } from "react-router-dom";
@@ -96,6 +99,13 @@ class Editdatatarifpelanggan extends React.Component {
         this.setState({
           updateStatus: res.status
         });
+            // ALERT
+          const MySwal = withReactContent(Swal);
+          MySwal.fire({
+            title: 'Berhasil',
+            text: 'Data diubah.',
+            icon: 'success',
+          })
       })
       .catch(err => {
         console.log(err);

@@ -18,6 +18,10 @@ import { Redirect } from "react-router-dom";
 
 import Widget from "../../../components/Widget";
 
+// sweetalert2-react-content
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+
 // DISTRIBUTOR
 import { getDataDistributor } from "../../../actions/tables/distributor";
 // TARIF
@@ -123,6 +127,13 @@ class Editdatatarifpelanggan extends React.Component {
         this.setState({
           updateStatus: res.status
         });
+          // ALERT
+          const MySwal = withReactContent(Swal);
+          MySwal.fire({
+            title: 'Berhasil',
+            text: 'Data diubah.',
+            icon: 'success',
+          })
       })
       .catch(err => {
         console.log(err);

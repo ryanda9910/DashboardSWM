@@ -141,6 +141,9 @@
     "showdown": "1.8.6",
     "skycons": "^1.0.0",
     "sortablejs": "1.10.0",
+    "styled-components": "4.0.0",
+    "sweetalert2": "^9.7.1",
+    "sweetalert2-react-content": "^3.0.0",
     "uuid": "^3.3.3"
   },
   "devDependencies": {

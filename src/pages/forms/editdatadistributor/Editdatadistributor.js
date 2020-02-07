@@ -16,6 +16,10 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { getDataDistributor } from "../../../actions/tables/distributor";
 
+// sweetalert2-react-content
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+
 import s from "./editdatadistributor.module.scss";
 import config from "../../../config";
 // import InputValidation from "../../../components/InputValidation";
@@ -102,6 +106,13 @@ class Editdatadistributor extends React.Component {
           this.setState({
             updateStatus: res.status
           });
+            // ALERT
+          const MySwal = withReactContent(Swal);
+          MySwal.fire({
+            title: 'Berhasil',
+            text: 'Data diubah.',
+            icon: 'success',
+          })
         }
       })
       .catch(err => {

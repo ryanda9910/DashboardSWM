@@ -11,7 +11,6 @@ import {
   InputGroupText,
   InputGroup,
   Input,
-  UncontrolledAlert,
   Dropdown,
   Collapse,
   DropdownToggle,
@@ -21,7 +20,9 @@ import {
   ButtonGroup,
   Button,
   Form,
-  FormGroup
+  FormGroup,
+  Row,
+  Col
 } from "reactstrap";
 // CUSTOM
 import jwt from "jsonwebtoken";
@@ -40,8 +41,11 @@ import {
 // import sender3 from "../../images/3.png";
 
 import avatar from "../../images/people/a5.jpg";
+//REACT TAB  
+import Tabulation from '../Tab/Tabulation';
 
 import s from "./Header.module.scss";
+
 
 class Header extends React.Component {
   static propTypes = {
@@ -132,6 +136,7 @@ class Header extends React.Component {
 
   render() {
     return (
+      <div>
       <Navbar className={`d-print-none ${s.root}`}>
         {/* <UncontrolledAlert className={`${s.alert} mr-3 d-lg-down-none`}>
           <i className="fa fa-info-circle mr-1" /> Check out Light Blue <button className="btn-link" onClick={() => this.setState({ settingsOpen: true })}>settings</button> on
@@ -144,7 +149,7 @@ class Header extends React.Component {
           <InputGroup
             className={`${s.navbarForm} ${
               this.state.searchFocused ? s.navbarFormFocused : ""
-            }`}
+              }`}
           >
             <InputGroupAddon addonType="prepend" className={s.inputAddon}>
               <InputGroupText>
@@ -175,8 +180,8 @@ class Header extends React.Component {
               />
             </InputGroup>
           </FormGroup>
-        </Form>
 
+        </Form>
         <Nav className="ml-md-0">
           <Dropdown
             nav
@@ -311,6 +316,7 @@ class Header extends React.Component {
               </ButtonGroup>
             </DropdownMenu>
           </Dropdown>
+
           <Dropdown
             nav
             isOpen={this.state.supportOpen}
@@ -383,6 +389,10 @@ class Header extends React.Component {
           </NavItem>
         </Nav>
       </Navbar>
+      <Row lg={12}>
+        <Tabulation/>
+      </Row>
+      </div>
     );
   }
 }

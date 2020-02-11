@@ -13,6 +13,7 @@ import {
   FormGroup,
   Label,
   Input,
+  Progress,
 } from "reactstrap";
 import $ from "jquery";
 import {
@@ -38,7 +39,6 @@ import Pagination from "react-js-pagination";
 // sweetalert2-react-content
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
-
 import Widget from "../../../components/Widget/Widget";
 // actions
 import {
@@ -46,9 +46,15 @@ import {
   createDataArea,
   deleteDataArea
 } from "../../../actions/tables/area";
-
 // DISTRIBUTOR
 import { getDataDistributor } from "../../../actions/tables/distributor";
+import classnames from 'classnames';
+// table-bootstrap-table2
+import BootstrapTable from 'react-bootstrap-table-next';
+import paginationFactory from 'react-bootstrap-table2-paginator';
+import ToolkitProvider, { Search, CSVExport  } from 'react-bootstrap-table2-toolkit';
+const { SearchBar } = Search;
+const { ExportCSVButton } = CSVExport;
 
 class Area extends React.Component {
   static propTypes = {
@@ -159,14 +165,6 @@ class Area extends React.Component {
           'success',
         )
         this.props.dispatch(deleteDataArea(id));
-        // handle kondisi ketika contoh: page 2 data nya tinggal 1 dan ketika di hapus di page 2 selalu loading harusnya langsung ke page 1
-        // console.log(this.state.pageCount);
-        // console.log(this.state.currentPage);
-        // console.log(this.props.dataAreaPaginate.pages);
-        // console.log(this.props.dataAreaPaginate.page);
-        // if(this.state.pageCount < this.state.currentPage){
-        //    this.props.dispatch(getDataArea(this.state.pageCount));
-        // }
       }
     })
   }
@@ -189,52 +187,159 @@ class Area extends React.Component {
     this.props.dispatch(getDataDistributor());
   }
 
-
+  
+  
+  
+  
   render() {
     console.log(this.state);
     console.log(this.props);
-
+    
     const { modalCreate } = this.state;
-    const { dataArea, dataDistributor } = this.props;
-
+    const { dataAreaPaginate, dataArea, dataDistributor } = this.props;
+    
     // create error
     const createError =
-      this.props.createError === false ? null : (
-        <div className="text-center w-100 py-2">
+    this.props.createError === false ? null : (
+      <div className="text-center w-100 py-2">
           <small className="text-white">{this.props.createError}</small>
         </div>
       );
+      
+      // search
+      // $(document).ready(function () {
+      //   $("#myInput").on("keyup", function () {
+      //     var value = $(this)
+      //     .val()
+      //     .toLowerCase();
+      //     $("#myTable tr").filter(function () {
+      //       $(this).toggle(
+      //         $(this)
+      //         .text()
+      //         .toLowerCase()
+      //         .indexOf(value) > -1
+      //         );
+      //       });
+      //     });
+      //   });
+        
+        // table data
+        // const tableData =
+        // dataArea.length > 0 ? (
+        //   dataArea.map(item => {
+        //     // console.log(item);
+        //     return (
+        //       <tr key={item._id}>
+        //       <td>{item.code}</td>
+        //       <td>{item.name}</td>
+        //       <td>{item.distributor_id ? item.distributor_id.name : "-"}</td>
+        //       <td>
+        //         <Link
+        //           to={"/app/forms/editdataarea/" + item._id}
+        //           className="mr-1"
+        //         >
+        //           <span className="text-success">
+        //             <i className="far fa-edit"></i>
+        //             Ubah
+        //           </span>
+        //         </Link>
+        //         <a onClick={() => this.handleDelete(item._id)} className="ml-1">
+        //           <span className="text-danger">
+        //             <i className="fas fa-trash"></i>
+        //             Hapus
+        //           </span>
+        //         </a>
+        //       </td>
+        //     </tr>
+        //   );
+        // })
+        // ) : (
+        //   <Loader size={35} className="pt-5 position-absolute" />
+        // );
+        
 
-    // search
-    $(document).ready(function () {
-      $("#myInput").on("keyup", function () {
-        var value = $(this)
-          .val()
-          .toLowerCase();
-        $("#myTable tr").filter(function () {
-          $(this).toggle(
-            $(this)
-              .text()
-              .toLowerCase()
-              .indexOf(value) > -1
-          );
-        });
-      });
-    });
 
-    // table data
-    const tableData =
-      dataArea.length > 0 ? (
-        dataArea.map(item => {
-          // console.log(item);
+        // react-bootstrap-table
+        const customTotal = (from, to, size) => (
+          <span className="react-bootstrap-table-pagination-total">
+            Menampilkan { from } sampai { to } dari { size } Hasil
+          </span>
+        );
+        const pageButtonRenderer = ({
+          page,
+          active,
+          disable,
+          title,
+          onPageChange
+        }) => {
+          const handleClick = (e) => {
+            e.preventDefault();
+            onPageChange(page);
+          };
+          const activeStyle = {
+            padding: '4px 10px',
+          };
+          if (active) {
+            activeStyle.backgroundColor = '#474d84';
+            activeStyle.color = 'white';
+          } else {
+            activeStyle.backgroundColor = '#17193b';
+            activeStyle.color = 'white';
+          }
+          if (typeof page === 'string') {
+            activeStyle.backgroundColor = 'rgba(255,255,255,.4)';
+            activeStyle.color = 'white';
+          }
           return (
-            <tr key={item._id}>
-              <td>{item.code}</td>
-              <td>{item.name}</td>
-              <td>{item.distributor_id ? item.distributor_id.name : "-"}</td>
-              <td>
+            <li className="page-item">
+              <a href="#" onClick={ handleClick } style={ activeStyle }>{ page }</a>
+            </li>
+          );
+        };
+        const options = {
+          // 
+          pageButtonRenderer,
+          paginationSize: 3,
+          pageStartIndex: 1,
+          // alwaysShowAllBtns: true, // Always show next and previous button
+          // withFirstAndLast: false, // Hide the going to First and Last page button
+          hideSizePerPage: true, // Hide the sizePerPage dropdown always
+          // hidePageListOnlyOnePage: true, // Hide the pagination list when only one page
+          firstPageText: 'First',
+          prePageText: 'Back',
+          nextPageText: 'Next',
+          lastPageText: 'Last',
+          nextPageTitle: 'First page',
+          prePageTitle: 'Pre page',
+          firstPageTitle: 'Next page',
+          lastPageTitle: 'Last page',
+          showTotal: true,
+          paginationTotalRenderer: customTotal,
+          sizePerPageList: [{
+            text: '25', value: 10
+          }, {
+            text: 'All', value: 1000
+          },] // A numeric array is also available. the purpose of above example is custom the text
+        };
+        const columns = [{
+          dataField: 'code',
+          text: 'Kode'
+        }, {
+          dataField: 'name',
+          text: 'Nama'
+        }, {
+          dataField: 'distributor_id.name',
+          text: 'ID Distributor',
+        }, {
+          dataField: '',
+          text: 'Aksi',
+          // column yang tidak akan di eksport
+          csvExport: false,
+          formatter: (cell, row) => {
+            return (
+              <span>
                 <Link
-                  to={"/app/forms/editdataarea/" + item._id}
+                  to={"/app/forms/editdataarea/" + row._id}
                   className="mr-1"
                 >
                   <span className="text-success">
@@ -242,28 +347,46 @@ class Area extends React.Component {
                     Ubah
                   </span>
                 </Link>
-                <a onClick={() => this.handleDelete(item._id)} className="ml-1">
+                <a onClick={ () => this.handleDelete(row._id) }>
                   <span className="text-danger">
                     <i className="fas fa-trash"></i>
                     Hapus
                   </span>
                 </a>
-              </td>
-            </tr>
+              </span>
+            );
+          }
+        }];
+        const ExportCSVCustom = (props) => {
+          const handleClick = () => {
+            props.onExport();
+          };
+          return (
+            <div>
+              <Button outline color="primary" className="ml-1" onClick={ handleClick }>Export CSV</Button>
+            </div>
           );
-        })
-      ) : (
-          <Loader size={35} className="pt-5 position-absolute" />
-        );
+        };
+        const ImportCSV = (tes) => {
+          const handleClick = () => {
+            alert('ok')
+          };
+          return (
+            <div>
+              <Button outline color="success" className="mr-1" onClick={ handleClick }>Import CSV</Button>
+            </div>
+          );
+        };
 
-    return (
-      <div className={s.root}>
+        
+        return (
+          <div className={s.root}>
         <Row className="pt-3">
           <Col lg={12}>
             <Row>
               <Col lg={12}>
                 <ol className="breadcrumb">
-                  <li className="breadcrumb-item">YOU ARE HERE</li>
+                  <li className="breadcrumb-item">App</li>
                   <li className="breadcrumb-item active">
                     Data<span> Area</span>
                   </li>
@@ -271,12 +394,12 @@ class Area extends React.Component {
               </Col>
             </Row>
             <Row className="align-items-center justify-content-between">
-              <Col lg={12}>
+              {/* <Col lg={12}>
                 <h3>
                   Data <span className="fw-semi-bold">Area</span>
                 </h3>
-              </Col>
-              <Col lg={4}>
+              </Col> */}
+              {/* <Col lg={4}>
                 <Input
                   className="form-control my-3"
                   id="myInput"
@@ -285,10 +408,10 @@ class Area extends React.Component {
                   type="text"
                   style={{ color: "#FFF" }}
                 />
-              </Col>
-              <Col lg={4} className="text-right">
+              </Col> */}
+              <Col lg={12} className="text-right">
                 <Button
-                  className="mr-sm"
+                  className="my-3"
                   color="default"
                   outline
                   onClick={() => this.toggle("modalCreate")}
@@ -298,7 +421,8 @@ class Area extends React.Component {
                 </Button>
               </Col>
             </Row>
-            <Row>
+            {/* TABLE */}
+            {/* <Row>
               <Col lg={12}>
                 <Widget refresh collapse close className="px-2">
                   <div className="table-responsive">
@@ -312,14 +436,11 @@ class Area extends React.Component {
                         </tr>
                       </thead>
                       <tbody id="myTable" className="position-relative">
-                        {/* eslint-disable */}
                         {dataArea ? tableData : null}
                       </tbody>
-                      {/* eslint-enable */}
                     </Table>
                   </div>
                   <Col lg={12} className="pt-3">
-                    {/* react-js-pagination */}
                     <div className={s.rootPaginate + " justify-content-center d-flex "}>
                       <Pagination
                         activePage={this.state.currentPage}
@@ -331,6 +452,43 @@ class Area extends React.Component {
                     </div>
                   </Col>
                 </Widget>
+              </Col>
+            </Row> */}
+            {/* REACT-BOOTSTRAP-TABLE */}
+            <Row>
+              <Col lg={12}>
+              <Widget title={<h3>Data <span className="fw-semi-bold">Area</span></h3>} collapse close>
+                <ToolkitProvider
+                  keyField="id"
+                  data={dataArea}
+                  columns={columns}
+                  search
+                >
+                  {
+                    props => (
+                      <div> 
+                        <Row className="justify-content-between pt-3">
+                          <Col lg={4} md={5} sm={6} xs={12}>
+                            <SearchBar { ...props.searchProps } />
+                          </Col>
+                          <Col lg={4} md={5} sm={6} xs={12} className="d-flex justify-content-end">
+                            <ImportCSV  />
+                            <ExportCSVCustom { ...props.csvProps } />
+                          </Col>
+                        </Row>
+                        <hr />
+                        <BootstrapTable
+                          { ...props.baseProps }
+                          pagination={paginationFactory(options)}
+                          striped
+                          hover
+                          wrapperClasses="table-responsive"
+                        />
+                      </div>
+                    )
+                  }
+                </ToolkitProvider>
+              </Widget>
               </Col>
             </Row>
           </Col>

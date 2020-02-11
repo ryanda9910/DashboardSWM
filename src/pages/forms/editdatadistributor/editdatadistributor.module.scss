@@ -71,6 +71,7 @@ table {
     .switch i {
       display: inline-block;
       cursor: pointer;
+      background: rgba(255, 255, 255, .4);
       padding-right: 20px;
       transition: all ease 0.2s;
       -webkit-transition: all ease 0.2s;

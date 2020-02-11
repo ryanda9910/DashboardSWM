@@ -544,7 +544,7 @@ class Panelmeter extends React.Component {
                 <Label for="signal">Sinyal</Label>
                 <Input
                   onChange={this.handleCreateChange}
-                  type="text"
+                  type="number"
                   name="signal"
                   id="signal"
                   placeholder="Masukkan Sinyal"
@@ -570,7 +570,7 @@ class Panelmeter extends React.Component {
                 <Label for="lat">Latitude</Label>
                 <Input
                   onChange={this.handleCreateChange}
-                  type="text"
+                  type="number"
                   name="lat"
                   id="lat"
                   placeholder="Masukkan Garis Lintang"
@@ -583,7 +583,7 @@ class Panelmeter extends React.Component {
                 <Label for="long">Longitude</Label>
                 <Input
                   onChange={this.handleCreateChange}
-                  type="text"
+                  type="number"
                   name="long"
                   id="long"
                   placeholder="Masukkan Garis Bujur"
@@ -630,7 +630,7 @@ class Panelmeter extends React.Component {
                 {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
                 {/* <FormText>Example help text that remains unchanged.</FormText> */}
               </FormGroup>
-              {/* manufacture */}
+              {/* data_com */}
               <FormGroup>
                 <Label for="data_com">Data Comunication</Label>
                 <Input

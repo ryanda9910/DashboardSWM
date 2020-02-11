@@ -15,6 +15,10 @@ import { getDataDistributor } from "../../../actions/tables/distributor";
 // data pelanggan
 import { getDataPelanggan } from "../../../actions/tables/pelanggan";
 
+// sweetalert2-react-content
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+
 class Editdataperangkat extends React.Component {
   constructor(props) {
     super(props);
@@ -101,6 +105,13 @@ class Editdataperangkat extends React.Component {
           this.setState({
             updateStatus: res.status
           });
+            // ALERT
+          const MySwal = withReactContent(Swal);
+          MySwal.fire({
+            title: 'Berhasil',
+            text: 'Data diubah.',
+            icon: 'success',
+          })
         }
       })
       .catch(err => {

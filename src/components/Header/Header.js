@@ -389,12 +389,12 @@ class Header extends React.Component {
         </Nav>
       </Navbar>
       {/* TAB */}
-      {/* <Row>
+      <Row>
         <Col lg={12} className="bg-danger">
           {console.log(this.props.location.pathname)}
           <Tabulation locationPath={this.props.location.pathname} />
         </Col>
-      </Row> */}
+      </Row>1
       </div>
     );
   }

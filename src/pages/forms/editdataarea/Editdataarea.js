@@ -5,6 +5,7 @@ import { Link, Redirect } from "react-router-dom";
 import axios from "axios";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+
 // sweetalert2-react-content
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
@@ -82,7 +83,7 @@ class Editdataarea extends React.Component {
           const MySwal = withReactContent(Swal);
           MySwal.fire({
             title: 'Berhasil',
-            text: 'Data diubah.',
+            text:  'Data diubah.',
             icon: 'success',
           })
         }

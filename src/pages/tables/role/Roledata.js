@@ -62,7 +62,6 @@ class Roledata extends React.Component {
     this.state = {
       // CREATE
       code: "",
-      isactive: "",
       name: "",
       description: "",
       menuaccess: [],
@@ -140,7 +139,6 @@ class Roledata extends React.Component {
     const tarifversion = this.state.tarifversion === true ? "tarifversion" : "popTarifVersion";
     const customerbilling = this.state.customerbilling === true ? "customerbilling" : "popCustomerBilling";
     const pelanggan = this.state.pelanggan === true ? "pelanggan" : "popPelanggan";
-    //
     if (this.state.menuaccess.indexOf("tarif") === -1) {
       if (tarif === "tarif") {
         this.state.menuaccess.push(tarif);
@@ -183,7 +181,6 @@ class Roledata extends React.Component {
     // data to post
     let postData = {
       code: this.state.code,
-      isactive: this.state.isactive === true ? "true" : "false",
       name: this.state.name,
       description: this.state.description,
       menuaccess: this.state.menuaccess,
@@ -192,7 +189,7 @@ class Roledata extends React.Component {
     // console.log(postData);
     this.props.dispatch(createDataRole(postData));
     this.setState({ modalCreate: false });
-  // ALERT
+    // ALERT
     const MySwal = withReactContent(Swal);
     MySwal.fire({
       title: 'Berhasil',
@@ -470,25 +467,6 @@ class Roledata extends React.Component {
                 {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
                 {/* <FormText>Example help text that remains unchanged.</FormText> */}
               </FormGroup>
-              {/* isactive */}
-              <div className={s.root}>
-                <FormGroup className="display-inline-block checkbox-ios">
-                  <Label for="exampleActive" className="switch">
-                    <Input
-                      onChange={this.handleCreateChange}
-                      type="checkbox"
-                      id="exampleActive"
-                      name="isactive"
-                      className="ios"
-                      label="Turn on this if True"
-                    />
-                    <i />
-                    Status
-                  </Label>
-                  {/* <FormFeedback>Oh noes! that name is already taken</FormFeedback> */}
-                  {/* <FormText>Example help text that remains unchanged.</FormText> */}
-                </FormGroup>
-              </div>
               {/* description */}
               <FormGroup>
                 <Label for="exampleKode">Deskripsi</Label>

@@ -1,17 +1,20 @@
 image: node:latest
 
 stages:
-  - build
   - test
+  - deploy
 
-install_dependencies:
-  stage: build
-  script:
-    - npm install
-  artifacts:
-    paths:
-      - node_modules/
-
-test_with_lab:
+test:
   stage: test
-  script: npm test
+  script: 
+    - echo "Running tests"
+
+deploy_to_lab1:
+  stage: deploy
+  script:
+    - echo "Deploy to lab1.nusafox.com"
+  environment:
+    name: staging
+    url: https://lab1.nusafox.com
+  only:
+  - developtwo

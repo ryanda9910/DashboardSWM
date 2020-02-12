@@ -53,6 +53,11 @@ import Pagination from "react-js-pagination";
 // sweetalert2-react-content
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
+// table-bootstrap-table2
+import BootstrapTable from 'react-bootstrap-table-next';
+import paginationFactory from 'react-bootstrap-table2-paginator';
+import ToolkitProvider, { Search, CSVExport  } from 'react-bootstrap-table2-toolkit';
+const { SearchBar } = Search;
 
 class Userdata extends React.Component {
   static propTypes = {
@@ -211,7 +216,7 @@ class Userdata extends React.Component {
     console.log(this.props);
 
     const { modalCreate } = this.state;
-    const { dataRole, dataDistributor } = this.props;
+    const { dataRole, dataDistributor, dataUser } = this.props;
 
     // create error
     const createError =
@@ -222,49 +227,171 @@ class Userdata extends React.Component {
       );
 
     // search
-    $(document).ready(function () {
-      $("#myInput").on("keyup", function () {
-        var value = $(this)
-          .val()
-          .toLowerCase();
-        $("#myTable tr").filter(function () {
-          $(this).toggle(
-            $(this)
-              .text()
-              .toLowerCase()
-              .indexOf(value) > -1
-          );
-        });
-      });
-    });
+    // $(document).ready(function () {
+    //   $("#myInput").on("keyup", function () {
+    //     var value = $(this)
+    //       .val()
+    //       .toLowerCase();
+    //     $("#myTable tr").filter(function () {
+    //       $(this).toggle(
+    //         $(this)
+    //           .text()
+    //           .toLowerCase()
+    //           .indexOf(value) > -1
+    //       );
+    //     });
+    //   });
+    // });
 
-    // table data
-    const tableData =
-      this.props.dataUser.length > 0 ? (
-        this.props.dataUser.map(item => {
-          console.log(item);
+    // // table data
+    // const tableData =
+    //   this.props.dataUser.length > 0 ? (
+    //     this.props.dataUser.map(item => {
+    //       console.log(item);
 
-          const isactive = item.isactive ? (
-            <span className="badge btn-success">TRUE</span>
-          ) : (
-              <span className="badge btn-danger">FALSE</span>
-            );
+    //       const isactive = item.isactive ? (
+    //         <span className="badge btn-success">TRUE</span>
+    //       ) : (
+    //           <span className="badge btn-danger">FALSE</span>
+    //         );
+    //       return (
+    //         <tr key={item._id}>
+    //           <td>{item.role_id ? item.role_id.name : "-"}</td>
+    //           {/* <td>{item.distributor_id.code}</td> */}
+    //           {/* <td>{isactive}</td> */}
+    //           <td>{isactive}</td>
+    //           <td>{item.name}</td>
+    //           <td>{item.slug}</td>
+    //           <td>{item.description}</td>
+    //           <td>{item.email}</td>
+    //           {/* <td>{item.password}</td> */}
+    //           <td>{item.phone}</td>
+    //           <td>{item.distributor_id ? item.distributor_id.name : "-"}</td>
+    //           <td>
+    //             <Link
+    //               to={"/app/forms/editdatausers/" + item._id}
+    //               className="mr-1"
+    //             >
+    //               <span className="text-success">
+    //                 <i className="far fa-edit"></i>
+    //                 Ubah
+    //               </span>
+    //             </Link>
+    //             <a onClick={() => this.handleDelete(item._id)} className="ml-1">
+    //               <span className="text-danger">
+    //                 <i className="fas fa-trash"></i>
+    //                 Hapus
+    //               </span>
+    //             </a>
+    //           </td>
+    //         </tr>
+    //       );
+    //     })
+    //   ) : (
+    //       <Loader size={35} className="pt-5 position-absolute" />
+    //     );
+
+    // react-bootstrap-table
+        const customTotal = (from, to, size) => (
+          <span className="react-bootstrap-table-pagination-total">
+            Menampilkan { from } sampai { to } dari { size } Hasil
+          </span>
+        );
+        const pageButtonRenderer = ({
+          page,
+          active,
+          disable,
+          title,
+          onPageChange
+        }) => {
+          const handleClick = (e) => {
+            e.preventDefault();
+            onPageChange(page);
+          };
+          const activeStyle = {
+            padding: '4px 10px',
+          };
+          if (active) {
+            activeStyle.backgroundColor = '#474d84';
+            activeStyle.color = 'white';
+          } else {
+            activeStyle.backgroundColor = '#17193b';
+            activeStyle.color = 'white';
+          }
+          if (typeof page === 'string') {
+            activeStyle.backgroundColor = 'rgba(255,255,255,.4)';
+            activeStyle.color = 'white';
+          }
           return (
-            <tr key={item._id}>
-              <td>{item.role_id ? item.role_id.name : "-"}</td>
-              {/* <td>{item.distributor_id.code}</td> */}
-              {/* <td>{isactive}</td> */}
-              <td>{isactive}</td>
-              <td>{item.name}</td>
-              <td>{item.slug}</td>
-              <td>{item.description}</td>
-              <td>{item.email}</td>
-              {/* <td>{item.password}</td> */}
-              <td>{item.phone}</td>
-              <td>{item.distributor_id ? item.distributor_id.name : "-"}</td>
-              <td>
+            <li className="page-item">
+              <a href="#" onClick={ handleClick } style={ activeStyle }>{ page }</a>
+            </li>
+          );
+        };
+        const options = {
+          // 
+          pageButtonRenderer,
+          paginationSize: 3,
+          pageStartIndex: 1,
+          // alwaysShowAllBtns: true, // Always show next and previous button
+          // withFirstAndLast: false, // Hide the going to First and Last page button
+          hideSizePerPage: true, // Hide the sizePerPage dropdown always
+          // hidePageListOnlyOnePage: true, // Hide the pagination list when only one page
+          firstPageText: 'First',
+          prePageText: 'Back',
+          nextPageText: 'Next',
+          lastPageText: 'Last',
+          nextPageTitle: 'First page',
+          prePageTitle: 'Pre page',
+          firstPageTitle: 'Next page',
+          lastPageTitle: 'Last page',
+          showTotal: true,
+          paginationTotalRenderer: customTotal,
+          sizePerPageList: [{
+            text: '25', value: 10
+          }, {
+            text: 'All', value: 1000
+          },] // A numeric array is also available. the purpose of above example is custom the text
+        };
+        const columns = [{
+          dataField: 'role_id.name',
+          text: 'Role',
+        }, {
+          dataField: 'isactive' ,
+          text: 'Status',
+        }, {
+          dataField: 'name',
+          text: 'Nama',
+        }, 
+        {
+          dataField: 'slug',
+          text: 'Slug',
+        }, 
+        {
+          dataField: 'description',
+          text: 'Deskripsi',
+        }, 
+        {
+          dataField: 'email',
+          text: 'Email',
+        }, 
+        {
+          dataField: 'phone',
+          text: 'Phone',
+        }, 
+        {
+          dataField: 'distributor_id.name',
+          text: 'Distributor',
+        },{
+          dataField: '',
+          text: 'Aksi',
+          // column yang tidak akan di eksport
+          csvExport: false,
+          formatter: (cell, row) => {
+            return (
+              <span>
                 <Link
-                  to={"/app/forms/editdatausers/" + item._id}
+                  to={"/app/forms/editdatausers/" + row._id}
                   className="mr-1"
                 >
                   <span className="text-success">
@@ -272,19 +399,26 @@ class Userdata extends React.Component {
                     Ubah
                   </span>
                 </Link>
-                <a onClick={() => this.handleDelete(item._id)} className="ml-1">
+                <a onClick={ () => this.handleDelete(row._id) }>
                   <span className="text-danger">
                     <i className="fas fa-trash"></i>
                     Hapus
                   </span>
                 </a>
-              </td>
-            </tr>
+              </span>
+            );
+          }
+        }];
+         const ExportCSVCustom = (props) => {
+          const handleClick = () => {
+            props.onExport();
+          };
+          return (
+            <div>
+              <Button outline color="primary" className="ml-1" onClick={ handleClick }>Export CSV</Button>
+            </div>
           );
-        })
-      ) : (
-          <Loader size={35} className="pt-5 position-absolute" />
-        );
+        };
 
     return (
       <div className={s.root}>
@@ -293,29 +427,20 @@ class Userdata extends React.Component {
             <Row>
               <Col lg={12}>
                 <ol className="breadcrumb">
-                  <li className="breadcrumb-item">YOU ARE HERE</li>
+                  <li className="breadcrumb-item">App</li>
                   <li className="breadcrumb-item active">
                     Data<span> User</span>
                   </li>
                 </ol>
-                {/* alert */}
-                {/* <Alert
-                  color="success"
-                  className={cx(s.promoAlert, {
-                    [s.showAlert]: this.state.showAlert
-                  })}
-                >
-                  {this.props.alertMessage || "Data get actions"}
-                </Alert> */}
               </Col>
             </Row>
             <Row className="align-items-center justify-content-between">
-              <Col lg={12}>
+              {/* <Col lg={12}>
                 <h3>
                   Data <span className="fw-semi-bold">User</span>
                 </h3>
-              </Col>
-              <Col lg={4}>
+              </Col> */}
+              {/* <Col lg={4}>
                 <Input
                   className="form-control my-3"
                   id="myInput"
@@ -324,8 +449,8 @@ class Userdata extends React.Component {
                   type="text"
                   style={{ color: "#FFF" }}
                 />
-              </Col>
-              <Col lg={4} className="text-right">
+              </Col> */}
+              <Col lg={12} className="text-right">
                 {/* <button className="btn btn-primary">Create</button> */}
                 {/* <CreateModal /> */}
                 {/* <Link
@@ -336,7 +461,7 @@ class Userdata extends React.Component {
                 </Link> */}
                 {/* BUTTON MODALS CREATE */}
                 <Button
-                  className="mr-sm"
+                  className="my-3 "
                   color="default"
                   outline
                   onClick={() => this.toggle("modalCreate")}
@@ -346,7 +471,7 @@ class Userdata extends React.Component {
                 </Button>
               </Col>
             </Row>
-            <Row>
+            {/* <Row>
               <Col lg={12}>
                 <Widget refresh collapse close className="px-2">
                   <div className="table-responsive">
@@ -359,21 +484,21 @@ class Userdata extends React.Component {
                           <th>Slug</th>
                           <th>Deskripsi</th>
                           <th>Email</th>
-                          {/* <th>Password</th> */}
+                         
                           <th>Phone</th>
                           <th>ID Distributor</th>
                           <th>Aksi</th>
                         </tr>
                       </thead>
                       <tbody id="myTable" className="position-relative">
-                        {/* eslint-disable */}
+                      
                         {this.props.dataUser ? tableData : null}
                       </tbody>
-                      {/* eslint-enable */}
+                     
                     </Table>
                   </div>
                   <Col lg={12} className="pt-3">
-                    {/* react-js-pagination */}
+                   
                     <div className={s.rootPaginate + " justify-content-center d-flex "}>
                       <Pagination
                         activePage={this.state.currentPage}
@@ -385,6 +510,44 @@ class Userdata extends React.Component {
                     </div>
                   </Col>
                 </Widget>
+              </Col>
+            </Row>
+          </Col>
+        </Row> */}
+      {/* REACT-BOOTSTRAP-TABLE */}
+            <Row>
+              <Col lg={12}>
+              <Widget title={<h3>Data <span className="fw-semi-bold">User</span></h3>} collapse close>
+                <ToolkitProvider
+                  keyField="id"
+                  data={dataUser}
+                  columns={columns}
+                  search
+                >
+                  {
+                    props => (
+                      <div> 
+                        <Row className="justify-content-between pt-3">
+                          <Col lg={4} md={5} sm={6} xs={12}>
+                            <SearchBar { ...props.searchProps } />
+                          </Col>
+                          <Col lg={4} md={5} sm={6} xs={12} className="d-flex justify-content-end">
+                            <ExportCSVCustom { ...props.csvProps } />
+                          </Col>
+                        </Row>
+                        <hr />
+                        <BootstrapTable
+                          { ...props.baseProps }
+                          pagination={paginationFactory(options)}
+                          striped
+                          hover
+                          wrapperClasses="table-responsive mb-5"
+                        />
+                      </div>
+                    )
+                  }
+                </ToolkitProvider>
+              </Widget>
               </Col>
             </Row>
           </Col>

@@ -380,7 +380,7 @@ class Area extends React.Component {
 
         
         return (
-          <div className={s.root}>
+       <div className={s.root}>
         <Row className="pt-3">
           <Col lg={12}>
             <Row>

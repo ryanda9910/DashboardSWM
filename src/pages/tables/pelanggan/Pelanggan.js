@@ -60,6 +60,12 @@ import Pagination from "react-js-pagination";
 // sweetalert2-react-content
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
+// table-bootstrap-table2
+import BootstrapTable from 'react-bootstrap-table-next';
+import paginationFactory from 'react-bootstrap-table2-paginator';
+import ToolkitProvider, { Search, CSVExport  } from 'react-bootstrap-table2-toolkit';
+const { SearchBar } = Search;
+const { ExportCSVButton } = CSVExport;
 
 class Pelanggan extends React.Component {
   static propTypes = {
@@ -240,51 +246,182 @@ class Pelanggan extends React.Component {
       );
 
     // search
-    $(document).ready(function () {
-      $("#myInput").on("keyup", function () {
-        var value = $(this)
-          .val()
-          .toLowerCase();
-        $("#myTable tr").filter(function () {
-          $(this).toggle(
-            $(this)
-              .text()
-              .toLowerCase()
-              .indexOf(value) > -1
-          );
-        });
-      });
-    });
+    // $(document).ready(function () {
+    //   $("#myInput").on("keyup", function () {
+    //     var value = $(this)
+    //       .val()
+    //       .toLowerCase();
+    //     $("#myTable tr").filter(function () {
+    //       $(this).toggle(
+    //         $(this)
+    //           .text()
+    //           .toLowerCase()
+    //           .indexOf(value) > -1
+    //       );
+    //     });
+    //   });
+    // });
 
-    // table data
-    const tableData =
-      this.props.dataPelanggan.length > 0 ? (
-        this.props.dataPelanggan.map(item => {
-          console.log(item);
-          // const isactive = item.isactive ? (
-          //   <span className="badge btn-success">TRUE</span>
-          // ) : (
-          //   <span className="badge btn-danger">FALSE</span>
-          // );
+    // // table data
+    // const tableData =
+    //   this.props.dataPelanggan.length > 0 ? (
+    //     this.props.dataPelanggan.map(item => {
+    //       console.log(item);
+    //       // const isactive = item.isactive ? (
+    //       //   <span className="badge btn-success">TRUE</span>
+    //       // ) : (
+    //       //   <span className="badge btn-danger">FALSE</span>
+    //       // );
+    //       return (
+    //         <tr key={item._id}>
+    //           {/* <td>{item.distributor_id.name}</td> */}
+    //           {/* <td>{isactive}</td> */}
+    //           <td>{item.name}</td>
+    //           <td>{item.code}</td>
+    //           <td>
+    //             {item.customer_group_id ? item.customer_group_id.name : "-"}
+    //           </td>
+    //           <td>{item.distributor_id ? item.distributor_id.name : "-"}</td>
+    //           <td>{item.area_id ? item.area_id.name : "-"}</td>
+    //           <td>{item.email}</td>
+    //           <td>{item.address}</td>
+    //           <td>{item.phone}</td>
+    //           <td>{item.status}</td>
+    //           <td>{item.notes}</td>
+    //           <td>
+    //             <Link
+    //               to={"/app/forms/editdatapelanggan/" + item._id}
+    //               className="mr-1"
+    //             >
+    //               <span className="text-success">
+    //                 <i className="far fa-edit"></i>
+    //                 Ubah
+    //               </span>
+    //             </Link>
+    //             <a onClick={() => this.handleDelete(item._id)} className="ml-1">
+    //               <span className="text-danger">
+    //                 <i className="fas fa-trash"></i>
+    //                 Hapus
+    //               </span>
+    //             </a>
+    //           </td>
+    //         </tr>
+    //       );
+    //     })
+    //   ) : (
+    //       <Loader size={35} className="pt-5 position-absolute" />
+    //     );
+
+    // react-bootstrap-table
+        const customTotal = (from, to, size) => (
+          <span className="react-bootstrap-table-pagination-total">
+            Menampilkan { from } sampai { to } dari { size } Hasil
+          </span>
+        );
+        const pageButtonRenderer = ({
+          page,
+          active,
+          disable,
+          title,
+          onPageChange
+        }) => {
+          const handleClick = (e) => {
+            e.preventDefault();
+            onPageChange(page);
+          };
+          const activeStyle = {
+            padding: '4px 10px',
+          };
+          if (active) {
+            activeStyle.backgroundColor = '#474d84';
+            activeStyle.color = 'white';
+          } else {
+            activeStyle.backgroundColor = '#17193b';
+            activeStyle.color = 'white';
+          }
+          if (typeof page === 'string') {
+            activeStyle.backgroundColor = 'rgba(255,255,255,.4)';
+            activeStyle.color = 'white';
+          }
           return (
-            <tr key={item._id}>
-              {/* <td>{item.distributor_id.name}</td> */}
-              {/* <td>{isactive}</td> */}
-              <td>{item.name}</td>
-              <td>{item.code}</td>
-              <td>
-                {item.customer_group_id ? item.customer_group_id.name : "-"}
-              </td>
-              <td>{item.distributor_id ? item.distributor_id.name : "-"}</td>
-              <td>{item.area_id ? item.area_id.name : "-"}</td>
-              <td>{item.email}</td>
-              <td>{item.address}</td>
-              <td>{item.phone}</td>
-              <td>{item.status}</td>
-              <td>{item.notes}</td>
-              <td>
+            <li className="page-item">
+              <a href="#" onClick={ handleClick } style={ activeStyle }>{ page }</a>
+            </li>
+          );
+        };
+        const options = {
+          // 
+          pageButtonRenderer,
+          paginationSize: 3,
+          pageStartIndex: 1,
+          // alwaysShowAllBtns: true, // Always show next and previous button
+          // withFirstAndLast: false, // Hide the going to First and Last page button
+          hideSizePerPage: true, // Hide the sizePerPage dropdown always
+          // hidePageListOnlyOnePage: true, // Hide the pagination list when only one page
+          firstPageText: 'First',
+          prePageText: 'Back',
+          nextPageText: 'Next',
+          lastPageText: 'Last',
+          nextPageTitle: 'First page',
+          prePageTitle: 'Pre page',
+          firstPageTitle: 'Next page',
+          lastPageTitle: 'Last page',
+          showTotal: true,
+          paginationTotalRenderer: customTotal,
+          sizePerPageList: [{
+            text: '25', value: 10
+          }, {
+            text: 'All', value: 1000
+          },] // A numeric array is also available. the purpose of above example is custom the text
+        };
+        const columns = [{
+          dataField: 'customer_group_id.name',
+          text: 'Grup Customer'
+        }, {
+          dataField: 'name',
+          text: 'Nama'
+        }, {
+          dataField: 'code',
+          text: 'Kode',
+        }, 
+         {
+          dataField: 'email',
+          text: 'Email',
+        },
+         {
+          dataField: 'address',
+          text: 'Alamat',
+        },
+         {
+          dataField: 'phone',
+          text: 'Telepon',
+        },
+         {
+          dataField: 'status',
+          text: 'Telepon',
+        },
+         {
+          dataField: 'notes',
+          text: 'Catatan',
+        },
+           {
+          dataField: 'distributor_id.name',
+          text: 'Distributor',
+        },
+           {
+          dataField: 'area_id.name',
+          text: 'Area',
+        },
+        {
+          dataField: '',
+          text: 'Aksi',
+          // column yang tidak akan di eksport
+          csvExport: false,
+          formatter: (cell, row) => {
+            return (
+              <span>
                 <Link
-                  to={"/app/forms/editdatapelanggan/" + item._id}
+                  to={"/app/forms/editdatapelanggan/" + row._id}
                   className="mr-1"
                 >
                   <span className="text-success">
@@ -292,19 +429,36 @@ class Pelanggan extends React.Component {
                     Ubah
                   </span>
                 </Link>
-                <a onClick={() => this.handleDelete(item._id)} className="ml-1">
+                <a onClick={ () => this.handleDelete(row._id) }>
                   <span className="text-danger">
                     <i className="fas fa-trash"></i>
                     Hapus
                   </span>
                 </a>
-              </td>
-            </tr>
+              </span>
+            );
+          }
+        }];
+        const ExportCSVCustom = (props) => {
+          const handleClick = () => {
+            props.onExport();
+          };
+          return (
+            <div>
+              <Button outline color="primary" className="ml-1" onClick={ handleClick }>Export CSV</Button>
+            </div>
           );
-        })
-      ) : (
-          <Loader size={35} className="pt-5 position-absolute" />
-        );
+        };
+        const ImportCSV = (tes) => {
+          const handleClick = () => {
+            alert('ok')
+          };
+          return (
+            <div>
+              <Button outline color="success" className="mr-1" onClick={ handleClick }>Import CSV</Button>
+            </div>
+          );
+        };
 
     return (
       <div className={s.root}>
@@ -313,7 +467,7 @@ class Pelanggan extends React.Component {
             <Row>
               <Col lg={12}>
                 <ol className="breadcrumb">
-                  <li className="breadcrumb-item">YOU ARE HERE</li>
+                  <li className="breadcrumb-item">App</li>
                   <li className="breadcrumb-item active">
                     Data<span> Pelanggan</span>
                   </li>
@@ -330,12 +484,12 @@ class Pelanggan extends React.Component {
               </Col>
             </Row>
             <Row className="align-items-center justify-content-between">
-              <Col lg={12}>
+              {/* <Col lg={12}>
                 <h3>
                   Data <span className="fw-semi-bold">Pelanggan</span>
                 </h3>
-              </Col>
-              <Col lg={4}>
+              </Col> */}
+              {/* <Col lg={4}>
                 <Input
                   className="form-control my-3"
                   id="myInput"
@@ -344,11 +498,11 @@ class Pelanggan extends React.Component {
                   type="text"
                   style={{ color: "#FFF" }}
                 />
-              </Col>
-              <Col lg={4} className="text-right">
+              </Col> */}
+              <Col lg={12} className="text-right">
                 {/* BUTTON MODALS CREATE */}
                 <Button
-                  className="mr-sm"
+                  className="my-3"
                   color="default"
                   outline
                   onClick={() => this.toggle("modalCreate")}
@@ -358,10 +512,10 @@ class Pelanggan extends React.Component {
                 </Button>
               </Col>
             </Row>
-            <Row>
+            {/* <Row>
               <Col lg={12}>
                 <Widget refresh collapse close className="px-2">
-                  {/* react-pagination-library */}
+             
                   <div className="table-responsive">
                     <Table className="table-hover">
                       <thead>
@@ -383,12 +537,10 @@ class Pelanggan extends React.Component {
                         {dataPelanggan ? tableData : null}
                       </tbody>
 
-                      {/* emptyData */}
-                      {/* <div><h2>{this.state.emptyData}</h2></div> */}
                     </Table>
                   </div>
                   <Col lg={12} className="pt-3">
-                    {/* react-js-pagination */}
+                  
                     <div className={s.rootPaginate + " justify-content-center d-flex "}>
                       <Pagination
                         activePage={this.state.currentPage}
@@ -400,6 +552,46 @@ class Pelanggan extends React.Component {
                     </div>
                   </Col>
                 </Widget>
+              </Col>
+            </Row>
+          </Col>
+        </Row> */}
+
+           {/* REACT-BOOTSTRAP-TABLE */}
+            <Row>
+              <Col lg={12}>
+              <Widget title={<h3>Data <span className="fw-semi-bold">Pelanggan</span></h3>} collapse close>
+                <ToolkitProvider
+                  keyField="id"
+                  data={dataPelanggan}
+                  columns={columns}
+                  search
+                >
+                  {
+                    props => (
+                      <div> 
+                        <Row className="justify-content-between pt-3">
+                          <Col lg={4} md={5} sm={6} xs={12}>
+                            <SearchBar { ...props.searchProps } />
+                          </Col>
+                          <Col lg={4} md={5} sm={6} xs={12} className="d-flex justify-content-end">
+                            <ImportCSV  />
+                            <ExportCSVCustom { ...props.csvProps } />
+                          </Col>
+                        </Row>
+                        <hr />
+                        <BootstrapTable
+                          { ...props.baseProps }
+                          pagination={paginationFactory(options)}
+                          striped
+                          hover
+                          wrapperClasses="table-responsive mb-5"
+                        />
+                      </div>
+                    )
+                  }
+                </ToolkitProvider>
+              </Widget>
               </Col>
             </Row>
           </Col>

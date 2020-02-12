@@ -46,6 +46,12 @@ import { getDataPelanggan } from "../../../actions/tables/pelanggan";
 // sweetalert2-react-content
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
+// table-bootstrap-table2
+import BootstrapTable from 'react-bootstrap-table-next';
+import paginationFactory from 'react-bootstrap-table2-paginator';
+import ToolkitProvider, { Search, CSVExport  } from 'react-bootstrap-table2-toolkit';
+const { SearchBar } = Search;
+
 
 class Panelmeter extends React.Component {
   static propTypes = {
@@ -232,7 +238,7 @@ class Panelmeter extends React.Component {
     console.log(this.props);
     
     const { modalCreate } = this.state;
-    const { dataPelanggan, dataDistributor } = this.props;
+    const { dataPelanggan, dataDistributor,dataPerangkat } = this.props;
 
     // create error
     const createError =
@@ -242,79 +248,222 @@ class Panelmeter extends React.Component {
         </div>
       );
 
-    // search
-    $(document).ready(function () {
-      $("#myInput").on("keyup", function () {
-        var value = $(this)
-          .val()
-          .toLowerCase();
-        $("#myTable tr").filter(function () {
-          $(this).toggle(
-            $(this)
-              .text()
-              .toLowerCase()
-              .indexOf(value) > -1
-          );
-        });
-      });
-    });
+    // // search
+    // $(document).ready(function () {
+    //   $("#myInput").on("keyup", function () {
+    //     var value = $(this)
+    //       .val()
+    //       .toLowerCase();
+    //     $("#myTable tr").filter(function () {
+    //       $(this).toggle(
+    //         $(this)
+    //           .text()
+    //           .toLowerCase()
+    //           .indexOf(value) > -1
+    //       );
+    //     });
+    //   });
+    // });
 
-    // table data
-    const tableData =
-      this.props.dataPerangkat.length > 0 ? (
-        this.props.dataPerangkat.map(item => {
-          const status = item.status ? (
-            <span className="badge btn-success">AKTIF</span>
-          ) : (
-              <span className="badge btn-danger">TIDAK AKTIF</span>
-            );
-          const valve = item.valve ? (
-            <a onClick={() => alert(`ok ${item._id}`)}>
-              <span className="badge btn-success">ON</span>
-            </a>
-          ) : (
-            <a onClick={() => alert(`ok ${item._id}`)}>
-              <span className="badge btn-danger">OFF</span>
-            </a>
-          );
-          // const isactive = item.isactive ? (
-          //   <span className="badge btn-success">TRUE</span>
-          // ) : ( 
-          //   <span className="badge btn-danger">FALSE</span>
-          // );
+    // // table data
+    // const tableData =
+    //   this.props.dataPerangkat.length > 0 ? (
+    //     this.props.dataPerangkat.map(item => {
+    //       const status = item.status ? (
+    //         <span className="badge btn-success">AKTIF</span>
+    //       ) : (
+    //           <span className="badge btn-danger">TIDAK AKTIF</span>
+    //         );
+    //       const valve = item.valve ? (
+    //         <a onClick={() => alert(`ok ${item._id}`)}>
+    //           <span className="badge btn-success">ON</span>
+    //         </a>
+    //       ) : (
+    //         <a onClick={() => alert(`ok ${item._id}`)}>
+    //           <span className="badge btn-danger">OFF</span>
+    //         </a>
+    //       );
+    //       // const isactive = item.isactive ? (
+    //       //   <span className="badge btn-success">TRUE</span>
+    //       // ) : ( 
+    //       //   <span className="badge btn-danger">FALSE</span>
+    //       // );
+    //       return (
+    //         <tr key={item._id}>
+    //           {/* API DATA NOT FIX YET  */}
+    //           <td>{item.customer_id.name}</td>
+    //           <td>{item.distributor_id.name}</td>
+    //           <td>{item.code}</td>
+    //           <td>{valve}</td>
+    //           <td>{item.data_com}</td>
+    //           {/* <td>
+    //             <FormGroup className="checkbox-ios">
+    //               <Label key={item._id} for="valve" className="switch">
+    //                 <Input
+    //                   onChange={this.handleChange}
+    //                   type="checkbox"
+    //                   id="valve"
+    //                   name={item._id}
+    //                   className="ios"
+    //                 />
+    //                 <i />
+    //               </Label>
+    //             </FormGroup>
+    //           </td> */}
+    //           <td>{status}</td>
+    //           <td>{item.signal}</td>
+    //           <td>{item.battery_voltage}</td>
+    //           <td>{item.lat}</td>
+    //           <td>{item.long}</td>
+    //           <td>{item.model}</td>
+    //           <td>{item.serial_number}</td>
+    //           <td>{item.manufacture}</td>
+    //           <td>
+    //             <Link
+    //               to={"/app/forms/editdataperangkat/" + item._id}
+    //               className="mr-1"
+    //             >
+    //               <span className="text-success">
+    //                 <i className="far fa-edit"></i>
+    //                 Ubah
+    //               </span>
+    //             </Link>
+    //             <a onClick={() => this.handleDelete(item._id)} className="ml-1">
+    //               <span className="text-danger">
+    //                 <i className="fas fa-trash"></i>
+    //                 Hapus
+    //               </span>
+    //             </a>
+    //           </td>
+    //         </tr>
+    //       );
+    //     })
+    //   ) : (
+    //       <Loader size={35} className="pt-5 position-absolute" />
+    //     );
+
+
+      // react-bootstrap-table
+        const customTotal = (from, to, size) => (
+          <span className="react-bootstrap-table-pagination-total">
+            Menampilkan { from } sampai { to } dari { size } Hasil
+          </span>
+        );
+        const pageButtonRenderer = ({
+          page,
+          active,
+          disable,
+          title,
+          onPageChange
+        }) => {
+          const handleClick = (e) => {
+            e.preventDefault();
+            onPageChange(page);
+          };
+          const activeStyle = {
+            padding: '4px 10px',
+          };
+          if (active) {
+            activeStyle.backgroundColor = '#474d84';
+            activeStyle.color = 'white';
+          } else {
+            activeStyle.backgroundColor = '#17193b';
+            activeStyle.color = 'white';
+          }
+          if (typeof page === 'string') {
+            activeStyle.backgroundColor = 'rgba(255,255,255,.4)';
+            activeStyle.color = 'white';
+          }
           return (
-            <tr key={item._id}>
-              {/* API DATA NOT FIX YET  */}
-              <td>{item.customer_id.name}</td>
-              <td>{item.distributor_id.name}</td>
-              <td>{item.code}</td>
-              <td>{valve}</td>
-              <td>{item.data_com}</td>
-              {/* <td>
-                <FormGroup className="checkbox-ios">
-                  <Label key={item._id} for="valve" className="switch">
-                    <Input
-                      onChange={this.handleChange}
-                      type="checkbox"
-                      id="valve"
-                      name={item._id}
-                      className="ios"
-                    />
-                    <i />
-                  </Label>
-                </FormGroup>
-              </td> */}
-              <td>{status}</td>
-              <td>{item.signal}</td>
-              <td>{item.battery_voltage}</td>
-              <td>{item.lat}</td>
-              <td>{item.long}</td>
-              <td>{item.model}</td>
-              <td>{item.serial_number}</td>
-              <td>{item.manufacture}</td>
-              <td>
+            <li className="page-item">
+              <a href="#" onClick={ handleClick } style={ activeStyle }>{ page }</a>
+            </li>
+          );
+        };
+        const options = {
+          // 
+          pageButtonRenderer,
+          paginationSize: 3,
+          pageStartIndex: 1,
+          // alwaysShowAllBtns: true, // Always show next and previous button
+          // withFirstAndLast: false, // Hide the going to First and Last page button
+          hideSizePerPage: true, // Hide the sizePerPage dropdown always
+          // hidePageListOnlyOnePage: true, // Hide the pagination list when only one page
+          firstPageText: 'First',
+          prePageText: 'Back',
+          nextPageText: 'Next',
+          lastPageText: 'Last',
+          nextPageTitle: 'First page',
+          prePageTitle: 'Pre page',
+          firstPageTitle: 'Next page',
+          lastPageTitle: 'Last page',
+          showTotal: true,
+          paginationTotalRenderer: customTotal,
+          sizePerPageList: [{
+            text: '25', value: 10
+          }, {
+            text: 'All', value: 1000
+          },] // A numeric array is also available. the purpose of above example is custom the text
+        };
+        const columns = [{
+          dataField: 'customer_id.name',
+          text: ' Customer',
+        }, {
+          dataField: 'distributor_id.name' ,
+          text: 'Distributor',
+        }, {
+          dataField: 'code',
+          text: 'Kode',
+        }, 
+        {
+          dataField: 'valve',
+          text: 'Valve',
+        }, 
+        {
+          dataField: 'status',
+          text: 'Status',
+        }, 
+        {
+          dataField: 'signal',
+          text: 'Signal',
+        }, 
+        {
+          dataField: 'battery_voltage',
+          text: 'Battery Voltage',
+        }, 
+        {
+          dataField: 'lat',
+          text: 'Latitude',
+        },
+        {
+          dataField: 'long',
+          text: 'Longitude',
+        },
+        {
+          dataField: 'serial_number',
+          text: 'Nomor Seri',
+        },
+        {
+          dataField: 'model',
+          text: 'Model',
+        },
+        {
+          dataField: 'manufacture',
+          text: 'Manufaktur',
+        },
+        {
+          dataField: 'data_com',
+          text: 'Komunikasi Data',
+        }, {
+          dataField: '',
+          text: 'Aksi',
+          // column yang tidak akan di eksport
+          csvExport: false,
+          formatter: (cell, row) => {
+            return (
+              <span>
                 <Link
-                  to={"/app/forms/editdataperangkat/" + item._id}
+                  to={"/app/forms/editdataperangkat/" + row._id}
                   className="mr-1"
                 >
                   <span className="text-success">
@@ -322,19 +471,26 @@ class Panelmeter extends React.Component {
                     Ubah
                   </span>
                 </Link>
-                <a onClick={() => this.handleDelete(item._id)} className="ml-1">
+                <a onClick={ () => this.handleDelete(row._id) }>
                   <span className="text-danger">
                     <i className="fas fa-trash"></i>
                     Hapus
                   </span>
                 </a>
-              </td>
-            </tr>
+              </span>
+            );
+          }
+        }];
+         const ExportCSVCustom = (props) => {
+          const handleClick = () => {
+            props.onExport();
+          };
+          return (
+            <div>
+              <Button outline color="primary" className="ml-1" onClick={ handleClick }>Export CSV</Button>
+            </div>
           );
-        })
-      ) : (
-          <Loader size={35} className="pt-5 position-absolute" />
-        );
+        };
 
     return (
       <div className={s.root}>
@@ -343,24 +499,15 @@ class Panelmeter extends React.Component {
             <Row>
               <Col lg={12}>
                 <ol className="breadcrumb">
-                  <li className="breadcrumb-item">YOU ARE HERE</li>
+                  <li className="breadcrumb-item">App</li>
                   <li className="breadcrumb-item active">
                     Data<span>Perangkat</span>
                   </li>
                 </ol>
-                {/* alert */}
-                {/* <Alert
-                  color="success"
-                  className={cx(s.promoAlert, {
-                    [s.showAlert]: this.state.showAlert
-                  })}
-                >
-                  {this.props.alertMessage || "Data get actions"}
-                </Alert> */}
               </Col>
             </Row>
             <Row className="align-items-center justify-content-between">
-              <Col lg={12}>
+              {/* <Col lg={12}>
                 <h3>
                   Data <span className="fw-semi-bold">Perangkat</span>
                 </h3>
@@ -374,11 +521,11 @@ class Panelmeter extends React.Component {
                   type="text"
                   style={{ color: "#FFF" }}
                 />
-              </Col>
-              <Col lg={4} className="text-right">
+              </Col> */}
+              <Col lg={12} className="text-right">
                 {/* BUTTON MODALS CREATE */}
                 <Button
-                  className="mr-sm"
+                  className="my-3"
                   color="default"
                   outline
                   onClick={() => this.toggle("modalCreate")}
@@ -388,7 +535,7 @@ class Panelmeter extends React.Component {
                 </Button>
               </Col>
             </Row>
-            <Row>
+            {/* <Row>
               <Col lg={12}>
                 <Widget refresh collapse close className="px-2">
                   <div className="table-responsive">
@@ -412,14 +559,14 @@ class Panelmeter extends React.Component {
                         </tr>
                       </thead>
                       <tbody id="myTable" className="position-relative">
-                        {/* eslint-disable */}
+                       
                         {this.props.dataPerangkat ? tableData : null}
                       </tbody>
-                      {/* eslint-enable */}
+                    
                     </Table>
                   </div>
                   <Col lg={12} className="pt-3">
-                    {/* react-js-pagination */}
+                
                     <div className={s.rootPaginate + " justify-content-center d-flex "}>
                       <Pagination
                         activePage={this.state.currentPage}
@@ -431,6 +578,44 @@ class Panelmeter extends React.Component {
                     </div>
                   </Col>
                 </Widget>
+              </Col>
+            </Row>
+          </Col>
+        </Row> */}
+        {/* REACT-BOOTSTRAP-TABLE */}
+            <Row>
+              <Col lg={12}>
+              <Widget title={<h3>Data <span className="fw-semi-bold">Perangkat</span></h3>} collapse close>
+                <ToolkitProvider
+                  keyField="id"
+                  data={dataPerangkat}
+                  columns={columns}
+                  search
+                >
+                  {
+                    props => (
+                      <div> 
+                        <Row className="justify-content-between pt-3">
+                          <Col lg={4} md={5} sm={6} xs={12}>
+                            <SearchBar { ...props.searchProps } />
+                          </Col>
+                          <Col lg={4} md={5} sm={6} xs={12} className="d-flex justify-content-end">
+                            <ExportCSVCustom { ...props.csvProps } />
+                          </Col>
+                        </Row>
+                        <hr />
+                        <BootstrapTable
+                          { ...props.baseProps }
+                          pagination={paginationFactory(options)}
+                          striped
+                          hover
+                          wrapperClasses="table-responsive mb-5"
+                        />
+                      </div>
+                    )
+                  }
+                </ToolkitProvider>
+              </Widget>
               </Col>
             </Row>
           </Col>

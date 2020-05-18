@@ -40,7 +40,7 @@ For the Installation , if you want to do PR (pull request) you can setup your en
 
 ###### Web Apps look on browser
 
-![Aira Apps On IPhone](/SWM.png)
+![Web Apps Look](/SWM.png)
 
 
 
